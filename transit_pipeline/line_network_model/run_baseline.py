@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 """Classical baselines for the value-connection rail network model.
 
-All baselines use the same objective:
+The greedy baseline is built in two stages. The first stage grows a connected
+tree using the connectivity objective:
 
     sum_{i<j selected} total_value_i * total_value_j / distance(i, j)
+    - lambda_1 * construction length
+    - lambda_2 * turn-angle penalty
 
-under a total construction-length budget. The implemented methods are simple
-classical heuristics inspired by the literature notes: minimum-cost required
-connection, greedy extension, greedy insertion, and prize/value-collecting tree.
+The second stage greedily prunes degree-1 leaves when doing so improves the
+final objective, which additionally penalizes open endpoints.
 """
 
 from __future__ import annotations
@@ -18,9 +20,11 @@ import json
 import math
 from pathlib import Path
 
-from line_model_config import (
-    MAX_TURN_ANGLE_DEG,
-    TRANSPORT_CENTERS_REQUIRED,
+from line_model_config import TRANSPORT_CENTERS_REQUIRED
+from objective_config import (
+    CONSTRUCTION_COST_WEIGHT_PER_M,
+    ENDPOINT_PENALTY_WEIGHT,
+    MIN_EDGE_LENGTH_M,
     TURN_PENALTY_THRESHOLD_DEG,
     TURN_PENALTY_WEIGHT,
 )
@@ -37,9 +41,6 @@ from station_selection import (
 HERE = Path(__file__).resolve().parent
 OUTPUT_DIR = HERE / "output"
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-
-MAX_TOTAL_LENGTH_KM = 80.0
-MIN_EDGE_LENGTH_M = 1_000.0
 
 PAIR_REWARD_FILE = OUTPUT_DIR / "02_pair_rewards.csv"
 COMPARISON_FILE = OUTPUT_DIR / "05_baseline_comparison.csv"
@@ -247,17 +248,16 @@ def turn_penalty_from_angles(turn_angles: list[float]) -> float:
     return penalty
 
 
+def construction_cost(edges: list[tuple[int, int]], stations: list[dict]) -> float:
+    return CONSTRUCTION_COST_WEIGHT_PER_M * network_length_m(edges, stations)
+
+
 def route_turn_angles(route: list[int], stations: list[dict]) -> list[float]:
     return [turn_angle_deg(a, b, c, stations) for a, b, c in zip(route, route[1:], route[2:])]
 
 
 def route_turn_penalty(route: list[int], stations: list[dict]) -> float:
     return turn_penalty_from_angles(route_turn_angles(route, stations))
-
-
-def route_turn_feasible(route: list[int], stations: list[dict]) -> bool:
-    angles = route_turn_angles(route, stations)
-    return not angles or max(angles) <= MAX_TURN_ANGLE_DEG
 
 
 def network_turn_angles(edges: list[tuple[int, int]], stations: list[dict]) -> list[float]:
@@ -278,9 +278,21 @@ def network_turn_penalty(edges: list[tuple[int, int]], stations: list[dict]) -> 
     return turn_penalty_from_angles(network_turn_angles(edges, stations))
 
 
-def network_turn_feasible(edges: list[tuple[int, int]], stations: list[dict]) -> bool:
-    angles = network_turn_angles(edges, stations)
-    return not angles or max(angles) <= MAX_TURN_ANGLE_DEG
+def node_degrees(edges: list[tuple[int, int]]) -> dict[int, int]:
+    degrees: dict[int, int] = {}
+    for a, b in edges:
+        degrees[a] = degrees.get(a, 0) + 1
+        degrees[b] = degrees.get(b, 0) + 1
+    return degrees
+
+
+def endpoint_count(selected: set[int], edges: list[tuple[int, int]]) -> int:
+    degrees = node_degrees(edges)
+    return sum(1 for idx in selected if degrees.get(idx, 0) == 1)
+
+
+def endpoint_penalty(selected: set[int], edges: list[tuple[int, int]]) -> float:
+    return ENDPOINT_PENALTY_WEIGHT * endpoint_count(selected, edges)
 
 
 def solution_turn_penalty(solution: dict, stations: list[dict]) -> float:
@@ -289,12 +301,28 @@ def solution_turn_penalty(solution: dict, stations: list[dict]) -> float:
     return network_turn_penalty(solution["edges"], stations)
 
 
+def connectivity_objective_score(solution: dict, stations: list[dict]) -> float:
+    reward = total_pair_reward_for_network(solution["selected"], solution["edges"], stations)
+    return (
+        reward
+        - construction_cost(solution["edges"], stations)
+        - solution_turn_penalty(solution, stations)
+    )
+
+
 def objective_score(solution: dict, stations: list[dict]) -> float:
-    return total_pair_reward_for_network(solution["selected"], solution["edges"], stations) - solution_turn_penalty(solution, stations)
+    return connectivity_objective_score(solution, stations) - endpoint_penalty(
+        solution["selected"],
+        solution["edges"],
+    )
 
 
 def objective_gain(candidate: dict, current: dict, stations: list[dict]) -> float:
     return objective_score(candidate, stations) - objective_score(current, stations)
+
+
+def connectivity_objective_gain(candidate: dict, current: dict, stations: list[dict]) -> float:
+    return connectivity_objective_score(candidate, stations) - connectivity_objective_score(current, stations)
 
 
 def required_indices(stations: list[dict]) -> list[int]:
@@ -303,14 +331,15 @@ def required_indices(stations: list[dict]) -> list[int]:
     return [idx for idx, station in enumerate(stations) if station.get("required")]
 
 
-def best_value_pair(stations: list[dict], budget_m: float) -> list[int]:
+def best_value_pair(stations: list[dict]) -> list[int]:
     best = None
     for i in range(len(stations)):
         for j in range(i + 1, len(stations)):
             d = edge_distance_m(i, j, stations)
-            if d < MIN_EDGE_LENGTH_M or d > budget_m:
+            if d < MIN_EDGE_LENGTH_M:
                 continue
-            reward = pair_reward(i, j, stations)
+            solution = {"method": "initial_pair", "selected": {i, j}, "edges": [(i, j)]}
+            reward = connectivity_objective_score(solution, stations)
             if best is None or reward > best[0]:
                 best = (reward, i, j)
     if best is None:
@@ -338,10 +367,10 @@ def minimum_spanning_edges(nodes: list[int], stations: list[dict]) -> list[tuple
     return edges
 
 
-def initial_required_route(stations: list[dict], budget_m: float) -> list[int]:
+def initial_required_route(stations: list[dict]) -> list[int]:
     required = required_indices(stations)
     if not required:
-        return best_value_pair(stations, budget_m)
+        return best_value_pair(stations)
     if len(required) <= 8:
         best_route = None
         best_key = None
@@ -350,12 +379,9 @@ def initial_required_route(stations: list[dict], budget_m: float) -> list[int]:
             if any(not valid_edge(a, b, stations) for a, b in route_edges(route)):
                 continue
             length = route_length_m(route, stations)
-            if length > budget_m:
-                continue
             angles = route_turn_angles(route, stations)
-            max_turn = max(angles) if angles else 0.0
-            violation = max(0.0, max_turn - MAX_TURN_ANGLE_DEG)
-            key = (violation, route_turn_penalty(route, stations), length)
+            solution = {"method": "required_route", "selected": set(route), "edges": route_edges(route), "route": route}
+            key = (-connectivity_objective_score(solution, stations), route_turn_penalty(route, stations), length)
             if best_key is None or key < best_key:
                 best_route = route
                 best_key = key
@@ -371,7 +397,7 @@ def initial_required_route(stations: list[dict], budget_m: float) -> list[int]:
             if any(not valid_edge(a, b, stations) for a, b in route_edges(candidate)):
                 continue
             length = route_length_m(candidate, stations)
-            if length < best_length and route_turn_feasible(candidate, stations):
+            if length < best_length:
                 best_route = candidate
                 best_length = length
         route = best_route if best_route is not None else route + [station_idx]
@@ -410,7 +436,7 @@ def write_pair_rewards(stations: list[dict]) -> None:
 def baseline_required_mst(stations: list[dict]) -> dict:
     required = required_indices(stations)
     if not required:
-        route = best_value_pair(stations, MAX_TOTAL_LENGTH_KM * 1000.0)
+        route = best_value_pair(stations)
         edges = route_edges(route)
     else:
         edges = minimum_spanning_edges(required, stations)
@@ -433,56 +459,108 @@ def nearest_selected_edge(
     return best
 
 
+def best_connectivity_edge(
+    station_idx: int,
+    selected: set[int],
+    edges: list[tuple[int, int]],
+    stations: list[dict],
+) -> dict | None:
+    current_solution = {"method": "greedy_value_tree", "selected": selected, "edges": edges}
+    best = None
+    for anchor in selected:
+        added_length = edge_distance_m(station_idx, anchor, stations)
+        if added_length < MIN_EDGE_LENGTH_M:
+            continue
+        candidate_edges = edges + [(station_idx, anchor)]
+        candidate_solution = {
+            "method": "greedy_value_tree",
+            "selected": selected | {station_idx},
+            "edges": candidate_edges,
+        }
+        gain = connectivity_objective_gain(candidate_solution, current_solution, stations)
+        density = gain / max(added_length, 1.0)
+        turn_penalty = solution_turn_penalty(candidate_solution, stations)
+        key = (density, gain, -turn_penalty, -added_length)
+        if best is None or key > best["key"]:
+            best = {
+                "station_idx": station_idx,
+                "edge": (station_idx, anchor),
+                "added_length": added_length,
+                "gain": gain,
+                "density": density,
+                "turn_penalty": turn_penalty,
+                "key": key,
+            }
+    return best
+
+
+def prune_leaf_endpoints(solution: dict, stations: list[dict]) -> dict:
+    required = set(required_indices(stations))
+    selected = set(solution["selected"])
+    edges = list(solution["edges"])
+
+    while True:
+        current_solution = {"method": solution["method"], "selected": selected, "edges": edges}
+        current_score = objective_score(current_solution, stations)
+        degrees = node_degrees(edges)
+        leaves = [
+            idx
+            for idx in selected
+            if degrees.get(idx, 0) == 1 and idx not in required and len(selected) > 2
+        ]
+        best = None
+        for leaf in leaves:
+            candidate_edges = [(a, b) for a, b in edges if a != leaf and b != leaf]
+            candidate_selected = selected - {leaf}
+            candidate_solution = {
+                "method": solution["method"],
+                "selected": candidate_selected,
+                "edges": candidate_edges,
+            }
+            gain = objective_score(candidate_solution, stations) - current_score
+            if best is None or gain > best["gain"]:
+                best = {
+                    "leaf": leaf,
+                    "edges": candidate_edges,
+                    "selected": candidate_selected,
+                    "gain": gain,
+                }
+        if best is None or best["gain"] <= 0:
+            break
+        selected = best["selected"]
+        edges = best["edges"]
+
+    return {"method": solution["method"], "selected": selected, "edges": edges}
+
+
 def baseline_greedy_value_tree(stations: list[dict]) -> dict:
-    budget_m = MAX_TOTAL_LENGTH_KM * 1000.0
     required = required_indices(stations)
     if required:
-        route = initial_required_route(stations, budget_m)
+        route = initial_required_route(stations)
         selected = set(route)
         edges = route_edges(route)
     else:
-        route = best_value_pair(stations, budget_m)
+        route = best_value_pair(stations)
         selected = set(route)
         edges = route_edges(route)
 
-    current_length = network_length_m(edges, stations)
     unused = set(range(len(stations))) - selected
     while unused:
-        current_solution = {"method": "greedy_value_tree", "selected": selected, "edges": edges}
         best = None
         for station_idx in unused:
-            connector = nearest_selected_edge(station_idx, selected, stations)
-            if connector is None:
+            candidate = best_connectivity_edge(station_idx, selected, edges, stations)
+            if candidate is None:
                 continue
-            _, _, added_length = connector
-            if current_length + added_length > budget_m:
-                continue
-            candidate_edges = edges + [(connector[0], connector[1])]
-            if not network_turn_feasible(candidate_edges, stations):
-                continue
-            candidate_solution = {
-                "method": "greedy_value_tree",
-                "selected": selected | {station_idx},
-                "edges": candidate_edges,
-            }
-            gain = objective_gain(candidate_solution, current_solution, stations)
-            density = gain / max(added_length, 1.0)
-            if best is None or density > best["density"]:
-                best = {
-                    "station_idx": station_idx,
-                    "edge": (connector[0], connector[1]),
-                    "added_length": added_length,
-                    "gain": gain,
-                    "density": density,
-                }
+            if best is None or candidate["key"] > best["key"]:
+                best = candidate
         if best is None or best["gain"] <= 0:
             break
         selected.add(best["station_idx"])
         unused.remove(best["station_idx"])
         edges.append(best["edge"])
-        current_length += best["added_length"]
 
-    return {"method": "greedy_value_tree", "selected": selected, "edges": edges}
+    solution = {"method": "greedy_value_tree", "selected": selected, "edges": edges}
+    return prune_leaf_endpoints(solution, stations)
 
 
 def solution_metrics(solution: dict, stations: list[dict]) -> dict:
@@ -492,7 +570,11 @@ def solution_metrics(solution: dict, stations: list[dict]) -> dict:
     reward = total_pair_reward_for_network(selected, edges, stations)
     turn_angles = route_turn_angles(solution["route"], stations) if "route" in solution else network_turn_angles(edges, stations)
     turn_penalty = turn_penalty_from_angles(turn_angles)
-    score = reward - turn_penalty
+    length_cost = construction_cost(edges, stations)
+    endpoints = endpoint_count(selected, edges)
+    endpoints_penalty = endpoint_penalty(selected, edges)
+    connectivity_score = reward - length_cost - turn_penalty
+    score = connectivity_score - endpoints_penalty
     required_selected = sum(1 for idx in selected if stations[idx].get("required")) if TRANSPORT_CENTERS_REQUIRED else 0
     return {
         "method": solution["method"],
@@ -501,9 +583,13 @@ def solution_metrics(solution: dict, stations: list[dict]) -> dict:
         "selected_required": required_selected,
         "length_km": length_km,
         "pair_reward": reward,
+        "construction_cost": length_cost,
         "turn_penalty": turn_penalty,
+        "endpoint_count": endpoints,
+        "endpoint_penalty": endpoints_penalty,
         "max_turn_deg": max(turn_angles) if turn_angles else 0.0,
         "penalized_turns": sum(1 for angle in turn_angles if angle > TURN_PENALTY_THRESHOLD_DEG),
+        "connectivity_score": connectivity_score,
         "objective_score": score,
         "objective_reward": score,
         "reward_per_km": score / max(length_km, 1e-9),
@@ -562,13 +648,16 @@ def write_network_geojson(stations: list[dict], solution: dict, path: Path) -> N
                 "edge_count": metrics["selected_edges"],
                 "length_km": metrics["length_km"],
                 "pair_reward": metrics["pair_reward"],
+                "construction_cost": metrics["construction_cost"],
                 "turn_penalty": metrics["turn_penalty"],
+                "endpoint_count": metrics["endpoint_count"],
+                "endpoint_penalty": metrics["endpoint_penalty"],
                 "max_turn_deg": metrics["max_turn_deg"],
                 "penalized_turns": metrics["penalized_turns"],
+                "connectivity_score": metrics["connectivity_score"],
                 "objective_score": metrics["objective_score"],
                 "objective_reward": metrics["objective_score"],
                 "reward_per_km": metrics["reward_per_km"],
-                "length_budget_km": MAX_TOTAL_LENGTH_KM,
                 "station_ids": metrics["station_ids"],
             },
         },
@@ -726,8 +815,10 @@ def write_svg(
     metrics = solution_metrics(solution, stations)
     elements.append(
         '<text x="45" y="815" font-family="Arial" font-size="13" fill="#334155">'
-        f'length {metrics["length_km"]:.1f}/{MAX_TOTAL_LENGTH_KM:.0f} km; score {metrics["objective_score"]:.1f}; '
-        f'turn penalty {metrics["turn_penalty"]:.1f}; muted colored lines are existing metro reference'
+        f'length {metrics["length_km"]:.1f} km; score {metrics["objective_score"]:.1f}; '
+        f'cost {metrics["construction_cost"]:.1f}; turns {metrics["turn_penalty"]:.1f}; '
+        f'endpoints {metrics["endpoint_count"]}; '
+        'muted colored lines are existing metro reference'
         '</text>'
     )
     elements.append("</svg>")
@@ -742,9 +833,13 @@ def write_comparison(metrics: list[dict]) -> None:
         "selected_required",
         "length_km",
         "pair_reward",
+        "construction_cost",
         "turn_penalty",
+        "endpoint_count",
+        "endpoint_penalty",
         "max_turn_deg",
         "penalized_turns",
+        "connectivity_score",
         "objective_score",
         "objective_reward",
         "reward_per_km",
@@ -762,9 +857,13 @@ def write_comparison(metrics: list[dict]) -> None:
                     "selected_required": row["selected_required"],
                     "length_km": f'{row["length_km"]:.3f}',
                     "pair_reward": f'{row["pair_reward"]:.6f}',
+                    "construction_cost": f'{row["construction_cost"]:.6f}',
                     "turn_penalty": f'{row["turn_penalty"]:.6f}',
+                    "endpoint_count": row["endpoint_count"],
+                    "endpoint_penalty": f'{row["endpoint_penalty"]:.6f}',
                     "max_turn_deg": f'{row["max_turn_deg"]:.3f}',
                     "penalized_turns": row["penalized_turns"],
+                    "connectivity_score": f'{row["connectivity_score"]:.6f}',
                     "objective_score": f'{row["objective_score"]:.6f}',
                     "objective_reward": f'{row["objective_score"]:.6f}',
                     "reward_per_km": f'{row["reward_per_km"]:.6f}',
@@ -775,7 +874,6 @@ def write_comparison(metrics: list[dict]) -> None:
 
 def run_all_baselines(stations: list[dict]) -> list[dict]:
     return [
-        baseline_required_mst(stations),
         baseline_greedy_value_tree(stations),
     ]
 
@@ -812,7 +910,9 @@ def main() -> None:
         print(
             f"  {row['method']}: stations={row['selected_stations']}, "
             f"edges={row['selected_edges']}, length={row['length_km']:.2f} km, "
-            f"score={row['objective_score']:.3f}, turn_penalty={row['turn_penalty']:.3f}, "
+            f"score={row['objective_score']:.3f}, construction_cost={row['construction_cost']:.3f}, "
+            f"turn_penalty={row['turn_penalty']:.3f}, "
+            f"endpoint_penalty={row['endpoint_penalty']:.3f}, endpoints={row['endpoint_count']}, "
             f"max_turn={row['max_turn_deg']:.1f} deg"
         )
     print(f"  best_by_score: {best['method']}")

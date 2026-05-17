@@ -25,13 +25,13 @@
         "edge_count": 1,
         "length_km": 1.4108176560089931,
         "pair_reward": 134971103.96259347,
+        "construction_cost": 28216353.12017986,
         "turn_penalty": 0.0,
         "max_turn_deg": 0.0,
         "penalized_turns": 0,
-        "objective_score": 134971103.96259347,
-        "objective_reward": 134971103.96259347,
-        "reward_per_km": 95668709.12603118,
-        "length_budget_km": 80.0,
+        "objective_score": 106754750.8424136,
+        "objective_reward": 106754750.8424136,
+        "reward_per_km": 75668709.12603118,
         "station_ids": "S001,S010"
       }
     },

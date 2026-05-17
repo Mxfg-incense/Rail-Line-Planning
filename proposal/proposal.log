@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.9.16)  17 MAY 2026 00:21
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.9.16)  17 MAY 2026 11:59
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1701,40 +1701,40 @@ Package csquotes Info: Redefining alias 'default' -> 'english'.
  (./proposal.aux)
 \openout1 = `proposal.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 77.
-LaTeX Font Info:    ... okay on input line 77.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 77.
-LaTeX Font Info:    ... okay on input line 77.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 77.
-LaTeX Font Info:    ... okay on input line 77.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 77.
-LaTeX Font Info:    ... okay on input line 77.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 77.
-LaTeX Font Info:    ... okay on input line 77.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 77.
-LaTeX Font Info:    ... okay on input line 77.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 77.
-LaTeX Font Info:    ... okay on input line 77.
-LaTeX Font Info:    Checking defaults for LS1/stix2/m/n on input line 77.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for LS1/stix2/m/n on input line 78.
 LaTeX Font Info:    Trying to load font information for LS1+stix2 on input line
- 77.
+ 78.
 
 (c:/Program Files/texlive/2025/texmf-dist/tex/latex/stix2-type1/ls1stix2.fd
 File: ls1stix2.fd 2018/04/02 v2.0.0-latex stix2 LS1 font definitions
 )
-LaTeX Font Info:    ... okay on input line 77.
-LaTeX Font Info:    Checking defaults for LS2/stix2/m/n on input line 77.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for LS2/stix2/m/n on input line 78.
 LaTeX Font Info:    Trying to load font information for LS2+stix2 on input line
- 77.
+ 78.
 
 (c:/Program Files/texlive/2025/texmf-dist/tex/latex/stix2-type1/ls2stix2.fd
 File: ls2stix2.fd 2018/04/02 v2.0.0-latex stix2 LS2 font definitions
 )
-LaTeX Font Info:    ... okay on input line 77.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 77.
-LaTeX Font Info:    ... okay on input line 77.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 77.
-LaTeX Font Info:    ... okay on input line 77.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
 
 (c:/Program Files/texlive/2025/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
@@ -1770,8 +1770,8 @@ e
 ))
 \c@mv@tabular=\count521
 \c@mv@boldtabular=\count522
-LaTeX Info: Command `\dddot' is already robust on input line 77.
-LaTeX Info: Command `\ddddot' is already robust on input line 77.
+LaTeX Info: Command `\dddot' is already robust on input line 78.
+LaTeX Info: Command `\ddddot' is already robust on input line 78.
 \c@lstlisting=\count523
  (c:/Program Files/texlive/2025/texmf-dist/tex/latex/base/inputenc.sty
 Package: inputenc 2024/02/08 v1.3d Input encoding file
@@ -1812,7 +1812,7 @@ Package: inputenc 2024/02/08 v1.3d Input encoding file
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-Package hyperref Info: Link coloring ON on input line 77.
+Package hyperref Info: Link coloring ON on input line 78.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
 Package biblatex Info: Trying to load language 'english'...
@@ -1829,25 +1829,25 @@ Package biblatex Info: Trying to load bibliographic data...
 Package biblatex Info: ... file 'proposal.bbl' found.
 
 (./proposal.bbl)
-Package biblatex Info: Reference section=0 on input line 77.
-Package biblatex Info: Reference segment=0 on input line 77.
+Package biblatex Info: Reference section=0 on input line 78.
+Package biblatex Info: Reference segment=0 on input line 78.
 Package microtype Info: Patching varwidth to enable character protrusion.
 \MT@vwid@leftmargin=\dimen354
 \MT@vwid@rightmargin=\dimen355
-LaTeX Info: Redefining \microtypecontext on input line 77.
-Package microtype Info: Applying patch `item' on input line 77.
-Package microtype Info: Applying patch `toc' on input line 77.
-Package microtype Info: Applying patch `eqnum' on input line 77.
-Package microtype Info: Applying patch `footnote' on input line 77.
-Package microtype Info: Applying patch `verbatim' on input line 77.
-LaTeX Info: Redefining \microtypesetup on input line 77.
+LaTeX Info: Redefining \microtypecontext on input line 78.
+Package microtype Info: Applying patch `item' on input line 78.
+Package microtype Info: Applying patch `toc' on input line 78.
+Package microtype Info: Applying patch `eqnum' on input line 78.
+Package microtype Info: Applying patch `footnote' on input line 78.
+Package microtype Info: Applying patch `verbatim' on input line 78.
+LaTeX Info: Redefining \microtypesetup on input line 78.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
 Package microtype Info: Automatic font expansion enabled (level 2),
 (microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
 Package microtype Info: Using default expansion set `alltext-nott'.
-LaTeX Info: Redefining \showhyphens on input line 77.
+LaTeX Info: Redefining \showhyphens on input line 78.
 Package microtype Info: No adjustment of tracking.
 Package microtype Info: No adjustment of interword spacing.
 Package microtype Info: No adjustment of character kerning.
@@ -1856,7 +1856,7 @@ Package microtype Info: No adjustment of character kerning.
 File: mt-ptm.cfg 2006/04/20 v1.7 microtype config. file: Times (RS)
 )
 LaTeX Font Info:    Trying to load font information for T1+FiraSans-OsF on inpu
-t line 79.
+t line 80.
 
 (c:/Program Files/texlive/2025/texmf-dist/tex/latex/fira/T1FiraSans-OsF.fd
 File: T1FiraSans-OsF.fd 2019/10/10 (autoinst) Font definitions for T1/FiraSans-
@@ -1864,64 +1864,64 @@ OsF.
 )
 LaTeX Font Info:    Font shape `T1/FiraSans-OsF/m/n' in size <9> not available
 (Font)              Font shape `T1/FiraSans-OsF/regular/n' tried instead on inp
-ut line 79.
+ut line 80.
 LaTeX Font Info:    Font shape `T1/FiraSans-OsF/regular/n' will be
-(Font)              scaled to size 9.0pt on input line 79.
+(Font)              scaled to size 9.0pt on input line 80.
 Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `FiraSans-OsF' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 LaTeX Font Info:    Font shape `T1/FiraSans-OsF/b/n' in size <9> not available
 (Font)              Font shape `T1/FiraSans-OsF/bold/n' tried instead on input 
-line 79.
+line 80.
 LaTeX Font Info:    Font shape `T1/FiraSans-OsF/bold/n' will be
-(Font)              scaled to size 9.0pt on input line 79.
+(Font)              scaled to size 9.0pt on input line 80.
 LaTeX Font Info:    Font shape `T1/FiraSans-OsF/b/n' in size <18> not available
 
 (Font)              Font shape `T1/FiraSans-OsF/bold/n' tried instead on input 
-line 79.
+line 80.
 LaTeX Font Info:    Font shape `T1/FiraSans-OsF/bold/n' will be
-(Font)              scaled to size 18.0pt on input line 79.
+(Font)              scaled to size 18.0pt on input line 80.
 LaTeX Font Info:    Trying to load font information for LS1+stix2scr on input l
-ine 79.
+ine 80.
 
 (c:/Program Files/texlive/2025/texmf-dist/tex/latex/stix2-type1/ls1stix2scr.fd
 File: ls1stix2scr.fd 2018/04/02 v2.0.0-latex stix2 script LS1 font definitions
 )
 LaTeX Font Info:    Trying to load font information for LS2+stix2ex on input li
-ne 79.
+ne 80.
 (c:/Program Files/texlive/2025/texmf-dist/tex/latex/stix2-type1/ls2stix2ex.fd
 File: ls2stix2ex.fd 2018/04/02 v2.0.0-latex stix2 extentions LS2 font definitio
 ns
 )
 LaTeX Font Info:    Trying to load font information for LS1+stix2frak on input 
-line 79.
+line 80.
 
 (c:/Program Files/texlive/2025/texmf-dist/tex/latex/stix2-type1/ls1stix2frak.fd
 File: ls1stix2frak.fd 2018/04/02 v2.0.0-latex stix2 fraktur LS1 font definition
 s
 )
 LaTeX Font Info:    Trying to load font information for LS1+stix2bb on input li
-ne 79.
+ne 80.
  (c:/Program Files/texlive/2025/texmf-dist/tex/latex/stix2-type1/ls1stix2bb.fd
 File: ls1stix2bb.fd 2018/04/02 v2.0.0-latex stix2 blackboard LS1 font definitio
 ns
 )
 LaTeX Font Info:    Trying to load font information for LS2+stix2cal on input l
-ine 79.
+ine 80.
 
 (c:/Program Files/texlive/2025/texmf-dist/tex/latex/stix2-type1/ls2stix2cal.fd
 File: ls2stix2cal.fd 2018/04/02 v2.0.0-latex stix2 calligraphic LS2 font defini
 tions
 )
 LaTeX Font Info:    Trying to load font information for LS1+stix2sf on input li
-ne 79.
+ne 80.
 (c:/Program Files/texlive/2025/texmf-dist/tex/latex/stix2-type1/ls1stix2sf.fd
 File: ls1stix2sf.fd 2018/04/02 v2.0.0-latex stix2 sans-serif LS1 font definitio
 ns
 )
 LaTeX Font Info:    Trying to load font information for LS2+stix2tt on input li
-ne 79.
+ne 80.
 
 (c:/Program Files/texlive/2025/texmf-dist/tex/latex/stix2-type1/ls2stix2tt.fd
 File: ls2stix2tt.fd 2018/04/02 v2.0.0-latex stix2 typewriter LS2 font definitio
@@ -1929,75 +1929,75 @@ ns
 )
 LaTeX Font Info:    Font shape `T1/FiraSans-OsF/m/n' in size <6> not available
 (Font)              Font shape `T1/FiraSans-OsF/regular/n' tried instead on inp
-ut line 79.
+ut line 80.
 LaTeX Font Info:    Font shape `T1/FiraSans-OsF/regular/n' will be
-(Font)              scaled to size 6.0pt on input line 79.
+(Font)              scaled to size 6.0pt on input line 80.
 LaTeX Font Info:    Font shape `T1/FiraSans-OsF/m/it' in size <9> not available
 
 (Font)              Font shape `T1/FiraSans-OsF/regular/it' tried instead on in
-put line 79.
+put line 80.
 LaTeX Font Info:    Font shape `T1/FiraSans-OsF/regular/it' will be
-(Font)              scaled to size 9.0pt on input line 79.
+(Font)              scaled to size 9.0pt on input line 80.
 LaTeX Font Info:    Font shape `T1/FiraSans-OsF/m/it' in size <7.5> not availab
 le
 (Font)              Font shape `T1/FiraSans-OsF/regular/it' tried instead on in
-put line 79.
+put line 80.
 LaTeX Font Info:    Font shape `T1/FiraSans-OsF/regular/it' will be
-(Font)              scaled to size 7.5pt on input line 79.
-LaTeX Font Info:    Calculating math sizes for size <7.5> on input line 79.
+(Font)              scaled to size 7.5pt on input line 80.
+LaTeX Font Info:    Calculating math sizes for size <7.5> on input line 80.
 LaTeX Font Info:    Font shape `T1/FiraSans-OsF/m/it' in size <5.24997> not ava
 ilable
 (Font)              Font shape `T1/FiraSans-OsF/regular/it' tried instead on in
-put line 79.
+put line 80.
 LaTeX Font Info:    Font shape `T1/FiraSans-OsF/regular/it' will be
-(Font)              scaled to size 5.24997pt on input line 79.
+(Font)              scaled to size 5.24997pt on input line 80.
 LaTeX Font Info:    Font shape `T1/FiraSans-OsF/m/n' in size <7> not available
 (Font)              Font shape `T1/FiraSans-OsF/regular/n' tried instead on inp
-ut line 79.
+ut line 80.
 LaTeX Font Info:    Font shape `T1/FiraSans-OsF/regular/n' will be
-(Font)              scaled to size 7.0pt on input line 79.
+(Font)              scaled to size 7.0pt on input line 80.
 LaTeX Font Info:    Font shape `T1/FiraSans-OsF/m/n' in size <8> not available
 (Font)              Font shape `T1/FiraSans-OsF/regular/n' tried instead on inp
-ut line 79.
+ut line 80.
 LaTeX Font Info:    Font shape `T1/FiraSans-OsF/regular/n' will be
-(Font)              scaled to size 8.0pt on input line 79.
+(Font)              scaled to size 8.0pt on input line 80.
 LaTeX Font Info:    Font shape `T1/FiraSans-OsF/b/n' in size <8> not available
 (Font)              Font shape `T1/FiraSans-OsF/bold/n' tried instead on input 
-line 79.
+line 80.
 LaTeX Font Info:    Font shape `T1/FiraSans-OsF/bold/n' will be
-(Font)              scaled to size 8.0pt on input line 79.
+(Font)              scaled to size 8.0pt on input line 80.
 
-Underfull \hbox (badness 10000) in paragraph at lines 79--79
+Underfull \hbox (badness 10000) in paragraph at lines 80--80
 
  []
 
 LaTeX Font Info:    Font shape `T1/FiraSans-OsF/m/it' in size <8> not available
 
 (Font)              Font shape `T1/FiraSans-OsF/regular/it' tried instead on in
-put line 79.
+put line 80.
 LaTeX Font Info:    Font shape `T1/FiraSans-OsF/regular/it' will be
-(Font)              scaled to size 8.0pt on input line 79.
+(Font)              scaled to size 8.0pt on input line 80.
 LaTeX Font Info:    Font shape `T1/FiraSans-OsF/m/n' in size <10> not available
 
 (Font)              Font shape `T1/FiraSans-OsF/regular/n' tried instead on inp
-ut line 84.
+ut line 85.
 LaTeX Font Info:    Font shape `T1/FiraSans-OsF/regular/n' will be
-(Font)              scaled to size 10.0pt on input line 84.
+(Font)              scaled to size 10.0pt on input line 85.
 LaTeX Font Info:    Font shape `T1/FiraSans-OsF/b/n' in size <10> not available
 
 (Font)              Font shape `T1/FiraSans-OsF/bold/n' tried instead on input 
-line 84.
+line 85.
 LaTeX Font Info:    Font shape `T1/FiraSans-OsF/bold/n' will be
-(Font)              scaled to size 10.0pt on input line 84.
+(Font)              scaled to size 10.0pt on input line 85.
 Package lettrine.sty Info: Targeted height = 15.846pt
 (lettrine.sty)             (for loversize=0, accent excluded),
 (lettrine.sty)             Lettrine height = 17.35748pt ({\fontsize {26.5}{24}\
 color {taucolor}\bfseries {N}});
-(lettrine.sty)             reported on input line 86.
+(lettrine.sty)             reported on input line 87.
 
 
 
-Underfull \vbox (badness 3260) has occurred while \output is active []
+Underfull \vbox (badness 1005) has occurred while \output is active []
 
 
 
@@ -2006,135 +2006,76 @@ c:/Program Files/texlive/2025/texmf-dist/fonts/enc/dvips/fira/fir_iln36p.enc}
 
 
 {c:/Program Files/texlive/2025/texmf-dist/fonts/enc/dvips/stix2-type1/stix2-t1.
-enc}]
-LaTeX Font Info:    Trying to load font information for T1+FiraMono-TOsF on inp
-ut line 104.
- (c:/Program Files/texlive/2025/texmf-dist/tex/latex/fira/T1FiraMono-TOsF.fd
-File: T1FiraMono-TOsF.fd 2019/10/10 (autoinst) Font definitions for T1/FiraMono
--TOsF.
-)
-LaTeX Font Info:    Font shape `T1/FiraMono-TOsF/m/n' in size <9> not available
+enc}{c:/Program Files/texlive/2025/texmf-dist/fonts/enc/dvips/stix2-type1/stix2
+-mathit.enc}{c:/Program Files/texlive/2025/texmf-dist/fonts/enc/dvips/stix2-typ
+e1/stix2-mathrm.enc}{c:/Program Files/texlive/2025/texmf-dist/fonts/enc/dvips/s
+tix2-type1/stix2-mathscr.enc}{c:/Program Files/texlive/2025/texmf-dist/fonts/en
+c/dvips/stix2-type1/stix2-mathcal.enc}{c:/Program Files/texlive/2025/texmf-dist
+/fonts/enc/dvips/stix2-type1/stix2-mathex.enc}{c:/Program Files/texlive/2025/te
+xmf-dist/fonts/enc/dvips/stix2-type1/stix2-mathrm-bold.enc}]
 
-(Font)              Font shape `T1/FiraMono-TOsF/regular/n' tried instead on in
-put line 104.
-LaTeX Font Info:    Font shape `T1/FiraMono-TOsF/regular/n' will be
-(Font)              scaled to size 7.65005pt on input line 104.
-Package microtype Info: Loading generic protrusion settings for font family
-(microtype)             `FiraMono-TOsF' (encoding: T1).
-(microtype)             For optimal results, create family-specific settings.
-(microtype)             See the microtype manual for details.
-LaTeX Font Info:    Font shape `T1/FiraMono-TOsF/m/n' in size <8> not available
-
-(Font)              Font shape `T1/FiraMono-TOsF/regular/n' tried instead on in
-put line 104.
-LaTeX Font Info:    Font shape `T1/FiraMono-TOsF/regular/n' will be
-(Font)              scaled to size 6.80005pt on input line 104.
-
-Underfull \hbox (badness 10000) in paragraph at lines 104--105
-\T1/stix2/m/n/9 (+20) The data pipeline is im-ple-mented in
- []
-
-
-Underfull \hbox (badness 2762) in paragraph at lines 110--111
-\T1/stix2/m/n/9 (+20) poly-gons, ameni-ties, leisure fea-tures, shops, tourism 
-fea-tures,
- []
-
-
-Overfull \hbox (5.22252pt too wide) in paragraph at lines 110--111
-[]\T1/stix2/m/n/9 (-20) , [],
- []
-
+<figures/01a_population_centers.pdf, id=77, 828.09375pt x 639.89063pt>
+File: figures/01a_population_centers.pdf Graphic file (type pdf)
+<use figures/01a_population_centers.pdf>
+Package pdftex.def Info: figures/01a_population_centers.pdf  used on input line
+ 177.
+(pdftex.def)             Requested size: 257.92712pt x 199.31114pt.
+<figures/01b_job_centers.pdf, id=78, 828.09375pt x 639.89063pt>
+File: figures/01b_job_centers.pdf Graphic file (type pdf)
+<use figures/01b_job_centers.pdf>
+Package pdftex.def Info: figures/01b_job_centers.pdf  used on input line 183.
+(pdftex.def)             Requested size: 257.92712pt x 199.31114pt.
+<figures/01c_transport_centers.pdf, id=79, 828.09375pt x 639.89063pt>
+File: figures/01c_transport_centers.pdf Graphic file (type pdf)
+<use figures/01c_transport_centers.pdf>
+Package pdftex.def Info: figures/01c_transport_centers.pdf  used on input line 
+190.
+(pdftex.def)             Requested size: 257.92712pt x 199.31114pt.
+<figures/01d_commercial_centers.pdf, id=80, 828.09375pt x 639.89063pt>
+File: figures/01d_commercial_centers.pdf Graphic file (type pdf)
+<use figures/01d_commercial_centers.pdf>
+Package pdftex.def Info: figures/01d_commercial_centers.pdf  used on input line
+ 196.
+(pdftex.def)             Requested size: 257.92712pt x 199.31114pt.
+<figures/01_station_selection.pdf, id=81, 828.09375pt x 639.89063pt>
+File: figures/01_station_selection.pdf Graphic file (type pdf)
+<use figures/01_station_selection.pdf>
+Package pdftex.def Info: figures/01_station_selection.pdf  used on input line 2
+15.
+(pdftex.def)             Requested size: 494.79472pt x 382.34581pt.
 
 
-
-Overfull \hbox (12.78607pt too wide) in paragraph at lines 130--131
-[]\T1/stix2/m/n/9 (-20) A sep-a-rate ref-er-ence step, [],
- []
-
-
-
-[2{c:/Program Files/texlive/2025/texmf-dist/fonts/enc/dvips/fira/fir_d4q673.enc
-}{c:/Program Files/texlive/2025/texmf-dist/fonts/enc/dvips/stix2-type1/stix2-ma
-thrm.enc}{c:/Program Files/texlive/2025/texmf-dist/fonts/enc/dvips/stix2-type1/
-stix2-mathit.enc}{c:/Program Files/texlive/2025/texmf-dist/fonts/enc/dvips/stix
-2-type1/stix2-mathscr.enc}{c:/Program Files/texlive/2025/texmf-dist/fonts/enc/d
-vips/stix2-type1/stix2-mathcal.enc}]
+[2]
 
 LaTeX Font Info:    Trying to load font information for TS1+stix2 on input line
- 234.
+ 249.
 (c:/Program Files/texlive/2025/texmf-dist/tex/latex/stix2-type1/ts1stix2.fd
 File: ts1stix2.fd 2018/04/02 v2.0.0-latex stix2 TS1 font definitions
 )
 Package microtype Info: Character `textflorin ' is missing
 (microtype)             in font `TS1/stix2/m/n/9'.
 (microtype)             Ignoring protrusion settings for this character.
-<figures/Example.pdf, id=80, 219.82124pt x 174.6525pt>
-File: figures/Example.pdf Graphic file (type pdf)
-<use figures/Example.pdf>
-Package pdftex.def Info: figures/Example.pdf  used on input line 251.
-(pdftex.def)             Requested size: 193.64099pt x 153.85722pt.
-LaTeX Font Info:    Font shape `T1/FiraSans-OsF/m/it' in size <7> not available
-
-(Font)              Font shape `T1/FiraSans-OsF/regular/it' tried instead on in
-put line 278.
-LaTeX Font Info:    Font shape `T1/FiraSans-OsF/regular/it' will be
-(Font)              scaled to size 7.0pt on input line 278.
 
 
-[3{c:/Program Files/texlive/2025/texmf-dist/fonts/enc/dvips/stix2-type1/stix2-m
-athex.enc}{c:/Program Files/texlive/2025/texmf-dist/fonts/enc/dvips/stix2-type1
-/stix2-ts1.enc} <./figures/Example.pdf>]
-Package mdframed Info: mdframed works in twoside mode on input line 292.
-LaTeX Font Info:    Font shape `T1/FiraSans-OsF/b/it' in size <8> not available
+[3{c:/Program Files/texlive/2025/texmf-dist/fonts/enc/dvips/stix2-type1/stix2-t
+s1.enc} <./figures/01a_population_centers.pdf> <./figures/01b_job_centers.pdf
 
-(Font)              Font shape `T1/FiraSans-OsF/bold/it' tried instead on input
- line 299.
-LaTeX Font Info:    Font shape `T1/FiraSans-OsF/bold/it' will be
-(Font)              scaled to size 8.0pt on input line 299.
+pdfTeX warning: pdflatex.exe (file ./figures/01b_job_centers.pdf): PDF inclusio
+n: multiple pdfs with page group included in a single page
+> <./figures/01c_transport_centers.pdf
 
+pdfTeX warning: pdflatex.exe (file ./figures/01c_transport_centers.pdf): PDF in
+clusion: multiple pdfs with page group included in a single page
+> <./figures/01d_commercial_centers.pdf
 
-Package mdframed Info: mdframed works in twoside mode on input line 339.
-Package mdframed Info: mdframed works in twoside mode on input line 356.
-Package mdframed Info: mdframed works in twoside mode on input line 377.
-
-
-[4{c:/Program Files/texlive/2025/texmf-dist/fonts/enc/dvips/stix2-type1/stix2-m
-athrm-bold.enc}]
-(c:/Program Files/texlive/2025/texmf-dist/tex/latex/listings/lstlang1.sty
-File: lstlang1.sty 2024/09/23 1.10c listings language file
-)
-Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
-nput line 384.
-
-(./example.py) (./example.py
-
-)
-Package mdframed Info: mdframed works in twoside mode on input line 424.
-
-
-[5]
-LaTeX Font Info:    Trying to load font information for U+fontawesometwo on inp
-ut line 466.
-
-(c:/Program Files/texlive/2025/texmf-dist/tex/latex/fontawesome/ufontawesometwo
-.fd
-File: ufontawesometwo.fd 2016/05/22 Font definitions for U/fontawesometwo.
-)
-LaTeX Font Info:    Trying to load font information for U+fontawesomeone on inp
-ut line 504.
-
-(c:/Program Files/texlive/2025/texmf-dist/tex/latex/fontawesome/ufontawesomeone
-.fd
-File: ufontawesomeone.fd 2016/05/22 Font definitions for U/fontawesomeone.
-)
+pdfTeX warning: pdflatex.exe (file ./figures/01d_commercial_centers.pdf): PDF i
+nclusion: multiple pdfs with page group included in a single page
+>]
 
 
 
-[6{c:/Program Files/texlive/2025/texmf-dist/fonts/enc/dvips/fontawesome/fontawe
-sometwo.enc}{c:/Program Files/texlive/2025/texmf-dist/fonts/enc/dvips/fontaweso
-me/fontawesomeone.enc}{c:/Program Files/texlive/2025/texmf-dist/fonts/enc/dvips
-/stix2-type1/stix2-t1sc.enc}]
+[4{c:/Program Files/texlive/2025/texmf-dist/fonts/enc/dvips/stix2-type1/stix2-t
+1sc.enc} <./figures/01_station_selection.pdf>]
 
 enddocument/afterlastpage (AED): lastpage setting LastPage.
 (./proposal.aux)
@@ -2147,29 +2088,25 @@ Package logreq Info: Writing requests to 'proposal.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 52062 strings out of 473190
- 1016327 string characters out of 5712651
- 2295863 words of memory out of 5000000
- 74099 multiletter control sequences out of 15000+600000
- 928268 words of font info for 308 fonts, out of 8000000 for 9000
+ 51038 strings out of 473190
+ 999618 string characters out of 5712651
+ 1857952 words of memory out of 5000000
+ 73229 multiletter control sequences out of 15000+600000
+ 881338 words of font info for 272 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 137i,12n,143p,1568b,1948s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<c:/Program Files/texlive/2025/texmf-dist/fonts/type1/public/fira/FiraMono-Re
-gular.pfb><c:/Program Files/texlive/2025/texmf-dist/fonts/type1/public/fira/Fir
-aSans-Bold.pfb><c:/Program Files/texlive/2025/texmf-dist/fonts/type1/public/fir
-a/FiraSans-BoldItalic.pfb><c:/Program Files/texlive/2025/texmf-dist/fonts/type1
-/public/fira/FiraSans-Italic.pfb><c:/Program Files/texlive/2025/texmf-dist/font
-s/type1/public/fira/FiraSans-Regular.pfb><c:/Program Files/texlive/2025/texmf-d
-ist/fonts/type1/public/fontawesome/FontAwesome.pfb><c:/Program Files/texlive/20
-25/texmf-dist/fonts/type1/public/stix2-type1/STIX2Math.pfb><c:/Program Files/te
-xlive/2025/texmf-dist/fonts/type1/public/stix2-type1/STIX2Text-Bold.pfb><c:/Pro
-gram Files/texlive/2025/texmf-dist/fonts/type1/public/stix2-type1/STIX2Text-Ita
-lic.pfb><c:/Program Files/texlive/2025/texmf-dist/fonts/type1/public/stix2-type
-1/STIX2Text-Regular.pfb>
-Output written on proposal.pdf (6 pages, 1052029 bytes).
+ 137i,12n,143p,1005b,1765s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<c:/Program Files/texlive/2025/texmf-dist/fonts/type1/public/fira/FiraSans-Bo
+ld.pfb><c:/Program Files/texlive/2025/texmf-dist/fonts/type1/public/fira/FiraSa
+ns-Italic.pfb><c:/Program Files/texlive/2025/texmf-dist/fonts/type1/public/fira
+/FiraSans-Regular.pfb><c:/Program Files/texlive/2025/texmf-dist/fonts/type1/pub
+lic/stix2-type1/STIX2Math.pfb><c:/Program Files/texlive/2025/texmf-dist/fonts/t
+ype1/public/stix2-type1/STIX2Text-Bold.pfb><c:/Program Files/texlive/2025/texmf
+-dist/fonts/type1/public/stix2-type1/STIX2Text-Italic.pfb><c:/Program Files/tex
+live/2025/texmf-dist/fonts/type1/public/stix2-type1/STIX2Text-Regular.pfb>
+Output written on proposal.pdf (4 pages, 9539683 bytes).
 PDF statistics:
- 717 PDF objects out of 1000 (max. 8388607)
- 518 compressed objects within 6 object streams
- 125 named destinations out of 1000 (max. 500000)
- 83394 words of extra memory for PDF output out of 89155 (max. 10000000)
+ 276 PDF objects out of 1000 (max. 8388607)
+ 194 compressed objects within 2 object streams
+ 26 named destinations out of 1000 (max. 500000)
+ 71918 words of extra memory for PDF output out of 74296 (max. 10000000)
 

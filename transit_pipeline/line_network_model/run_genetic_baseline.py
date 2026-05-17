@@ -3,11 +3,14 @@
 
 Chromosome: a permutation of candidate stations. The decoder starts from the
 required transport centers when that option is enabled; otherwise it starts from
-the best value pair. It then attaches stations in chromosome order until the
-length budget is used. Fitness is the same formal objective used by the other
-baselines:
+the best value pair. It then attaches stations in chromosome order when doing so
+improves the penalized objective. Fitness is the same formal objective used by
+the other baselines:
 
     sum_{i<j selected} total_value_i * total_value_j / distance(i, j)
+    - lambda_1 * construction length
+    - lambda_2 * turn-angle penalty
+    - lambda_3 * endpoint penalty
 """
 
 from __future__ import annotations
@@ -17,14 +20,10 @@ import random
 
 from run_baseline import (
     COMPARISON_FILE,
-    MAX_TOTAL_LENGTH_KM,
     OUTPUT_DIR,
     best_value_pair,
-    edge_distance_m,
     minimum_spanning_edges,
     nearest_selected_edge,
-    network_length_m,
-    network_turn_feasible,
     objective_score,
     output_paths,
     required_indices,
@@ -37,8 +36,8 @@ from station_selection import STATION_FILE, load_population, load_roads, load_st
 
 
 RANDOM_SEED = 42
-POPULATION_SIZE = 90
-GENERATIONS = 180
+POPULATION_SIZE = 60
+GENERATIONS = 100
 TOURNAMENT_SIZE = 4
 ELITE_COUNT = 8
 CROSSOVER_RATE = 0.85
@@ -52,14 +51,14 @@ def initial_edges(stations: list[dict]) -> tuple[set[int], list[tuple[int, int]]
     required = required_indices(stations)
     if required:
         return set(required), minimum_spanning_edges(required, stations)
-    route = best_value_pair(stations, MAX_TOTAL_LENGTH_KM * 1000.0)
+    route = best_value_pair(stations)
     return set(route), route_edges(route)
 
 
 def decode_chromosome(chromosome: list[int], stations: list[dict]) -> dict:
-    budget_m = MAX_TOTAL_LENGTH_KM * 1000.0
     selected, edges = initial_edges(stations)
-    current_length = network_length_m(edges, stations)
+    current_solution = {"method": METHOD, "selected": selected, "edges": edges}
+    current_score = objective_score(current_solution, stations)
 
     for station_idx in chromosome:
         if station_idx in selected:
@@ -67,14 +66,16 @@ def decode_chromosome(chromosome: list[int], stations: list[dict]) -> dict:
         connector = nearest_selected_edge(station_idx, selected, stations)
         if connector is None:
             continue
-        _, _, added_length = connector
-        if current_length + added_length > budget_m:
+        candidate_selected = selected | {station_idx}
+        candidate_edges = edges + [(connector[0], connector[1])]
+        candidate_solution = {"method": METHOD, "selected": candidate_selected, "edges": candidate_edges}
+        candidate_score = objective_score(candidate_solution, stations)
+        if candidate_score <= current_score:
             continue
-        if not network_turn_feasible(edges + [(connector[0], connector[1])], stations):
-            continue
-        selected.add(station_idx)
-        edges.append((connector[0], connector[1]))
-        current_length += added_length
+        selected = candidate_selected
+        edges = candidate_edges
+        current_solution = candidate_solution
+        current_score = candidate_score
 
     return {"method": METHOD, "selected": selected, "edges": edges}
 
@@ -196,9 +197,13 @@ def write_ga_summary(solution: dict, history: list[dict], stations: list[dict]) 
                 "selected_required",
                 "length_km",
                 "pair_reward",
+                "construction_cost",
                 "turn_penalty",
+                "endpoint_count",
+                "endpoint_penalty",
                 "max_turn_deg",
                 "penalized_turns",
+                "connectivity_score",
                 "objective_score",
                 "objective_reward",
                 "reward_per_km",
@@ -217,9 +222,13 @@ def write_ga_summary(solution: dict, history: list[dict], stations: list[dict]) 
                 "selected_required": metrics["selected_required"],
                 "length_km": f'{metrics["length_km"]:.3f}',
                 "pair_reward": f'{metrics["pair_reward"]:.6f}',
+                "construction_cost": f'{metrics["construction_cost"]:.6f}',
                 "turn_penalty": f'{metrics["turn_penalty"]:.6f}',
+                "endpoint_count": metrics["endpoint_count"],
+                "endpoint_penalty": f'{metrics["endpoint_penalty"]:.6f}',
                 "max_turn_deg": f'{metrics["max_turn_deg"]:.3f}',
                 "penalized_turns": metrics["penalized_turns"],
+                "connectivity_score": f'{metrics["connectivity_score"]:.6f}',
                 "objective_score": f'{metrics["objective_score"]:.6f}',
                 "objective_reward": f'{metrics["objective_score"]:.6f}',
                 "reward_per_km": f'{metrics["reward_per_km"]:.6f}',
@@ -238,9 +247,13 @@ def write_ga_summary(solution: dict, history: list[dict], stations: list[dict]) 
                     "selected_required": "",
                     "length_km": "",
                     "pair_reward": "",
+                    "construction_cost": "",
                     "turn_penalty": "",
+                    "endpoint_count": "",
+                    "endpoint_penalty": "",
                     "max_turn_deg": "",
                     "penalized_turns": "",
+                    "connectivity_score": "",
                     "objective_score": "",
                     "objective_reward": "",
                     "reward_per_km": "",
@@ -263,9 +276,13 @@ def append_comparison(solution: dict, stations: list[dict]) -> None:
             "selected_required": metrics["selected_required"],
             "length_km": f'{metrics["length_km"]:.3f}',
             "pair_reward": f'{metrics["pair_reward"]:.6f}',
+            "construction_cost": f'{metrics["construction_cost"]:.6f}',
             "turn_penalty": f'{metrics["turn_penalty"]:.6f}',
+            "endpoint_count": metrics["endpoint_count"],
+            "endpoint_penalty": f'{metrics["endpoint_penalty"]:.6f}',
             "max_turn_deg": f'{metrics["max_turn_deg"]:.3f}',
             "penalized_turns": metrics["penalized_turns"],
+            "connectivity_score": f'{metrics["connectivity_score"]:.6f}',
             "objective_score": f'{metrics["objective_score"]:.6f}',
             "objective_reward": f'{metrics["objective_score"]:.6f}',
             "reward_per_km": f'{metrics["reward_per_km"]:.6f}',
@@ -282,9 +299,13 @@ def append_comparison(solution: dict, stations: list[dict]) -> None:
                 "selected_required",
                 "length_km",
                 "pair_reward",
+                "construction_cost",
                 "turn_penalty",
+                "endpoint_count",
+                "endpoint_penalty",
                 "max_turn_deg",
                 "penalized_turns",
+                "connectivity_score",
                 "objective_score",
                 "objective_reward",
                 "reward_per_km",
@@ -319,9 +340,12 @@ def main() -> None:
     print(f"  station candidates: {len(stations)}")
     print(f"  selected stations: {metrics['selected_stations']}")
     print(f"  selected edges: {metrics['selected_edges']}")
-    print(f"  length_km: {metrics['length_km']:.2f} / {MAX_TOTAL_LENGTH_KM:.2f}")
+    print(f"  length_km: {metrics['length_km']:.2f}")
     print(f"  pair_reward: {metrics['pair_reward']:.3f}")
+    print(f"  construction_cost: {metrics['construction_cost']:.3f}")
     print(f"  turn_penalty: {metrics['turn_penalty']:.3f}")
+    print(f"  endpoint_count: {metrics['endpoint_count']}")
+    print(f"  endpoint_penalty: {metrics['endpoint_penalty']:.3f}")
     print(f"  objective_score: {metrics['objective_score']:.3f}")
     print(f"  outputs: {geojson_path}, {svg_path}, {SUMMARY_FILE}")
 

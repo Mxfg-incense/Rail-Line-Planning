@@ -1,15 +1,15 @@
 [0] Config.pm:308> INFO - This is Biber 2.20
 [0] Config.pm:311> INFO - Logfile is 'proposal.blg'
-[89] biber-MSWIN64:340> INFO - === 
-[117] Biber.pm:420> INFO - Reading 'proposal.bcf'
-[199] Biber.pm:994> INFO - Found 7 citekeys in bib section 0
-[212] Biber.pm:4463> INFO - Processing section 0
-[224] Biber.pm:4654> INFO - Looking for bibtex file 'tau.bib' for section 0
-[264] bibtex.pm:1713> INFO - LaTeX decoding ...
-[275] bibtex.pm:1519> INFO - Found BibTeX data source 'tau.bib'
-[339] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[339] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[341] Biber.pm:4283> INFO - Sorting list 'ynt/global//global/global/global' of type 'entry' with template 'ynt' and locale 'en-US'
-[341] Biber.pm:4289> INFO - No sort tailoring available for locale 'en-US'
-[350] bbl.pm:676> INFO - Writing 'proposal.bbl' with encoding 'UTF-8'
-[355] bbl.pm:779> INFO - Output to proposal.bbl
+[183] biber-MSWIN64:340> INFO - === 
+[277] Biber.pm:420> INFO - Reading 'proposal.bcf'
+[439] Biber.pm:994> INFO - Found 4 citekeys in bib section 0
+[463] Biber.pm:4463> INFO - Processing section 0
+[481] Biber.pm:4654> INFO - Looking for bibtex file 'tau.bib' for section 0
+[556] bibtex.pm:1713> INFO - LaTeX decoding ...
+[567] bibtex.pm:1519> INFO - Found BibTeX data source 'tau.bib'
+[651] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[651] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[651] Biber.pm:4283> INFO - Sorting list 'ynt/global//global/global/global' of type 'entry' with template 'ynt' and locale 'en-US'
+[651] Biber.pm:4289> INFO - No sort tailoring available for locale 'en-US'
+[662] bbl.pm:676> INFO - Writing 'proposal.bbl' with encoding 'UTF-8'
+[665] bbl.pm:779> INFO - Output to proposal.bbl

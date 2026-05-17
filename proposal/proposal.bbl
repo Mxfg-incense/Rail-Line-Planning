@@ -146,83 +146,6 @@
       \verb 10.1016/j.jrtpm.2020.100222
       \endverb
     \endentry
-    \entry{bell2022codefont}{article}{}{}
-      \name{author}{3}{}{%
-        {{hash=d62ca436be2bc504a33772baa3eefcdd}{%
-           family={Bell},
-           familyi={B\bibinitperiod},
-           given={Evan},
-           giveni={E\bibinitperiod}}}%
-        {{hash=d2b2208f815ae16827b64ee29c44b5b8}{%
-           family={Moss},
-           familyi={M\bibinitperiod},
-           given={Clara},
-           giveni={C\bibinitperiod}}}%
-        {{hash=3225b4c384602bfd669d6323ac07bc99}{%
-           family={Yu},
-           familyi={Y\bibinitperiod},
-           given={Daren},
-           giveni={D\bibinitperiod}}}%
-      }
-      \strng{namehash}{a0fc76660eb1905c665eb3791b591cba}
-      \strng{fullhash}{f9f7bbd974928934ec89422cdf9fdd26}
-      \strng{fullhashraw}{f9f7bbd974928934ec89422cdf9fdd26}
-      \strng{bibnamehash}{f9f7bbd974928934ec89422cdf9fdd26}
-      \strng{authorbibnamehash}{f9f7bbd974928934ec89422cdf9fdd26}
-      \strng{authornamehash}{a0fc76660eb1905c665eb3791b591cba}
-      \strng{authorfullhash}{f9f7bbd974928934ec89422cdf9fdd26}
-      \strng{authorfullhashraw}{f9f7bbd974928934ec89422cdf9fdd26}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{journaltitle}{Journal of Technical Typography}
-      \field{number}{1}
-      \field{title}{The Impact of Monospaced Font Ligatures on Code Readability in Scientific Documentation}
-      \field{volume}{7}
-      \field{year}{2022}
-      \field{pages}{33\bibrangedash 47}
-      \range{pages}{15}
-      \verb{doi}
-      \verb 10.8888/jtt.2022.00701
-      \endverb
-    \endentry
-    \entry{davis2023signalflow}{article}{}{}
-      \name{author}{2}{}{%
-        {{hash=f158946309ad433a25baacdbc9d39df4}{%
-           family={Davis},
-           familyi={D\bibinitperiod},
-           given={Lena},
-           giveni={L\bibinitperiod}}}%
-        {{hash=cf3afdba3c9d6650fd7a250fc8678bed}{%
-           family={Kim},
-           familyi={K\bibinitperiod},
-           given={Nora},
-           giveni={N\bibinitperiod}}}%
-      }
-      \strng{namehash}{dd0b7c244ab213ce19968baa55ea9e37}
-      \strng{fullhash}{dd0b7c244ab213ce19968baa55ea9e37}
-      \strng{fullhashraw}{dd0b7c244ab213ce19968baa55ea9e37}
-      \strng{bibnamehash}{dd0b7c244ab213ce19968baa55ea9e37}
-      \strng{authorbibnamehash}{dd0b7c244ab213ce19968baa55ea9e37}
-      \strng{authornamehash}{dd0b7c244ab213ce19968baa55ea9e37}
-      \strng{authorfullhash}{dd0b7c244ab213ce19968baa55ea9e37}
-      \strng{authorfullhashraw}{dd0b7c244ab213ce19968baa55ea9e37}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{journaltitle}{International Journal of Biomedical Computing}
-      \field{number}{4}
-      \field{title}{SignalFlow: A Modular Framework for Real-Time Physiological Data Visualization}
-      \field{volume}{15}
-      \field{year}{2023}
-      \field{pages}{78\bibrangedash 92}
-      \range{pages}{15}
-      \verb{doi}
-      \verb 10.9999/ijbc.2023.01504
-      \endverb
-    \endentry
     \entry{owais2026tndp}{article}{}{}
       \name{author}{1}{}{%
         {{hash=48a1e38ed63a73d782e8e3f42cec0591}{%
@@ -250,32 +173,6 @@
       \field{year}{2026}
       \verb{doi}
       \verb 10.1007/s41062-025-02356-5
-      \endverb
-    \endentry
-    \entry{PFGPlots}{misc}{}{}
-      \name{author}{1}{}{%
-        {{hash=675154bb26f4fcccf8f7e70a9fb6cfd7}{%
-           family={PFGPlots},
-           familyi={P\bibinitperiod}}}%
-      }
-      \strng{namehash}{675154bb26f4fcccf8f7e70a9fb6cfd7}
-      \strng{fullhash}{675154bb26f4fcccf8f7e70a9fb6cfd7}
-      \strng{fullhashraw}{675154bb26f4fcccf8f7e70a9fb6cfd7}
-      \strng{bibnamehash}{675154bb26f4fcccf8f7e70a9fb6cfd7}
-      \strng{authorbibnamehash}{675154bb26f4fcccf8f7e70a9fb6cfd7}
-      \strng{authornamehash}{675154bb26f4fcccf8f7e70a9fb6cfd7}
-      \strng{authorfullhash}{675154bb26f4fcccf8f7e70a9fb6cfd7}
-      \strng{authorfullhashraw}{675154bb26f4fcccf8f7e70a9fb6cfd7}
-      \field{sortinit}{9}
-      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{title}{A LaTeX package to create plots.}
-      \verb{urlraw}
-      \verb https://pgfplots.sourceforge.net/
-      \endverb
-      \verb{url}
-      \verb https://pgfplots.sourceforge.net/
       \endverb
     \endentry
   \enddatalist

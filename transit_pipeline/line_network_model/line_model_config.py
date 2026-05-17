@@ -47,10 +47,3 @@ TRANSPORT_CENTER_FIXED_VALUES = {
 }
 TRANSPORT_CENTERS_REQUIRED = False
 COMMERCIAL_CENTER_VALUE = 30_000.0
-
-# Alignment penalty for planned lines/networks.
-# A turn angle is measured as 0 degrees for a straight continuation and larger
-# values for sharper bends. Only turns above the threshold are penalized.
-TURN_PENALTY_THRESHOLD_DEG = 60.0
-TURN_PENALTY_WEIGHT = 120_000_000.0
-MAX_TURN_ANGLE_DEG = 135.0
