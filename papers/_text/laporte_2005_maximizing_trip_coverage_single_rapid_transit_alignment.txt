@@ -1,0 +1,687 @@
+Maximizing Trip Coverage in the Location of a Single
+Rapid Transit Alignment
+
+
+
+
+GILBERT LAPORTE gilbert@crt.umontreal.ca Canada Research Chair in Distribution Management,
+HEC Montréal, 3000 Chemin de la Côte-Sainte-Catherine, Montréal, Canada H3T 2A7
+
+JUAN A. MESA                                                                               jmesa@us.es
+Departamento de Matemática Aplicada II, Escuela Técnica Superior de Ingenieros Industriales,
+Universidad de Sevilla, Camino de los Descubrimientos s/n, 41092 Sevilla, Spain
+
+FRANCISCO A. ORTEGA                                                                         riejos@us.es
+Departamento de Matemática Aplicada I, Escuela Técnica Superior de Arquitectura, Universidad de Sevilla,
+Avda. Reina Mercedes s/n, 41012 Sevilla, Spain
+
+IGNACIO SEVILLANO                                                                      sevillano@terra.es
+Production Management, Rótulos Mediterráneo, Polı́gono Industrial Las Chaparrillas, Parcela 1, Nave 5-6,
+41016 Sevilla, Spain
+
+
+Abstract. This article describes several heuristics for the construction of a rapid transit alignment. The
+objective is the maximization of the total origin-destination demand covered by the alignment. Computational
+results show that the best results are provided by a simple greedy extension heuristic. This conclusion is
+confirmed on the Sevilla data for scenarios when the upper bound for inter-station distance is greater than
+1250 m. Otherwise, when those upper bounds are smaller (750 m and 1000 m), an insertion heuristic followed
+by a post-optimization phase yields the best results. Computational times are always insignificant.
+
+Keywords: transit systems, trip coverage, effectiveness, heuristics
+
+
+1.    Introduction
+
+The construction of rapid transit systems such as metro networks and light railways is
+gaining in popularity in large cities faced with traffic problems. A number of major deci-
+sions must be made when designing such systems. The planning process is usually long
+and involves several players such as civil and traffic engineers, city planners, politicians,
+environmentalists, citizen interest groups, etc. The rapid transit design problem contains
+two intertwined location problems: determining an alignment and locating stations on
+it. Two approaches are used for this problem. The first initially locates the main stations
+and then implicitly determines the alignment by locating the remaining stations between
+those that were fixed in the first step. This was the approach used for the extension of
+the Lisbon metro (Viegas and Mexia, 1993). In the second approach the alignment is
+first determined and stations are only located afterwards. This is the approach used for
+the design of the Sevilla metro now under construction. The final design is actually a re-
+finement of a preliminary proposal, taking into account population density, employment
+zones, existing bus lines, and the main transportation corridors within the city (Junta
+de Andalucı́a, 2002). In both approaches the forecasted traffic level can be determined
+by means of a four-step planning model: trip attraction and generation, trip distribution,
+mode choice, and assignment.
+      Numerous criteria are used for the assessment of potential solutions and it has long
+been recognised (see, e.g., Magnanti and Wong, 1984) that while classical operational
+research models can help streamline the evaluation and decision process, they cannot by
+themselves solve the problem in its entirety. A sensible approach for tackling difficult
+design problems is to provide decision makers with a rich set of quality solutions that
+can then be assessed and presented to decision makers (Laporte, 1995). In recent years
+several operational research tools have been proposed for the design of rapid transit
+networks (see the recent survey article by Laporte, Mesa, and Ortega, 2000). The present
+study extends some of the existing work.
+      The primary goal when designing a rapid transit system is to provide shortest travel
+times in order to improve the population’s mobility (Gendreau, Laporte, and Mesa, 1995).
+Since the expected number of trips is assumed to be related to the population covered by
+the system (people who live or work around the lines), one of criteria most frequently
+used is the maximization of coverage provided by the lines.
+      Basically, three approaches have been proposed to measure the coverage of an
+alignment. The first, used by Chapleau, Lavigueur, and Baass (1986) and Wirasinghe
+and Vandebona (1987) consists of drawing embedded corridors around the alignment
+and of assigning coverage factors to each corridor. Coverage gradually decreases as the
+walking distance to the alignment decreases and eventually falls to zero (figure 1). The
+corridor approach is rather unsatisfactory since it ignores the fact that someone living
+close to a metro line but far from a station will not be attracted by the line. This is why
+other methods are often used to measure coverage.
+      A second approach consists of determining catchment areas around each station of
+the alignment. As in the previous method, concentric geometrical shapes with decreasing
+
+
+                                               30 %
+
+                                               70 %               alignment
+
+                                               70 %
+
+                                               30 %
+
+Figure 1. Alignment with two embedded corridors around it. The values show the percentage of population
+                        living in a given corridor likely to use the transit system.
+                                             30 %
+
+
+                                             70 %
+
+
+
+
+                   Figure 2. Station with embedded catchment zones around it.
+
+
+
+attraction factors can be built around each station (figure 2). This is essentially the
+approach taken by Dufourd, Gendreau, and Laporte (1996) and by Bruno, Gendreau,
+and Laporte (2002) who have discretized the demand around each station.
+      For each access mode (walking, park-and-ride, kiss-and-ride, feeder bus, etc.) a
+representative planar metric d(·, ·) is used to estimate time spent travelling from origin
+point X in the city to destination point s (station). Walking distances are typically mea-
+sured by means of the Manhattan metric (Larson and Odoni, 1981; Lutin and Benz, 1992;
+Dufourd, Gendreau, and Laporte, 1996; Bruno, Gendreau, and Laporte, 2002) when the
+predominant street pattern is a rectangular grid, but other approximations are possible
+such as block norms (Ward and Wendell, 1980), the τ -inflated l p norm (Love, Morris, and
+Wesolowsky, 1988), and combinations of the Manhattan and Euclidean norms (Brimberg
+and Love, 1993).
+      Once a metric d has been fixed, the isochronic curve for walking time r > 0, centred
+at station point s, generates a catchment zone
+
+                           B(s, r ) = {x ∈ R2 : d(x, s) ≤ r }
+
+in which the number of potential users for the transit system must be estimated by
+collecting population data provided by the census tracts overlapping B(s, r ). Since the
+shape of census tracts is polygonal and sometimes non-convex, a triangulation must
+first be carried out to reduce the number of cases to be analysed when evaluating the
+intersection between B(s, r ) and the census tract (Laporte, Mesa, and Ortega, 2002).
+       One major drawback of the catchment model is that it ignores station-to-station
+ridership demand. Thus a person travelling along the North-South axis is unlikely to be
+attracted to a station located on an East-West alignment (assuming of course this align-
+ment is not part of a larger interconnected network). This is why a third approach, based
+on actual demand between origin/destination (O/D) pairs, seems more appropriate. The
+data required for this model (O/D information, population distribution in each census
+tract and geometrical shape of census tracts) are more voluminous but usually available
+from government agencies; moreover, these data can be visualised by using a Geograph-
+ical Information System (GIS) and integrated with an optimization software. Although
+this third approach requires a more substantial data gathering and computational effort,
+it is based on more realistic assumptions.
+       Our purpose is to present an alignment location methodology based on O/D infor-
+mation, therefore including the three first steps of the four-stage classical transit planning
+methodology. It contains two main parts. In Section 2 we describe a model for the es-
+timation of the actual demand between two stations. In Section 3 we propose simple
+heuristics for the design of an alignment maximizing trip coverage. The heuristics can be
+applied to any O/D demand matrix, i.e., they can work independently of the model used
+to estimate O/D demand. Computational results are presented in Section 4, followed by
+conclusions in Section 5.
+
+
+2.   Modeling origin/destination demand
+
+In this section we extend the station catchment area model of Laporte, Mesa, and Ortega
+(2002) to a more involved trip coverage model.
+
+
+2.1. Population covered by a station
+
+Planners often use data provided by city census tracts to evaluate the population covered
+by a station. In general, each census track is a non-convex polygon in which users are
+attracted to a station according to a gravity model (Ortúzar and Willumsen, 1990).
+      Let C = {ch : h = 1, . . . , H } be the set of census tracts and ρh the respective
+density of each ch ; h = 1, . . . , H . Then the coverage R(i) provided by station si is
+defined by
+
+                      H 
+                       K
+                          aρh                                    
+             R(i) =                  2
+                                       Area  (Bk \ B(k−1) ) ∩ c h   ;   i = 1, . . . , n,
+                      h=1 k=1   rk
+
+where k is a ring index (figure 3), K is the number of rings per station, Bk \ B(k−1) ≡
+B(si , rk ) \ B(si , rk−1 ) is the ring centered at si and comprised between radii rk−1 and rk ,
+rk is an intermediate value between radii rk and rk−1 (for instance, the discrete average
+(rk + rk−1 )/2 or another continuous average where directional bias for weighted l p
+norms is taken into account, as pointed in Brimberg, Love, and Walker (1995)), and a is
+a parameter to be calibrated.
+                                                                C
+
+
+
+                                              si                    Alignment
+                                                    r1   r2     r3 r4
+
+
+
+
+                                 Figure 3. Coverage from station si .
+
+
+
+2.2. Trip coverage
+
+To combine the estimation of passenger O/D patterns with the notion of population cov-
+erage, Mesa and Ortega (2001) have proposed the following approach which is illustrated
+by figure 4.
+       Each station pair (i, j) has an associated K × K matrix, denoted by O Di j , whose
+elements O Di j (k, k  ) (for all k, k  = 1, . . . , K ) represent the weighted sum of portions
+of values tlm (predicted number of trips produced in zone zl and attracted to zone z m , for
+all l, m = 1, . . . , L). Weights are defined by taking into consideration attraction radii
+ri and ri  (respectively, at origin and destination stations), yielding the following O/D
+values:
+                                                                                     
+                    L
+                                a 2 Area Bik \Bi(k−1) ∩ zl Area B jk  \B j(k  −1) ∩ z m
+            
+ODi j (k, k )=                                                                                tlm .
+                                2  2         Area(zl )                     Area(z m )
+                l,m=1,(l=m) r k r k
+
+
+
+
+                                            zm           t lm        zl
+
+                               si            Alignment
+                                                                    sj
+
+
+
+
+                         Figure 4. Passenger flow between a pair of stations.
+     Therefore, the trip coverage f i j provided by a pair of different stations (si , s j ) can
+be obtained by adding all matrix elements:
+                                        
+                                fi j =       ODi j (k, k  ).
+                                             k,k 
+
+
+
+
+2.3. Network effectiveness
+
+The next step in the modelling approach is to scale the f i j values to obtain a so-called
+effectiveness measure reflecting the user benefit derived from using the transit system.
+Several mode choice models are available (see, e.g., the recent survey by Bouzaı̈ene-
+Ayari, Gendreau, and Nguyen, 2001). In this study we have opted for a simple logit
+model to desegregate the demand.
+      The model assumes that potential users choose between only two transport modes:
+
+– a transit line Align(E), defined on a set E of stations;
+– a private car that uses the street grid.
+
+In what follows, τi j (E) denotes the time of the quickest path connecting nodes si and s j
+using the network based on E, and τiAj represents the time of the quickest path connecting
+nodes si and s j by using another means of transport. The proportion of trips between
+stations si , s j , using the rapid transit network on set E, is obtained by means of the
+formula
+                                                         1
+                                gi j (E) =                                 ,
+                                                     −γ (τiAj −τi j (E))
+                                              1+e
+where γ is a positive parameter to be calibrated.
+          The effectiveness measure we use is obtained by summing up the terms n i j (E) =
+ f i j gi j (E) over i and j, where f i j denotes trip coverage between stations si and s j , and
+gi j (E) indicates the value of the logit function (see figure 5) associated with origin-
+destination pair (si , s j ) when an alignment on the nodes of set E is considered. Once
+the parameters are adequately calibrated, each effectiveness value n i j (E) can be used to
+represent the passenger flow between stations si and s j in the presence of an alignment
+on E.
+
+
+3.   Formulation and heuristics
+
+We are interested here in locating an alignment through a set E of stations in order to
+maximize total traffic flow, subject to a length constraint. Formally the problem can be
+stated as follows.
+                                                                           Time-Profit
+
+
+                                   Figure 5. Logit function.
+
+
+
+  Given a set of candidate nodes S = {s1 , s2 , . . . , sn }, determine a subset E of S and
+  a non-intersecting alignment Align(E) on points of E yielding a maximal ridership,
+  subject to a maximum length constraint LMAX.
+
+     In other words,
+                                                   
+                            
+                             maximize                                n i j (E)
+                                E⊂S
+                 (MTCP) :                   i, j (i= j;si ,s j ∈E)
+                            
+                             subject to    Length[Align(E)] ≤ LMAX
+
+      Since the problem of determining a bounded length Hamiltonian path in a graph is
+NP-hard (Garey and Johnson, 1979), the maximal trip coverage problem (MTCP) is also
+NP-hard. Hence, it is important to develop heuristics to solve (MTCP) effectively. We have
+therefore devised two constructive heuristics and a post-optimization procedure which
+are outlined below. Simultaneously, the behaviour of some of the proposed heuristics
+was assessed in a real setting.
+      Sevilla is the capital city of the autonomous Andalucı́a region with more than one
+million inhabitants in the metropolitan area. It is one of the 22 European cities currently
+planning a metro network (see www.metropla.net). Only Line 1 (19 km, 23 stations) is
+currently being constructed in the East-West corridor crossing the city centre. A set of 21
+candidate nodes were randomly chosen in Sevilla in order to illustrate the behaviour of
+the proposed heuristics for LMAX = 19 km. In this simplified scenario, nodes numbered
+3, 11, 12 and 15 are interior to the central circle which represents the historic-commercial
+centre of Sevilla (see figure 6).
+      The central circle is the most attractive destination of trips originating in other
+residential areas, as can be observed in figure 7 where the thickness of each edge is
+                                         9
+                                                             8
+
+                                    10                               7
+                                                        11                   6
+                               13                                                5
+                                                   12
+                                 14      15
+                                                                 3
+                                16 17                                        4
+                                                                         2
+                                                   19
+                                                             1
+                              21              18
+                                    20
+
+                               Figure 6. Nodes of the Sevilla example.
+
+                                         9
+                                                             8
+
+                                    10                               7
+                                                        11                   6
+                               13                                                5
+                                                   12
+                                 14   15
+                                                                 3
+                                16 17                                        4
+                                                                         2
+                                                   19
+                                                             1
+                              21              18
+                                    20
+
+                        Figure 7. Flow between nodes in the Sevilla example.
+
+
+proportional to the attraction level between nodes (for clarity, the low demand edges are
+not shown).
+H1: Greedy extension of an alignment
+     This approach may be viewed as a greedy algorithm since the best possible decision
+is made at each stage without regard to later decisions.
+
+                                    Constructive heuristic H1
+
+1. Include in Align(E) the edge (si , s j ) (i.e., E = {si , s j }) yielding max{n i j }.
+
+                                                  end by adding a new edge, (sk , si )
+2. Extend the current alignment Align(E) at either
+   or (s j , sk ), yielding the maximum objective ∀si ,s j ∈E n i j (E), not intersecting the
+   current alignment, and not causing Length[Align(E)] to exceed L M AX . Repeat until
+   the current alignment can no longer be extended.
+                                             9
+
+                                                                 8
+
+
+                                        10                               7
+                                                            11                   6
+                              13                                                     5
+                                                       12
+                                   14        15
+                                                                     3
+                                 16                                              4
+                                        17
+                                                                             2
+                                                       19
+                                                                 1
+                            21                    18
+                                        20
+
+                           Figure 8. Alignment after greedy extensions.
+
+     Figure 8 shows the final alignment (nodes 9-11-4-2) maximizing trip coverage
+obtained by applying the heuristic H1.
+H2: Extension of an alignment through greedy insertions
+      The underlying idea of these improvement heuristics is to start with a feasible
+solution and, while maintaining feasibility, to extend the current set E of selected nodes
+by successive insertions. Again, decisions are made at each stage in a greedy fashion.
+                                      Constructive heuristic H2
+
+1. Include in Align(E) the edge (si , s j ) yielding max{n i j } .
+2. Consider in turn for each non-inserted station and insert it in the current alignment
+   according to one of the following three variants:
+
+Variant A
+
+  – Determine for each non-inserted station the insertion position yielding the least
+    increase in Length[Align(E)] and compute the added ridership that would result
+    from this best insertion.
+  – Extend Align(E) by inserting the non-inserted station (in its best position) for which
+    the added ridership is maximized.
+
+Variant B
+
+  – Determine for each non-inserted station the insertion position yielding the least
+    increase in Length[Align(E)] (the best insertion).
+  – Extend Align(E) by inserting the non-inserted station (in its best position) for
+    which the added length is minimized.
+  – Break ties by using the maximal added ridership criterion.
+
+Variant C
+  – Determine for each non-inserted station the insertion position yielding the least
+    increase in Length[Align(E)] and compute the added ridership that would result
+    from this best insertion.
+  – Extend Align(E) by inserting the non-inserted station (in its best position) for which
+              (increased ridership)
+    the ratio                       is maximized.
+                (increased length)
+
+     For the same example, figure 9 describes the final alignment (nodes 9-11-3-2-4)
+obtained with H2(A), whereas the corresponding best network after using variant B of
+heuristic H2 (nodes 9-11-12-15-14-16) is shown in figure 10.
+
+
+                                           9
+
+                                                               8
+
+
+                                      10                               7
+                                                          11                   6
+                            13                                                     5
+                                                     12
+                                 14        15
+                                                                   3
+                               16                                              4
+                                      17
+                                                                           2
+                                                     19
+                                                               1
+                          21                    18
+                                      20
+
+                        Figure 9. Alignment after greedy insertions (A).
+
+                                           9
+
+                                                               8
+
+
+                                      10                               7
+                                                          11                   6
+                            13                                                     5
+                                                     12
+                                 14        15
+                                                                   3
+                               16                                              4
+                                      17
+                                                                           2
+                                                     19
+                                                               1
+                          21                    18
+                                      20
+
+                       Figure 10. Alignment after greedy insertions (B).
+                                           9
+
+                                                               8
+
+
+                                      10                               7
+                                                          11                   6
+                            13                                                     5
+                                                     12
+                                 14        15
+                                                                   3
+                                16                                             4
+                                      17
+                                                                           2
+                                                     19
+                                                               1
+                           21                   18
+                                      20
+
+                        Figure 11. Alignment after greedy insertions (C).
+
+
+
+     The alignment shown in figure 11 corresponds to the execution of algorithm H 2(C),
+where the initial tie between edges (9, 11) and (2, 11) was broken in favor of (2, 11)
+because of its larger ridership/length ratio.
+
+3.1. Post-optimization procedure for H2
+
+The objective value of the solution produced by heuristic H 2 depends on the order of the
+nodes in the alignment, which is gradually constructed. Therefore, a post-optimization
+procedure acting on the node sequence may improve the objective.
+
+                           Post-optimization procedure for H2
+
+1. Given a solution produced by H 2, remove in turn each station, link its predecessor
+   to its sucessor, and reinsert the station just removed using the same variant as in the
+   construction phase.
+2. Stop when no station removal and reinsertion can yield an improvement in the objec-
+   tive.
+     The post-optimization procedure was applied to the three earlier alignments, ob-
+tained after using H 2 (A, B, C) in order to improve global effectiveness but never pro-
+duced any improvement.
+
+
+4.   Computational results
+
+4.1. Test on simulated context
+
+The heuristics just described were coded in Pascal and run on a Sunfire 4800 Computer
+(900 MHz) and tested on randomly generated instances. We constructed artificial cities
+                                                                         low
+                                                                         population
+
+
+                                                                         medium
+                                                                         population
+
+                                                                        large
+                                                                        population
+
+
+
+
+                     Figure 12. Simulated city subdivided into 25 equal zones.
+
+
+                             to       Central      Intermediate       Suburban
+                     from              zone            zone             zone
+                       Central         0.60            0.04            0.005
+                        zone
+                    Intermediate       0.36             0.06             0.01
+                        zone
+                      Suburban         0.20             0.06             0.02
+                        zone
+
+                     Figure 13. Travel probabilities for the random instances.
+
+
+on the [0, 21]2 square. The square was subdivided into 25 equal zones where the central
+zone, corresponding to the city center, has a low population, the eight intermediate zones
+surrounding it have a large population and the remaining suburban zones have a medium
+population (figure 12).
+      More specifically we randomly generated populations in the interval
+[2000, 5000] for the central zone, in [15000, 20000] for the intermediate zones and in
+[5000, 10000] for the suburban zones. We then defined travel probabilities pkl between
+zones of each type as in figure 13. These values mean that any resident from a zone of
+type k has a probability pkl of traveling to a zone of type l. Note that the probabilities
+of each line add up to 1 if the second column is multiplied by 8 and the third column is
+multiplied by 16. We superimposed the lattice of integer coordinate points in the [0, 21]2
+square onto the city, which yielded 484 potential locations for stations. The population
+of each zone was then equally divided between the points of the zone.
+      We then constructed a bounded length single alignment over the artificial city with
+LMAX = 10, 20 and 40. Preliminary results produced compact and zigzaging alignments
+tending to remain within a single zone. To remedy this we introduced a linearity coefficient
+λ to force the alignment to have a more linear shape. This coefficient is the length of the
+alignment divided by the length of the straight line between its two extremities. In other
+                                          Table 1
+                               Summary of computational results
+                                                 Ridership:
+                                            number of passengers    Ridership to
+Heuristic          LMAX        Length        using the alignment    length ratio    Seconds
+H1                   10          9.6               114.1               11.9           0.00
+                     20         19.4               388.7               20.0           0.02
+                     40         37.7               661.3               17.6           0.03
+H2 (A)               10          7.9                50.4                6.2           0.02
+                     20         11.4                69.1                6.1           0.02
+                     40         26.2                88.3                3.4           0.02
+H2 (A)               10          7.9                50.4                6.4           0.02
+  + post-            20         11.4                69.1                6.1           0.02
+  optimization       40         26.2                88.3                3.4           0.02
+H2 (B)               10          8.0                44.9                5.6           0.02
+                     20         12.6                68.3                5.4           0.02
+                     40         29.0                92.1                3.2           0.02
+H2 (B)               10          8.1                45.2                5.6           0.03
+  + post-            20         12.6                68.3                5.4           0.02
+  optimization       40         29.0                92.1                3.2           0.03
+H2 (C)               10          7.6                49.9                6.3           0.02
+                     20         14.2                72.1                5.1           0.03
+                     40         28.1                90.0                3.2           0.03
+H2 ( C)              10          7.6                49.9                6.3           0.02
+  + post-            20         14.2                72.1                5.1           0.03
+  optimization       40         28.1                90.0                3.2           0.03
+
+
+words we never let the heuristics construct alignments for which this ratio would exceed
+λ. We successfully conducted experiments with λ = 2, 4 and 8. We did not observe
+any noticeable difference in the algorithm performance between the various values of
+λ, except of course in the shape of the solution. For this reason we report in Table 1
+computational results for λ = 2. All statistics are average values over 10 randomly
+generated instances (i.e., different zone populations were generated). The table headings
+are as follows:
+
+LMAX: maximal allowed length for the alignment;
+Length: alignment length;
+Ridership: total O/D riderships covered by the alignment;
+Ratio: ridership/length;
+Seconds: computation time in seconds.
+
+      Two main conclusions can be drawn from Table 1. First the greedy alignment
+extension heuristic H 1 is much more effective than any of the greedy extension variants
+in producing a good quality solution. This is due to the fact that the solutions produced
+by H 2 tend to be U -shaped and very close to circular. After a few iterations this type of
+heuristic stops making substantial gains either in the alignment length or in the ridership.
+Another conclusion is that the use of a post-optimization phase after H 2 does not yield
+any significant improvement. In other words, H 1 clearly dominates all variants of H 2. It
+is also worth observing that computation times are insignificant in all cases, which means
+that using O/D information as opposed to catchment areas is computationally tractable.
+In practise, since one does not work with simulated data but with real information,
+estimating all O/D demands should still result in a significant estimation and calibration
+exercise.
+
+
+4.2. Test on real context
+
+Sevillano (2003) recently applied the methodology described in this paper to determine
+the second most effective metro line in Sevilla in terms of trip coverage. Several scenarios
+were considered. We used two types of candidate-station distributions, two speed levels
+for surface traffic, four upper bound for distances between consecutive stations and three
+values of the logit parameter γ . This parameter was calibrated taking into account known
+values of the utilisation percentage of public transport in the city. Data were based on a
+mobility survey conducted in 2002. Two O/D matrices (for public and private transport
+modes) were obtained from previous data and 164 candidate nodes were selected.
+      Sevillano’s conclusions are that H1, H2(A) and H2(A)+ (that is, H2(A) followed
+by a post-optimization step) are the best heuristics in this real-life context. The best
+algorithm depends on the upper bound imposed on inter-station spacing. Thus H2(A)+
+is best when this bound is small (750 and 1000 m) and H1 is best when it is large (1500
+m). The two heuristics are equivalent for intermediate values (1250 m).
+
+
+5.   Conclusions
+
+We have presented a model and some heuristics for the location of a rapid transit align-
+ment where the objective is to maximize the total station-to-station ridership covered by
+the alignment. This objective is more realistic than the more traditional one based on
+catchment areas. It is also computationally feasible. Tests on randomly generated data
+have shown that a simple greedy extension heuristic yields the best results. Tests on the
+Sevilla data confirm this conclusion for scenarios where the upper bound on the inter-
+station spacing is large. Otherwise an insertion heuristic followed by a post-optimization
+phase is best.
+
+
+Acknowledgments
+
+This research was in part supported by Canadian Natural Sciences and Engineering
+Research Council under grant OGP0039682 and by the Spanish Ministerio de Ciencia y
+Tecnologı́a under grants BFM2000-1052-C02-01 and BFM2003-04062. Thanks are due
+to three referees and to Lisa Shepard for their valuable comments.
+References
+Bouzaı̈ene-Ayari, B., M. Gendreau, and S. Nguyen. (2001). “Modeling Bus Stops in Transit Networks: A
+   Survey and New Formulations.” Transportation Science 35, 304–321.
+Brimberg, J. and R.F. Love. (1993). “A New Distance Function for Modeling Travel Distances on a Trans-
+   portation Network.” Transportation Science 27, 129–137.
+Brimberg, J., R.F. Love, and J.H. Walker. (1995). “The Effect of Axis Rotation on Distance Estimation.”
+   European Journal of Operational Research 80, 357–364.
+Bruno, G., M. Gendreau, and G. Laporte. (2002). “A Heuristic for the Location of a Rapid Transit Line.”
+   Computers & Operations Research 29, 1–12.
+Chapleau, R., P. Lavigueur, and K. Baass. (1986). “A Posteriori Impact Analysis of a Subway Extension in
+   Montreal.” Publication CRT-503, Centre de recherche sur les transports. Montreal, Canada.
+Dufourd, H., M. Gendreau, and G. Laporte. (1996). “Locating a Transit Line Using Tabu Search.” Location
+   Science 4, 1–19.
+Garey, M.R. and D.S. Johnson. (1979). Computers and Intractability: A Guide to the Theory of NP-
+   Completeness. Freeman, New York.
+Gendreau, M., G. Laporte, and J.A. Mesa. (1995). “Locating Rapid Transit Lines.” Journal of Advanced
+   Transportation 29, 145–162.
+Junta de Andalucı́a, Consejerı́a de Obras Públicas y Transportes (1993). “Análisis de los corredores del
+   área metropolitana de Sevilla y de los sistemas de transporte posibles.” Private Report developed by
+   SOFRETU Consulting and financed by Consejerı́a de Obras Públicas y Transportes.
+Laporte, G. (1995). “Comments on ‘Multiobjective Routing Problems’ by T.B. Boffey.” Top 3, 206–213.
+Laporte, G., J.A. Mesa, and F.A. Ortega. (2000). “Optimization Methods for the Planning of Rapid Transit
+   Systems.” European Journal of Operational Research 122, 1–10.
+Laporte, G., J.A. Mesa, and F.A. Ortega. (2002). “Locating Stations on Rapid Transit Lines.” Computers &
+   Operations Research 29, 741–759.
+Larson, R.C. and A.R. Odoni. (1981). Urban Operations Research. Prentice-Hall, Englewood Cliffs, New
+   Jersey.
+Love, R.F., J.G. Morris, and G.O. Wesolowsky. (1988). Facilities Location: Models and Methods. North-
+   Holland, New York.
+Lutin, J.M. and G.P. Benz. (1992). “Key Issues in Light Rail Transit Station Planning and Design.” Trans-
+   portation Research Records 1361, 117–124.
+Magnanti, T.L. and R.T. Wong. (1984). “Network Design and Transportation Planning: Models and Algo-
+   rithms.” Transportation Science 18, 1–55.
+Mesa, J.A. and F.A. Ortega. (2001). “Park-and-Ride Station Catchment Areas in Metropolitan Rapid Transit
+   Systems.” Mathematical Methods on Optimization in Transportation Systems. In M. Pursula and J.
+   Niittymäki (eds.), Kluwer, Dordrecht, pp. 81–93.
+Ortúzar, J.D. and L.F. Willumsen. (1990). Modelling Transport. Wiley, New York.
+Sevillano, I. (2003). “Aplicación del concepto de cobertura de viaje al diseño y modelización de la segunda
+   lı́nea de metro de Sevilla” (in Spanish). Master’s Dissertation, Engineers Higher Technical School,
+   University of Seville, Spain.
+Viegas, J.M. and A. Mexia. (1993). “Lisbon Metro Expands its Network.” Public Transport International 4,
+   31–38.
+Ward, J.E. and R.E. Wendell. (1980). “A New Form for Measuring Distances which Yields Linear Location
+   Problems.” Operations Research 28, 836–844.
+Wirasinghe, S.C. and U. Vandebona. (1987). “Some Aspects of the Location of Subway Stations and Routes.”
+   Presented at the Fourth International Symposium on Locational Decisions (ISOLDE). Namur, Belgium.
+

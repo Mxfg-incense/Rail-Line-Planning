@@ -1,0 +1,20 @@
+[project]
+name = "cs240-rail-planning"
+version = "0.1.0"
+description = "CS240 urban rail planning experiments and OpenHousePopulator-style population estimation."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "geopandas>=1.0.1",
+    "matplotlib>=3.9.0",
+    "networkx>=3.3",
+    "numpy>=2.0.0",
+    "osmnx>=2.0.0",
+    "pandas>=2.2.0",
+    "pymoo>=0.6.1.3",
+    "scikit-learn>=1.5.0",
+    "shapely>=2.0.6",
+]
+
+[tool.uv]
+package = false

@@ -1,0 +1,1202 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.4375643,
+          31.1898222
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "腾飞广场",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_001"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.4490392,
+          31.1952283
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "车享汽车生活广场",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_002"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.4438453,
+          31.185221
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "全国土特产食品购物中心",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_003"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.4325097,
+          31.1992442
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "百联徐汇商业广场",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_004"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.4721539,
+          31.2341348
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "来福士广场",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_005"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.55485743333332,
+          31.229022866666668
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "大拇指广场",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_006"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.49420984166666,
+          31.238683604166667
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "正大广场",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_007"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.41187871355932,
+          31.22096790508475
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "龙之梦购物中心",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_008"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.48874072999999,
+          31.227082869999997
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "上海城隍庙广场",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_009"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.4796828,
+          31.23984546363636
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "恒基名人购物中心",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_010"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.5330357,
+          31.1539853
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "长青企业广场",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_011"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.4521264875,
+          31.2309540625
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "梅龙镇广场",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_012"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.44164458750001,
+          31.225681275
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "久百城市广场",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_013"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.45101050000001,
+          31.23015394285714
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "中信富泰广场",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_014"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.47411642173913,
+          31.22646405652174
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "大上海时代广场",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_015"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.559418775,
+          31.15579745
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "百联东郊购物中心",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_016"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.46841265769231,
+          31.237931507692306
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "雅居乐国际广场",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_017"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.47338623225806,
+          31.22713317096774
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "上海广场",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_018"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.48571333333332,
+          31.23018673333333
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "城隍庙第一购物中心",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_019"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.48473476666668,
+          31.230323116666668
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "豫园鄂尔多斯广场",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_020"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.45647101666667,
+          31.23300915
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "818广场",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_021"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.4503609,
+          31.23035068333333
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "金鹰国际购物广场",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_022"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.47924885555555,
+          31.238631077777782
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "353广场",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_023"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.49358351999999,
+          31.251371006666666
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "白玉兰广场",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_024"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.49383506363637,
+          31.22829570909091
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "BFC 购物中心",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_025"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.4935735875,
+          31.227432512500002
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "BFC 购物中心",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_026"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.4287863,
+          31.17616892
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "汇阳广场",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_027"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.50886700000001,
+          31.14310973
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "中房金谊广场",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_028"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.51607076666666,
+          31.24319733333333
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "裕景国际商务广场",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_029"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.5411844125,
+          31.2064825875
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "富荟广场",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_030"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.50316533333334,
+          31.164726083333335
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "亿丰时代广场",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_031"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.45464452857144,
+          31.21913957142857
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "百盛购物中心",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_032"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.41054593846154,
+          31.218569715384618
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "来福士广场",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_033"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.46455988571428,
+          31.22246357142857
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "锦江国际购物中心",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_034"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.41555641,
+          31.179056775
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "圣诺亚广场",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_035"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.50776754,
+          31.1972782
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "百联临沂购物中心",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_036"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.55384724444444,
+          31.22804121111111
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "联洋广场",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_037"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.50400707678571,
+          31.23626882857143
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "自由贸易试验区览海国际广场",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_038"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.5229847422222,
+          31.229456482222222
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "世纪汇广场",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_039"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.51181250857142,
+          31.231515851428576
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "新梅联合广场",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_040"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.468241725,
+          31.2388997
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "新金桥广场",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_041"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.54998435714286,
+          31.158056100000003
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "御桥九六广场",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_042"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.48288591111113,
+          31.239779777777773
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "外滩中央广场",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_043"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.46998773333333,
+          31.205467158333335
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "东汇广场",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_044"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.4242454,
+          31.168997525
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "光大生活广场",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_045"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.4251253826087,
+          31.23624666086957
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "豪浦广场",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_046"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.5245472,
+          31.16970105
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "欧亚美浦东家居广场",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_047"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.54557015,
+          31.173967
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "幕天商业广场",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_048"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.551749375,
+          31.18597405
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "北蔡休闲广场",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_049"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.43788675,
+          31.18964215
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "腾飞广场",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_050"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.41738204285714,
+          31.141011971428572
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "华轻梅陇购物中心",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_051"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.4320328025641,
+          31.242266184615385
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "经纬时尚广场",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_052"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.51307039999999,
+          31.22908363
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "华润时代广场",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_053"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.43608819090909,
+          31.24387990909091
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "189购物中心",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_054"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.43798826363636,
+          31.24328322272727
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "鑫意生活广场",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_055"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.4297436,
+          31.2389359
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "半岛休闲广场",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_056"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.432828,
+          31.2408834875
+        ]
+      },
+      "properties": {
+        "layer": "commercial",
+        "name": "亚新生活广场",
+        "source": "large_commercial_center",
+        "population_value": 0.0,
+        "job_value": 0.0,
+        "transport_value": 0.0,
+        "commercial_value": 30000.0,
+        "value": 30000.0,
+        "center_id": "COMMERCIAL_057"
+      }
+    }
+  ]
+}

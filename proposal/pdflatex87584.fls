@@ -1,0 +1,5 @@
+PWD D:/workplace/CS240/proposal
+INPUT c:/Program Files/texlive/2025/texmf.cnf
+INPUT c:/Program Files/texlive/2025/texmf-dist/web2c/texmf.cnf
+INPUT c:/Program Files/texlive/2025/texmf-var/web2c/pdftex/pdflatex.fmt
+INPUT proposal.tex

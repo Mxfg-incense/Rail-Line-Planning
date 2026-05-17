@@ -1,0 +1,159 @@
+{
+  "budget": 230.0,
+  "spent": 200.348,
+  "remaining_budget": 29.652,
+  "captured_pair_value": 11893.167,
+  "selected_nodes": [
+    "K01",
+    "K02",
+    "K03",
+    "V01",
+    "V02",
+    "V03",
+    "V04",
+    "V05",
+    "V06",
+    "V08",
+    "V09",
+    "V10",
+    "V11",
+    "V12",
+    "V13",
+    "V14",
+    "V15",
+    "V16"
+  ],
+  "selected_demand_nodes": [
+    "V01",
+    "V02",
+    "V03",
+    "V04",
+    "V05",
+    "V06",
+    "V08",
+    "V09",
+    "V10",
+    "V11",
+    "V12",
+    "V13",
+    "V14",
+    "V15",
+    "V16"
+  ],
+  "mandatory_nodes": [
+    "K01",
+    "K02",
+    "K03"
+  ],
+  "selected_edges": [
+    {
+      "source": "K01",
+      "target": "V06",
+      "cost": 8.815,
+      "reason": "exact_mst"
+    },
+    {
+      "source": "V06",
+      "target": "V10",
+      "cost": 15.461,
+      "reason": "exact_mst"
+    },
+    {
+      "source": "V10",
+      "target": "V15",
+      "cost": 6.204,
+      "reason": "exact_mst"
+    },
+    {
+      "source": "V15",
+      "target": "V03",
+      "cost": 10.443,
+      "reason": "exact_mst"
+    },
+    {
+      "source": "V03",
+      "target": "V02",
+      "cost": 5.131,
+      "reason": "exact_mst"
+    },
+    {
+      "source": "V02",
+      "target": "V12",
+      "cost": 14.604,
+      "reason": "exact_mst"
+    },
+    {
+      "source": "V03",
+      "target": "K03",
+      "cost": 20.402,
+      "reason": "exact_mst"
+    },
+    {
+      "source": "K03",
+      "target": "V16",
+      "cost": 22.51,
+      "reason": "exact_mst"
+    },
+    {
+      "source": "V16",
+      "target": "K02",
+      "cost": 2.953,
+      "reason": "exact_mst"
+    },
+    {
+      "source": "K02",
+      "target": "V13",
+      "cost": 2.425,
+      "reason": "exact_mst"
+    },
+    {
+      "source": "V13",
+      "target": "V01",
+      "cost": 14.149,
+      "reason": "exact_mst"
+    },
+    {
+      "source": "V01",
+      "target": "V05",
+      "cost": 10.801,
+      "reason": "exact_mst"
+    },
+    {
+      "source": "V05",
+      "target": "V11",
+      "cost": 5.813,
+      "reason": "exact_mst"
+    },
+    {
+      "source": "V16",
+      "target": "V04",
+      "cost": 16.896,
+      "reason": "exact_mst"
+    },
+    {
+      "source": "V04",
+      "target": "V14",
+      "cost": 17.305,
+      "reason": "exact_mst"
+    },
+    {
+      "source": "V14",
+      "target": "V08",
+      "cost": 10.491,
+      "reason": "exact_mst"
+    },
+    {
+      "source": "V08",
+      "target": "V09",
+      "cost": 15.947,
+      "reason": "exact_mst"
+    }
+  ],
+  "trace": [],
+  "exact_search": {
+    "checked_subsets": 65536,
+    "feasible_subsets": 64760,
+    "optimal_cost": 200.348,
+    "optimal_pair_value": 11893.167
+  }
+}

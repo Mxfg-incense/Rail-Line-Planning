@@ -1,0 +1,1790 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.60694443846154,
+          24.9130174
+        ]
+      },
+      "properties": {
+        "pop": 1173,
+        "flats": 1,
+        "building_area": 3529.22,
+        "housenumber_count": 1,
+        "building": "yes"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.609450775,
+          24.898596125
+        ]
+      },
+      "properties": {
+        "pop": 6201,
+        "flats": 5,
+        "building_area": 482.82,
+        "housenumber_count": 1,
+        "building": "house"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.59992165,
+          24.891457975
+        ]
+      },
+      "properties": {
+        "pop": 4735,
+        "flats": 4,
+        "building_area": 800.95,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.599859,
+          24.89119395
+        ]
+      },
+      "properties": {
+        "pop": 4768,
+        "flats": 4,
+        "building_area": 933.76,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.60075702500001,
+          24.891129149999998
+        ]
+      },
+      "properties": {
+        "pop": 4868,
+        "flats": 4,
+        "building_area": 646.74,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.60060795,
+          24.8909007
+        ]
+      },
+      "properties": {
+        "pop": 4778,
+        "flats": 4,
+        "building_area": 666.31,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.60043715,
+          24.89158905
+        ]
+      },
+      "properties": {
+        "pop": 4781,
+        "flats": 4,
+        "building_area": 3169.6,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.60000744999999,
+          24.8908556
+        ]
+      },
+      "properties": {
+        "pop": 4898,
+        "flats": 4,
+        "building_area": 2062.99,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.59881695,
+          24.894257425
+        ]
+      },
+      "properties": {
+        "pop": 1238,
+        "flats": 1,
+        "building_area": 838.17,
+        "housenumber_count": 0,
+        "building": "detached"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.59886315,
+          24.893928225
+        ]
+      },
+      "properties": {
+        "pop": 4971,
+        "flats": 4,
+        "building_area": 867.19,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.59862505,
+          24.893755125
+        ]
+      },
+      "properties": {
+        "pop": 4816,
+        "flats": 4,
+        "building_area": 350.34,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.59891415,
+          24.893667525
+        ]
+      },
+      "properties": {
+        "pop": 4914,
+        "flats": 4,
+        "building_area": 317.59,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.59866475,
+          24.893477425
+        ]
+      },
+      "properties": {
+        "pop": 4852,
+        "flats": 4,
+        "building_area": 782.66,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.59816221666667,
+          24.891914566666667
+        ]
+      },
+      "properties": {
+        "pop": 4780,
+        "flats": 4,
+        "building_area": 2833.32,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.598502425,
+          24.892321775
+        ]
+      },
+      "properties": {
+        "pop": 5079,
+        "flats": 4,
+        "building_area": 1942.92,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.60044928333333,
+          24.8921328
+        ]
+      },
+      "properties": {
+        "pop": 4939,
+        "flats": 4,
+        "building_area": 2546.03,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.600597375,
+          24.891906775
+        ]
+      },
+      "properties": {
+        "pop": 4885,
+        "flats": 4,
+        "building_area": 1157.38,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.60121000000001,
+          24.8917842
+        ]
+      },
+      "properties": {
+        "pop": 4750,
+        "flats": 4,
+        "building_area": 568.69,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.599119675,
+          24.8932615
+        ]
+      },
+      "properties": {
+        "pop": 4879,
+        "flats": 4,
+        "building_area": 703.79,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.599260625,
+          24.893471525
+        ]
+      },
+      "properties": {
+        "pop": 5025,
+        "flats": 4,
+        "building_area": 748.25,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.5980818,
+          24.8938649
+        ]
+      },
+      "properties": {
+        "pop": 4816,
+        "flats": 4,
+        "building_area": 2069.41,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.59827167272728,
+          24.89443769090909
+        ]
+      },
+      "properties": {
+        "pop": 4798,
+        "flats": 4,
+        "building_area": 2735.44,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.5976094909091,
+          24.894410354545457
+        ]
+      },
+      "properties": {
+        "pop": 4790,
+        "flats": 4,
+        "building_area": 2872.43,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.600919375,
+          24.8925665
+        ]
+      },
+      "properties": {
+        "pop": 4910,
+        "flats": 4,
+        "building_area": 5675.23,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.574172,
+          24.905191
+        ]
+      },
+      "properties": {
+        "pop": 4868,
+        "flats": 4,
+        "building_area": 19535.29,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.5772017111111,
+          24.9118155
+        ]
+      },
+      "properties": {
+        "pop": 4957,
+        "flats": 4,
+        "building_area": 8100.32,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.57268405,
+          24.914049592857143
+        ]
+      },
+      "properties": {
+        "pop": 4770,
+        "flats": 4,
+        "building_area": 45837.23,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.57278358571429,
+          24.9149515
+        ]
+      },
+      "properties": {
+        "pop": 4795,
+        "flats": 4,
+        "building_area": 8507.96,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.57721083333333,
+          24.91245205
+        ]
+      },
+      "properties": {
+        "pop": 4736,
+        "flats": 4,
+        "building_area": 3977.48,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.58103092000002,
+          24.90993666
+        ]
+      },
+      "properties": {
+        "pop": 4853,
+        "flats": 4,
+        "building_area": 3632.79,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.58328291666668,
+          24.908330000000003
+        ]
+      },
+      "properties": {
+        "pop": 4787,
+        "flats": 4,
+        "building_area": 3787.67,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.67514663333333,
+          24.87948636666667
+        ]
+      },
+      "properties": {
+        "pop": 4814,
+        "flats": 4,
+        "building_area": 828.27,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.6761139625,
+          24.8800296625
+        ]
+      },
+      "properties": {
+        "pop": 4847,
+        "flats": 4,
+        "building_area": 662.93,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.6770112,
+          24.8797790625
+        ]
+      },
+      "properties": {
+        "pop": 4864,
+        "flats": 4,
+        "building_area": 662.76,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.675666925,
+          24.8797973
+        ]
+      },
+      "properties": {
+        "pop": 4870,
+        "flats": 4,
+        "building_area": 591.53,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.67656855,
+          24.8802439
+        ]
+      },
+      "properties": {
+        "pop": 4845,
+        "flats": 4,
+        "building_area": 663.76,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.67655605714286,
+          24.87972407142857
+        ]
+      },
+      "properties": {
+        "pop": 4770,
+        "flats": 4,
+        "building_area": 1167.45,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.677112725,
+          24.880355625
+        ]
+      },
+      "properties": {
+        "pop": 4986,
+        "flats": 4,
+        "building_area": 876.02,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.6778783,
+          24.880142525
+        ]
+      },
+      "properties": {
+        "pop": 4855,
+        "flats": 4,
+        "building_area": 1175.57,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.67590993333333,
+          24.878993683333334
+        ]
+      },
+      "properties": {
+        "pop": 4899,
+        "flats": 4,
+        "building_area": 896.78,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.6762054,
+          24.879432225
+        ]
+      },
+      "properties": {
+        "pop": 4909,
+        "flats": 4,
+        "building_area": 663.42,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.6762667,
+          24.878633425
+        ]
+      },
+      "properties": {
+        "pop": 4802,
+        "flats": 4,
+        "building_area": 2149.99,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.67530361428571,
+          24.879006285714286
+        ]
+      },
+      "properties": {
+        "pop": 4731,
+        "flats": 4,
+        "building_area": 1627.05,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.67877715,
+          24.880415025
+        ]
+      },
+      "properties": {
+        "pop": 4854,
+        "flats": 4,
+        "building_area": 773.63,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.67759210000001,
+          24.879733233333337
+        ]
+      },
+      "properties": {
+        "pop": 4809,
+        "flats": 4,
+        "building_area": 944.49,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.6787454875,
+          24.8799236875
+        ]
+      },
+      "properties": {
+        "pop": 4853,
+        "flats": 4,
+        "building_area": 2757.92,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.67768585,
+          24.879280525
+        ]
+      },
+      "properties": {
+        "pop": 4813,
+        "flats": 4,
+        "building_area": 2715.54,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.67891794444444,
+          24.88104502222222
+        ]
+      },
+      "properties": {
+        "pop": 4961,
+        "flats": 4,
+        "building_area": 741.21,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.6777693111111,
+          24.880878144444445
+        ]
+      },
+      "properties": {
+        "pop": 4825,
+        "flats": 4,
+        "building_area": 698.52,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.67838781111111,
+          24.881174344444446
+        ]
+      },
+      "properties": {
+        "pop": 4853,
+        "flats": 4,
+        "building_area": 698.52,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.67815755,
+          24.880580925
+        ]
+      },
+      "properties": {
+        "pop": 4835,
+        "flats": 4,
+        "building_area": 773.63,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.67927864444444,
+          24.88047932222222
+        ]
+      },
+      "properties": {
+        "pop": 4757,
+        "flats": 4,
+        "building_area": 741.21,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.67789562499999,
+          24.8728487125
+        ]
+      },
+      "properties": {
+        "pop": 4858,
+        "flats": 4,
+        "building_area": 666.39,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.67880717777777,
+          24.872794044444444
+        ]
+      },
+      "properties": {
+        "pop": 4880,
+        "flats": 4,
+        "building_area": 677.03,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.67839992500001,
+          24.8730773125
+        ]
+      },
+      "properties": {
+        "pop": 4839,
+        "flats": 4,
+        "building_area": 666.39,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.67838520000001,
+          24.876265775
+        ]
+      },
+      "properties": {
+        "pop": 4824,
+        "flats": 4,
+        "building_area": 2331.5,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.67880155,
+          24.87536335
+        ]
+      },
+      "properties": {
+        "pop": 4971,
+        "flats": 4,
+        "building_area": 2120.82,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.67780957777778,
+          24.872320544444445
+        ]
+      },
+      "properties": {
+        "pop": 4848,
+        "flats": 4,
+        "building_area": 677.03,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.67824817777779,
+          24.872015144444443
+        ]
+      },
+      "properties": {
+        "pop": 4738,
+        "flats": 4,
+        "building_area": 677.03,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.6794187,
+          24.875632275
+        ]
+      },
+      "properties": {
+        "pop": 4843,
+        "flats": 4,
+        "building_area": 1617.8,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.67877857777778,
+          24.872296844444445
+        ]
+      },
+      "properties": {
+        "pop": 4728,
+        "flats": 4,
+        "building_area": 677.03,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.674355475,
+          24.864421450000002
+        ]
+      },
+      "properties": {
+        "pop": 4942,
+        "flats": 4,
+        "building_area": 665.02,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.67843587777777,
+          24.871382544444444
+        ]
+      },
+      "properties": {
+        "pop": 4819,
+        "flats": 4,
+        "building_area": 677.03,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.674199875,
+          24.865637749999998
+        ]
+      },
+      "properties": {
+        "pop": 4858,
+        "flats": 4,
+        "building_area": 555.09,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.6734849,
+          24.8659201
+        ]
+      },
+      "properties": {
+        "pop": 4945,
+        "flats": 4,
+        "building_area": 466.04,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.67915547777777,
+          24.871781244444445
+        ]
+      },
+      "properties": {
+        "pop": 4922,
+        "flats": 4,
+        "building_area": 677.03,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.6764431,
+          24.8618513
+        ]
+      },
+      "properties": {
+        "pop": 4965,
+        "flats": 4,
+        "building_area": 833.8,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.6758558,
+          24.861951400000002
+        ]
+      },
+      "properties": {
+        "pop": 4788,
+        "flats": 4,
+        "building_area": 643.72,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.67874937777778,
+          24.870919544444444
+        ]
+      },
+      "properties": {
+        "pop": 4920,
+        "flats": 4,
+        "building_area": 677.03,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.674974525,
+          24.865453799999997
+        ]
+      },
+      "properties": {
+        "pop": 4815,
+        "flats": 4,
+        "building_area": 1314.45,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.674832975,
+          24.86468975
+        ]
+      },
+      "properties": {
+        "pop": 4849,
+        "flats": 4,
+        "building_area": 665.02,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.6737757,
+          24.8654315
+        ]
+      },
+      "properties": {
+        "pop": 4827,
+        "flats": 4,
+        "building_area": 466.04,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.674067175,
+          24.86498135
+        ]
+      },
+      "properties": {
+        "pop": 4824,
+        "flats": 4,
+        "building_area": 665.02,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.67966147777777,
+          24.870842544444443
+        ]
+      },
+      "properties": {
+        "pop": 4850,
+        "flats": 4,
+        "building_area": 677.03,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.67659065000001,
+          24.86236615
+        ]
+      },
+      "properties": {
+        "pop": 4853,
+        "flats": 4,
+        "building_area": 616.21,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.675993725,
+          24.863331175
+        ]
+      },
+      "properties": {
+        "pop": 4816,
+        "flats": 4,
+        "building_area": 772.61,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.675917325,
+          24.862652675
+        ]
+      },
+      "properties": {
+        "pop": 4790,
+        "flats": 4,
+        "building_area": 772.61,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.674616125,
+          24.8660372
+        ]
+      },
+      "properties": {
+        "pop": 4834,
+        "flats": 4,
+        "building_area": 1314.45,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.67915427777777,
+          24.870595344444446
+        ]
+      },
+      "properties": {
+        "pop": 4915,
+        "flats": 4,
+        "building_area": 677.03,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.67951797777778,
+          24.871354544444443
+        ]
+      },
+      "properties": {
+        "pop": 4907,
+        "flats": 4,
+        "building_area": 677.03,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.675319325,
+          24.862972575
+        ]
+      },
+      "properties": {
+        "pop": 4881,
+        "flats": 4,
+        "building_area": 772.61,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.674526375,
+          24.865210249999997
+        ]
+      },
+      "properties": {
+        "pop": 4899,
+        "flats": 4,
+        "building_area": 555.09,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.67594925,
+          24.86145625
+        ]
+      },
+      "properties": {
+        "pop": 4934,
+        "flats": 4,
+        "building_area": 616.21,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.673925975,
+          24.86615365
+        ]
+      },
+      "properties": {
+        "pop": 5027,
+        "flats": 4,
+        "building_area": 665.02,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.676419575,
+          24.862914825
+        ]
+      },
+      "properties": {
+        "pop": 4748,
+        "flats": 4,
+        "building_area": 535.14,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.579561025,
+          24.910976825
+        ]
+      },
+      "properties": {
+        "pop": 4881,
+        "flats": 4,
+        "building_area": 1162.55,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.57883877500001,
+          24.911459775
+        ]
+      },
+      "properties": {
+        "pop": 4844,
+        "flats": 4,
+        "building_area": 873.22,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.58819095999999,
+          24.92235079
+        ]
+      },
+      "properties": {
+        "pop": 4878,
+        "flats": 4,
+        "building_area": 1500.64,
+        "housenumber_count": 0,
+        "building": "residential"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.5882512875,
+          24.921614125
+        ]
+      },
+      "properties": {
+        "pop": 4901,
+        "flats": 4,
+        "building_area": 1407.54,
+        "housenumber_count": 0,
+        "building": "residential"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.58835695,
+          24.921592925
+        ]
+      },
+      "properties": {
+        "pop": 4948,
+        "flats": 4,
+        "building_area": 543.98,
+        "housenumber_count": 0,
+        "building": "residential"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.58680045000001,
+          24.923192370000002
+        ]
+      },
+      "properties": {
+        "pop": 4959,
+        "flats": 4,
+        "building_area": 1888.36,
+        "housenumber_count": 0,
+        "building": "residential"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.67453007499999,
+          24.86074845
+        ]
+      },
+      "properties": {
+        "pop": 4776,
+        "flats": 4,
+        "building_area": 550.84,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.6749239,
+          24.8609134
+        ]
+      },
+      "properties": {
+        "pop": 4755,
+        "flats": 4,
+        "building_area": 628.47,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.675300975,
+          24.861118575
+        ]
+      },
+      "properties": {
+        "pop": 4888,
+        "flats": 4,
+        "building_area": 537.44,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.674412125,
+          24.861168675000002
+        ]
+      },
+      "properties": {
+        "pop": 4868,
+        "flats": 4,
+        "building_area": 1089.41,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.675030925,
+          24.8615814
+        ]
+      },
+      "properties": {
+        "pop": 4807,
+        "flats": 4,
+        "building_area": 597.16,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.674168025,
+          24.8616331
+        ]
+      },
+      "properties": {
+        "pop": 4821,
+        "flats": 4,
+        "building_area": 1320.63,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.6747554,
+          24.862109025
+        ]
+      },
+      "properties": {
+        "pop": 4786,
+        "flats": 4,
+        "building_area": 561.48,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.673904125,
+          24.862074550000003
+        ]
+      },
+      "properties": {
+        "pop": 4778,
+        "flats": 4,
+        "building_area": 1128.81,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.67432735,
+          24.86257395
+        ]
+      },
+      "properties": {
+        "pop": 4866,
+        "flats": 4,
+        "building_area": 1031.23,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.59106965,
+          24.919911575
+        ]
+      },
+      "properties": {
+        "pop": 4786,
+        "flats": 4,
+        "building_area": 132.1,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.59097855,
+          24.92018985
+        ]
+      },
+      "properties": {
+        "pop": 4848,
+        "flats": 4,
+        "building_area": 186.94,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.58627655384615,
+          24.915703546153846
+        ]
+      },
+      "properties": {
+        "pop": 1181,
+        "flats": 1,
+        "building_area": 1897.12,
+        "housenumber_count": 1,
+        "building": "yes"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.590998,
+          24.920035825
+        ]
+      },
+      "properties": {
+        "pop": 4949,
+        "flats": 4,
+        "building_area": 132.13,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.5911799,
+          24.920090925
+        ]
+      },
+      "properties": {
+        "pop": 4861,
+        "flats": 4,
+        "building_area": 232.48,
+        "housenumber_count": 0,
+        "building": "apartments"
+      }
+    }
+  ]
+}

@@ -1,0 +1,570 @@
+                                                               On the Role of Multi-Objective Optimization
+                                                                 to the Transit Network Design Problem
+                                                          Vasco Silva                                   Anna Finamore                               Rui Henriques*
+                                              vasco.dias.silva@tecnico.ulisboa.pt                annafinamore@gmail.com                        rmch@tecnico.ulisboa
+                                               INESC-ID and IST, Univ. Lisboa                  COPELABS, University Lusófona               INESC-ID and IST, Univ. Lisboa
+                                                                                                                                               *corresponding author
+
+                                         ABSTRACT                                                                  solutions [6, 7, 13]. Despite their relevance, non-dominated solu-
+                                         Ongoing traffic changes, including those triggered by the COVID-          tions generally fail at providing an optimal compromise between
+arXiv:2201.11616v1 [cs.LG] 27 Jan 2022
+
+
+
+
+                                         19 pandemic, reveal the necessity to adapt our public transport           all objectives, and existing works generally place strict assumptions
+                                         systems to the ever-changing users’ needs. This work shows that           on the variability of passenger demand. Second, complementary
+                                         single and multi objective stances can be synergistically combined        approaches pursue a Single Objective Optimization process by plac-
+                                         to better answer the transit network design problem (TNDP). Single        ing an weighted sum of all the target objectives [3, 10, 11, 14, 23].
+                                         objective formulations are dynamically inferred from the rating of        In this context, weights are generally placed in accordance with
+                                         networks in the approximated (multi-objective) Pareto Front, where        the perceived importance of each objective, and further normalized
+                                         a regression approach is used to infer the optimal weights of transfer    according to their ranges of values. However, objective relevance is
+                                         needs, times, distances, coverage, and costs. As a guiding case study,    further dependent on additional confounding factors, including the
+                                         the solution is applied to the multimodal public transport network        extent of possible improvements per objective, turning this classic
+                                         in the city of Lisbon, Portugal. The system takes individual trip         specification highly subjective.
+                                         data given by smartcard validations at CARRIS buses and METRO                 This work proposes explores why and how single and multi
+                                         subway stations and uses them to estimate the origin-destination          objective optimization approaches can be synergistically combined
+                                         demand in the city. Then, Genetic Algorithms are used, considering        to addressed the enumerated challenges associated with the TNDP
+                                         both single and multi objective approaches, to redesign the bus           problem. In this work, weights are dynamically inferred from rat-
+                                         network that better fits the observed traffic demand. The proposed        ings placed on non-dominated network solutions uniformly sam-
+                                         TNDP optimization proved to improve results, with reductions              pled along the Pareto front approximation. The network ratings are
+                                         in objective functions of up to 28.3%. The system managed to              thus used to replace subjective perceptions on the objectives’ rele-
+                                         extensively reduce the number of routes, and all passenger related        vance, providing decision makers with better options to perform
+                                         objectives, including travel time and transfers per trip, significantly   operational, tactic and strategic reforms in transport systems.
+                                         improve. Grounded on automated fare collection data, the system               An end-to-end methodology for the TNDP task from raw auto-
+                                         can incrementally redesign the bus network to dynamically handle          mated fare collection (AFC) data gathered from multimodal public
+                                         ongoing changes to the city traffic.                                      transport systems is further proposed, comprising principles for
+                                                                                                                   network processing, origin-destination matrix estimation, route
+                                                                                                                   generation, and efficient evaluation. Genetic Algorithms, consid-
+                                         1   INTRODUCTION                                                          ered within both single and multi objective approaches, are outlined
+                                         Mobility is a central aspect in modern societies, allowing people         to redesign the transport network. Grounded on AFC data, the opti-
+                                         to take part in a multitude of activities that are the identity of our    mized network can be dynamically revised in the presence of more
+                                         days. Worldwide Public Transport Systems are placing efforts to           recent validations to handle ongoing changes to the city traffic.
+                                         meet emerging changes to urban traffic demand pushed by the on-               As a guiding case study, the proposed tool is applied to the
+                                         going COVID-19 pandemic, increasing population at urban centers,          Lisbon’s public transport network in Portugal. The system takes
+                                         changing road infrastructures, among others. An efficient public          individual trip data given by smartcard validations at CARRIS buses
+                                         transport network is, in this context, further essential to meet in-      and trams, and METRO subway stations. The combined multiple-
+                                         dividuals’ needs, promoting a sustainable urban mobility along its        and-single optimization stance yields significant improvements in
+                                         environmental, social and economical axes. In particular, this work       the design of the CARRIS bus network, with reductions in objective
+                                         addresses the Transit Network Design Problem (TNDP), where an             functions up to 28.3%. The gathered results show the possibility
+                                         efficient (multimodal) traffic network is one guaranteeing: i) com-       of using available fleet more efficiently to better serve passenger
+                                         prehensive demand coverage, ii) low transfer rates and walking            demand, moderately reducing transfer needs and travel times, while
+                                         needs, iii) low travel times, iv) low waiting times, v) controlled        reducing the environmental impact of the network.
+                                         operator costs, vi) low environmental footprint, and viii) safety             The manuscript is structured as follows. Section 2 provides es-
+                                         guidelines such as maximum occupancy and recommended indi-                sential background on optimization tasks. Section 3 surveys state-
+                                         vidual distances.                                                         of-the-art contributions to the TNDP task. Section 4 describes the
+                                            State-of-the-art TNDP approaches, when faced with multiple             proposed end-to-end TNDP methodology. Section 5 discusses the re-
+                                         objectives, generally resort to one of two major options. First, an       sults gathered from its application Lisbon’s network. Finally, major
+                                         enumeration of solutions at the Pareto front using a Multi Objec-         concluding remarks are drawn.
+                                         tive optimization stance, providing decision makers with multiple
+                                                                                                                  V. Silva, A. Finnamore, R. Henriques
+
+
+2    BACKGROUND                                                            and mutation means randomly changing the genetic code of an
+Finding the best elements, x∗ , from a set of alternatives, X, ac-         individual to introduce variety and try to escape local minimums.
+cording to a set of criteria, 𝐹 = {𝑓1, 𝑓2, ..., 𝑓𝑚 } is the essence of     As a result, the quality of populations is expected to increase along
+optimization. x = {𝑥 1, 𝑥 2, ..., 𝑥𝑛 } is a set of what is called design   iterations. The Classic Genetic Algorithm was one of the first to use
+or decision variables. 𝑓𝑖 : X ↦→ 𝑌, (𝑖 = 1, 2, ...𝑚), with 𝑌 ⊆ R,          these principles in single objective optimization by John H. Holland
+are the criteria or objective functions. These problems can have           in 1976 [18]. The Non-dominated Sorting Genetic Algorithm II is a
+constraints that limit the values that the design variables can take.      multi objective optimization algorithm proposed by Deb et al. [9].
+We can formalize optimization problems as follows:                         These are the algorithms extended in the present work.
+
+                  minimize       𝑓𝑖 (x),   (𝑖 = 1, 2, ..., 𝑚)
+                     x ∈X
+                                                                           3   RELATED WORK
+            subject to ℎ 𝑗 (x) = 0,        (𝑗 = 1, 2, ..., 𝑜)        (1)
+                                                                           Newell [16] points out the non-convex properties of the Transit
+                       𝑔𝑘 (x) ≤ 0,         (𝑘 = 1, 2, ..., 𝑝) .            Network Design Problem (TNDP), showing for instance that chang-
+    In Single Objective Problems (𝑚=1), it is easier to distinguish the    ing bus frequency (operation costs) may not impact user costs. Baaj
+quality of solutions. The lower the value of that objective, the better    and Mahamassi [2] further highlights the hard combinatorial na-
+the solution. However, when we have more than one objective, such          ture of the problem caused by its discrete nature. In contrast with
+distinction becomes harder to make. For example, if we have two            bus frequencies, lightly depicted as numeric decision variables in
+solutions for a bi-objective problem, x1 and x2 , with 𝑓1 (x1 ) <          problem formulations, representation of network routes is more
+𝑓1 (x2 ) and 𝑓2 (x1 ) > 𝑓2 (x2 ), we may not be able to identify the       challenging. This makes Mixed Integer formulations, like the one
+best solution without subsequent inspection. In this context, a multi      proposed by Wan and Hong [21], rather ineffective to solve TNDP.
+objective problem can be converted into a single objective one by          In Wan and Hong’s formulation, the presence of each node in each
+creating a new objective function, generally defined as:                   route is modeled as a binary variable. This makes it so that a small
+                                   𝑚                                       network with 10 nodes and 19 links, ends up having 363 binary
+                        𝑓 ′ (x) =
+                                  ∑︁
+                                     𝑤𝑖 𝑓𝑖 (x) .                     (2)   decision variables, 30 integer decision variables and 303 continuous
+                                   𝑖 =1                                    decision variables when solving TNDP. In this context, metaheuris-
+   This formulation, however, limits the variety of solutions we can       tic approaches are necessary. While some works try to change the
+find since it does not reveal to the user where are the compromises        configuration of routes in a bus network. Others try to optimize
+between objectives. Pareto optimality becomes a relevant defini-           both the route configuration and their respective working frequen-
+tion when dealing with multi objective problems as it provides us          cies simultaneously, the so referred Transit Network Design and
+with a definition of optimality that considers multiple objectives.        Frequencies Setting Problem (TNDFSP). A significant number of
+A solution is Pareto optimal if we cannot improve one objective            works have taken different approaches to solve these problems.
+without damaging the quality of the remaining objectives. A Pareto            Most works reduce the problem to a single objective formulation
+optimal solution compromises the different objectives in an optimal        (Eq.2) and then solve the single objective variant [11], reducing the
+way. Different Pareto optimal solutions represent different balances       variety of solutions found by these works. Yu et al. [23] used Ant
+between the objectives. The set of all Pareto optimal solutions is         Colony Optimization to TNDP, maximizing passenger flow and
+called the Pareto frontier. Pareto optimality is tightly coupled to the    minimizing transfers. In their model, OD pairs work as the nest and
+definition of domination. A solution x1 dominates another solution         the food source for several sub-colonies and the pheromone trail is
+x2 , in which case, we write x1 ≺ x2 if, and only if:                      based on passenger density. They tested their work on an existing
+                                                                           network in the city of Dalian (3,200 links and 2,300 nodes with 89
+                 ∀𝑖 ∈ {0, ..., 𝑚} : 𝑓𝑖 (x1 ) ≤ 𝑓𝑖 (x2 ) ∧
+                                                                     (3)   lines), showing the possibility to reduce the number of lines to 61
+                ∃𝑗 ∈ {0, ..., 𝑚} : 𝑓 𝑗 (x1 ) < 𝑓 𝑗 (x2 ).                  without compromising satisfied demand. Pattnaik et al. [17] used
+   Now we can define the Pareto frontier, X∗ as the set of points          GA to solve TNDFSP, minimizing traveling times and operating
+that are not dominated by any other solution. In other words:              time of buses, given feasibility constraints. Their approach worked
+                                                                           in two phases, first a Candidate Route Set Generation Algorithm
+                  x∗ ∈ X∗ ⇔ x ∈ X : x ≺ x∗ .                   (4)        (CRGA) followed by the GA identification of optimal routes and
+   While Single Objective approaches try to find the best solution         frequencies based on Fixed and Variable String Length codifica-
+according to a single criteria, Multi Objective approaches approxi-        tions of routes. Bielli et al. [3] used GA to solve TNDFSP using
+mate the Pareto front to identify compromises between objectives           considerably different modeling principles. Bielli et al. use a fixed
+and assess their quality.                                                  length representation in which each chromosome is a network and
+   Genetic Algorithms (GA) are population-based optimization al-           each gene represents a pre-generated line with a frequency and
+gorithms with well-established success towards both Single and             an on/off switch that indicates whether the route is active in the
+Multi Objective ends. GA mimic nature’s evolutionary process. So-          network. This means that every pre-generated route will exist in
+lutions are individuals in a population represented as a string of         every network but with different frequencies and it can be active
+symbols that encode a solution for the problem we are trying to            or not. Their formulation places a weighted sum of efficacy, effi-
+solve. Individuals reproduce and mutate to give place to new in-           ciency and quality of service metrics. The work shows significant
+dividuals. Reproducing means combining the genetic code of two             improvements Parma city, Italy. Chien et al. [8] also used GA in the
+individuals to make new solutions that are based on their parents          context of TNDFSP but with a different goal: optimizing feeder bus
+On the Role of Multi-Objective Optimization to Transit Network Design
+
+
+routes. Feeder routes bring people from (to) several points to (from)   to transportation means; and the formulation of the targeted multi
+a central hub. Their objective function also minimizes user costs       and single objective approaches. An overview of the developed
+(access, waiting and in-vehicle costs) and operator costs (round trip   solution can be seen in Figure 1.
+time of the buses and the headway). They tested their approach in
+small networks and found that, when the parameters are properly         4.1    Preprocessing
+tuned, the GA can find the optimal route. Fan and Machemehl [10]
+                                                                        To run an optimization process on a bus network that operates on
+also used GA to solve TNDFSP. Their objective function considers,
+                                                                        top of a road network, we first have to have the available bus stops
+user costs, operator costs and unsatisfied total demand costs, with
+                                                                        as nodes on a the road network. That way, we can then define a
+the relative importance easily parameterized. Similarly to Pattnaik
+                                                                        bus route as a sequence of stops and assume that the buses travel
+et al., their approach uses Dijkstra’s algorithm and Yen’s k-shortest
+                                                                        between the stops through the optimal time path. The road network
+paths algorithm to generate routes between OD pairs. The authors
+                                                                        was retrieved from the Open Street Map (OSM) database through the
+show the role of GA methods against alternative population-based
+                                                                        OSMnx python package which gives us the network as a NetworkX
+methods. Jia et al. [14] tackles TNDP for the bus network in Xi’an,
+                                                                        graph. The stop locations were taken from the CARRIS General
+a city in Northwest China, showing the role of Complex Network
+                                                                        Transit Feed Specification (GTFS). Since the stops and networks are
+theory to improve sustainability and robustness without directly
+                                                                        built on inaccurate GPS readings, fixing the stops on the network
+modeling demand.
+                                                                        is a complex task. For that end, we used the work of Vuurstaek et
+   In contrast, a scarcer number of TNDP approaches place multi-
+                                                                        al. [20].
+objective optimization stances in order to find non-dominated so-
+                                                                            There are stops that exist in close proximity to others and whose
+lutions of potential interest, providing stakeholders with multiple
+                                                                        only purpose is to provide people with multiple boarding points
+options. Jha et al. [13] approximated the TNDFP Pareto front com-
+                                                                        so that stops do not become overcrowded. These usually serve
+bining average passenger time and operating costs using Intelligent
+                                                                        different routes, but from an optimization point of view, they are
+Water Drops (IWD) algorithm, a novel and tailored evolutionary
+                                                                        equivalent because they provide entry and alight points in the same
+optimization technique. Chen et al. [6] proposed a stochastic fram-
+                                                                        general areas. Because we have routes that are generated randomly,
+ing for multi-objective optimization for designing transportation
+                                                                        we want to have all these stops clustered under the same stop so
+networks under demand uncertainty. Arbex et al. [1] introduced
+                                                                        we do not generate redundant routes. To that end, two stops, 𝑢 and
+an Alternating Objective Genetic Algorithm (AOGA) to boost effi-
+                                                                        𝑣 are clustered into one if the edge (𝑢, 𝑣) exists in the road network
+ciency, in which the objectives are cyclically alternated along the
+                                                                        and has a cost of less than 100𝑚 and if 𝑑𝑒𝑔𝑖𝑛 (𝑣) = 1. We force the
+generations. Wang et al. [22] formulates the TNDP as a multi-level
+                                                                        edge (𝑢, 𝑣) to exist because, if a road node exists between the two
+task described by the skeleton network, arterial network, and feeder
+                                                                        stops, then that means that a route can go from 𝑢 to one other stop,
+network, proposing an hybrid heuristic approach. Despite the rele-
+                                                                        𝑤, without necessarily going through 𝑣, making it so that, if stops
+vance of multi-optimization stances to assess alternative solutions,
+                                                                        𝑢 and 𝑣 are clustered under the location of 𝑣, that route would be
+existing works generally focus on road developments and reforms
+                                                                        way longer than it should as it would go from 𝑣 to 𝑤. We force
+[4], including street constructions, lane additions, allocations and
+                                                                        𝑑𝑒𝑔𝑖𝑛 (𝑣) = 1 because if there is a route that goes from a third stop
+reorientations [15]. Zhang et al. [24] seek non-dominated solutions
+                                                                        𝑤 to 𝑣 and we cluster 𝑣 and 𝑢 under the location of 𝑢 then that
+for railway alignment considering costs and environmental im-
+                                                                        route would have to go from 𝑤 to 𝑢, potentially making it much
+pacts; Inti et al. pursued [12] non-dominated road developments
+                                                                        longer than what it, in fact, is. The 100𝑚 requirement is completely
+balancing environmental, economic and constructability factors;
+                                                                        adjustable and it is there only so we do not cluster stops on different
+and Sohn [19] identified road diet network solutions maximizing
+                                                                        ends of the same avenue. If stops 𝑢 and 𝑣 can be joined and stop 𝑣
+utility for cyclists with minimum impact on motorists.
+                                                                        can be joined with a third stop 𝑤, then all the stops can be joined
+   Despite the relevance of the surveyed principles, Single Objective
+                                                                        under the same cluster. We started with 2193 stops and managed
+stances depend on the subjective and difficult task of weighting
+                                                                        to reduce this number to 1786 using this criteria to join stops.
+conflicting objectives; while Multi Objective stances generally fail
+                                                                            The origin-destination estimation is also an essential step since
+at providing an adequate compromise between all objectives. In
+                                                                        buses require smartcard validation only upon entering. In this work,
+addition, most works focus on single transport modes and place
+                                                                        the estimators of Cerqueira et al. [5] were applied to produce OD
+strict demand assumptions, not assessing the impact of origin-
+                                                                        matrices which then serve as input to our optimization processes.
+destination demand variability, possibly given by all raw passenger
+trips in a (multimodal) transport system.
+                                                                        4.2    Relevant networks and interactions
+                                                                        In this work, we use several different graphs to represent everything
+4    SOLUTION AND PROBLEM FORMULATION                                   we need from the domain. It is then important to understand the
+This section introduces an end-to-end methodology to answer the         different types of graphs, what is their purpose, and how they
+targeted transit network design problem (TNDP), covering the            interact.
+essential aspects pertaining to: the inference of traffic demand           The road network, 𝐺𝑟 , has edges representing road segments
+from smart card validation; the consolidation of the road network       and nodes representing road junctions, road ends or bus stops.
+with the public transport networks from different operators; the           The bus network, 𝐺𝑏 , is the only one with several instances.
+definition of evolutionary operators and principles for the effective   This is the object of optimization and, as such, a genetic algorithm
+generation of routes; the assignment of origin-destination needs        population is filled with networks of this type, i.e. at each time step
+                                                                                                                    V. Silva, A. Finnamore, R. Henriques
+
+
+
+
+                                           Figure 1: Proposed route optimization methodology.
+
+
+𝑡, we will have a population 𝑃𝑡 = {𝐺𝑏1, 𝐺𝑏2, ..., 𝐺𝑏𝑛 }. These networks   Everyone moving between the same pair of squares is assumed to
+are built from a set of routes. A route is just a sequence of stops.      do so through the same trip. The trips are a result of a computation
+All the tram routes are included in the bus networks but they are         of time optimal paths in the complete network, 𝐺𝑐 , between all
+never interfered with during the optimization process. The edges          OD pairs. When a bus network is able to connect an origin and a
+in this network are identified by an origin stop, a destiny stop and      destination, it does so through a trip, which is a path in the complete
+a route making the connection.                                            network, 𝐺𝑐 . For further analysis of the trips, we can divide the trip
+   The metro network, 𝐺𝑚 , also has edges identified by an origin         into stages. There are three different kinds of stages, a bus stage, a
+station, a destiny station and a line color connecting the two. We        walking stage and a metro stage. Practically speaking, a bus stage
+want to assess what the use of the whole transportation network           is a path, along a single route, in the bus network, a metro stage is a
+would be like with the bus network under evaluation, so the metro         path, along a single line, in the metro network and a walking stage
+network must be present. It will not be changed and it is a singleton     is a single edge path that connects two bus stages or a metro stage
+network. The metro trains are assumed to travel at 60𝐾𝑚/ℎ.                and a bus stage. This distinction is important because, every time
+   Finally, the walking network, 𝐺 𝑤 , connects the bus network with      there is a stage change, we apply a transfer penalty and the path
+the metro network and close bus stops. It is assumed that people          cost increases. This penalty intends to simulate user’s preference
+are willing to walk up to 300𝑚 to transfer. The nodes are bus stops       for trips with less transfers if that doesn’t incur a big increase in
+or metro stations and the edges represent possible walks between          the overall trip time.
+them. The walks are assumed to be a straight line from the origin             Now, we establish important notation for sequent formulations:
+to the destiny. People are assumed to walk at 5𝐾𝑚/ℎ. This network
+is never changed.                                                             • 𝑊 𝑂 - the origin set of geographies;
+   During optimization, we integrate the bus network, under eval-             • 𝑊 𝐷 - the destiny set of geographies;
+uation, with the walking and metro networks, creating a complete              • 𝑊 - set of all origin-destination pairs;
+multimodal network, 𝐺𝑐 , in which trips that involve walking, bus             • 𝑞(𝑠, 𝑡) - amount of passengers traveling between 𝑠 and 𝑡;
+and metro can be planned.                                                     • 𝑅 - set of all routes in a bus network;
+                                                                              • T - set of all trips between all OD pairs,
+                                                                                T ={𝑇 (𝑠, 𝑡) | 𝑠 ∈ 𝑊 𝑂 , 𝑡 ∈ 𝑊 𝐷 };
+4.3    Network evaluation                                                     • 𝑇 (𝑠, 𝑡) - trip from 𝑠 to 𝑡, a sequence of stages,
+In order to assess transfer needs, travel times, waiting times and              𝑇 (𝑠, 𝑡) = (𝑇 0 (𝑠, 𝑡), . . . ,𝑇 𝑛 (𝑠, 𝑡)), where 𝑛 ∈ N+
+                                                                                                                                       0;
+all the other objectives we are striving to improve, we need to               • 𝑇 𝑘 (𝑠, 𝑡) - the 𝑘 𝑡ℎ stage on the trip from 𝑠 to 𝑡. It is defined as
+know how the public would use the transportation network under                  sequence of triplets of the form (𝑢, 𝑣, 𝑟 ) where 𝑢 and 𝑣 are
+evaluation. In this work, passengers are grouped according to their             adjacent stops or stations and 𝑟 is the route/line connecting
+origin-destination (OD) pair. To reduce computational complexity,               them or a special marker indicating that the path from 𝑢 to
+OD units are not individual bus stops or metro stations, instead                𝑣 was made by foot;
+Lisbon is divided into a 30×30 grid and the squares are the OD units.         • 𝑇𝑏𝑢𝑠 (𝑠, 𝑡) - bus stages in the trip from 𝑠 to 𝑡;
+On the Role of Multi-Objective Optimization to Transit Network Design
+
+
+      • 𝑇𝑚𝑒𝑡𝑟𝑜 (𝑠, 𝑡) - metro stages in the trip from 𝑠 to 𝑡;                      a random route in the network with a random route in the route
+      • 𝑇𝑤𝑎𝑙𝑘 (𝑠, 𝑡) - walking stages in the trip from 𝑠 to 𝑡;                     pool.
+      • 𝑡(𝑠, 𝑡) - travel time between nodes 𝑠 and 𝑡,                                  There are two types of generated routes, hub connectors and
+        i.e. 𝑡(𝑠, 𝑡) = 𝑡𝑖𝑛𝑣 (𝑠, 𝑡) + 𝑡 𝑤𝑎𝑖 (𝑠, 𝑡) + 𝑡 𝑤𝑎𝑙 (𝑠, 𝑡);                  traversal routes. Hub connectors are routes connecting the busiest
+      • 𝑡𝑖𝑛𝑣 (𝑠, 𝑡) - in-vehicle time between nodes 𝑠 and 𝑡;                       stops through the shortest paths and traversal routes are longer
+      • 𝑡 𝑤𝑎𝑖 (𝑠, 𝑡) - waiting time between nodes 𝑠 and 𝑡;                         routes whose purpose is to enable easier connections between
+      • 𝑡 𝑤𝑎𝑙 (𝑠, 𝑡) - walking time between nodes 𝑠 and 𝑡;                         opposite sides of the city.
+      • 𝑓𝑟 - frequency of service in route 𝑟 (in buses/hour);
+      • 𝑡𝑟 - time it takes for a bus to go from the starting station to            4.5    Single objective formulations
+        the terminal station in a given route;
+      • 𝑙𝑟 - length of route 𝑟 ;                                                   After we assess the quality of the solutions that are given by the
+      • ℎ - the number of hours the network is active per day.                     multi objective formulations, we can have a sense of what we
+                                                                                   are looking for in a network. After we know that, we can try to
+  Now we can define some quality metrics regarding a bus network.                  get as close as possible to a global optimum that represents the
+The total length, TL, of a bus network is computed as:                             compromise we are looking for in a network. To this end, we will be
+                                    ∑︁                                             rating networks generated by NSGA-II. The rating will then serve
+                         𝑇 𝐿(𝐺𝑏 ) =    𝑙𝑟 .                   (5)
+                                                                                   as reference for a linear regression that will allow us to infer the
+                                            𝑟 ∈𝑅
+                                                                                   weights for a weighted single objective formulation (Equation 2)
+   The Unsatisfied Demand, UD, of a bus network is defined as:                     that stand for what we are looking for. We are trying to estimate:
+                         (𝑠,𝑡 ) ∈𝑊 𝑞(𝑠, 𝑡) × CO(𝐺𝑏 , 𝑠, 𝑡)
+                       P
+        𝑈 𝐷(𝐺𝑏 ) = 1 −           P                         ,  (6)                                      w = (𝑤 0, 𝑤 1, 𝑤 2, . . . , 𝑤𝑚 )𝑇 ,                       (10)
+                                   (𝑠,𝑡 ) ∈𝑊 𝑞(𝑠, 𝑡)
+                                                                                   so that we can have a finely tuned objective function, aligned with
+where 𝐶𝑂(𝐺𝑏 , 𝑠, 𝑡), the cover function, is one if the bus network                 the perceived needs:
+𝐺𝑏 provides, along with the rest of the transportation network, a
+                                                                                                                          𝑚
+connection between the origin 𝑠 and destiny 𝑡 within a number of                                      𝑓 (𝐺𝑏 ) = 𝑤 0 +
+                                                                                                                          ∑︁
+                                                                                                                                 𝑤𝑖 𝑓𝑖 (𝐺𝑏 )   .                 (11)
+transfers bellow the maximum allowed and zero otherwise.                                                                  𝑖 =1
+   In vehicle time (IVT) is computed as follows:
+                                                                                      To this end, the find the best weight vector w such that a given
+                             ∑︁
+               𝐼𝑉𝑇 (𝐺𝑏 ) =        𝑡𝑖𝑛𝑣 (𝑠, 𝑡) · 𝑞(𝑠, 𝑡) .       (7)                error function, 𝐸(w), is minimized. The error functions measure
+                                (𝑠,𝑡 ) ∈𝑊                                          the difference between the target and estimated values,
+  The Average Number of Transfers per passenger, ANT, is com-
+                                                                                                                𝑦(x) = w𝑇 · x .                                  (12)
+puted as follows:
+                                                                                      Minimizing the error is also an optimization problem, but in
+                        (𝑠,𝑡 ) ∈𝑊 (|𝑇 (𝑠, 𝑡)|−|𝑇𝑤𝑎𝑙𝑘 (𝑠, 𝑡)|−1)𝑞(𝑠, 𝑡)
+                    P
+                                                                                   this case, ∇𝐸(w) = 0 is solvable when considering a squared error
+   𝐴𝑁𝑇 (𝐺𝑏 ) =                      P                                    .   (8)
+                                        (𝑠,𝑡 ) ∈𝑊 𝑞(𝑠, 𝑡)                          function, with optimal weights given by:
+
+                                                                                                           w = (𝑋 𝑇 · 𝑋 )−1 · 𝑋 𝑇 · t ,                          (13)
+4.4     Problem formulation and modeling
+Now, we can define the optimization problems to solve. The topol-                  where 𝑋 is the design matrix. Assuming that we have 𝑛 bus net-
+ogy optimization or the Transit Network Design Problem (TNDP)                      works from the NSGA-II algorithm, we have, for our particular
+is modeled as:                                                                     TNDP problem:
+
+   minimize 𝑇 𝐿(𝐺𝑏 ),           𝑈 𝐷(𝐺𝑏 ),      𝐼𝑉𝑇 (𝐺𝑏 ),   𝐴𝑁𝑇 (𝐺𝑏 ),                    1
+                                                                                          
+                                                                                                    (1)
+                                                                                               TL(𝐺𝑏 )
+                                                                                                                    (1)
+                                                                                                              UD(𝐺𝑏 )        IVT(𝐺𝑏 )
+                                                                                                                                       (1)               (1) 
+                                                                                                                                                   ANT(𝐺𝑏 )
+        𝐺𝑏                                                                                
+                                                                                                                                                            
+                                                                                                                                                            
+   subject to 𝑙𝑟 ≤ MAX_ROUTE_LEN ∀𝑟 ∈ 𝑅,                                                  
+                                                                                          
+                                                                                                   (2)            (2)             (2)
+                                                                                                                                                             
+                                                                                                                                                        (2) 
+                                                                                    𝑋 = 1      TL(𝐺𝑏 )        UD(𝐺𝑏 )        IVT(𝐺𝑏 )              ANT(𝐺𝑏 )
+                                                                                          
+                                                                                                                                                                 (14)
+                                                                                          
+                  𝑙𝑟 ≥ MIN_ROUTE_LEN ∀𝑟 ∈ 𝑅,                                 (9)          
+                                                                                        ..         ..            ..              ..                ..
+                                                                                                                                                            
+                                                                                                                                                           
+                                                                                                                                                           
+                  |𝑅|≤ MAX_NUMBER_ROUTES,                                                .
+                                                                                          
+                                                                                          
+                                                                                                    .             .               .                 .       
+                                                                                                                                                            
+                                                                                                                                                            
+                                                                                                     (𝑛 )          (𝑛 )            (𝑛 )              (𝑛 ) 
+                  |𝑅|≥ MIN_NUMBER_ROUTES.                                                 1
+                                                                                          
+                                                                                          
+                                                                                              TL(𝐺𝑏 )        UD(𝐺𝑏 )        IVT(𝐺𝑏 )          ANT(𝐺𝑏 )
+
+    In terms of genetic modeling, our proposal uses principles similar             and
+to the ones proposed by Pattnaik et al. [17] VSLC. We have a route                      
+                                                                                                  (1)            (2)                    (𝑛 ) 𝑇
+                                                                                                                                             
+pool which has the original routes found in the CARRIS network                      t = 𝑚𝑎𝑥 − 𝑟 (𝐺𝑏 ), 𝑚𝑎𝑥 − 𝑟 (𝐺𝑏 ), . . . , 𝑚𝑎𝑥 − 𝑟 (𝐺𝑏 ) , (15)
+and a set of generated routes. Every network has all the tram routes
+                                                                                              (𝑖 )
+(fixed routes) that are in the original CARRIS network.                            where 𝑟 (𝐺𝑏 ) is the average rating given to the 𝑖 𝑡ℎ network and
+    The initial population is an array of randomly sized networks                  𝑚𝑎𝑥 is the maximum rating a network can be given. The target for
+with routes randomly selected from the route pool. We never com-                   each network is 𝑚𝑎𝑥 minus its rating because we want the objective
+mit to a predefined size. Route insertion and deletion operators are               function to be minimized and so, the better the rating, the lower
+introduced in the mutation process. Mutating consists of swapping                  the objective function value should be.
+                                                                                                                    V. Silva, A. Finnamore, R. Henriques
+
+
+5   RESULTS
+In this work, we work with traffic data from October 2019. The
+CARRIS bus network deployed at that time can be seen in Figure
+2. The network has 309 routes and 2,193 stops. Each route has, on
+average, 26.2 stops and each station, on average serves 3.7 routes.
+For the month of October 2019, we have 6.2 million smartcard
+validations at the bus entrances, spanning 4 days. These validations,
+as well as validations on the Metro network, are used as the input
+for the work of Cerqueira et al. [5] for inferring the OD demand.
+
+
+
+
+                                                                        Figure 3: Comparing individual objectives of networks from Multi
+                                                                        Objective Optimization and Single Objective Optimization. "lisbon"
+                                                                        is the original bus network. "wei" was obtained in a single objective
+                                                                        optimization considering the weighted function. "uni" was obtained
+                                                                        in a single objective optimization considering the uniform function.
+                                                                        The remaining networks resulted from NSGA-II.
+
+
+                                                                        length of the routes and not in the number of routes. The average
+                                                                        route length varies from 9.5𝐾𝑚 to 13.3𝐾𝑚 and presents a bimodal
+                                                                        distribution with peaks around the 10.5𝐾𝑚 and 12.5𝐾𝑚 marks.
+Figure 2: CARRIS network (blue) in October 2019 over the
+                                                                           All the networks present a total length bellow the original net-
+road network and Lisbon METRO network (orange).
+                                                                        work but no network is capable of satisfying demand better. In
+                                                                        terms of in-vehicle time and average transfers, there are networks
+    The results presented in this section were obtained with genetic    in the Pareto Front capable of more direct and shorter trips but there
+algorithm experiments ran during 300 iterations, with a population      are also networks that demand longer trips and a higher transfer
+size of 200, a mutation probability of 0.1 and, when applicable, a      rate.
+crossover probability of 0.8. These parameters were decided by             Four experts were asked to rate the networks selected from 1 to
+doing sensibility analysis on a smaller data sample.                    10. The average ratings for each network are depicted in Table 2.
+    The networks that we discuss in this section were obtained with
+the NSGA-II algorithm. The maximum allowable number of routes                        network     𝑛0       𝑛 24    𝑛 49    𝑛 74      𝑛 99
+is 400 and the minimum is 200. A sample of 9 networks was chosen                       rating    7.5       3.5      5     5.75      3.25
+for a careful examination and their objective function values can                    network    𝑛 124     𝑛 149   𝑛 174   𝑛 199
+be seen side by side in Figure 3. These were subjected to a rating                     rating     6        7.5     5.5     4.5
+on a scale of 1 to 10 so that we can infer the weights for a single     Table 2: Average rating of each network obtained with the NSGA-II
+objective optimization process. The networks are identified by their    algorithm.
+order in the crowd distance sorting. The number of routes in each
+network can be seen in Table 1.                                           After the linear regression we get the following weights:
+
+             network    lisbon    𝑛0     𝑛 24    𝑛 49    𝑛 74                    𝑤0             𝑤1           𝑤2           𝑤3            𝑤4
+          route count    309      201     200     200     209                   −15.85     1.04 × 10−06     53.13    7.75 × 10−09      72.38
+             network     𝑛 99    𝑛 124   𝑛 149   𝑛 174   𝑛 199
+          route count    200      207     232     200     200
+                                                                           Table 3: Objective function weights after Linear Regression.
+Table 1: Number of routes per network using the NSGA-II algo-
+rithm.
+                                                                           We ran a Classic GA with the weights in Table 3. We ran the
+                                                                        Classic GA again, but with the individual objectives summed and
+                                                                        normalized with a min-max normalization so we could see the
+   The big majority of the networks has a number of routes very
+                                                                        differences between the quality of the solutions when we emphasize
+close to the minimum allowable number of routes. The network
+                                                                        different objectives against uniform weights. The objective function
+with the maximum number of routes is composed of 256 routes.
+                                                                        in this case becomes:
+We were expecting a more diverse set of networks when it comes
+to the number of routes, however the number of routes is not an                                      ∑︁𝑚 𝑓 (𝐺 ) − min (𝑓 )
+                                                                                                           𝑖 𝑏             𝑖
+objective, instead we opted to use the total length of the network                       𝑓 (𝐺𝑏 ) =                              .                  (16)
+                                                                                                     𝑖 =1 max (𝑓𝑖 ) − min (𝑓𝑖 )
+as a measure of route efficiency so the diversity lies in the average
+On the Role of Multi-Objective Optimization to Transit Network Design
+
+
+
+
+                                                                        Figure 6: Differences in travel time from the original network to
+                                                                        the best network.
+
+
+
+
+Figure 4: Average objective value along the iterations for the Single
+Objective GA considering Weighted function in blue and the Uni-
+form function in orange.
+
+
+
+
+                                                                        Figure 7: Differences in transfers from the original network to the
+                                                                        best network.
+
+
+                                                                        by the new network. Most of the passengers has their traveling
+                                                                        time unaffected (differences of up to 2.5 are not considered) but
+Figure 5: Weighted Objective Function Value for the original net-       the majority of trips in which there are significant changes were
+work and the networks obtained through optimization.                    positively affected. The network also enabled more direct trips as
+                                                                        seen in Figure 7. No passenger had their trips increased in more
+   The average weighted objective function value over the algo-         than one stage and the passengers that had stages cut off their
+rithm iterations can be seen in Figure 4 for both experiments ran.      trips are more than double of the ones that have to transfer one
+According to the criteria we set when rating the networks, when         additional time now, some even cut two transfers off their trips.
+we use the weighted objective function, a Single Objective GA is        In these histograms, the central bar is omitted because the total
+able to produce networks that are better than the best network we       amount of passengers is 566𝐾, which would make the differences
+got from the Multi Objective Optimization after about 60 iterations.    between the smaller bars imperceptible. For the big majority of
+When we use a uniform weight distribution with normalized objec-        passengers, travel times and transfers remained the same. This is
+tives we can reach a level of quality superior to the Multi Objective   due to the big majority of traffic happening in the center of Lisbon
+Optimization, yet only after about 200 iterations.                      in which most trips are already direct with the existing network.
+   In Figure 5 we can see the individual objectives of the networks     The new network is not able to satisfy as many trips as the original
+obtained through Single Objective Optimization side by side with        network but the difference is marginal. In general, the new network
+the ones selected from the Multi Objective Optimization and the         is able to provide a similar service to the one provided in the original
+original CARRIS network. Both networks obtained with Single             network, but does so in a much more efficient way, using less routes.
+Objective Optimization have 200 routes. The highest rated network
+was network 0 and, as we can see, the network obtained with             6   CONCLUSION
+the weights from the linear regression trumps that network in           In this work, we propose an end-to-end system to redesign a (mul-
+every objective. The network obtained with uniform weights and          timodal) transport network using OD demand inferred from smart-
+normalized objectives does not achieve the same success in the          card validations. The target system synergistically integrates the po-
+number of transfers but it manages to have smaller total length         tentialities of multiple and single objective optimization approaches
+than the network obtained with a weighted function.                     to address the core difficulty associated with the formulation of
+   The best network obtained through optimization has 200 routes,       weighting schema. The TNDP problem is modeled as an evolution-
+109 less than the original network which translates in a difference     ary problem, where solutions in the Pareto front are firstly identified
+of around 1300𝐾𝑚 that no longer have to be traveled by the buses.       with a multi objective algorithm. A comparative rating of solutions
+In Figure 6 we can see the differences in travel times imposed          drawn from the Pareto front is used to produce the weighting
+                                                                                                                           V. Silva, A. Finnamore, R. Henriques
+
+
+schema for single objective formulations through a (linear) regres-       REFERENCES
+sion model. In the context of our work, the targeted objectives            [1] Renato Oliveira Arbex and Claudio Barbieri da Cunha. 2015. Efficient transit net-
+are the unsatisfied demand, in-vehicle time, transfer needs, and               work design and frequencies setting multi-objective optimization by alternating
+                                                                               objective genetic algorithm. Transportation Research Part B: Methodological 81
+the total length of the network as a proxy for the operator’s costs            (2015), 355–376.
+and environmental footprint. We further consider safety capacity           [2] M Hadi Baaj and Hani S Mahmassani. 1991. An AI-based approach for transit
+                                                                               route system planning and design. Journal of advanced transportation 25, 2 (1991),
+concerns and walking distances in transfers as parameterizable                 187–209.
+constraints.                                                               [3] Maurizio Bielli, Massimiliano Caramia, and Pasquale Carotenuto. 2002. Genetic
+   Overall, the application of the proposed system over the Lis-               algorithms in bus network optimization. Transportation Research Part C: Emerging
+                                                                               Technologies 10, 1 (2002), 19–34.
+bon’s public transport network showed moderate improvements                [4] Willem Karel M Brauers, Edmundas Kazimieras Zavadskas, Friedel Peldschus,
+in passenger-related objectives while massive improvements in                  and Zenonas Turskis. 2008. Multi-objective decision-making for road design.
+operator-related objectives. According to the placed criteria, the             Transport 23, 3 (2008), 183–193.
+                                                                           [5] Sofia Cerqueira, Elisabete Arsénio, and Rui Henriques. 2021. Inference of Dynamic
+best network in the Pareto Front approximation reduces the orig-               Origin-Destination Matrices with Trip and Transfer Status from Individual Smart
+inal network objective function in 23.1% and the network built                 Card Data. European Transport Conference (ETC), Milan, Italy (2021).
+                                                                           [6] Anthony Chen, Juyoung Kim, Seungjae Lee, and Youngchan Kim. 2010. Sto-
+through single objective optimization provides a 44.0% reduction               chastic multi-objective models for network design problem. Expert Systems with
+relative to the original network. This last reduction translates to a          Applications 37, 2 (2010), 1608–1619.
+34.6% reduction in total network length (from 309 routes 200), a           [7] Anthony Chen, Kitti Subprasom, and Zhaowang Ji. 2006. A simulation-based
+                                                                               multi-objective genetic algorithm (SMOGA) procedure for BOT network design
+5.1% reduction in average transfers, a slight reduction of in-vehicle          problem. Optimization and Engineering 7, 3 (2006), 225–247.
+time and an increase of unsatisfied demand from 0.7% to 1.3%. The          [8] Steven Chien, Zhaowei Yang, and Edwin Hou. 2001. Genetic algorithm approach
+transition from Multi Objective to Single Objective optimization               for transit route planning and design. Journal of transportation engineering 127,
+                                                                               3 (2001), 200–207.
+proved effective. With a Single Objective optimization considering         [9] Kalyanmoy Deb, Amrit Pratap, Sameer Agarwal, and TAMT Meyarivan. 2002. A
+the weights inferred through our rating process being able to pro-             fast and elitist multiobjective genetic algorithm: NSGA-II. IEEE transactions on
+                                                                               evolutionary computation 6, 2 (2002), 182–197.
+duce better networks than the best one in the Pareto Front after          [10] Wei Fan and Randy B. Machemehl. 2006. Optimal Transit Route Network Design
+60 iterations, while a Single Objective optimization considering a             Problem with Variable Transit Demand: Genetic Algorithm Approach. Journal
+uniform weighted sum of all objectives normalized achieved the                 of Transportation Engineering-asce 132, 1 (2006), 40–51.
+                                                                          [11] Reza Zanjirani Farahani, Elnaz Miandoabchi, W.Y. Szeto, and Hannaneh Rashidi.
+same only after 200 iterations.                                                2013. A review of urban transportation network design problems. European
+   This work shifts the focus from the subjective and difficult task of        Journal of Operational Research 229, 2 (2013), 281–302.
+weighting conflicting objectives towards the objective task of rating     [12] Sundeep Inti and Siddagangaiah Anjan Kumar. 2021. Sustainable road design
+                                                                               through multi-objective optimization: A case study in Northeast India. Trans-
+networks in accordance with their ability to satisfy the placed objec-         portation research part D: transport and environment 91 (2021), 102594.
+tives. In addition, the proposed system consistently combines state-      [13] Shashi Bhushan Jha, Jitendra Kumar Jha, and Manoj Kumar Tiwari. 2019. A
+                                                                               multi-objective meta-heuristic approach for transit network design and frequency
+of-the-art principles on network processing, origin-destination ma-            setting problem in a bus transit system. Computers & Industrial Engineering 130
+trix inference, route generation, and evolutionary approaches to               (2019), 166–186.
+optimization. Grounded on automated fare collection data, the sys-        [14] Guo-Ling Jia, Rong-Guo Ma, and Zhi-Hua Hu. 2019. Urban transit network
+                                                                               properties evaluation and optimization based on complex network theory. Sus-
+tem can be used to dynamically adapt the transport network in the              tainability 11, 7 (2019), 2007.
+presence of more recent traffic data, being able to handle ongoing        [15] Elnaz Miandoabchi, Reza Zanjirani Farahani, Wout Dullaert, and Wai Yuen Szeto.
+changes to the city traffic.                                                   2012. Hybrid evolutionary metaheuristics for concurrent multi-objective design
+                                                                               of urban road and public transit networks. Networks and Spatial Economics 12, 3
+   As lines of future work, we highlight the evaluation of the pro-            (2012), 441–480.
+posed methodology in other urban transport systems; a compre-             [16] Gordon F Newell. 1979. Some issues relating to the optimal design of bus routes.
+                                                                               Transportation Science 13, 1 (1979), 20–35.
+hensive assessment of the impact of placing objectives as bounded         [17] SB Pattnaik, S Mohan, and VM Tom. 1998. Urban bus transit route network
+constraints in the problem formulation; and the establishment of               design using genetic algorithm. Journal of transportation engineering 124, 4
+principles to assist with the necessary incremental network reforms            (1998), 368–375.
+                                                                          [18] Jeffrey R Sampson. 1976. Adaptation in natural and artificial systems (John H.
+to guarantee the successful translation of the redesigned networks.            Holland).
+                                                                          [19] Keemin Sohn. 2011. Multi-objective optimization of a road diet network design.
+                                                                               Transportation research part A: policy and practice 45, 6 (2011), 499–511.
+Acknowledgments. This work is supported by national funds                 [20] Jan Vuurstaek, Glenn Cich, Luk Knapen, Wim Ectors, Tom Bellemans, Davy
+through FCT under project ILU (DSAIPA/DS/0111/2018) and the                    Janssens, et al. 2018. GTFS bus stop mapping to the OSM network. Future
+                                                                               Generation Computer Systems (2018).
+INESC-ID pluriannual (UIDB/50021/2020).                                   [21] Quentin K Wan and Hong K Lo. 2003. A mixed integer formulation for multiple-
+                                                                               route transit network design. Journal of Mathematical Modelling and Algorithms
+                                                                               2, 4 (2003), 299–308.
+                                                                          [22] Chao Wang, Zhirui Ye, and Wei Wang. 2020. A multi-objective optimization and
+                                                                               hybrid heuristic approach for urban bus route network design. IEEE Access 8
+                                                                               (2020), 12154–12167.
+                                                                          [23] Bin Yu, Zhongzhen Yang, Chuntian Cheng, and Chong Liu. 2005. Optimizing bus
+                                                                               transit network with parallel ant colony algorithm. In Proceedings of the Eastern
+                                                                               Asia Society for Transportation Studies, Vol. 5. Citeseer, 374–389.
+                                                                          [24] Hong Zhang, Hao Pu, Paul Schonfeld, Taoran Song, Wei Li, Jie Wang, Xianbao
+                                                                               Peng, and Jianping Hu. 2020. Multi-objective railway alignment optimization
+                                                                               considering costs and environmental impacts. Applied Soft Computing 89 (2020),
+                                                                               106105.
+

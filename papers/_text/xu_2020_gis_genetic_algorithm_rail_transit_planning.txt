@@ -1,0 +1,1215 @@
+                                             Journal of Rail Transport Planning & Management 16 (2020) 100222
+
+
+                                                            Contents lists available at ScienceDirect
+
+
+                             Journal of Rail Transport Planning & Management
+                                               journal homepage: http://www.elsevier.com/locate/jrtpm
+
+
+
+
+GIS and genetic algorithm based integrated optimization for rail
+transit system planning
+Chro Ahmed a, *, Khalid Nur b, Washington Ochieng c
+a
+    Civil Engineering Department, University of Sulaimani, Kirkuk Road, Sulaimani, Iraq
+b
+    Connected Places Catapult, The Pinnacle, 170 Midsummer Boulevard, Milton Keynes, United Kingdom
+c
+    Centre for Transport Studies- Imperial College London, 434 Skempton Building, London, United Kingdom
+
+
+
+
+A R T I C L E I N F O                                     A B S T R A C T
+
+Keywords:                                                 Planning a rail transit system is a complex process involving the determination of station loca­
+Geographic information system                             tions and a network of lines linking those stations. This requires the consideration of various local
+Genetic algorithm                                         conditions, including travel demand patterns, land use patterns, land values, topography and soil
+Rail transit system planning
+                                                          conditions. This is in addition to the many interrelated requirements and constraints related to the
+Station locations
+Multi rail line
+                                                          rail transit system stakeholders necessitating the application of optimisation models in order to
+                                                          achieve reliable and cost-effective rail transit systems. This paper develops an integrated opti­
+                                                          misation model to simultaneously optimise the locations of stations and the associated line
+                                                          network linking them, using a geographic information system (GIS) and a genetic algorithm (GA).
+                                                          In addition to measuring the feasibility of station sites prior to the optimisation process, the
+                                                          developed model considers various local conditions and multiple planning requirements that arise
+                                                          from passengers, operators and the community.
+                                                             The proposed model is tested for robustness through a real-world case study of the City of
+                                                          Leicester in the UK. The results show that it can generate station locations and line network
+                                                          alignment that satisfy the various stakeholder requirements and constraints. A comparative
+                                                          analysis is also conducted to reveal the importance of measuring the feasibility of station sites
+                                                          prior to the optimisation process so as to direct the search process towards optimal solutions, as
+                                                          well as to compare individual and simultaneous optimisation methods for planning a rail transit
+                                                          system. The developed model can be used to speed up the planning process and improve decision-
+                                                          making in respect to selecting a reliable and cost effective solution.
+
+
+
+
+1. Introduction
+
+    The continuous growth of urban areas and associated need for mobility has stimulated the construction of new rail transit systems
+in many cities. Despite requiring substantial investment, such systems play a vital role in accommodating growth in travel demand,
+stimulating economic activities and providing fast, reliable and convenient service for those living on major corridors and seeking to
+access important activity areas. A basic problem with planning rail transit systems is determining the most economical locations of
+stations and configuration of rail lines linking the stations that can provide good service quality for passengers and benefits for the
+community. This requires the consideration of various local factors, including travel demand patterns, demography, topography and
+
+
+
+    * Corresponding author.
+      E-mail addresses: chro.ahmed@univsul.edu.iq (C. Ahmed), khalid.nur@cp.catapult.org.uk (K. Nur), w.ochieng@imperial.ac.uk (W. Ochieng).
+
+https://doi.org/10.1016/j.jrtpm.2020.100222
+Received 8 April 2019; Received in revised form 15 July 2020; Accepted 6 August 2020
+Available online 15 September 2020
+2210-9706/© 2020 Elsevier Ltd. All rights reserved.
+C. Ahmed et al.                                                                    Journal of Rail Transport Planning & Management 16 (2020) 100222
+
+
+existing transport networks while satisfying a set of constraints that arise from passenger, operator and community requirements. The
+complex correlations and interactions between this multiplicity of requirements means that optimisation models are necessary to
+achieve reliable and cost-effective planning solutions.
+    In general, four main objective functions are used to solve the rail transit system planning problem: passenger costs, operational
+costs, construction costs and the population or traffic coverage. Passenger costs cover journey travel time from the origin to the desired
+destination, and associated financial costs which include the cost of using the rail transit service and the cost of access to/from rail
+transit stations (Chien and Schonfeld, 1997; Van Nes and Bovy, 2000). The operational costs of a rail transit system are measured in
+unit cost per passenger-kilometre (De Rus, 2012; ORR, 2012; TfL, 2015) which refer to how much it costs a train operating company,
+on average, to move a passenger over 1 km. Typically, the construction of rail transit systems includes the costs associated with
+ensuring the right-of-way of the lines and stations, performing earthworks, fastening rails, building structures (e.g. bridges, tunnels,
+stations) and other such items. Finally, some rail transit system planning studies incorporate maximum population coverage into the
+optimisation framework (Dufourd et al., 1996; Bruno et al., 2002), while some others embed maximum trip coverage (Laporte et al.,
+2005; Gutiérrez-Jarpa et al., 2013).
+    A number of studies have cast the rail transit planning problem within the context of multi-objective optimisation (e.g. Laporte
+et al., 2011; Gutiérrez-Jarpa et al., 2013; Rashidi et al., 2016), while others have formulated it within the context of a single-objective
+optimisation (e.g. Dufourd et al., 1996; Laporte et al., 2005; Lai and Schonfeld, 2010; Costa et al., 2016). Multiple optimisation entails
+planning the system so as to provide primarily either: (i) minimum passenger costs and maximum population or traffic coverage or (ii)
+maximum population or traffic coverage and minimum construction costs. Single-objective optimisation, meanwhile, entails planning
+the system to provide either: (i) minimum passenger or operator costs subject to a budget constraint; (ii) maximum population or
+traffic coverage subject to a budget constraint; or (iii) maximum population or traffic coverage or minimum construction costs without
+subjecting this to any constraints.
+    The focus of single-objective optimisation methods on a particular aspect has the limitation of not achieving optimality in rail
+transit system design in which there are multiple factors to consider simultaneously. This paper develops and tests an integrated
+multiple-objective optimisation model for both the locations of stations and the line network linking them, using a geographic in­
+formation system (GIS) and a genetic algorithm (GA). The rest of the paper is structured as follows. Section 2 reviews the state-of-the-
+art in the development of models for rail transit system planning and highlights the associated gaps/limitations. Section 3 presents the
+framework of the proposed optimisation model. Section 4 demonstrates the application of the model in a real world case study. Section
+5 presents a sensitivity analysis to demonstrate the importance of the initial identification of the potential station locations for
+directing the search process towards optimal solutions, and compares individual and simultaneous optimisation methods for planning
+a rail transit system. Section 6 evaluates the goodness of the solutions obtained by the developed optimisation model, with concluding
+remarks in section 7.
+
+2. Literature review
+
+    Early studies on rail transit system planning mainly concentrated on the spacing between stations along a predetermined rail transit
+line. Vuchic and Newell (1968) developed an analytical model to determine spacing between stations in the case of a linear transit line
+where the served population commutes to one central point. With the objective of minimising passenger travel time, the model cal­
+culates interstation spacing by solving a set of simultaneous differential equations specifying the optimality condition. Since this model
+does not consider competitive transport modes, in a subsequent study, Vuchic (1969) proposed a similar model assuming a uniform
+distribution of passengers along the railway line, but taking account of competitive transport modes. The model calculates the optimal
+spacing between stations with the objective of maximising the number of railway passengers assuming that the passengers selected the
+system on the basis of shorter travel time. Subsequent work by Kikuchi and Vuchic (1982) developed a theoretical model to determine
+optimal station spacing and vehicle stopping policies for a rail transit system under different operating conditions. The objectives were
+minimum travel time and minimum total cost (user cost and vehicle operating cost) while considering factors like passenger volume,
+vehicle capacity, headway and access speed. The assumptions in these models of uniform distribution of the population along rail
+transit lines and commuting to a single central point are simplistic, however, and therefore these models have only limited practical
+applications.
+    Recent model improvements have involved more realistic assumptions and attempts to incorporate various planning and real world
+constraints. Dufourd et al. (1996) proposed a Tabu search heuristic to locate a rapid transit line with a known terminus linking a fixed
+number of stations on a grid network. With the objective of maximum population coverage, the model determines station locations,
+while the line alignment is generated according to the shortest path between the stations. Laporte et al. (2002) developed a model to
+locate a fixed number of stations on a predefined rail transit alignment with the objective to maximise population coverage, subject to a
+station spacing constraint. The model estimates the demand for each potential station by triangulation of census tracts, assuming that
+the percentage of the captured travellers decreases as their access distance increases. Schöbel et al. (2003) presented a model to locate
+additional stations along existing railway line networks. The objective of the model is to minimise the number (cost) of additional
+stations while ensuring coverage of all demand centres, assuming the traffic load for each railway line is known. The demand centre,
+which may represent activities such as a settlement area, shopping centre or a school, is assumed to be covered if the next station is
+within a specified radius from it. Schöbel (2005) extended the model to a bi-objective one where the maximisation of demand coverage
+is considered in parallel with the minimisation of the number of stations.
+    Schöbel and Scholl (2005) presented several models, using integer programming, to select a subset of lines from a line pool to
+connect several stations to minimise passenger inconvenience under a budget constraint. Passenger inconvenience is measured by the
+
+                                                                     2
+C. Ahmed et al.                                                                    Journal of Rail Transport Planning & Management 16 (2020) 100222
+
+
+travel time and number of transfers along the lines, where the cost of each line is assumed to be known a priori. Hamacher et al. (2009)
+also extended the Schöbel et al. (2003) model by proposing two objective functions. In the first objective, the number of stations is
+minimised such that all demand centres would be within a specified radius. In the second objective, the sum of the distances between
+demand centres and their closest stations is minimised while the number of new stations is fixed.
+    Laporte et al. (2011) developed a bi-objective model for determining optimal rail line networks and associated station locations.
+The model minimises a linear combination of the two objective functions, which consists of the construction cost and population
+covered by the network. Similarly, Gutiérrez-Jarpa et al. (2013) modelled and solved the problem of locating a rapid transit network in
+such a way as to maximise origin-destination traffic capture and minimise construction cost. A mixed integer formulation is presented
+to solve the problem, assuming a predefined topology of the network. To deal with both objectives, the problem is first solved for each
+objective separately, then a linear combination of the two objectives is minimised, corresponding to the straight line passing through
+the extreme solutions found. The construction cost of the network lines, meanwhile, is calculated as a linear function of their cor­
+responding length and the captured traffic demands are computed in the absence of other competing transport modes. Rashidi et al.
+(2016) presented a mixed integer optimisation model to determine optimal station locations in a network. Assuming a predefined
+topology of the network, the model seeks to maximise the traffic covered by the stations and minimise the total budget allocated. The
+travel demand is estimated using origin destination matrices considering access time and in-vehicle travel time. Similarly, van der
+Hurk et al. (2016) presented an optimisation model in which they use mixed integer programming to select shuttle lines and fre­
+quencies for planned closures in high frequency urban transportation networks. The model is formulated to select shuttle lines and
+frequencies from a predetermined pool of candidate shuttle lines and frequencies that minimise passenger inconvenience cost,
+including transfers and frequency-dependent waiting time costs, within a budget for operating cost. Carrizosa et al. (2016) extended
+the Hamacher et al. (2009) model by seeking a set of additional stations covering all demand centres. Instead of minimising the number
+of additional stations, the additional passenger travel time is minimised.
+    Some studies on optimal locations of rail transit stations have integrated geographic information system (GIS) and artificial
+intelligence-based optimisation techniques such as genetic algorithms (GA), simulated annealing and ant-colony systems. For example,
+Jha and Oluokun (2004) developed a preliminary model based on GA and GIS to determine station locations along a given rail line
+alignment. The objective of the model is to minimise total system cost assuming that all travellers commute to one central point.
+Samanta and Jha (2011), presented a two-stage analytical model to optimise the station locations for a single rail transit line. Assuming
+that the line alignment constituted a linear connection between stations, the model applies GA to obtain optimal locations and se­
+quences of stations. The objective of the optimisation is to minimise total system cost per person, which is a function of passenger travel
+time cost, system operation cost and construction cost (here, only the stations’ right-of-way costs), while ensuring that station spacing
+remained constrained. Costa et al. (2016) presented a heuristic optimisation model based on a simulated annealing algorithm to
+optimise a high speed rail (HSR) alignment and associated station locations that minimise an objective function considering con­
+struction costs. Similarly, using a heuristic solution algorithm based on GA integrated with a background GIS database, Lai and
+Schonfeld (2016) proposed a model for simultaneously optimising a rail line alignment and associated station locations connecting a
+pair of predefined terminal stations. The model is formulated to take into account both the maximisation of trip coverage and the
+minimisation of the system construction cost while satisfying the general geometry requirement of the line alignment and station
+spacing constraints. Li et al. (2017) proposed a model combining bidirectional distance transform (DT) and GA to optimise railway
+alignments in complex mountainous regions. The model consists of two stages. In the first stage the model generates various railway
+paths using bidirectional DT scanning, and then selects the path that can generate a corridor at the lowest cost. In the second stage, the
+model searches for an optimised alignment in the corridor using GA. In a subsequent study, Pu et al. (2019) built on this model to
+optimise a railway alignment and associated station locations concurrently. The objective of the optimisation is to minimise con­
+struction and operational costs while satisfying constraints on the coupling between railway alignment and station locations. As with
+most previous studies, however, this model is designed for a single rail line and, therefore, is not appropriate for the planning of rail
+systems with multiple lines. In addition, it disregards the other crucial aspects (beyond construction and operation costs) of rail transit
+system planning, such as passenger cost, traffic demand and competitive transport modes.
+    The aforementioned models address many aspects of rail transit system planning but have a number of constraints that limit their
+application. These include: (1) a lack of a feasibility phase to identify potential station locations. The models assume that candidate
+sites for rail transit stations can be located anywhere in the study area or along the rail transit line without considering the various
+geometric, environmental, topological and budget constraints. A feasibility study would avoid potential problems including locating
+stations in areas that are restricted, infeasible or incur unnecessary costs; (2) inappropriateness in the context of a multi-line rail
+network as the methods are designed for a single rail line; and (3) failure to account for the complex interactions between rail lines and
+station locations by treating line alignment and station location in separate optimisation processes.
+    This paper addresses these limitations by developing an integrated optimisation model using GA integrated with GIS tools to
+optimise the locations of stations in tandem with the line network linking them. Furthermore, the developed model measures the
+feasibility of station sites to determine a candidate pool of feasible station locations, and considers various local factors and the
+multiple planning requirements that arise from passengers, operators and the community. This model aims to help rail transit planners
+to expedite the planning process and improve decision-making in respect to selecting reliable and cost-effective solutions. The main
+contributions of this paper are:
+
+1. A new integrated optimisation model for planning a rail transit system that accounts for the various local conditions and re­
+   quirements that arise from the different stakeholders (i.e., passengers, operator and the community). This provides most benefit to
+   the area it serves through the mitigation of congestion and improvements in mobility, economic development and the environment.
+
+                                                                    3
+C. Ahmed et al.                                                                      Journal of Rail Transport Planning & Management 16 (2020) 100222
+
+
+
+
+                                         Fig. 1. Stages of the proposed integrated optimisation model.
+
+
+2. Consideration of the complex correlations and interactions between rail transit station locations and line alignments by integrating
+   these two tightly linked components in a single optimisation process, in addition to the simultaneous optimisation of multiple rail
+   lines. This is important for enhancing the system performance and minimising the overall system costs, and thus achieving a cost-
+   effective solution.
+3. Introduction of a model formulation process that addresses the essential trade-off between the objective of maximising rail system
+   usage and minimising passenger travel time on the one hand, and the objective of minimising the construction cost on the other
+   hand, while complying with various constraints. This trade-off is essential for the acquisition of a rail transit system that can
+   provide high service quality and benefits for both passengers and the whole community, with acceptable capital and operational
+   costs.
+
+3. The model framework
+
+    Since it is impractical to check the feasibility of every point in the study area as a potential station location, the model is broken
+down into two stages, as shown in Fig. 1. The first stage screens the study area to identify a pool of feasible station locations based on a
+comprehensive consideration of various local conditions and the multiple requirements of rail transit system planning. The second
+stage selects a subset of feasible stations from that pool and generates a network of lines to link these stations within the context of an
+integrated optimisation process to realise the final system configuration. The optimisation framework is designed to accommodate
+complex correlations and interactions between the multiple requirements of the rail transit system stakeholders (passengers, operators
+and the community) and to make trade-offs between them to achieve an optimal and cost-effective system. Although the model
+framework is specified for underground/metro rail systems with stations at ground level, it is adaptable to other variations of rail
+transit system planning.
+
+3.1. Stage 1: determination of potential rail transit station locations
+
+    This stage applies the following four main steps to generate the feasible rail transit station locations within the context of a GIS-
+based algorithm:
+    Step 1: divide the study area into cells and create a GIS layer (Ωs ) with attributes:
+    Ci feasibility of cell i to be a station (0- infeasible, 1-feasible)
+    It is assumed that each of the generated cells represents a potential location for a rail station. The size of each cell, therefore, should
+represent the typical size of a rail station.
+    Step 2: evaluate the locations of each of the cells generated in Step 1 with respect to the various local conditions and requirements
+of rail transit system planning, using their predefined respective datasets in ArcGIS. This consists of determining the following in
+respect to an area within a defined walking distance of each potential station site: (i) number of airport terminals and existing rail
+stations, (ii) number of car parking facilities, (iii) number of bus stops, (iv) average area of land devoted to commercial landuse, (v)
+average population density, (vi) average land value, and, (vii) average proportion of land that is deprived or undeveloped. The use of
+the average values in some of these parameters, instead of using standard deviations, is based on assuming a uniform distribution of
+their values within the defined walking distance to the corresponding potential stations.
+    Walking distance refers to access/egress distance to/from rail stations. It is relevant to planning and design because of its influence
+on the use of rail services, and social and economic activities in the proximity of stations. Therefore, it provides a standard basis for a
+comparative evaluation of the potential station locations. However, the specification of the actual walking distance can be variable
+ranging from 400 to 800 m depending on factors such as operational environment (e.g. urban or sub-urban), and service quality at the
+rail station (e.g. network connectivity, area coverage and service facility and frequency) (O’Sullivan and Morrall, 1996; Evans et al.,
+2007; Bertolini, 1999; Reusser et al., 2008; Zemp et al., 2011; Kamruzzaman et al., 2014). Because of the variability, the model
+framework in this paper treats walking distance as a parameter to be specified by planners.
+    Step 3: find all station cells that intersect with environmentally sensitive areas (e.g. historic buildings, national parks, woodlands,
+
+                                                                          4
+C. Ahmed et al.                                                                     Journal of Rail Transport Planning & Management 16 (2020) 100222
+
+
+forests, rivers and sites of scientific interest) and exclude them from the search space of potential station locations. This is done by
+laying the generated station cell layer (ΩC ) over the environmentally sensitive areas layers (Ωe ) to generate the feasible grid layer for
+stations(Ωf ).
+
+        Ωf = ΩC ∩ Ωe                                                                                                                           (1)
+
+    Step 4: identify all the cells (Ci ) within the feasible station layer (Ωf ) that satisfy predefined threshold values for each of the
+requirement evaluation criteria defined in Step 2 and assign them with integer values, which represent the weight of the satisfied
+criteria, as follows:
+                                        (∑ ⃒ )
+                                                ⃒
+        For each Ci ∈ Ωf : Ci = 1, if <      AT⃒Dw ≥ NAT > , 0 otherwise                                                              (2)
+
+Where: AT is the number of airport terminals within the specified walking distance, Dw is the walking distance andNAT is the pre-
+specified threshold number of airport terminals within Dw .
+                                       (∑ ⃒ )
+                                           ⃒
+       For each Ci ∈ Ωf : Ci = 1, if <   RS⃒Dw ≤ NRS > , 0 otherwise                                                          (3)
+
+Where: RS is the number of existing railway stations within Dw , andNRS is the pre-specified threshold number of existing railway
+stations withinDw .
+                                     (∑ ⃒ )
+                                         ⃒
+       For each Ci ∈ Ωf Ci = 1, if <   CP⃒Dw ≥ NCP > , 0 otherwise                                                             (4)
+
+Where: CP is the number of car parks within Dw , andNCP is the pre-specified threshold number of car parks within Dw .
+                                     (∑ ⃒ )
+                                           ⃒
+     For each Ci ∈ Ωf : Ci = 1, if <    BS⃒Dw ≥ NBS > , 0 otherwise                                                                            (5)
+
+Where: BS is the number of bus stops within Dw , and NBS is the pre-specified threshold number of bus stops within Dw .
+                                  ( ⃒ )
+                                      ⃒
+     For each Ci ∈ Ωf Ci = 1, if < PD⃒Dw ≥ VPD > , 0 otherwise                                                                                 (6)
+
+Where: PD is the average population density within Dw , and VPD is the pre-specified threshold value of average population density
+within Dw .
+                                      (∑ ⃒ )
+                                           ⃒
+      For each Ci ∈ Ωf : Ci = 1, if <   CA⃒Dw ≥ VCA > , 0 otherwise                                                            (7)
+
+Where: CA is the average commercial landuse area within Dw , and VCA is the pre-specified threshold value of average commercial
+landuse areas within Dw . Commercial landuses include office complexes, retail areas and recreational centres.
+                                     (∑ ⃒ )
+                                         ⃒
+       For each Ci ∈ Ωf Ci = 1, if <   DA⃒Dw ≥ VDA > , 0 otherwise                                                          (8)
+
+Where: DA is the average area of deprived or undeveloped land within Dw needing regeneration (i.e. land that has a strong potential for
+future economic development). VDA is the pre-specified threshold value for the average area of deprived/undeveloped land parcels
+within Dw .
+                                        ( ⃒ )
+                                             ⃒
+       For each Ci ∈ Ωf : Ci = 1, if < LV⃒Dw ≤ VLV > , 0 otherwise                                                                  (9)
+
+Where: LV is the average land value within Dw , and VLV is the pre-specified threshold value of the maximum allowed land acquisition
+value (unit cost per unit area) for stations.
+    The threshold values are defined by rail transit planners depending on the demographic, topological, economic and land use pattern
+characteristics of the potential service area. The values are critical because they not only affect the number and locations of the
+candidate pool of potential stations, but also the entire configuration of the proposed rail system and subsequently the achievement of
+the desired system objectives. In general, the higher the threshold values, the better the satisfaction of the system requirements. On the
+other hand, setting high threshold values may result in a significant reduction of the search space for the optimisation model with the
+consequence of a sub-optimal solution. Section 5.1 investigates the effect of different threshold values on the optimisation search space
+in order to determine threshold values that would not result in the exclusion of potential optimal station locations.
+
+
+3.2. Stage 2: Optimisation of station locations and associated line network
+
+   Once the set of feasible station locations is determined using the GIS-based algorithm, the second stage employs an integrated
+optimisation process to generate the final configuration. It simultaneously selects the best subset from the potential station set
+identified in the first stage along with the best line network to link the selected stations. Fig. 2 illustrates the framework of the proposed
+
+                                                                      5
+C. Ahmed et al.                                                                     Journal of Rail Transport Planning & Management 16 (2020) 100222
+
+
+
+
+                                         Fig. 2. Framework of the integrated optimisation algorithm.
+
+
+integrated optimisation algorithm which is designed to simultaneously determine the optimal locations of stations and the best line
+network. As depicted in Fig. 2, a heuristic solution algorithm based on GA is employed to seek a solution that best fits the desired
+objectives of the three interconnected stakeholder requirements (passenger, stakeholder and community costs). A GA is an evolu­
+tionary optimisation technique widely utilised for solving various complex and large-scale problems. Following the concept of bio­
+logical evolution, GAs evolve a population of different alternative solutions towards the optimal solution. The evolution begins with a
+population of random alternative solutions and then through the course of a number of generations/iterations the fitness of the
+population is evaluated with respect to the desired objectives of the problem. Thereafter, a number of individuals are selected sto­
+chastically from the current population based on their fitness values and modified with genetic operators (crossover and mutation) to
+produce a new population for the next generation/iteration. This process is continued until either a specified number of generations,
+which is fixed a priori, has elapsed, or other predetermined convergence criteria are met (Goldberg, 1989). The following subsections
+detail the key steps of the proposed GA-based optimisation algorithm.
+
+3.2.1. Generation of the alternative solutions
+    The generation of the alternative solutions consists of selecting a set of stations from the candidate station pool identified in section
+3.1 and generating a network of lines connecting the selected stations while satisfying predefined optimisation constraints: (i) min­
+imum and maximum number of stations along each line of the network (Nsmin and Nsmax ); (ii) minimum and maximum distance
+between any two successive stations along each line of the network (Δsmin and Δsmax ); (iii) minimum number of intersected/transfer
+stations along each line in the network (Cnmin ); and, (iv) maximum overlapped or common sections between any two lines in the
+
+                                                                     6
+C. Ahmed et al.                                                                       Journal of Rail Transport Planning & Management 16 (2020) 100222
+
+
+
+
+                                                    Fig. 3. Generated alternative solutions.
+
+
+network (Onmax ).
+    It is assumed that, depending on the major traffic flow patterns of the area/city to be served, rail transit planners are able to
+determine the number of lines desired and the terminal stations of each line (i.e., the beginning and end points of each line). It is
+notable that the generated alternative solutions largely depend on the set of terminal station pairs and constraints applied for checking
+the feasibility of the generated solutions. The planner’s knowledge is therefore vital to the acquisition of an optimal rail transit system.
+In GAs, a set of candidate solutions is called a population; each candidate solution in the population pool is known as a chromosome or
+an individual; each decision variable of the solution is known as a gene; and each parameter of the decision variable is known as a bit.
+Accordingly, the proposed heuristic algorithm treats the alternative solutions as chromosomes, associated rail lines as genes, and
+associated stations of the lines as bits. Fig. 3 illustrates the schematic diagram for the generated alternative solutions.
+
+3.2.2. Fitness function
+   The proposed optimisation algorithm evaluates the fitness of each alternative solution in terms of minimisation of cost. Based on
+the rail transit system planning requirements, the fitness value of each alternative is evaluated with respect to three main cost
+components; passenger, operator and community.
+        Tc = ϕp Pc + ϕo Oc + ϕc Cc
+
+   Where: Tc is the total system cost, Pc , Oc , Cc are the passenger, operator and community costs respectively over the life span of the
+proposed rail system, and ϕp , ϕo and ϕc are the respective coefficients of passenger, operator and community costs. These coefficients
+provide flexibilities into the proposed algorithm to allow rail transit planners to prioritise a particular stakeholder requirements over
+others when required. The remainder of this section details the mathematical formulations of each of these three cost components.
+
+    (i) Calculation of passenger cost: this is the time cost difference between utilising a train, instead of the bus and car. This difference
+        signifies how much the cost of passengers’ travel time can be deceased or saved by using the proposed rail system instead of
+        using car or bus transport modes. The annual passenger cost (AP ), assuming daily services with demand variations over
+        weekdays and weekends, is:
+                                  (
+                               q
+                               ∑   ∑∑∑( (                                     ) (                             ))
+             AP = (ϕd × 365) ×                    Pij × TCttij − Pcij × TCtcij + Pij × TCttij − Pbij × TCtbij                             (10)
+                                l=1   t   i   j
+
+
+    Where:
+    ϕd is the coefficient to account for demand pattern variations over weekdays and weekends;
+    q is the number of lines in the network;
+    Pij is the number of railway passengers from zone i to zone j in time period t;
+    TCttij is the cost (£) of the total travel time by train from zone i to zone j in time period t;
+    Pcij is the number of railway passengers from zone i to zone j in time period t that may switch to car if the rail system is not available;
+    TCtcij is the cost (£) of the total travel time by car from zone i to zone j in time period t;
+    Pbij is the number of railway passengers from zone i to zone j in time period t that may switch to bus if the rail system is not
+    available;
+    TCtbij is the cost (£) of total travel time by bus from zone i to zone j in time period t.
+       The demand values are forecasted using a discrete mode choice model, which is incorporated in the proposed optimisation
+    algorithm framework. The origin-destination trip matrix at zonal level for each alternative transport mode (car, bus, and active
+    mode) is taken as known from an external regional demand forecasting model. It is assumed that the trip distribution pattern
+    between the traffic analysis zones of the study area does not change after building the proposed rail system. Therefore, for each
+    particular zone pair, the total demand matrix is computed by summing up the corresponding demand matrices of the three existing
+    transport modes. The proposed optimisation algorithm uses this demand matrix as an input and splits it into four matrices, one for
+    each mode (rail, car, bus and active mode). This is via the incorporated logit choice model, the most widely used discrete choice
+    model in real world practice. In addition to the consideration of the characteristics of travellers, the logit choice model incorporates
+    sets of variables that are related to the attributes of alternatives. These variables involve in-vehicle travel time, access time, egress
+
+                                                                       7
+C. Ahmed et al.                                                                     Journal of Rail Transport Planning & Management 16 (2020) 100222
+
+
+    time, waiting time, search time for parking spaces, travel fares, fuel and other operating and maintenance costs.
+      The total train time (TCtt ) includes passengers’ access time to/from station, waiting time at station and on-train travel time. Thus,
+    (TCtt ) is calculated as follows:
+                  TCtt = Tta × A0 + Ttw × W0 + Ttt × T0                                                                                       (11)
+
+    Where:
+    Tta is the passenger’s access time to/from the station (min);
+    A0 is the unit costs of access time (£/min);
+    Ttw is waiting time at station (min);
+    W0 is the unit costs of waiting time (£/min);
+    Ttt is on-train travel time (min) and;
+    T0 is the unit cost of on train/in-car travel/on-bus time (£/min).
+    Tta is a function of passenger walking distance to/from stations and speed. The distance (Da ) is computed by measuring the artificial
+    links between the centroid of the traffic analysis zones (TAZs) of the study area and potential station locations. Tta is then calculated
+    using equation (12) where Va is the passenger walking speed (Va ).
+                      Da
+              Tta =                                                                                                                           (12)
+                      Va
+
+
+      The waiting time (Ttw ) depends on the scheduled frequency of trains and their reliability, and passengers’ arrival pattern at the
+    boarding station. Since none of these elements can be evaluated accurately at this stage of the planning process, Ttw is assumed to be
+    equal to half of the train headway (Hw ), which is a function of train frequency. It should be noted, however, that this assumption
+    only holds for headways shorter than 10 min (Luethi et al., 2006; Frumin and Zhao, 2012; Zhao et al., 2013; Ingvardson et al.,
+    2018).
+                   1
+              Ttw = × Hw                                                                                                                      (13)
+                   2
+
+
+       The on-train travel time (Ttt ) depends on the distance between boarding and alighting stations (Ds ), average train speed between
+    boarding and alighting stations (Vt ), and dwell time at calling stations (ns ), which can be represented as a fixed value (Td ). Thus,
+    Ttt is calculated as:
+                      Ds
+              Ttt =      + (ns × Td )                                                                                                         (14)
+                      Vt
+
+
+      The travel distance between each boarding and alighting station in the network (Ds ) is computed by implementing the Dijkstra’s
+    shortest path algorithm, which is embedded into the evaluation framework of the proposed optimisation algorithm. In this paper,
+    the weight assigned to the lines linking the selected candidate stations is defined as their corresponding length while the algorithm
+    searches for the shortest path between each boarding and alighting station pair, and thus the minimum travel distance between
+    each boarding and alighting station (Ds ) is obtained.
+      The total car time (TCtc ) consists only of in-car travel time between origin and destination and the time spent searching for a
+    parking space, and thus (TCtc ) is calculated as:
+              TCtc = Tct × T0 + Tcs × S0                                                                                                      (15)
+
+    Where:
+    Tct is the in-car travel time (min);
+    Tcs is the search time for a park space (min) and;
+    S0 is the unit cost of search time for a parking space (£/min).
+      The total bus time (TCtb ) consists of passenger access time to/from bus stop, waiting time at the bus stop and on-bus travel time.
+                  TCtb = Tba × A0 + Tbw × W0 + Tbt × T0                                                                                       (16)
+
+    Where:
+    Tba is the passenger’s access time to/from bus stop (min);
+    Tbw is the waiting time at bus stop (min) and;
+    Tbt is the on-bus travel time (min).
+      The road and bus network travel time information between each traffic analysis zone pair are assumed to be available from
+    relevant transport agencies for the AM/PM peak, intermediate peak (IP) and off peak (OP) periods, thus taking into account traffic
+    congestion levels for different time periods.
+      The rail transit network usage and its distribution pattern over the existing transport modes (i.e. car and bus) in cases where rail is
+    not available are predicted with the logit mode choice model.
+
+                                                                      8
+C. Ahmed et al.                                                                     Journal of Rail Transport Planning & Management 16 (2020) 100222
+
+
+      Since the passenger cost recurs throughout the lifespan of the system, a life cycle analysis is performed to calculate the passenger
+    cost of the system over its design life. Thus, assuming a fixed annual interest rate, i, and a design life of n years, the passenger cost
+    over the system life cycle (PC ) is:
+
+                         (1 + i)n− 1
+              PC = A P                                                                                                                        (17)
+                          i(1 + i)n
+
+
+   (ii) Calculation of the operator cost: this is defined as the difference in the operation and maintenance cost differences between
+        utilising rail and other transport modes, specifically car and bus. This difference signifies how much the total cost of operations
+        and maintenance can be deceased or saved due to the use of the proposed rail system instead of using either car or bus transport
+        modes. The operation and maintenance costs of each mode are a function of the corresponding travelled distance and potential
+        passengers. Hence, the annual operating cost (AO ) is calculated as follows, assuming daily services with demand variations over
+        weekdays and weekends:
+                                      (
+                                   ∑q  ∑∑∑( (                                          ) (                                     ))
+             AO = ( ϕd × 365) ×                    Pij × Ltij × Mt0 − Pcij × Lcij × Mc0 + Pij × Ltij × Mt0 − Pbij × Lbij × Mb0         (18)
+                                       l=1   t   i   j
+
+
+    Where:
+    Ltij is the distance travelled by a train in km from station i to station j in time period t;
+    Mt0 is the unit operational and maintenance cost for the train (£/passenger-km);
+    Lcij is the car km travelled distance from zone i to zone j in time period t;
+    Mc0 is the unit operational and maintenance cost for car (£/passenger-km);
+    Lbij is the distance travelled by a bus in km from zone i to zone j in time period t and;
+    Mb0 is the unit operational and maintenance cost for bus (£/passenger-km).
+       The train travelled distance between each stations pair in the network is calculated using the Dijkstra’s shortest path algorithm.
+    The bus and car travel distance between each traffic analysis zone pair are assumed to be available from the relevant transport
+    agencies at different time periods. The demand values are forecasted using the logit mode choice model.
+       Similar to passenger cost, the operator cost can be calculated for the system life span (OC ) as:
+
+                         (1 + i)n− 1
+              OC = AO                                                                                                                         (19)
+                          i(1 + i)n
+
+
+  (iii) Calculation of the community cost: this is defined as the required capital cost for constructing stations and the line network
+        connecting the stations, which is classified into location-dependent (CLDep ) and size-dependent (CSDep ) categories. The former
+        involves those construction items which change significantly with different locations for the same station size, total line network
+        length and construction type. The second category includes those construction items that do not change with different locations
+        for the same station size, total line network length and construction type. Therefore, the costs for building and equipping
+        stations with the required facilities and those for laying track and fastening rails can be listed under the size-dependent con­
+        struction cost category, while land acquisition and tunnel costs belong to location-dependent construction costs. Thus, the
+        community cost (Cc ) is:
+              Cc = CLDep + CSDep                                                                                                              (20)
+
+                          q
+                          ∑
+              CLDep =       (Rwl + Tul )                                                                                                      (21)
+                          l=1
+
+
+                         q
+                         ∑
+              CSDep =      (Sbl + Trl )                                                                                                       (22)
+                         l=1
+
+
+    Where:
+    Rwl is the right of way (i.e., land acquisition cost) for stations along line l (£),
+    Tul is the cost of building the tunnel structure along line l (£),
+    Sbl is the cost of building and equipping the stations with necessary facilities along line l (£),
+    Trl is the total cost of laying rail tracks and fastening rails along line l (£).
+
+    Although these construction cost parameters are set for underground rail transit systems, they can be modified for over-ground
+systems by including the relevant construction parameters, such as the cost of building bridges. Cc represents the community cost
+over the system lifespan as the construction cost is only incurred at the onset of the project.
+    The right of way cost includes land acquisition and property damage cost items for building stations and the associated line
+
+
+                                                                      9
+C. Ahmed et al.                                                                     Journal of Rail Transport Planning & Management 16 (2020) 100222
+
+
+network. It is a function of where the stations are built and the associated line network constructed. Since this paper focuses on rapid
+rail transit system/metro, the cost of acquiring right of way depends only on the locations of the stations, because the deep tunnels
+through which the lines connecting the stations are passed entail no right of way cost. This construction cost item is computed via
+interaction with the GIS, in which the unit cost database of land parcels and properties are stored. The proposed optimisation algorithm
+first identifies all sections of land parcels and properties that are located within the stations’ right of way boundaries, and then extracts
+the corresponding costs of these sections from the GIS database to compute the right of way acquisition cost. The right of way
+acquisition cost is the sum of the cost values of these land parcels and property sections.
+    The cost of building tunnel structures (Tu ) is assumed to be a function of tunnel length and is calculated as:
+                q
+                ∑
+        Tu =      (TL × CTu )                                                                                                                 (23)
+                  l=1
+
+
+Where:
+
+    TL is the tunnel length of line l (km), and
+    CTu is the unit cost of building tunnel structure (£/km).
+
+    The cost of building and equipping a station (Sb ) is a function of the size and number of stations along the line network:
+                  q
+                  ∑ (              )
+         Sb =           Ns × CSb                                                                                                              (24)
+                  l=1
+
+
+Where:
+
+    Ns is the number of stations along line l, and
+    CSb is the unit cost of building and equipping a station with required facilities (£).
+
+   The cost of constructing the rail track (Tr ) includes that of laying the tracks and fastening rails. It is a linear function of the line
+network length:
+                  q
+                  ∑
+         Tr =       (Lenl × CTr )                                                                                                             (25)
+                  l=1
+
+
+Where:
+
+    Lenl is the length of line l (m), and,
+    CTr is the unit cost of laying rail tracks and fastening rails (£/m).
+
+    It is important to note that through the passenger cost function, the model tries to deliver adequate service quality for railway
+passengers by either decreasing passengers’ rail travel time compared to bus and car travel times, or by increasing railway usage, or a
+combination of the two. Through the operator cost function, the model tries to increase the railway system revenue and achieve
+efficient system operation. Through the community cost function, the model tries to minimise the construction costs. The proposed
+integrated optimisation model therefore resolves the trade-offs by increasing the number of railway users in order to reduce both the
+proportional passenger and operational costs, while not significantly increasing the construction costs.
+
+3.2.3. Evolution of the alternative solutions
+    As illustrated in Fig. 2, once a population of alternative solutions is initialised and the corresponding fitness is evaluated, the GA
+starts the evolution process to direct the population towards the optimum solution. Typically, GAs implement the evolution by
+applying three genetic operators; selection, crossover and mutation. In general, these operators, in particular the crossover and mu­
+tation operators, are problem specific, and must therefore be designed to fit the problem under investigation in order to facilitate the
+efficiency of the convergence towards a local optimum solution. Consequently, this paper proposes three genetic operators that fit the
+framework of rail transit system planning.
+
+    (i) Selection operator: it determines which individuals are to be selected to form a mating pool for the next generation. The primary
+        objective of this operator is to improve the average fitness of a population by giving individuals of higher fitness a higher chance
+        to be selected for the next generation. Consequently, it directs the search to explore and exploit promising areas in the search
+        space. The most widely used selection methods are roulette wheel selection, tournament selection and rank selection. Although
+        each of these methods calculates the selection probability of individuals differently, they are all based on the same principle,
+        which is survival of the fittest (i.e. fitter individuals have a higher chance of being selected for the next generation than weaker
+        ones). Obviously, since different selection methods influence the performance of GA differently, close attention should be paid
+        to choosing a selection method that ensures that the algorithm performs well, and this is usually evaluated in terms of
+
+
+                                                                     10
+C. Ahmed et al.                                                                     Journal of Rail Transport Planning & Management 16 (2020) 100222
+
+
+
+
+                                           Fig. 4. Illustration of the uniform crossover approach.
+
+
+        convergence rate and the required number of generations to arrive at the optimal solution. In this paper, however, since the
+        fitness values of the solutions can be very close, the tournament selection method is applied as it is sensitive enough to
+        differentiate solutions of very similar fitness values. Tournament selection picks a subset of two solutions from the population
+        randomly and then selects the best solution from this subset.
+   (ii) Crossover Operator: this operator merges the individuals picked up by the selection operator to produce new individuals.
+        Crossover operates on two individuals (parents) at a time and generates two offspring/children by exchanging the genetic
+        information of both individuals (parents). The crossover operation occurs at a probability rate denoted as Pc, which is defined as
+        the probability of the number of generated offspring in each generation to the population size. This means that not all the
+        selected individuals undergo the crossover operation unless the Pc value is equal to one. A very high Pc value tends to explore
+        more of the search space and mitigates the risk of converging to a local optima. On the other hand, it may result in a lot of
+        computation time being wasted exploring unnecessary areas of the search space. It is, therefore, very important to utilise a Pc
+        value which maximises the probability of the algorithm finding good solutions while converging speedily. The optimal value of
+        Pc is problem specific (Patil and Pawar, 2015), and, accordingly, in section 5.2, this paper examines different Pc values to
+        determine the optimal value for solving the rail transit system planning problem.
+
+
+
+                                                                     11
+C. Ahmed et al.                                                                     Journal of Rail Transport Planning & Management 16 (2020) 100222
+
+
+
+
+                                               Fig. 5. Illustration of the mutation operator.
+
+
+    The most widely used crossover methods include one-point crossover, two-point-crossover and uniform-crossover. In this paper,
+adapting uniform crossover methods, the crossover operator is designed to merge parents at gene bit (station) level to produce new
+offspring. That is, it exchanges the corresponding stations of each two alternative solutions picked up for crossover individually, as
+illustrated in Fig. 4. The crossover operator is designed in such a way as to reject parental matings that result in infeasible offspring
+violating the defined constraints. This is by returning the mated gene bits back to their initial state before the mating and then mating
+the next gene bits, as illustrated in 4b and 4c.
+
+  (iii) Mutation Operator: this operator alters the value of one or more genes of the offspring pool generated by the crossover operator
+        and alters a part of their content. It is used to produce new genetic information to ensure that the algorithm diversifies over the
+        search space so as to avoid the premature convergence towards suboptimal solutions. The mutation operator works on a single
+        individual/offspring at a time and produces a new individual/offspring, and it occurs at a probability rate denoted as Pm. The
+        mutation rate, or mutation probability, controls the frequency with which the mutation operator is applied. In general, a very
+        high value of Pm tends to lead to a significant diversification of the search space. This may, in turn, pull good solutions away
+        from the population and thus prevents the population from converging at any optimal solution. On the other hand, if the value
+        of Pm is very low, the search mostly converges prematurely towards suboptimal solutions due to the higher exploitation rate. It
+        is therefore very important to utilise a Pm value that maximises the probability that the GA finds the global or near-global
+
+
+                                                                    12
+C. Ahmed et al.                                                                      Journal of Rail Transport Planning & Management 16 (2020) 100222
+
+
+
+
+                                                 Fig. 6. Feasible station location solutions.
+
+
+        optimum solution of the problem. Since the optimal value of Pm varies for different problems, there is no consistent optimal
+        value of Pm for most real world problems (Srinivas and Patnaik, 1994; Piszcz and Soule, 2006; Patil and Pawar, 2015). This
+        paper therefore tests different values of Pm in section 5.3 to find the optimal Pm value to solve the rail transit system planning
+        problem.
+
+    This operator is designed to take individuals from the offspring pool and randomly mutate them at the gene bit level (station) to
+produce new offspring (see Fig. 5). It individually selects a number of gene bits of the individual’s chromosome with probability Pm,
+and replaces them with randomly selected gene bits to produce a new offspring. Since the mutation might produce infeasible offspring
+due to violation of the required constraints, the mutation operators are designed to reject the gene bit mutation that results in infeasible
+offspring. This is by returning the mutated gene bit back to its initial state before the mutation, and then mutating the next gene bit (see
+Fig. 5b and c).
+
+3.2.4. Determination of the optimal solution
+   As depicted in Fig. 2, after the selection, the crossover and mutation operators (i.e., GA operators) are applied to the initial
+population so that a new population is formed for the next generation. In general, two stopping criteria are employed in GAs, objective
+based and generation based. In this paper, if one of the following two criteria is satisfied the evolution process is terminated and the
+best individual in the current population is identified as the optimal solution.
+
+1. if the best individual of the population is not further improved over a specified number of successive generations, which is defined
+   by the potential user/planner.
+2. if the maximum number of generations is reached. This value is also defined by the potential user/planner.
+
+
+
+
+                                                                     13
+C. Ahmed et al.                                                                                Journal of Rail Transport Planning & Management 16 (2020) 100222
+
+
+Table 1
+Values of the input parameters used in the case study.
+  Parameters                    Description                                                                                             Values
+
+  Vt                            average train travel speed between stations                                                             80 km/h
+  Va                            passenger walking speed                                                                                 4 km/h
+  Hw                            train headway at peak/off peak time period                                                              10/15min
+  A0                            unit cost of access time                                                                                £14/hr
+  W0                            unit cost of waiting time                                                                               £14/hr
+  T0                            unit cost of in train travel time                                                                       £7/hr
+  S0                            unit cost of time spent searching for parking space                                                     £14/hr
+  Mt0                           unit operation and maintenance cost for train                                                           £0.21/passenger-Km
+  Mc0                           unit operation and maintenance cost for car                                                             £0.26/passenger-Km
+  Mb0                           unit operation and maintenance cost for bus                                                             £0.16/passenger-Km
+  Sb                            costs of building and equipping the stations with necessary facilities                                  £106 /station
+  CTu                           unit cost of building tunnel structure                                                                  £12x106 /km
+  CTr                           unit cost of track                                                                                      £650/m
+  Nsmin                         minimum number of stations along each rail line                                                         4 stations
+  Nsmax                         maximum number of stations along each rail line                                                         7 stations
+  Δsmin                         minimum spacing between stations                                                                        800 m
+  Δsmax                         maximum spacing between stations                                                                        1500 m
+  Cnmin                         minimum number of common/transfer stations along each rail line                                         1
+  Onmax                         maximum overlap rate between the rail lines                                                             30%
+  ϕd                            coefficient to account for demand pattern variations over weekdays and weekends                         1
+  ϕp                            coefficient of passenger cost                                                                           1
+  ϕo                            coefficient of operator cost                                                                            1
+  ϕc                            coefficient community cost                                                                              1
+  Pn                            GA parameter-Population size                                                                            500
+  Pc                            GA parameter-Crossover probability                                                                      0.7
+  Pm                            GA parameter-Mutation probability                                                                       0.3
+  Gen                           GA parameter-Number of generations                                                                      50
+
+
+
+4. Case study
+
+   The effectiveness of the proposed model has been assessed using the City of Leicester (United Kingdom) as the study area. The
+required datasets were obtained from several agencies and incorporated into the GIS background database. These datasets include land
+use patterns, existing transport network, census, land values, future economic action plan, topography and origin-destination trip
+matrices. Two assumptions were made when applying the model: (1) the proposed rail system is underground/metro and; (2) stations
+are built at ground level while the line network is built in deep tunnels. The model outputs are presented in the following two sub-
+sections in line with the defined process in Fig. 2.
+
+4.1. Generation of candidate stations
+
+    Following the procedure presented in section 3.1, and using the following input parameters, the model generates the candidate pool
+of potential station locations:
+
+ 1 Station size: the size of a typical, single-level track, underground/Metro station structure is 25 × 300 m for the respective width
+   and length (Kaul, 2010). It is assumed, however, that the station concourse hall will be built at ground level to give the system a
+   more attractive view. A station size (width and length) of 100 × 100 m was therefore adopted. These dimensions represent the
+   station concourse hall width and length. Although it is larger than the required typical dimension for the station concourse areas, it
+   is considered that accommodating some retail and coffee shops within this area would have many positive effects, such as increased
+   system attractiveness and passenger convenience. In addition, more than one line may pass through some of the candidate stations
+   after the line network is generated. This obviously requires a larger area for the station structure to accommodate additional
+   services and associated facilities. Examples of such stations include Victoria and Kings Cross rail stations in London. Based on this
+   station size, the City has a total of 7027 cells which represent potential rail station locations. For each cell, the defined requirement
+   criteria were measured within a 500 m walking distance radius from the stations (O’Sullivan and Morrall, 1996; Bertolini, 1999;
+   Vuchic, 2005; Evans et al., 2007; Zemp et al., 2011; Kamruzzaman et al., 2014).
+ 2 Threshold values: as discussed in section 3.1, the model allows rail transit system planners to define the threshold values of the
+   requirement criteria based on the demographic, topological, economic and land use pattern characteristics of the served areas. For
+   this case study, the 50th percentile of each of the calculated requirement criteria values was defined as its respective threshold
+   value.
+
+                                                                              14
+C. Ahmed et al.                                                                          Journal of Rail Transport Planning & Management 16 (2020) 100222
+
+
+
+
+Fig. 7. Optimised station locations and associated line network: (a) One rail line solution; (b) two rail line solution; (c) three rail line solution.
+
+
+
+    After defining the proposed conditions for screening the study area and generating the candidate pool of feasible station locations,
+4774 feasible station locations were found, as shown in Fig. 6. The results reveal that the candidate stations mainly cover the most
+densely populated and potential economic growth zones of the city. In addition, very high land values and environmentally sensitive
+areas were excluded from the search space. For simplicity, some features, such as sites of economic growth, bus stops, land values and
+restricted zones are not presented in the figure. Note that the validity of the grid based approach is ensured through a process that finds
+all station grids that intersect with environmentally sensitive areas e.g. historic buildings, national parks, woodlands, forests, rivers
+
+
+                                                                         15
+C. Ahmed et al.                                                                    Journal of Rail Transport Planning & Management 16 (2020) 100222
+
+
+
+
+                                                            Fig. 7. (continued).
+
+
+and sites of scientific interest) and excludes them from the search space of potential station location. In addition, users can impose a
+very high value for land acquisition and property damage leading to such locations being excluded during the optimisation process.
+
+4.2. Optimisation of the station locations and associated line network
+
+    Once the set of feasible station locations is generated, the model proceeds to select the best subset from the identified feasible
+stations while simultaneously generating the best line network to link the selected stations using the parameters presented in Table 1.
+These parameters were derived from a combination of sensitivity analyses (see section 5), previous literature and transport analysis
+
+                                                                    16
+C. Ahmed et al.                                                                    Journal of Rail Transport Planning & Management 16 (2020) 100222
+
+
+
+
+                                                            Fig. 7. (continued).
+
+
+guidance issued by the UK’s Department for Transport.
+    It is assumed that the desired number of rail lines and terminal stations for each line are determined by rail transit planners based on
+the major traffic flow pattern of the area/city to be served. Accordingly, the proposed model generates the corridors within which the
+line network and associated stations are to be located based on the terminal stations. The basic topological configuration of the system
+is therefore bounded by these corridors. The range of topological configurations that can be considered is not limited in the sense that
+the proposed optimisation model can accommodate any basic topology and find the solution that best fits the desired objectives.
+    To examine the ability of the model to handle the different topological configurations of a rail transit system, three different
+
+
+                                                                    17
+C. Ahmed et al.                                                                             Journal of Rail Transport Planning & Management 16 (2020) 100222
+
+
+Table 2
+Comparison of different threshold values of the requirement criteria on the optimised cost.
+  Threshold Values of the Requirement Criteria   Passenger Cost (M£)   Operator Cost (M£)    Community Cost (M£)      Total Cost (M£)    Daily Passengers
+
+  30th Percentile                                − 262.933             − 91.516              233.086                  − 121.363          11602
+  40th Percentile                                − 309.767             − 77.4735             256.355                  − 130.885          16545
+  50th Percentile                                − 304.305             − 84.132              253.368                  − 135.069          16715
+  60th Percentile                                − 305.984             − 104.567             255.731                  − 154.820          17685
+  70th Percentile                                n/a                   n/a                   n/a                      n/a                n/a
+
+
+
+scenarios were applied to consider a proposed rail system consisting of a single rail line, two lines and three lines respectively. The
+terminal stations of every line in the three scenarios were determined based on the origin-destination trip matrices representing traffic
+flow patterns obtained from the Leicester City Council. Fig. 7a to c shows the results of these three test scenarios. In the first scenario,
+the proposed rail line links the south and north of the city. In the second scenario, one line links the south and north of the city while the
+other links the south-west and north-east areas. The three rail lines in the third scenario link the south and north, south-west and north-
+east, and north-west and south-east area of the city. Throughout the rest of this paper these lines are referred to as the Red Line (south/
+north); Blue Line (south-west/north-east) and Green Line (south-east/north-west) (see Fig. 7).
+    The results shown in Fig. 7 reveal that the model can efficiently generate different topological configurations. Fig. 7b, exhibits a star
+configuration while the proposed solution in Fig. 7c exhibits a combination of star and triangular configurations. It is also notable that
+the line alignments and associated station locations change as the overall size of the system changes, in order to minimise the total
+system cost while satisfying the required constraints. For example, compared to the first scenario, the alignment and station locations
+of the Red Line are different from both the second and third scenarios. Specifically, comparing the second scenario with the first, four
+stations starting from the fourth station in the Red Line (northbound from the southern terminus) have shifted towards the western side
+of the city centre, intersecting the Blue Line to the north-west in the second scenario. Accordingly, the overall alignment of the Red Line
+was adjusted towards these shifted stations as illustrated in Fig. 7b. Similarly, the Red and Blue Line alignments and associated station
+locations have changed in the third scenario compared to the second scenario. These results indicate that the proposed model can deal
+effectively with different system sizes when optimising station locations and associated line alignments.
+
+5. Sensitivity analysis
+
+    This section first evaluates the importance of performing a feasibility analysis for potential station locations prior to the optimi­
+sation process to facilitate an efficient search process towards the optimal solution. It also investigates the effect of different threshold
+values for the requirement criteria on the optimisation search behaviour. Secondly, it examines the different parameters of the pro­
+posed genetic algorithm to determine the setting that best fits the framework of the rail transit system planning problem. Finally, it
+examines how simultaneous optimisation of all the rail lines reduces the total system cost compared to the optimisation of each line
+individually.
+
+
+5.1. Impact of the determination of feasible station locations prior to the optimisation process
+
+    This section investigates how different threshold values for the requirement criteria affect the optimisation search space, with the
+aim of determining values that would not result in the exclusion of potential optimal station locations. Subsequently, this analysis
+evaluates how screening the study area for potential station locations prior to the optimisation process affects the performance of the
+proposed model in finding good solutions. The impact of the threshold values was evaluated by using five different threshold values for
+the requirement criteria, specifically 30th, 40th, 50th 60th and 70th percentiles, to identify potential station locations, and then to
+compare the optimised total system cost obtained for each of these threshold values. The reason for not including the 10th and 20th
+percentiles in this section is that there was little difference between these and the 30th percentile in terms of the number of feasible
+station locations. Table 2 presents the optimised cost for different threshold values of the requirement criteria for the two rail line
+system proposed in section 4.2.
+    The results show that the proposed optimisation model can find a better solution with higher threshold values, up to a point. The
+total cost of the system decreases by 27.56% from − 121.363 M£ to − 154.820 M£ when the threshold values of the requirement criteria
+are increased from the 30th to the 60th percentile. Compared to these two extremes, however, the reduction in the total cost of the
+system between the 40th and 50th percentiles is low, decreasing by just 3.19% from − 130.885 M£ to − 135.069 M£. This is because of
+the relatively low difference in the number of potential station locations. The potential station locations were 5163 and 4774 for the
+40th and 50th percentiles respectively, and 5724 and 3856 for the 30th and 60th percentiles respectively. Note that the proposed
+model could not find a solution for the system when the threshold values were set at the 70th percentile. This is because, at this
+threshold value, there were insufficient potential stations to allow feasible alternative solutions to be generated (due to excessive
+narrowing of the search space). In this case, the number of potential station locations was 1749.
+    The results above indicate that screening the study area for potential station locations prior to the optimisation process plays an
+important role in directing the search towards the promising regions of the search space. When setting the threshold values of the
+requirement criteria, therefore, it should be ensured that optimal potential stations are not excluded. Based on the numerical results
+presented in Table 2 it can be concluded that setting the threshold values of the requirement criteria at the 60th percentile is efficient
+
+                                                                           18
+C. Ahmed et al.                                                                       Journal of Rail Transport Planning & Management 16 (2020) 100222
+
+
+
+
+                                       Fig. 8. Optimised total system cost with different crossover rates.
+
+
+
+
+                                       Fig. 9. Optimised total system cost with different mutation rates.
+
+
+for finding a reliable and cost-effective solution for a two rail line system. Also, the results indicate that setting the threshold of the
+requirement criteria at low values or zero (i.e. no initial screening prior to the optimisation process) leads to the least cost effective
+solution.
+    The negative passenger cost values highlight the savings due to using the proposed rail system instead of using car or bus (see
+equation (10)). As for the operator cost, the negative sign refers to the total cost of operations and maintenance decreasing due to using
+the proposed rail system instead of using car or bus (see equation (18)).
+
+5.2. Crossover rate sensitivity analysis
+
+    The sensitivity of the optimisation algorithm to the crossover rates (Pc) was assessed by evaluating the optimal total system cost for
+six crossover rates in the typical range of 0.5–1. The results in Fig. 8 show that the algorithm can find a better solution with a higher
+crossover rate, but only to a certain extent. The total cost of the system decreased by 8.72 M£ when the crossover rate increased from
+0.5 to 0.7. Further increments in crossover rate beyond 0.7, however, tend to be inefficient in improving the solutions. The results also
+show that the best solution was obtained with a crossover rate of 0.7. As discussed in Section 3.2.3, this can be explained by the fact
+that a high Pc value creates more new offspring/children and subsequently, leading the algorithm to explore more of the search space
+and mitigates the risk of trapping in local optima. However, a very high Pc value may destroy good chromosomes (i.e. alternative
+solutions), leading to suboptimal solutions
+
+5.3. Mutation rate sensitivity analysis
+
+   The sensitivity of the optimisation algorithm to different mutation rates (Pm) was assessed by evaluating the optimal total system
+cost for five mutation rates in the 0.1–0.6 range. The results in Fig. 9 show that the algorithm can find better solutions with a higher
+mutation rate, but only to a certain extent. As depicted in Fig. 9, the total cost decreases by about 7 M£ when the mutation rate is
+increased from 0.1 to 0.3. The optimisation algorithm tends to degrade the quality of the solution with further increments in the
+mutation rate beyond 0.3, however. This is because a very high mutation rate tends to lead to a significant diversification of the search
+space which may result in pulling good solutions away and thus preventing the algorithm from converging at any optimal solution. The
+results show that the optimum solution was obtained with a mutation rate of 0.3.
+
+5.4. Comparison of individual and simultaneous optimisation
+
+    Individual optimisation methods optimise the alignment and associated station locations of each line separately. On the other hand,
+simultaneous optimisation methods look at the holistic optimisation of the rail network by optimising the alignment and station lo­
+cations of all the lines simultaneously. This section compares individual and simultaneous optimisation methods for planning a rail
+transit system. Table 3 presents a comparison of the optimisation results of these two methods on a rail transit system with two rail
+
+                                                                       19
+C. Ahmed et al.                                                                              Journal of Rail Transport Planning & Management 16 (2020) 100222
+
+
+Table 3
+Comparison of independent and simultaneous optimisation for a two rail line system.
+  Two Lines (Red-Blue)Lines           Simultaneous Optimisation             Individual Optimisation                                            Difference %
+
+                                                                            Red Line              Blue Line                  Total
+
+  Passenger Cost (M£)                 − 304.305                             − 144.750             − 116.975                  − 261.725         − 16.27
+  Operator Cost (M£)                  − 84.132                              − 33.155              − 41.290                   − 74.445          − 13.01
+  Community Cost (M£)                 253.368                               131.489               125.211                    256.700           1.30
+  Total Cost (M£)                     − 135.069                             − 46.416              − 33.054                   − 79.470          − 69.96
+  Line Network Length (km)            18.131                                9.123                 7.988                      17.111            − 5.96
+  Total number of Stations            14.000                                7.000                 8.000                      15.000            6.67
+  Daily Passenger                     16715                                 5289                  3874                       9163              − 82.42
+
+
+
+
+Table 4
+Total cost of the solutions found manually and the solutions found by the proposed model.
+  Solutions Found Manually
+
+  Solutions No.     Total cost (M£)     Solutions No.     Total cost (M£)        Solutions No.        Total cost (M£)        Solutions No.   Total cost (M£)
+
+  1                 − 8.573             26                − 4.972                51                   − 9.520                76              − 3.618
+  2                 − 9.897             27                − 9.416                52                   − 13.328               77              − 8.464
+  3                 − 5.800             28                − 20.670               53                   − 9.711                78              − 25.742
+  4                 − 11.534            29                − 8.259                54                   − 5.707                79              − 13.503
+  5                 − 8.376             30                − 11.444               55                   − 7.733                80              − 8.998
+  6                 − 7.522             31                − 11.242               56                   − 7.099                81              − 19.268
+  7                 − 10.647            32                − 8.763                57                   − 6.069                82              − 8.306
+  8                 − 6.775             33                − 8.152                58                   − 9.098                83              − 18.730
+  9                 − 10.333            34                − 10.442               59                   − 9.999                84              − 21.841
+  10                ¡11.840             35                ¡13.031                60                   ¡9.245                 85              ¡29.186
+  11                − 8.462             36                − 7.874                61                   − 12.909               86              − 8.262
+  12                − 5.381             37                − 8.625                62                   − 4.330                87              − 5.577
+  13                − 13.788            38                − 10.831               63                   − 11.721               88              − 11.791
+  14                − 12.375            39                − 5.239                64                   − 7.029                89              − 12.291
+  15                − 13.570            40                − 7.160                65                   − 15.581               90              − 17.801
+  16                − 11.661            41                − 9.485                66                   − 12.418               91              − 10.476
+  17                − 13.340            42                − 9.029                67                   − 9.210                92              − 7.666
+  18                − 7.676             43                − 6.055                68                   − 9.917                93              − 6.404
+  19                − 9.462             44                − 7.217                69                   − 8.313                94              − 9.054
+  20                − 7.633             45                − 12.490               70                   − 10.942               95              − 9.724
+  21                − 9.222             46                − 7.230                71                   − 8.622                96              − 11.050
+  22                − 12.352            47                − 14.689               72                   − 17.188               97              − 8.668
+  23                − 11.740            48                − 7.176                73                   − 13.831               98              − 4.744
+  24                − 12.043            49                − 19.969               74                   − 7.258                99              − 11.359
+  25                − 5.028             50                − 7.439                75                   − 8.860                100             − 9.035
+
+  Solutions Found by the Proposed Integrated Optimisation Model
+
+  Solutions No.                                                                                            Total cost (M£)
+
+  1                                                                                                        ¡36.306
+
+
+
+lines.
+    Compared to the individual optimisation, simultaneous optimisation significantly reduced the total cost, by about 70% from
+− 79.470 M£ to − 135.069 M£, with 82.42% more daily passenger numbers. Also, the simultaneous optimisation decreased the
+community cost from 256.7 M£ to 253.368 M£, passenger cost from − 261.725M£ to − 304.305 M£ and operator cost from − 74.445 M£
+to − 84.132 M£. These numerical results prove the advantage of simultaneous over individual optimisation.
+    Fig. 10a presents the solution generated from the simultaneous optimisation, while Fig. 10b presents the solution generated from
+the individual optimisation. In general, although both solutions exhibit a similar star-shaped topological configuration, the length of
+the total line network, and the station numbers, as well as station locations and line alignments generated from the two optimisation
+methods, are different. The total line network length and station numbers generated from the simultaneous optimisation were 18.131
+km and 15 stations, while with the individual optimisation they were 17.111 km and 16 stations. It is important to note that the
+locations of the first intermediate stations from the terminal stations did not change for either of the optimisation methods but that the
+locations of the other intermediate stations and their associated line alignment changed. The stations in the individual optimisation
+and the associated line alignment were generated to attract the maximum possible number of rail passengers for each line individually
+without considering the availability of other lines in the system and possible passenger transfer between these lines. In contrast, the
+simultaneous optimisation method selected the station locations to attract the maximum possible number of railway passengers for all
+the lines in the system, taken together and considering the connectivity between the lines. As depicted in Fig. 10a, the generated rail
+lines intersect at two different stations in the north-west and northern sides of the city centre. This, in turn, resulted in a significant
+
+
+                                                                            20
+C. Ahmed et al.                                                                          Journal of Rail Transport Planning & Management 16 (2020) 100222
+
+
+
+
+Fig. 10. Optimisation methods of a two rail line system: (a) Simultaneous optimisation method; (b) individual optimisation of a two rail line system.
+
+
+
+increase in passengers attracted to use the system, and subsequently decreased the total cost significantly compared to the solution
+generated from the individual optimisation method, where the lines, although crossing, do not intersect at a station. Analysing the
+benefit of the integrated approach to a transfer function-based assembly of the individual optimisations is not considered in this paper
+but it will be included in future work.
+
+6. Goodness evaluation for the best solution
+
+    This section assesses the quality of the solution from the proposed integrated optimisation model. Selecting a set of station locations
+
+
+                                                                         21
+C. Ahmed et al.                                                                    Journal of Rail Transport Planning & Management 16 (2020) 100222
+
+
+
+
+                                                           Fig. 10. (continued).
+
+
+and line alignments linking the stations between two terminal stations can generate a large number of possible solutions and local
+optima, which makes it impractical to ascertain the best solution. Thus it is very difficult to prove the goodness of the solution found by
+the proposed model. A review of the literature highlighted that none of the previous studies in this area have been reliably able to
+identify an optimal solution to test the GA solution against for the full network. This section attempts to address this problem of testing
+through designing a novel experiment to test the goodness of the model based on a single line. The experiment is initiated by finding a
+solution to the problem using the proposed model and then generating a set of possible solutions to the problem manually that are
+believed to be close to the optimal solution. Thereafter, the fitness values of the solution found by the proposed models are compared
+with those generated manually. The experiment considers the solution found by the model to be good if the fitness value of the solution
+found by the model is higher than that of all other possible solutions found manually.
+    Various iterations of this experiment were conducted in order to test the goodness of the model for most of the terminal pairs
+
+
+                                                                    22
+C. Ahmed et al.                                                                    Journal of Rail Transport Planning & Management 16 (2020) 100222
+
+
+
+
+                                          Fig. 11. Illustration of the Proposed Model Validation.
+
+
+identified in section 4.2. Fig. 11 illustrates the solution found by the model, and some of the manually generated solutions, for the
+south-north terminal station pair. The whole set of solutions are not presented for clarity and ease of comprehension.
+   Note that the width of the corridor within which the station locations and line alignment are to be determined was set at a relatively
+small value (1 km), as depicted in Fig. 11 in order to make the test more practical. Increasing the width of the corridor would improve
+the test robustness but will increase the required manual effort. Table 4 presents the fitness in terms of the total cost of the solution
+found by the proposed model and the other possible solutions found manually.
+   As can be seen in Table 4, the solution found by the proposed model possesses the highest fitness value compared to the other
+possible solutions.
+
+7. Conclusions
+
+   This paper has developed an integrated optimisation model for planning a rail transit system accounting for the various local
+conditions and multiple requirements that arise from the different stakeholders. The model considers the complex correlations and
+
+
+                                                                    23
+C. Ahmed et al.                                                                                       Journal of Rail Transport Planning & Management 16 (2020) 100222
+
+
+interactions between rail transit station locations and line alignments by integrating these two intertwined components within a single
+optimisation process, a task which has been largely neglected in the existing literature, and which also enables simultaneous opti­
+misation of multiple rail lines. This reduces the total system cost significantly, and thus achieves a cost-effective solution. Furthermore,
+the developed model formulations address the essential trade-offs between maximum rail system usage and minimum passenger travel
+time, on the one hand, and the minimum construction cost of the system on the other hand, while complying with various constraints.
+    The City of Leicester (UK) has been used as a case study to examine the effectiveness of the model in finding a solution that best fits
+the desired objectives. An extensive numerical study was also conducted to examine the importance of the initial identification of the
+potential station locations in directing the search process towards optimal solutions; and to compare individual and simultaneous
+optimisation methods for planning a rail transit system. The results show that performing a feasibility analysis for potential station
+locations prior to the optimisation process can improve the performance of the model by directing the search to explore the more
+promising regions in the search space. Furthermore, the numerical results confirm the advantage of the simultaneous optimisation of
+multiple rail lines compared to individual line optimisation. Simultaneous optimisation reduced the total cost by about 70% over
+individual line optimisation. Future work will involve further sensitivity analysis associated with the limitations of some of the as­
+sumptions made such as the trip distribution pattern between the traffic analysis zones of the study area not changing after building a
+proposed rail system. Future work will also analyse the benefit of the integrated approach to a transfer function-based assembly of the
+individual optimisations.
+
+Declaration of competing interest
+
+    None.
+
+Acknowledgement
+
+   The corresponding author gratefully acknowledges the financial support from the Higher Committee of Education Development in
+Iraq and the University of Sulaimani.
+
+References
+
+Bertolini, L., 1999. Spatial development patterns and public transport: the application of an analytical model in The Netherlands. Plann. Pract. Res. 14 (2), 199–210.
+Bruno, G., Gendreau, M., Laporte, G., 2002. A heuristic for the location of a rapid transit line. Comput. Oper. Res. 29 (1), 1–12.
+Carrizosa, E., Harbering, J., Schöbel, A., 2016. Minimizing the passengers’ traveling time in the stop location problem. J. Oper. Res. Soc. 67 (10), 1325–1337.
+Chien, S., Schonfeld, P., 1997. Optimization of grid transit system in heterogeneous urban environment. J. Transport. Eng. 123 (1), 28–35.
+Costa, A.L., Cunha, C., Coelho, P., 2016. Decision support systems for real-world high-speed rail planning. J. Transport. Eng. 142 (5), 1–10.
+De Rus, G., 2012. Economic Evaluation of the High Speed Rail. Ministry of Finance, Sweden. http://www.ems.expertgrupp.se/uploads/documents/hsr.pdf. (Accessed
+     19 February 2019).
+Dufourd, H., Gendreau, M., Laporte, G., 1996. Locating a transit line using Tabu search. Transport. Sci. 4 (1), 1–19.
+Evans, I., Pratt, R.H., Stryker, A., Kuzmyak, J.R., 2007. Transit oriented development: traveller response to transportation system changes. TCRP Report 95,
+     Transportation Research Board.
+Frumin, M., Zhao, J., 2012. Analyzing passenger incidence behavior in heterogeneous transit services using smartcard data and schedule-based assignment. Transp.
+     Res. Rec. J. Transp. Res. Board 2274, 52–60.
+Goldberg, D.E., 1989. Genetic Algorithms in Search, Optimisation, and Machine Learning. Addison Wesley, Massachusetts.
+Gutiérrez -Jarpa, G., Obreque, C., Laporte, G., Marianov, V., 2013. Rapid transit network design for optimal cost and origin–destination demand capture. Comput.
+     Oper. Res. 40 (12), 3000–3009.
+Hamacher, H.W., Horn, S., Schöbel, A., 2009. Stop location design in public transportation networks: covering and accessibility objectives. TOP 17 (2), 335–346.
+Ingvardson, J.B., Nielsen, O.A., Raveau, S., Nielsen, B.F., 2018. Passenger arrival and waiting time distributions dependent on train service frequency and station
+     characteristics: a smart card data analysis. Transport. Res. C Emerg. Technol. 90, 292–306.
+Jha, M.K., Oluokun, C., 2004. In: Allan, J., Brebbia, C.A., Hill, R.J., Sciutto, G., Sone, S. (Eds.), Optimizing Station Locations along Transit Rail Lines with Geographic
+     Information Systems and Artificial Intelligence. WIT Press, Southampton, UK. In Computers in Railways IX.
+Kamruzzaman, M., Baker, D., Washington, S., Turrell, G., 2014. Advance transit oriented development typology: case study in Brisbane, Australia. J. Transport Geogr.
+     34, 54–70.
+Kaul, K., 2010. Cut-and-Cover Metro Structures Geo-Structural Design: an Integrated Approach. Spon Press, New York, USA.
+Kikuchi, S., Vuchic, V.R., 1982. Transit vehicle stopping regimes and spacings. Transport. Sci. 16 (3), 311–331.
+Lai, X., Schonfeld, P., 2016. Concurrent optimization of rail transit alignments and station locations. Urban Rail Transit 2 (1), 1–15.
+Lai, X., Schonfeld, P., 2010. Optimizing rail transit alignments connecting several major stations. In: Proc 89th Annu Meet Transp Res Board..
+Laporte, G., Mesa, J., Ortega, F., Sevillano, I., 2005. Maximizing trip coverage in the location of a single rapid transit alignment. Ann. Oper. Res. 136 (1), 49–63.
+Laporte, G., Mesa, J.A., Ortega, F.A., 2002. Locating stations on rapid transit lines. Comput. Oper. Res. 29 (6), 741–759.
+Laporte, G., Mesa, J.A., Ortega, F.A., Perea, F., 2011. Planning rapid transit networks. Socioecon. Plann. Sci. 45 (3), 95–104.
+Li, W., Pu, H., Schonfeld, P., Yang, J., Zhang, H., Wang, L., Xiong, J., 2017. Mountain railway alignment optimization with bidirectional distance transform and
+     genetic algorithm. Comput. Aided Civ. Inf. 32 (8), 691–709.
+Luethi, M., Weidmann, U., Nash, A., 2006. Passenger arrival rates at public transport stations. In: Proc 86th Annu Meet Transp Res Board.
+O’Sullivan, S., Morrall, J., 1996. Walking distances to and from light-rail transit stations. Transport. Res. Rec. 1538, 19–26.
+ORR, 2012. Costs and Revenues of Franchised Passenger Train Operators in the UK. Office of Rail Regulation, UK. https://orr.gov.uk/__data/assets/pdf_file/0019/
+     4933/toc-benchmarking-report-2012.pdf. (Accessed 19 January 2019).
+Patil, V.P., Pawar, D.D., 2015. The optimal crossover or mutation rates in genetic algorithm: a review. J. Eng. Technol. 5 (3), 38–41.
+Piszcz, A., Soule, T., 2006. Genetic programming: analysis of optimal mutation rates in a problem with varying difficulty. IJICA 1 (2), 108–120.
+Pu, H., Zhang, H., Li, W., Xiong, J., Hu, J., Wang, J., 2019. Concurrent optimization of mountain railway alignment and station locations using a distance transform
+     algorithm. Comput. Ind. Eng. 127, 1297–1314.
+Rashidi, T.H., Rey, D., Jian, S., Waller, T., 2016. A clustering algorithm for bi-criteria stop location design with elastic demand. Comput. Aided Civ. Inf. 31 (2),
+     117–131.
+Reusser, D.E., Loukopoulos, P., Stauffacher, M., Scholz, R.W., 2008. Classifying railway stations for sustainable transitions – balancing node and place functions.
+     J. Transport Geogr. 16 (3), 191–202.
+
+
+                                                                                    24
+C. Ahmed et al.                                                                                     Journal of Rail Transport Planning & Management 16 (2020) 100222
+
+Samanta, S., Jha, M.K., 2011. Modeling a rail transit alignment considering different objectives. Transport. Res. A 45 (1), 31–45.
+Schöbel, A., Hamacher, H., Liebers, A., Wagner, D., 2003. The continuous stop location problem in public transportation networks. Report in Wirtschaftsmathematik.
+    University of Kaiserslautern, Germany.
+Schöbel, A., 2005. Locating stops along bus or railway lines: a bicriteria problem. Oper. Res. 136 (1), 211–227.
+Schöbel, A., Scholl, S., 2005. Line planning with minimal traveling time. In: ATMOS 2005: 5th Workshop on Algorithmic Methods and Models for Optimization of
+    Railways. Institute for Numerical and Applied Mathematics, Göttingen, Germany, pp. 1–16.
+Srinivas, M., Patnaik, L.M., 1994. Adaptive probabilities of crossover and mutation in genetic algorithms. IEEE Trans. Syst. Man Cybernet 24 (4), 656–667.
+TfL, 2015. Benchmarking and Financial Planning at TfL. Transport for London: Finance and Policy Committee. UK. http://content.tfl.gov.uk/fpc-20150311-part-1-
+    item09-benchmarking-fin-plan.pdf. (Accessed 12 January 2019).
+van der Hurk, E., Koutsopoulos, H.N., Wilson, N., Kroon, L.G., Maróti, G., 2016. Shuttle planning for link closures in urban public transport networks. Transport. Sci.
+    50 (3), 947–965.
+Van Nes, R., Bovy, P.H.L., 2000. Importance of objectives in urban transit-network design. Transport. Res. Rec. 1735 (1), 25–34.
+Vuchic, V.R., 1969. Rapid transit interstation spacings for maximum number of passengers. Transport. Sci. 3 (3), 214–232.
+Vuchic, V.R., 2005. Urban Transit: Operations, Planning & Economics. John Wiley & Sons, New Jersey, USA.
+Vuchic, V.R., Newell, G.F., 1968. Rapid transit interstation spacings for minimum travel time. Transport. Sci. 2 (4), 303–339.
+Zemp, S., Stauffacher, M., Lang, D.J., Scholz, R.W., 2011. Classifying railway stations for strategic transport and land use planning: context matters! J. Transport
+    Geogr. 19 (4), 670–679.
+Zhao, J., Frumin, M., Wilson, N., Zhao, Z., 2013. Unified estimator for excess journey time under heterogeneous passenger incidence behavior using smartcard data.
+    Transport. Res. C Emerg. Technol. 34, 70–88.
+
+
+
+
+                                                                                   25
+

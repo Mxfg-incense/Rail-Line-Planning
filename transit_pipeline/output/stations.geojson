@@ -6,12 +6,14 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          121.48124770935775,
-          31.233746799065326
+          121.4839916,
+          31.2334689
         ]
       },
       "properties": {
-        "id": "S1"
+        "id": "Station_1",
+        "covered_population": 18834,
+        "avg_distance": 331.8974796082818
       }
     },
     {
@@ -19,12 +21,14 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          121.49225830503288,
-          31.22980847060846
+          121.4835841,
+          31.2333501
         ]
       },
       "properties": {
-        "id": "S2"
+        "id": "Station_2",
+        "covered_population": 18440,
+        "avg_distance": 332.4000524226498
       }
     },
     {
@@ -32,12 +36,14 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          121.50730342032159,
-          31.226886242864925
+          121.4849338,
+          31.2337297
         ]
       },
       "properties": {
-        "id": "S3"
+        "id": "Station_3",
+        "covered_population": 17112,
+        "avg_distance": 308.30584789504474
       }
     },
     {
@@ -45,12 +51,14 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          121.51368630150695,
-          31.22991264457597
+          121.4889086,
+          31.2499697
         ]
       },
       "properties": {
-        "id": "S4"
+        "id": "Station_4",
+        "covered_population": 16456,
+        "avg_distance": 290.819811058753
       }
     },
     {
@@ -58,12 +66,14 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          121.52278986291637,
-          31.229546406865662
+          121.4884243,
+          31.2496297
         ]
       },
       "properties": {
-        "id": "S5"
+        "id": "Station_5",
+        "covered_population": 16433,
+        "avg_distance": 289.02782080979705
       }
     },
     {
@@ -71,12 +81,14 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          121.53458285999109,
-          31.233424057419956
+          121.4856562,
+          31.234197
         ]
       },
       "properties": {
-        "id": "S6"
+        "id": "Station_6",
+        "covered_population": 16257,
+        "avg_distance": 291.86350660135116
       }
     },
     {
@@ -84,12 +96,14 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          121.54403081741273,
-          31.22768264269498
+          121.4889602,
+          31.2500164
         ]
       },
       "properties": {
-        "id": "S7"
+        "id": "Station_7",
+        "covered_population": 16205,
+        "avg_distance": 288.74460808023736
       }
     },
     {
@@ -97,12 +111,14 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          121.55512302932216,
-          31.22982673649002
+          121.4857019,
+          31.2342268
         ]
       },
       "properties": {
-        "id": "S8"
+        "id": "Station_8",
+        "covered_population": 15953,
+        "avg_distance": 290.3730195809972
       }
     },
     {
@@ -110,12 +126,14 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          121.51482815100233,
-          31.2002234488525
+          121.4860835,
+          31.23153
         ]
       },
       "properties": {
-        "id": "S9"
+        "id": "Station_9",
+        "covered_population": 15595,
+        "avg_distance": 344.1958921466499
       }
     },
     {
@@ -123,12 +141,14 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          121.51581099195297,
-          31.210478433306058
+          121.4892488,
+          31.2502287
         ]
       },
       "properties": {
-        "id": "S10"
+        "id": "Station_10",
+        "covered_population": 15504,
+        "avg_distance": 289.14181340060566
       }
     },
     {
@@ -136,12 +156,14 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          121.5094188550227,
-          31.218216045364965
+          121.4828465,
+          31.2328542
         ]
       },
       "properties": {
-        "id": "S11"
+        "id": "Station_11",
+        "covered_population": 15446,
+        "avg_distance": 332.76913329600774
       }
     },
     {
@@ -149,12 +171,14 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          121.51609396871538,
-          31.24308889150273
+          121.5117357,
+          31.2352908
         ]
       },
       "properties": {
-        "id": "S12"
+        "id": "Station_12",
+        "covered_population": 15369,
+        "avg_distance": 373.35674494950206
       }
     },
     {
@@ -162,12 +186,14 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          121.50980103307208,
-          31.246437473312486
+          121.4903582,
+          31.251437
         ]
       },
       "properties": {
-        "id": "S13"
+        "id": "Station_13",
+        "covered_population": 15083,
+        "avg_distance": 324.47889298409046
       }
     },
     {
@@ -175,12 +201,29 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          121.51433450616506,
-          31.25255772344386
+          121.4881069,
+          31.2493086
         ]
       },
       "properties": {
-        "id": "S14"
+        "id": "Station_14",
+        "covered_population": 14857,
+        "avg_distance": 282.6191812719703
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.4854996,
+          31.2440793
+        ]
+      },
+      "properties": {
+        "id": "Station_15",
+        "covered_population": 14726,
+        "avg_distance": 350.96139657795743
       }
     }
   ]

@@ -1,0 +1,383 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.49603222082621,
+          31.24359045603296
+        ]
+      },
+      "properties": {
+        "layer": "job",
+        "name": "",
+        "source": "weighted_kmeans",
+        "population_value": 0.0,
+        "job_value": 395777.2632106872,
+        "transport_value": 0.0,
+        "commercial_value": 0.0,
+        "value": 395777.2632106872,
+        "center_id": "JOB_001"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.40936508834253,
+          31.1736703004102
+        ]
+      },
+      "properties": {
+        "layer": "job",
+        "name": "",
+        "source": "weighted_kmeans",
+        "population_value": 0.0,
+        "job_value": 364415.8481264839,
+        "transport_value": 0.0,
+        "commercial_value": 0.0,
+        "value": 364415.8481264839,
+        "center_id": "JOB_002"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.49095496109314,
+          31.190957012689374
+        ]
+      },
+      "properties": {
+        "layer": "job",
+        "name": "",
+        "source": "weighted_kmeans",
+        "population_value": 0.0,
+        "job_value": 325443.3034826382,
+        "transport_value": 0.0,
+        "commercial_value": 0.0,
+        "value": 325443.3034826382,
+        "center_id": "JOB_003"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.46823613255633,
+          31.225677912891125
+        ]
+      },
+      "properties": {
+        "layer": "job",
+        "name": "",
+        "source": "weighted_kmeans",
+        "population_value": 0.0,
+        "job_value": 317749.16127553745,
+        "transport_value": 0.0,
+        "commercial_value": 0.0,
+        "value": 317749.16127553745,
+        "center_id": "JOB_004"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.4426284256497,
+          31.24169900609908
+        ]
+      },
+      "properties": {
+        "layer": "job",
+        "name": "",
+        "source": "weighted_kmeans",
+        "population_value": 0.0,
+        "job_value": 306672.05507150746,
+        "transport_value": 0.0,
+        "commercial_value": 0.0,
+        "value": 306672.05507150746,
+        "center_id": "JOB_005"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.52978913815679,
+          31.221703895602985
+        ]
+      },
+      "properties": {
+        "layer": "job",
+        "name": "",
+        "source": "weighted_kmeans",
+        "population_value": 0.0,
+        "job_value": 291757.7628444141,
+        "transport_value": 0.0,
+        "commercial_value": 0.0,
+        "value": 291757.7628444141,
+        "center_id": "JOB_006"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.51237114818447,
+          31.22348647507277
+        ]
+      },
+      "properties": {
+        "layer": "job",
+        "name": "",
+        "source": "weighted_kmeans",
+        "population_value": 0.0,
+        "job_value": 257701.47752288874,
+        "transport_value": 0.0,
+        "commercial_value": 0.0,
+        "value": 257701.47752288874,
+        "center_id": "JOB_007"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.56254259461693,
+          31.212025504022737
+        ]
+      },
+      "properties": {
+        "layer": "job",
+        "name": "",
+        "source": "weighted_kmeans",
+        "population_value": 0.0,
+        "job_value": 255969.51818443384,
+        "transport_value": 0.0,
+        "commercial_value": 0.0,
+        "value": 255969.51818443384,
+        "center_id": "JOB_008"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.45505897715904,
+          31.16774487675562
+        ]
+      },
+      "properties": {
+        "layer": "job",
+        "name": "",
+        "source": "weighted_kmeans",
+        "population_value": 0.0,
+        "job_value": 225003.45320588263,
+        "transport_value": 0.0,
+        "commercial_value": 0.0,
+        "value": 225003.45320588263,
+        "center_id": "JOB_009"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.44750030341996,
+          31.194334489384563
+        ]
+      },
+      "properties": {
+        "layer": "job",
+        "name": "",
+        "source": "weighted_kmeans",
+        "population_value": 0.0,
+        "job_value": 208774.50796623967,
+        "transport_value": 0.0,
+        "commercial_value": 0.0,
+        "value": 208774.50796623967,
+        "center_id": "JOB_010"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.42799578522413,
+          31.150762312041092
+        ]
+      },
+      "properties": {
+        "layer": "job",
+        "name": "",
+        "source": "weighted_kmeans",
+        "population_value": 0.0,
+        "job_value": 205150.7474297437,
+        "transport_value": 0.0,
+        "commercial_value": 0.0,
+        "value": 205150.7474297437,
+        "center_id": "JOB_011"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.48257435124543,
+          31.15560138316131
+        ]
+      },
+      "properties": {
+        "layer": "job",
+        "name": "",
+        "source": "weighted_kmeans",
+        "population_value": 0.0,
+        "job_value": 168755.16453952345,
+        "transport_value": 0.0,
+        "commercial_value": 0.0,
+        "value": 168755.16453952345,
+        "center_id": "JOB_012"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.52394248368786,
+          31.247676919556756
+        ]
+      },
+      "properties": {
+        "layer": "job",
+        "name": "",
+        "source": "weighted_kmeans",
+        "population_value": 0.0,
+        "job_value": 168527.22018299196,
+        "transport_value": 0.0,
+        "commercial_value": 0.0,
+        "value": 168527.22018299196,
+        "center_id": "JOB_013"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.41746224281118,
+          31.2370222958532
+        ]
+      },
+      "properties": {
+        "layer": "job",
+        "name": "",
+        "source": "weighted_kmeans",
+        "population_value": 0.0,
+        "job_value": 167250.9870459915,
+        "transport_value": 0.0,
+        "commercial_value": 0.0,
+        "value": 167250.9870459915,
+        "center_id": "JOB_014"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.4181110913736,
+          31.206463124394293
+        ]
+      },
+      "properties": {
+        "layer": "job",
+        "name": "",
+        "source": "weighted_kmeans",
+        "population_value": 0.0,
+        "job_value": 165764.18435013609,
+        "transport_value": 0.0,
+        "commercial_value": 0.0,
+        "value": 165764.18435013609,
+        "center_id": "JOB_015"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.54337148421642,
+          31.154628428711106
+        ]
+      },
+      "properties": {
+        "layer": "job",
+        "name": "",
+        "source": "weighted_kmeans",
+        "population_value": 0.0,
+        "job_value": 161889.60950905058,
+        "transport_value": 0.0,
+        "commercial_value": 0.0,
+        "value": 161889.60950905058,
+        "center_id": "JOB_016"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.54983383340524,
+          31.23420938948342
+        ]
+      },
+      "properties": {
+        "layer": "job",
+        "name": "",
+        "source": "weighted_kmeans",
+        "population_value": 0.0,
+        "job_value": 150696.10569065303,
+        "transport_value": 0.0,
+        "commercial_value": 0.0,
+        "value": 150696.10569065303,
+        "center_id": "JOB_017"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.52999306700933,
+          31.1923433723342
+        ]
+      },
+      "properties": {
+        "layer": "job",
+        "name": "",
+        "source": "weighted_kmeans",
+        "population_value": 0.0,
+        "job_value": 149164.39526043748,
+        "transport_value": 0.0,
+        "commercial_value": 0.0,
+        "value": 149164.39526043748,
+        "center_id": "JOB_018"
+      }
+    }
+  ]
+}

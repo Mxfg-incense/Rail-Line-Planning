@@ -1,0 +1,1540 @@
+Innovative Infrastructure Solutions (2026) 11:3
+https://doi.org/10.1007/s41062-025-02356-5
+
+    STATE-OF-THE-ART PAPER
+
+
+
+Transit network design problem: a half century of methodological
+research
+Mahmoud Owais1,2
+
+Received: 9 August 2025 / Accepted: 9 October 2025 / Published online: 2 December 2025
+© The Author(s) 2025
+
+
+Abstract
+This study presents the most extensive and temporally grounded review of the transit network design problem (TNDP)
+to date, covering five decades of research and offering a unified perspective on its two core subcomponents: the transit
+route network design problem (TRNDP) and the frequency setting problem (FSP). As cities face mounting pressures from
+urbanization, climate change, and equity demands, the strategic design of public transit networks has become increasingly
+critical. Despite the problem’s centrality to transportation planning, the field remains fragmented and methodologically sat-
+urated, lacking integrated approaches that reflect real-world complexity. This review addresses that gap by analyzing over
+170 studies from 1970 to 2024, systematically categorizing them by methodology, objective function, network scale, and
+system application. It is the first study to employ decade-resolved visual analytics, including heatmaps and taxonomies, to
+illustrate methodological trends, such as the rise of metaheuristics in the 2010s, the emerging—but still limited—role of
+AI/ML post-2020, and the declining prominence of classical optimization models. The study also introduces a novel scal-
+ability–performance matrix, comparing 10 solution approaches across multiple dimensions, and highlights the integration
+of TRNDP and FSP as a pivotal frontier in transit research. In doing so, it reveals critical research gaps, particularly the
+lack of resilience, equity, and adaptability in existing models, and proposes a forward-looking agenda rooted in unified,
+real-time, and data-driven frameworks. The review offers both a historical map and a strategic roadmap for scholars and
+practitioners seeking to advance sustainable and inclusive urban transit systems. The scientific value of this work lies
+in its combination of historical depth and methodological synthesis, introducing a novel scalability–performance matrix,
+decade-resolved visual analytics, and an integration-focused framework that has not been attempted in prior reviews.
+
+Keywords Transit networks · Route design · Frequency optimization · Metaheuristics · Artificial Intelligence
+
+
+Introduction                                                               of transit planning typically involves five sequential stages:
+                                                                           network design, frequency setting, timetable development,
+Efficient and equitable public transportation systems are                  vehicle scheduling, and crew scheduling. Of these, the tran-
+essential for addressing the growing challenges of urbaniza-               sit network design problem (TNDP) plays a central role, as
+tion, including traffic congestion, environmental degrada-                 the structure of the transit network directly influences all
+tion, and social inequality [69]. Among the various planning               subsequent planning stages and determines the accessibility,
+activities that underpin transit systems, transit network                  cost-efficiency, and usability of the system [137, 138].
+design stands out as the strategic foundation upon which                       The TNDP focuses on determining an optimal set of tran-
+all operational and tactical decisions are built. The process              sit routes and frequencies that balance the often conflicting
+                                                                           interests of stakeholders, primarily transit operators and
+                                                                           users. Operator-related goals typically focus on minimizing
+                                                                           operational costs and fleet size, while user-related objec-
+     Mahmoud Owais
+     maowais@aun.edu.eg; mahdmohd@eng.au.edu.eg                            tives aim to reduce travel times, the number of transfers,
+                                                                           and spatial inequities in service distribution. These objec-
+1
+     Civil Department, Faculty of Engineering, Assiut University,          tives are frequently in tension, making the TNDP inherently
+     Assiut, Egypt                                                         a multi-objective, combinatorial, and NP-hard problem.
+2
+     Civil Department, Faculty of Engineering, Sphinx University,          Furthermore, modern urban transit systems are subject to
+     Assiut, Egypt
+
+
+                                                                                                                              13
+3   Page 2 of 28                                                                      Innovative Infrastructure Solutions (2026) 11:3
+
+
+dynamic and uncertain conditions such as variable travel        approaches of their review time have become dominant
+demand, private vehicle competition, and equity consider-       tools in addressing TNDP under various objectives (e.g.,
+ations across geographic and socio-economic zones [116,         minimizing travel time, maximizing coverage, balanc-
+127].                                                           ing demand). Schöbel [152] offered a foundational review
+   Equity in transit network design is inherently multi-        and classification of line planning models, identifying key
+dimensional, encompassing geographic, socioeconomic,            formulations such as frequency-based and periodic line
+and demographic dimensions. Among these, geographic             planning, with a particular emphasis on mathematical pro-
+equity represents the most immediate priority, as it ensures    gramming models and complexity trade-offs.
+balanced service distribution between dense urban cores             In a more targeted scope, metaheuristic-based approaches
+and underserved peripheral areas. Without such spatial          have shown significant promise in solving complex TRNDP
+inclusivity, other forms of equity cannot be meaningfully       instances. For example, Yu et al. [172] and Mauttone and
+achieved. The second priority lies in socioeconomic equity,     Urquhart [116] employed genetic algorithms (GA) and sim-
+particularly affordability and accessibility for low-income     ulated annealing (SA) for optimizing bus networks. These
+households who are disproportionately reliant on public         methods have been further advanced in the many-objective
+transport for daily mobility. Finally, accessibility for vul-   context [120], reflecting the growing interest in balancing
+nerable populations, including the elderly, disabled, and       multiple objectives, including environmental, social, and
+mobility-impaired, must be systematically integrated into       economic criteria. Notably, the work of Park et al. [140]
+TNDP models through design features such as reduced             has pushed forward the frontiers by using Pareto-based
+transfer burdens, step-free access, and demand-responsive       optimization to address large-scale, multi-objective TNDP
+services. Collectively, these dimensions define a holistic      scenarios. Parallel to the route design literature, frequency
+equity agenda for transit planning, but geographic equity       setting has been examined as both a standalone and an inte-
+serves as the foundational layer upon which socioeconomic       grated problem. Studies such as Fan and Machemehl [54],
+and demographic inclusivity can be progressively realized.      and Hamdouch and Lawphongpanich [76] proposed formu-
+   Traditional approaches to TNDP often relied on single-       lations that account for dynamic demand, congestion, and
+objective formulations or weighted-sum strategies, which        real-time control. In part of the FSP, review articles by Fu et
+inadequately captured the full complexity of the problem. In    al. [59] and Ibarra-Rojas et al. [83] distinguished frequency-
+recent years, the field has advanced toward multi-objective     based and schedule-based models and emphasized how
+optimization and many-objective evolutionary algorithms,        behavioral assumptions shape transit assignment and pas-
+enabling planners to explore a Pareto front of diverse solu-    senger distribution. This was echoed by [151] who catego-
+tions without imposing arbitrary weights. These approaches      rized models into static and dynamic classes with varying
+reflect a shift toward more inclusive, adaptive, and data-      degrees of realism.
+driven transit design frameworks that can better respond to         These review studies have called for deeper integration
+the multifaceted demands of modern cities [36].                 between TRNDP and FSP, noting that most studies treat
+   The TNDP traditionally encompasses two core and inter-       them separately or solve them sequentially. Cipriani et al.
+related sub-problems: the Transit Route Network Design          [36] advocated for simultaneous models that capture the
+Problem (TRNDP) and the Frequency Setting Problem               interactions between spatial coverage and service reliabil-
+(FSP). The former focuses on defining routes and their          ity. Bielli et al. [16] and Ibarra-Rojas et al. [83] identified
+spatial configurations, while the latter addresses the tem-     the lack of comprehensive models that address both sub-
+poral distribution of services through optimal frequency        problems while considering congestion effects, transfer
+assignments. Both elements are integral to transit system       coordination, and multimodal integration.
+performance and user satisfaction, yet they differ in compu-        The reviews [48, 57, 69] further emphasize the growing
+tational complexity, modeling assumptions, and sensitivity      need to incorporate user behavior, emerging technologies,
+to demand and operational constraints. Their integration, as    and contextual dynamics into TNDP formulations. The post-
+emphasized by Baaj and Mahmassani [12], represents a key        COVID-19 transit planning review by [67] highlights how
+challenge in transit research.                                  demand uncertainty, remote work, and health constraints
+   Over the past decades, various reviews have shed light on    have shifted planning paradigms, reinforcing the urgency of
+the evolution of these problems and their solutions. One of     robust and adaptive TNDP models.
+the earliest global surveys by Ceder and Wilson [28] outlined       In terms of modeling strategies, a transition is evi-
+the foundational models for route generation and frequency      dent from single-objective, deterministic formulations to
+setting, and its legacy continues through more contempo-        multi- and many-objective approaches under uncertainty.
+rary reviews. More recently, review studies such as [48,        Advances in bi-level and hybrid optimization demonstrate
+57, 69, 93] have highlighted how different methodological       the complexity of real-world TNDPs where operator goals
+
+
+
+13
+Innovative Infrastructure Solutions (2026) 11:3                                                                   Page 3 of 28 3
+
+
+and passenger choices interact nonlinearly [53, 156]. The        explicitly analyzing TRNDP and FSP jointly as a unified
+review articles mentioned above highlight how the repre-         TNDP framework; (iii) analytical innovation, through the
+sentation of user behavior, whether via deterministic user       introduction of a scalability–performance matrix and tax-
+equilibrium, stochastic route choice, or agent-based simula-     onomy-based visual analytics; and (iv) forward-looking
+tions, affects network performance and solution feasibility.     impact, by identifying underexplored equity, resilience, and
+    The focus of this research is to provide a comprehensive,    AI-driven modeling opportunities as the next research fron-
+longitudinal, and integrative review of the TNDP, with spe-      tier. In doing so, this review goes beyond cataloguing prior
+cial emphasis on the interaction between its two core sub-       studies to provide a structured foundation for future TNDP
+problems: the TRNDP and the FSP. Conceptually, this review       research and practice.
+is guided by a framework that links the methodological evo-         The remainder of this article is as follows. Sect. “Research
+lution of TNDP (from classical optimization to heuristics,       motivation” presents the overall contribution of the paper,
+metaheuristics, and AI-driven models) with the practical         highlighting its novelty in terms of temporal depth, meth-
+complexities of real-world transit systems, including multi-     odological classification, integration focus, and future-
+objective trade-offs, demand uncertainty, and equity consid-     oriented analysis. Sect. “Research motivation” states the
+erations. The study builds on and extends prior reviews in       motivation for conducting this study. Sect. “Transit route
+the field. For example, the foundational work of Ceder and       network design problem (TRNDP)” offers a comprehensive
+Wilson [28] established early line planning models,Guihaire      review of the TRNDP, tracing its methodological evolution
+and Hao [69] and Farahani et al. [57] synthesized develop-       from foundational mathematical models to recent AI-based
+ments in heuristics and optimization methods, Schöbel [152]      and equity-driven frameworks. Sect. “Frequency setting
+focused on line planning formulations,and more recently,         problem (FSP)” examines the FSP, detailing its theoreti-
+Durán-Micco and Vansteenwegen [48] highlighted con-              cal foundations, solution architectures, and advancements
+temporary methodological directions. Unlike these earlier        in dynamic, demand-responsive modeling. Sect. “Inte-
+surveys, the present review spans five decades, systemati-       grated TRNDP and FSP studies” discusses the integration
+cally categorizes methodologies through temporal and the-        of TRNDP and FSP under the unified TNDP, emphasizing
+matic taxonomies, and explicitly addresses the integration       the shift toward joint modeling approaches that capture
+of TRNDP and FSP as a critical and underexplored research        spatial–temporal interdependencies and real-time optimiza-
+frontier. This framing positions the study at the intersection   tion. Sect. “Conclusion” concludes the paper by summariz-
+of conceptual synthesis and practical agenda-setting for the     ing key insights, identifying research gaps, and proposing
+future of transit network design.                                a future research agenda focused on an adaptive, equitable,
+    To this end, this review draws on these insights to posi-    and AI-augmented transit design framework.
+tion the current study as a comprehensive, integrated, and
+up-to-date investigation of TNDP with special focus on both
+route network design and frequency setting, accounting for       Research motivation
+recent methodological advances, practical constraints, and
+system dynamics. The review integrates 45 years of litera-       The motivation behind this review stems from a long-
+ture, categorizing research by methodology, decade, and          standing scholarly engagement with the TNDP. While the
+objective type, offering both a macro and micro view of the      literature synthesized in this study was not collected exclu-
+field. This review article not only charts the historical and    sively during the preparation of the current manuscript, its
+methodological evolution of TRNDP + FSP research but             foundation was laid in 2010 when the author of this study
+also proposes directions for future modeling and optimiza-       first embarked on his academic journey into TNDP during
+tion efforts that align with the evolving demands of urban       his master’s studies. Since then, he has continuously tracked
+mobility and transport resilience. The underutilization of       the field’s development, systematically collecting and orga-
+AI, the gap in real-time adaptability, and the limited explo-    nizing relevant studies across its subdomains—namely,
+ration of equity and sustainability metrics present ripe areas   TRNDP, FSP, and integrated TNDP models. Over the years,
+for future exploration. Ultimately, revitalizing research in     this body of work has grown into a longitudinal archive
+this domain requires bridging classical optimization with        that captures the methodological and thematic evolution of
+modern, data-rich, and intelligent urban transport para-         TNDP research. Notably, in recent years, a decline in pub-
+digms. Unlike prior reviews that examined either TRNDP           lication volume and innovation within the TNDP domain
+or FSP in isolation or focused on short time spans, this study   has become evident, particularly in comparison to its peak
+offers scientific value added in four dimensions: (i) temporal   during the 2010s. This observed stagnation has served as a
+depth, synthesizing five decades of research to capture long-    primary catalyst for conducting the present review, which
+term methodological shifts; (ii) methodological integration,     aims to reflect on the field’s historical progression, highlight
+
+
+
+                                                                                                                      13
+3   Page 4 of 28                                                                       Innovative Infrastructure Solutions (2026) 11:3
+
+
+existing gaps, and chart a forward-looking agenda at a criti-     and planning objectives. Building on this, the second step
+cal juncture in TNDP research.                                    involved a temporal analysis of TNDP publications, using
+                                                                  decade-resolved heatmaps to trace how the methodologi-
+                                                                  cal focus shifted over time, revealing peaks, such as the
+Contribution                                                      rise of metaheuristics in the 2010s, and plateaus, such as
+                                                                  the stagnation observed after 2020. The third step exam-
+This study presents the most comprehensive and longitu-           ined integration studies, highlighting the transition from
+dinal review of the TNDP to date spanning five decades,           sequential approaches to more unified frameworks that
+offering several key advancements:                                jointly optimize routes and frequencies. Finally, the fourth
+                                                                  step introduced the scalability–performance matrix. This
+● Temporal depth: Unlike previous review studies, which           novel tool systematically compares solution methods across
+  mainly focus on its last two decades [69, 86], this paper       multiple dimensions and translates methodological insights
+  tracks the evolution of TNDP methods since the 1970s,           into practical guidance tailored to different network sizes
+  highlighting paradigm shifts over time.                         and planning conditions. Together, these four steps provide
+● Thematic classification: It proposes a multi-dimension-         a multi-layered synthesis that not only maps the historical
+  al classification framework organizing methodologies            development of TNDP methodologies but also connects
+  (mathematical programming, heuristics, metaheuristics,          them to an integrative framework capable of guiding both
+  multi-objective models, and AI-based solutions) in con-         academic research and practical applications.
+  nection with the network complexity and scale.
+● Integration insight: The paper explicitly investigates in-
+  tegrated TNDP sub-problems, namely, TRNDP and FSP               Transit route network design problem
+  interdependencies, which is an area previously over-            (TRNDP)
+  looked in global reviews.
+● Trend forecasting: It synthesizes historical patterns into      Early TRNDP studies primarily relied on rule-based and
+  a methodological trajectory, identifying trends toward          analytical models aimed at balancing operational costs
+  AI, hybrid models, and real-time adaptive systems.              and user convenience. A notable early contribution was by
+                                                                  [60], who developed a zonal route design method minimiz-
+In addition, it establishes a novel scalability-performance       ing combined operator and user costs through simplified,
+matrix across various TNDP solution classes, offering a           analytically tractable assumptions. Building on this foun-
+structured evaluation of how different methodologies per-         dation, the mid-1990s saw a shift toward multi-objective
+form relative to network size and complexity. This analytical     formulations. Boffey et al. [17] introduced mathematical
+lens has been largely absent in prior reviews. Furthermore,       programming tools that balanced coverage, directness, and
+it traces the methodological evolution in the field, highlight-   transfer minimization under operational constraints, reflect-
+ing the transition from traditional optimization frameworks       ing a growing recognition of the need to optimize conflict-
+toward AI-based approaches as a response to increasing            ing goals simultaneously.
+network complexity and the growing demand for real-time              Innovative heuristic methods also emerged during this
+adaptability. In doing so, the study also recognizes clear        period. Dufourd et al. [46] applied the Tabu embedded
+research saturation in deterministic models, advocating for       artificial weighting method for transit line location in grid
+a new wave of research that incorporates uncertainty-aware        networks, dynamically adjusting search priorities to better
+models, multi-agent frameworks, and dynamic real-time             capture user behavior and spatial variability. A significant
+solutions to better reflect real-world conditions. Finally, the   conceptual advancement followed with [20], who proposed
+study introduces a timeline-based taxonomy that not only          a multi-modal location-routing model incorporating user
+categorizes TNDP methodologies chronologically but also           mode choice between public transit and private vehicles.
+clarifies which problem classes each method has been most         Their bi-criterion framework jointly minimized construc-
+effectively applied to, offering scholars and practitioners a     tion and user costs while applying a k-shortest paths algo-
+more coherent understanding of the field’s trajectory.            rithm to model realistic user route preferences.
+    The analysis conducted in this review followed a struc-          The early 2000s marked a growing interest in integrat-
+tured, four-step process. The first step involved developing      ing operational layers. Laporte et al. [101] classified rapid
+a methodological taxonomy that categorized approaches to          transit design problems into strategic, line planning, and
+TRNDP and FSP, including mathematical programming,                frequency setting categories, calling for holistic frame-
+heuristics, metaheuristics, and AI/ML, while clarifying           works to span these layers. Heuristic models, such as [19],
+how each contributes to addressing network complexity             sought alignment with cost-effectiveness by optimizing
+
+
+
+13
+Innovative Infrastructure Solutions (2026) 11:3                                                                   Page 5 of 28 3
+
+
+routes relative to spatial demand patterns. Chowdhury and        for mobility allowance shuttle transit systems, particularly
+I-Jy Chien [33] introduced an intermodal train-feeder rout-      for elderly and disabled passengers. Their methodology bal-
+ing model prioritizing service synchronization while [102]       anced fleet size and routing configuration to improve cover-
+optimized station locations based on continuous demand           age in low-demand zones. Whereas, Marin and Jaramillo
+fields and accessibility metrics. In this period of research,    [114] focused on urban rapid transit capacity expansion over
+mathematical programming has gained more attention in            time. Their multiperiod mixed-integer linear programming
+TRNDP formulations. Schöbel and Scholl [153] utilized            (MILP) model optimized station and line additions while
+integer programming to minimize travel times and transfers       accounting for evolving demand patterns and investment
+within large transit networks, improving direct-trip-maxi-       limitations. The model demonstrated that dynamic, phased
+mizing strategies. Similarly, Laporte et al. [103] presented     development could lead to more sustainable and cost-effec-
+a user-focused model for locating a single transit line based    tive transit growth. Quadrifoglio and Li [145] developed a
+on demand density, trip purpose, and spatial equity. They        hybrid model combined analytical derivation and simula-
+proposed a model maximizing trip coverage along a transit        tion, guiding modal choice in feeder systems based on tem-
+corridor using spatial population and activity distributions,    poral-spatial demand distribution. Their method aimed to
+providing equity-focused planning tools with quantifiable        determine critical demand density thresholds for choosing
+coverage indices.                                                between fixed-route and demand-responsive feeder services.
+   In the late 2000s, TRNDP research expanded to incorpo-        Escudero and Muñoz [49] presented an enhanced solution
+rate sophisticated mathematical tools, heuristic integrations,   method for a modified extended TRNDP, emphasizing route
+and robustness analysis. Dynamic, real-time adaptability         reliability and minimal transfer. They used a hierarchical
+entered the field with [89], whose model combined local          approach to balance multiple objectives and incorporated
+vehicle routing with global optimization based on real-time      reliability-based evaluation metrics into the optimization
+GPS data to respond to changing demand and congestion            process. Marín and García-Ródenas [113] studied infra-
+conditions. Guan et al. [68] introduced a simulation-based       structure placement within urban railway systems, aiming to
+model accounting for stochastic passenger behavior and           optimize station and line locations while considering pedes-
+delay propagation, jointly optimizing transit line con-          trian access and network redundancy. Their spatial network
+figuration and vehicle scheduling. Addressing demand             model introduced new metrics to quantify catchment quality
+uncertainty directly, Patil and Ukkusuri [141] developed a       and multimodal integration. Laporte et al. [104] introduced a
+system-optimal stochastic transportation network design          game-theoretic framework for robust TRNDP design, mod-
+model using a two-stage stochastic programming approach          eling disruptions as adversarial moves in a zero-sum game.
+to balance congestion reduction and investment costs.            The model sought Nash equilibrium solutions that maintain
+Their work highlighted the operational benefits of robust        operational utility despite link failures, a departure from tra-
+design under variable demand and computational tractabil-        ditional deterministic planning. In a closely related study,
+ity advantages over user-equilibrium models. Borndörfer et       Laporte et al. [99] proposed a model that explicitly encour-
+al. [18] introduced a column-generation approach for line        ages alternative routing for origin–destination pairs. By
+planning in public transport, focusing on cost-efficient net-    maximizing trip coverage while ensuring multiple feasible
+work configurations. The model employed a decomposition          paths, their model enhanced resilience against disruptions
+method that solves the master problem with subproblem-           and underlined the importance of incorporating robustness
+based candidate line generation, improving tractability for      constraints at the design stage.
+large networks. Meanwhile, Marín [112] extended the clas-            Starting from 2010, new solution approaches started to
+sical rapid transit network design problem by integrating        gain popularity as computational capabilities improved. Fan
+service constraints and capacity limitations. Their model        and Mumford [52] applied GA for urban transit route plan-
+captured more realistic transit system dynamics, allowing        ning under realistic operational constraints. To address spe-
+planners to evaluate trade-offs between service level and        cific optimization goals in urban routing, Curtin and Biba
+infrastructure investment through a nonlinear programming        [38] introduced the arc-node service maximization problem,
+approach. Laporte et al. [98] proposed an integrated meth-       where routes are constructed to maximize service coverage
+odology for the TRNDP that unified the strategic (alignment      while respecting vehicle capacity and budget constraints.
+and station placement) and tactical (route) planning stages.     Their approach adopts a modified Tabu Search (TS) algo-
+Using a bilevel programming structure, they incorporated         rithm, emphasizing solution efficiency in large urban grids,
+user equilibrium assignment at the lower level and network       thus contributing to practical routing solutions for munici-
+design at the upper level, thus enabling demand-responsive       pal agencies. Kechagiopoulos and Beligiannis [92] tackled
+design that accounts for passenger route choice behavior.        the TRNDP using a Particle Swarm Optimization (PSO)
+Zhao and Dessouky [181] addressed service capacity design        algorithm. This nature-inspired method offered notable
+
+
+
+                                                                                                                      13
+3   Page 6 of 28                                                                      Innovative Infrastructure Solutions (2026) 11:3
+
+
+improvements in solution quality and convergence time           identifying how such flexible systems outperform tradi-
+compared to earlier heuristics, and was validated on the        tional fixed-route buses in low-density areas, particularly
+Mandl benchmark network. The model focused on direct-           under time-sensitive constraints.
+ness, route length, and coverage while maintaining algo-           The integration of multiple planning decisions was
+rithmic flexibility and adaptability to multi-modal urban       emphasized by [96], who proposed a multi-criteria deci-
+networks. Exact and heuristic models have also evolved.         sion model uniting mode choice, line routing, and fre-
+De Sá et al. [41] proposed hub-and-spoke network designs        quency assignment for new transit corridors. This approach
+with multiple lines, integrating transfer cost penalties and    addressed both system-wide performance and localized
+varying passenger demand. Their models tackled complex-         demand, showing the importance of coordinated planning
+ity through hybrid optimization algorithms. In parallel,        across layers. On the algorithmic front, Laporte and Pas-
+Lee et al. [106] applied geographic directness indices to       coal [105] introduced path-based algorithms for metro net-
+analyze and enhance the alignment of bus routes in San-         work design, integrating flow-based decision rules to ensure
+tiago, balancing route simplicity and urban coverage. Li and    capacity and demand matching. Their models emphasized
+Quadrifoglio [108] proposed a hybrid analytical-simulation      cost-effective route generation while preserving user pref-
+model to determine whether fixed-route transit or demand-       erences. Similarly, Laporte and Mesa [100] reviewed the
+responsive connector service is more suitable under varying     design of rapid transit networks, presenting a general for-
+demand densities. Their model introduced a critical demand      mulation that integrates cost, coverage, and directness,
+density metric, aiming to balance operational cost and pas-     along with practical solution heuristics. Saidi et al. [149]
+senger accessibility across spatially heterogeneous zones.      developed a generalized framework for analyzing complex
+Samanta and Jha [150] presented a multi-objective model         urban rail networks, incorporating multiple performance
+for rail transit alignment planning that addressed trade-offs   criteria such as robustness against disruptions, travel time
+between directness of routes, construction cost, and area       reliability, and flow distribution. Their approach provided
+coverage. Their model, formulated as a bi-objective com-        a multi-perspective evaluation of network topology and
+binatorial problem, employed multi-criteria decision analy-     capacity. Gutiérrez-Jarpa et al. [71] advanced the corridor-
+sis techniques to evaluate multiple alignment alternatives,     based metro network design problem by maximizing travel
+showcasing how strategic rail design can embed socio-spa-       flow capture from alternative modes. Using a metaheuristic
+tial equity. Circular route configurations were the focus of    approach, they optimized route alignments within spatial
+Owais et al. [135], who proposed a mixed integer program-       corridors, balancing traffic potential, geometric constraints,
+ming model to design optimal circular bus routes in urban       and budget limitations. Camporeale et al. [22] emphasized
+settings. Their work considered constraints on travel time,     horizontal and vertical equity in transit route planning. Their
+service frequency, and area coverage, and highlighted the       framework integrated social justice considerations directly
+benefits of closed-loop systems in reducing terminal infra-     into the network design problem by proposing equity met-
+structure and turnaround delays.                                rics and quantifying their impact on operational costs. This
+   In the context of railway infrastructure, Repolho et al.     work filled a major gap in traditional TRNDPs by ensur-
+[146] addressed the optimal siting of high-speed rail sta-      ing that low-income and disadvantaged populations are not
+tions along the Lisbon-Porto corridor. Their location-allo-     excluded from quality transit access.
+cation model factored in intermodal connectivity, regional         Recent research from 2018 to 2022 continues to evolve
+accessibility, and economic viability, offering a framework     public transport network design by integrating more sophis-
+that balances national strategic goals with local service       ticated modeling techniques and addressing real-world con-
+efficiency. Gutiérrez-Jarpa et al. [73] advanced a corridor-    straints. A key trend is the incorporation of multi-objective
+based approach to rapid transit network design that jointly     optimization and Metaheuristics algorithms to balance
+minimizes construction costs and maximizes OD flow cov-         conflicting goals such as cost, efficiency, environmental
+erage. Their exact solution method on real OD matrices          impact, and passenger satisfaction. Owais and Osman [137]
+demonstrated how detailed demand structures can guide           introduced a complete hierarchical multi-objective GA to
+cost-effective infrastructure development across metro-         design transit routes, addressing both the passengers' and
+politan regions. Later advances in TRNDP have explored          operators' needs. The method allowed optimization over
+both user-centered planning and operational integration. A      several hierarchical planning layers, improving computa-
+survey-based approach by [50] introduced a framework for        tional efficiency and realism in solution generation. Gutiér-
+designing rapid transit lines based on stated preferences,      rez-Jarpa et al. [71] also proposed a corridor-based metro
+considering the trade-offs users make between travel time,      network design approach, aimed at capturing travel flows
+cost, and transfer convenience. Complementing this, Yu et       by optimizing route corridors, which is particularly benefi-
+al. [175] examined demand-responsive circulator services,       cial in dense urban centers. This method emphasized how
+
+
+
+13
+Innovative Infrastructure Solutions (2026) 11:3                                                                 Page 7 of 28 3
+
+
+corridor alignment directly influences ridership and system      the historical foundation of TRNDP research. These studies
+effectiveness. Moving toward environmentally sustainable         focused on developing mathematical programming formula-
+operations, Li et al. [109] developed an improved ant colony     tions—including linear, nonlinear, and mixed-integer mod-
+optimization (ACO) algorithm for multi-depot green transit       els—to minimize objectives such as travel time, operational
+systems. Their work addressed depot selection, energy effi-      cost, or the number of transfers. They typically assumed
+ciency, and balanced depot loads in green transport systems      static demand and well-structured networks, and empha-
+using ACO's adaptive learning capability. In the same year,      sized exact solutions under clearly defined constraints.
+Iliopoulou and Kepaptsoglou [85] proposed a simultaneous         Early studies like [12, 28, 60] are examples of this founda-
+optimization model for route design and infrastructure plan-     tional era. Heuristics and Metaheuristics gained prominence
+ning. The model integrates physical infrastructure decisions     in the 2000s and 2010s as researchers grappled with the
+(e.g., terminal locations) with route alignment, thereby         scale and complexity of real-world transit systems. Meth-
+improving operational feasibility and minimizing long-term       ods such as GAs, TS, and Ant Colony Optimization (ACO)
+costs. For feeder services, Zheng et al. [182] presented a       proved capable of producing near-optimal solutions in rea-
+multiple feeder bus route model based on existing bus            sonable computational time [16, 19, 52, 54, 116]. This shift
+lines. Their work helped identify optimal feeder patterns        allowed researchers to address large, nonlinear, and multi-
+by balancing route coverage and transfer efficiency, espe-       objective versions of the TRNDP with greater flexibility.
+cially relevant in suburban and peri-urban settings. Further     Real-time and simulation-based approaches reflect a more
+advancing transit design for realistic settings, Durán-Micco     recent movement towards handling time-dependent demand
+et al. [47] addressed practical bus line planning in Utrecht,    and operational dynamics. These methods bridge the gap
+Netherlands, using a bi-objective memetic algorithm. Their       between strategic network planning and tactical scheduling
+work was notable for incorporating real-world constraints        by simulating passenger behaviors, traffic fluctuations, and
+like discrete frequencies, terminal restrictions, and circular   real-time decision-making scenarios. As public transit sys-
+routes, while also providing a new performance metric and        tems increasingly leverage smart technologies, this branch
+open data for benchmarking. Owais et al. [128] developed         grows in importance for responsive and adaptable planning
+a non-demand-based metro design model for square cities,         [89]. Equity, resilience, and integration mark a paradigm
+optimizing connectivity and operational resilience based on      shift in TRNDP research toward broader societal objec-
+geometric and urban layout rather than only demand dis-          tives. Studies under this theme incorporate accessibility,
+tributions. This approach aimed to provide efficient design      social equity, network robustness, and service continuity in
+strategies for cities with symmetric structures. Additionally,   the face of disruptions. Integration with other transportation
+Owais et al. [129] focused on minimizing transfers across        modes and land-use planning has also become a priority,
+multiple subway lines, aiming to reduce passenger incon-         reflecting a move towards holistic and inclusive transit sys-
+venience in mega-cities with sprawling transit systems.          tem design [22, 85, 130, 140]. Emerging technologies and
+Their model offered a framework to design multiple inter-        Artificial Intelligence (AI) are the most recent and promis-
+connected lines in a way that reduces the passenger transfer     ing branch. While still underdeveloped, this area explores
+burden. Similarly [130] introduced a model that integrates       reinforcement learning (RL), deep learning (DL), and digi-
+new underground transit lines with existing transport net-       tal twin frameworks. These data-driven and adaptive tools
+works. This integration improved overall accessibility and       offer the potential for real-time optimization, user-centric
+multimodal connectivity, contributing to more sustainable        service customization, and robust modeling under uncer-
+urban mobility planning. Alternatively, Dakic et al. [39]        tainty—though their integration into TRNDP remains in
+proposed an analytical framework based on a three-dimen-         early stages [53, 138].
+sional macroscopic fundamental diagram for optimizing               Figure 2 illustrates the frequency distribution of TRNDP
+bus network design. Their approach considers trip-length         studies by decade, revealing a chronological evolution of
+distributions, modal interactions, and dynamic traffic states,   research intensity and thematic focus. The 1980s and 1990s
+which revealed significant improvements in network perfor-       reflect the formative years of TRNDP research, character-
+mance and passenger satisfaction when compared to tradi-         ized by limited but foundational contributions rooted in
+tional uniform models. Table 1 summarizes the contribution       mathematical programming and corridor-based network
+to TRNDP.                                                        design. These early efforts laid the theoretical ground-
+   The taxonomy tree presented in Fig. 1 visually encap-         work for later methodological expansion. A notable surge
+sulates the evolution of research efforts within the Transit     occurs in the 2000s and 2010s, marking a transformative
+Route Network Design Problem (TRNDP) by organizing               era in TRNDP development. During this period, the field
+the field into five core methodological branches that have       experienced its most prolific output, with a sharp concentra-
+emerged and matured over time. Optimization models form          tion of studies between 2005 and 2015. This uptick aligns
+
+
+
+                                                                                                                    13
+3   Page 8 of 28                                                                             Innovative Infrastructure Solutions (2026) 11:3
+
+Table 1 Summary of TRNDP         Authors         Year   Study focus               Methodology                Key contribution
+methodological advances
+                                 Furth           1986   Zonal route design        Analytical model           Cost-minimizing corridor
+                                                                                                             transit routes
+                                 Boffey et al    1995   Multi-objective routing Mathematical                 Balancing coverage and
+                                                                                programming                  transfers
+                                 Dufourd et al   1996   Transit line location   TS heuristic                 Grid-based line
+                                                                                                             optimization
+                                 Bruno et al     1998   Multi-modal rapid         Bi-criterion k-shortest    User behavior modeling
+                                                        transit                   path
+                                 Laporte et al   2000   Transit system planning   Optimization review        Integration challenges
+                                 Bruno et al     2002   Transit line location     Heuristic iterative search Balanced travel time sav-
+                                                                                                             ings and construction costs
+                                 Laporte et al   2002   Station location          Acyclic graph longest      Coverage maximization
+                                                                                  path
+                                 Schöbel and     2004   Line planning with        Integer programming        Minimized travel time
+                                 Scholl                 capacity                                             under capacity and fre-
+                                                                                                             quency constraints
+                                 Laporte et al   2005   Urban transit routing     Genetic algorithms         Metaheuristics in TRNDP
+                                 Laporte et al   2007   Multimodal integrated     Bi-level GA + Dijkstra     Full-route-freq integration
+                                                        network
+                                 Jayakrishnan    2007   Dynamic bus routing       Real-time routing with     Enabled adaptive vehicle
+                                                                                  heuristics                 re-routing using GPS data
+                                                                                                             and load balancing
+                                 Li and          2010   FRT vs DRC services       Analytical-simulation      Critical demand thresholds
+                                 Quadrifoglio
+                                 Kechagio-       2014   TRNDP with PSO            Swarm optimization         Improved search efficiency
+                                 poulos and
+                                 Beligiannis
+                                 Owais and       2018   MOGA-based TRNDP          Hierarchical GA            Multi-objective rail route
+                                 Osman                                                                       design
+                                 Zheng et al     2020   Underground line          Bi-level model             Enhanced connectivity
+                                                        integration                                          with existing networks
+                                 Dakic et al     2022   Realistic bus planning    Case-based design          Operationally feasible line
+                                                                                                             layouts
+
+                                                                   availability of real-time data, the integration of emerging
+                                                                   technologies—such as RL, digital twins, and AI-enhanced
+                                                                   planning—remains relatively underexplored in recent
+                                                                   TRNDP literature. Also, the lack of further sub-branching
+                                                                   post-2021 reflects a relative stagnation in methodological
+                                                                   innovation, particularly in response to modern challenges
+                                                                   like post-COVID disruptions, climate resilience, and large-
+                                                                   scale behavioral data.
+                                                                      The heatmap in Fig. 3 offers a temporal lens into the
+                                                                   evolving research priorities and methodological shifts within
+                                                                   the TRNDP literature over the past five decades. The 1980s
+                                                                   and 1990s were predominantly characterized by mathemati-
+Fig. 1 Taxonomy tree of TRNDP problem focus                        cal programming and classical heuristic algorithms, reflect-
+                                                                   ing a foundational focus on optimization models (60%) and
+with the widespread adoption of heuristic and metaheuristic        route-layout problems. During this era, interest in multi-
+techniques, such as genetic algorithms and ant colony opti-        modal integration and equity considerations remained mod-
+mization, enabling more scalable and flexible solutions to         est, though heuristic approaches began to gain prominence
+complex, multi-objective transit problems. In contrast, the        by the 1990s (30%). The 2000s marked a turning point,
+2020s show a modest decline in research volume. This trend         with the emergence of metaheuristic strategies such as GAs,
+will be reinforced later by observations from the heatmap          ACO, and PSO. This decade also witnessed a diversifica-
+(Fig. 3) that suggest a plateau in methodological innovation.      tion in objectives and constraints, including the incorpora-
+Despite the growing complexity of urban systems and the            tion of demand elasticity and network robustness. The trend
+
+
+
+13
+Innovative Infrastructure Solutions (2026) 11:3                                                                        Page 9 of 28 3
+
+
+
+
+Fig. 2 The frequency distribution of TRNDP studies by decade
+
+
+
+
+Fig. 3 Heatmap of TRNDP method usage percentages across decades. Some columns do not sum to 100% due to overlap in some studies themes
+
+
+
+
+                                                                                                                           13
+3   Page 10 of 28                                                                      Innovative Infrastructure Solutions (2026) 11:3
+
+
+continued into the 2010s with a proliferation of simulation-        The solution of FSP usually follows a structured flow-
+based models, bi-level programming, and early integration        chart model that encapsulates the logical architecture of all
+of real-time data, largely driven by increased data avail-       components. It begins with the inputs, such as passenger
+ability and computational power. Heuristic/ metaheuristic        demand type, available fleet size, and transit network struc-
+approaches peaked at 40%, while the equity/resilience and        ture. These inputs influence decision variables including
+real-time system dimensions grew steadily (10–20%). How-         service frequency, vehicle size, fare policies, and stop place-
+ever, the 2020s tell a more nuanced story. While research        ment. The objectives commonly pursued include minimizing
+interest has shifted toward infrastructure integration (20%),    total costs, improving service equity, and enhancing passen-
+passenger equity (30%), and operational real-time systems        ger reliability—all crucial to aligning transit operations with
+(20%), the heatmap reveals a notable plateau in method-          public service goals. The solution framework integrates
+ological innovation. The methodological representation in        constraints such as vehicle availability, system capacity, and
+the literature signals a lack of adoption of advanced data-      environmental regulations, reflecting real-world operational
+driven techniques, such as RL, DL, or urban digital twins.       limits. The inclusion of diverse solution methods—ranging
+Moreover, the integration of smart city infrastructure (e.g.,    from exact algorithms to simulation-based heuristics—mir-
+IoT, mobile data) into TRNDP models remains largely              rors the methodological diversity observed in the taxonomy
+unexplored. Despite foundational models remaining in use,        and timeline. Ultimately, the outputs offer tangible perfor-
+the field has yet to fully capitalize on recent advances in AI   mance indicators, including optimized frequency plans, ser-
+and behavioral modeling.                                         vice reliability metrics, and user satisfaction levels.
+                                                                    The development of the FSP in public transit planning
+                                                                 has evolved significantly over the past five decades, reflect-
+Frequency setting problem (FSP)                                  ing a gradual transition from simple analytical rules to inte-
+                                                                 grated, data-driven optimization models. Early foundational
+The FSP is central to optimizing public transport systems        work by [61] emphasized frequency setting on bus routes
+after network routes are determined. Its successful resolu-      through marginal cost-based analysis, seeking to mini-
+tion hinges critically on the Transit Assignment Problem         mize passenger waiting time and operational costs under
+(TAP), which estimates passenger route choices and net-          steady-state assumptions. This work was quickly followed
+work loading. TAP acts as the simulation engine through          by [77], who tackled the allocation of buses in heavily uti-
+which planners can test the impacts of different frequency       lized systems, introducing analytical models to optimize
+allocations, making it essential for evaluating service effec-   vehicle distribution across lines based on demand and pas-
+tiveness, congestion levels, and equity implications [5,         senger load balancing. A pivotal shift occurred in the 1990s
+123]. TAP models vary in complexity. Deterministic models        with the introduction of bi-level mathematical program-
+assume rational passenger choices with perfect informa-          ming approaches, such as the one proposed by [37], which
+tion, whereas stochastic approaches incorporate uncertainty      optimized frequencies while simultaneously modeling user
+in route perception, providing a more realistic representa-      route choices under equilibrium constraints. This marked a
+tion of demand in urban systems. Additionally, capacity-         critical step toward integrating behavioral responses (i.e.,
+constrained models integrate the effects of limited vehicle      TAP) into FSP frameworks.
+space, which significantly affect passenger route selection         As operational complexity increased, attention turned to
+under crowding [59, 132].                                        dynamic control strategies. Studies in early 2000s broad-
+   The complexity of FSP arises from its non-linear and          ened the FSP’s scope across several dimensions. Gao et al.
+interdependent structure of users’ route choice. Adjusting       [65] developed a continuous equilibrium network design
+frequency on one route affects passenger flow, load balance,     model incorporating frequency settings to minimize travel
+and transfer patterns throughout the network. Crowding and       time across the entire network. Simultaneously, Uchida et
+reliability dynamics must be modeled to accurately predict       al. [160] proposed a probit-based modeling approach that
+service performance under varying frequencies. Solving the       captured stochasticity in mode choice, providing a more
+FSP demands integration of advanced stochastic and capac-        realistic basis for frequency planning in multimodal net-
+ity-sensitive TAP models, particularly when networks face        works. Also, the focus in this period on real-time informa-
+variability in demand, reliability, and equity concerns. The     tion integration was reflected in several studies. Shalaby and
+references reviewed show a clear trajectory toward more          Farhan [154] presented a predictive model of bus arrival and
+realistic, dynamic, and socially informed models, reinforc-      departure times using AVL and APC data, while [142] esti-
+ing the need to embed TAP tightly within the FSP solution        mated bus arrival times under operational uncertainty, both
+process.                                                         highlighting the role of live data in frequency adjustment
+                                                                 and service reliability. In a modal extension, Lai and Lo
+
+
+
+13
+Innovative Infrastructure Solutions (2026) 11:3                                                                  Page 11 of 28 3
+
+
+[97] applied optimization techniques to ferry service net-            Recent advances in FSP extend beyond static models by
+works, combining frequency decisions with optimal fleet           incorporating real-time data and emerging operational para-
+sizing under cost constraints. An important integration of        digms. Martínez et al. [115] proposed a foundational opti-
+spatial and temporal elements was introduced by [42] who          mization framework that accounts for both vehicle capacity
+developed a bi-level mathematical programming model that          and route characteristics, aiming to reduce generalized user
+simultaneously located bus stops and optimized route fre-         costs. This analytical direction is further complemented by
+quencies, marking a shift toward more holistic and practi-        exploration of vehicle size impact by [84], who evaluated
+cal applications of FSP in urban transit design. Together,        how bus dimensions affect headway decisions and system
+these studies underscore the evolution of FSP from static,        cost efficiency. Berrebi et al. [15] presented a real-time
+cost-minimizing models toward dynamic, integrated, and            dispatching policy that dynamically adjusts frequencies
+user-responsive frameworks—laying the groundwork for              along high-demand corridors, minimizing passenger wait-
+modern transit systems that incorporate real-time data,           ing while considering dwell and holding times. In a broader
+adaptive control, and multimodal connectivity.                    systemic context, Verbas and Mahmassani [163] analyzed
+   The study by [169] introduced a nonlinear program-             the trade-offs between route coverage and vehicle frequency
+ming model that incorporates variable demand patterns to          allocation, underlining the delicate balance between acces-
+optimize frequency allocation in urban transit networks.          sibility and efficiency. Canca et al. [23] developed a bi-level
+Their approach addresses the interaction between service          model for simultaneous frequency and capacity optimiza-
+frequency and passenger demand through iterative assign-          tion, addressing peak-period overloads and supply–demand
+ment-based simulations. Complementing this, another study         mismatches. This was expanded by [66], who proposed a
+[174] applied GA to optimize bus route frequencies, focus-        multi-objective methodology balancing operational costs
+ing on reducing waiting times and improving system reli-          and service equity, with Pareto-optimal trade-offs. Gki-
+ability. The approach effectively adapts to complex urban         otsalitis and Cats [66] tackled the uncertainty dimension
+transit constraints. Gallo et al. [64] investigated elastic       through a robust reliability-based frequency determination
+demand in relation to rail transit frequency setting, empha-      model that integrates stochastic delays and demand variabil-
+sizing that frequency decisions should dynamically respond        ity. In the realm of pricing and cost recovery, Asplund and
+to user demand sensitivity. Their model adjusts frequency         Pyddoke [11] analyzed how fare structures can influence
+in response to varying OD flows, capturing more realistic         optimal frequency decisions in smaller cities, presenting a
+transit behavior. Similarly, Afandizadeh et al. [1] proposed      joint fare-frequency optimization formulation. Notably, the
+a GA tailored for fleet size and frequency optimization,          recent work by [127] provided a graph-theoretic formula-
+integrating operational and passenger costs to achieve more       tion of frequency-based transit assignment models, high-
+sustainable transit planning. TS heuristics are employed in       lighting how assignment constraints and demand flows
+[148] study to simultaneously determine optimal bus sizes         influence frequency settings and passenger equilibrium
+and service frequencies. The study highlights the trade-offs      behavior. Finally, Zhang et al. [177] focused on electric bus
+between fleet heterogeneity and operational efficiency, offer-    systems, proposing a short-turning strategy that integrates
+ing a robust alternative to traditional integer programming.      battery constraints with demand intensity, revealing that
+Meanwhile, dell’Olio et al. [43] examined bus headways and        strategic short-turns can enhance both energy efficiency and
+vehicle capacities jointly, aiming to minimize total system       service reliability.
+cost while ensuring acceptable passenger comfort levels.              FSP research can be classified into a multi-level classi-
+Another contribution from [75] introduced a minimum-cost          fication, highlighting the core modeling dimensions. Start-
+frequency setting model that incorporates both stochastic         ing from the root first branch distinguishes studies based on
+demand and travel time uncertainties. Verbas and Mahmas-          demand characteristics, including static, elastic, stochastic,
+sani [162] proposed a comprehensive model for allocating          and real-time dynamic demand. This classification reflects
+service frequencies over different routes and time periods.       the increasing realism and complexity in modeling passen-
+Their model accounts for time-dependent demand and pro-           ger behavior, with early studies focusing on fixed demand
+vides a basis for dynamic scheduling. Owais et al. [133]          [61, 77], followed by models incorporating demand respon-
+explored frequency setting for circular bus routes using non-     siveness [64], and more recent work addressing stochastic
+linear programming, addressing unique challenges in urban         variability and real-time adaptation [75]. At the second
+loop systems such as cumulative passenger accumulation            level, methodological strategies are classified, covering
+and load balancing. These studies reveal a rich landscape of      mathematical programming, heuristics/metaheuristics (e.g.,
+optimization-based and heuristic approaches to solving the        GA, TS, PSO), simulation-based methods, bi-level pro-
+FSP, with increasing focus on demand elasticity, time-of-         gramming, and multi-objective models. This categorization
+day variations, and the integration of vehicle characteristics.   echoes the diversity in modeling tools applied across studies,
+
+
+
+                                                                                                                      13
+3   Page 12 of 28                                                                          Innovative Infrastructure Solutions (2026) 11:3
+
+
+from early deterministic optimization [37] to the later appli-       in interest fueled by simulation models, real-time opera-
+cation of metaheuristics and robust simulation-based tech-           tions, and metaheuristic algorithms. The 2020s continue
+niques [66, 177]. The third level captures system application        this trend, though with signs of saturation similar to what
+domains, including bus, rail, ferry, and electric bus systems,       was observed in TRNDP studies. The detailed perspective
+highlighting the generalizability and cross-modal relevance          of FSP research evolution is clearly illustrated through the
+of FSP models. Table 2 summarizes the FSP studies.                   percentage-based heatmap in Fig. 5, which traces the major
+    The study's frequency distribution in Fig. 4 captures the        methodological directions across five decades. This analysis
+evolution of FSP research across decades. Early contribu-            complements the review here by offering a longitudinal per-
+tions during the 1980s and 1990s laid theoretical foun-              spective on how scholarly priorities have shifted within the
+dations for bus frequency allocation and network-level               domain. In the 1980s and 1990s, research was dominated by
+optimization. The 2000s saw a moderate increase in activ-            optimization models, which accounted for over 70% of the
+ity, focusing on equilibrium models and uncertainty in               focus. Scholars during this foundational era concentrated
+travel demand. However, it was during the 2010s that                 on deterministic mathematical programming frameworks to
+FSP research significantly expanded, reflecting a surge              solve frequency-related decisions. These models typically
+                                                                     relied on static demand assumptions and simplified network
+Table 2 Comparison of methodological approaches in transit network   conditions. Despite their limitations, they were instrumen-
+design                                                               tal in establishing core theoretical principles, particularly
+Methodology Scalability issues       Largest net-    No. of
+                                     work tackled    nodes and
+                                                                     those concerning trade-offs between service frequency,
+                                                     links           waiting times, and operational cost. The 2000s witnessed
+Mathematical Struggles with          Hong Kong       60 + nodes,     a significant methodological diversification. Optimization
+programming large-scale              Ferry Network 100 + links       retained a considerable role (approximately 38%), but heu-
+               networks due to                                       ristic and metaheuristic approaches, such as GA and TS,
+               computational
+               complexity
+                                                                     rose sharply to about 43% of the research activity. These
+Heuristic      Better scalability    Medium-sized 40–60              methods enabled researchers to handle greater network
+methods        but may yield sub- Indian city        nodes,          complexity and nonlinear objectives, making it feasible
+               optimal solutions     network         80–100          to jointly optimize route structures and frequency settings
+                                                     links           (TRNDP + FSP). Their adaptability also allowed the inclu-
+Metaheuris-    Effective on          Large-scale     100 + nodes,
+                                                                     sion of realistic constraints such as capacity limitations and
+tics (GA, SA, medium-large           Rapid Transit 300 + links
+ACO, PSO)      networks, but per- Network                            policy restrictions. During the 2010s, FSP research contin-
+               formance depends                                      ued this trajectory while gradually expanding to address
+               on tuning                                             real-time responsiveness and equity-related goals. Heuris-
+Bi-level       Complex and hard Urban Bus            70 + nodes,     tic methods remained dominant (around 46%), but there
+programming to solve on real-        Lane Network 150 + links
+               time or very large    in Europe                       was a discernible rise in studies incorporating resilience
+               networks                                              and uncertainty modeling, which together represented over
+Multi-         Can become            Concep-         90 + nodes,     20% of research. These developments signaled a growing
+objective      computationally       ción, Chile’s   200 + links     emphasis on passenger-centered planning, aiming to deliver
+optimization   intensive with many Rapid Transit
+                                                                     reliable service despite fluctuating demand or external
+               objectives            Network
+Stochastic     Scenario explosion Simulated          50 nodes,
+                                                                     disruptions. In the 2020s, the field has evolved further in
+programming and data demand          large city      100 links       response to global mobility challenges. While heuristics still
+               limit large-scale use with uncertain                  account for around 40% of the methodological share, equity
+                                     demand                          and resilience-focused research has surged to approximately
+AI/ML-based Limited by training Synthetic            Variable:       33%, reflecting broader policy goals around inclusivity and
+techniques     data and model        urban networks up to 100
+               interpretability      with learning   nodes           sustainability. Real-time optimization models have matured
+                                     agents                          significantly, now representing about 20% of studies, and
+GIS-based      Geospatial data       Mid-sized city 30–50            are often embedded in multi-objective frameworks that bal-
+planning       preprocessing limits with central     nodes,          ance cost-efficiency with robustness and accessibility.
+               scalability           bus terminal    60–80 links
+                                                                        This methodological evolution is reinforced by the time-
+Hybrid         Depends on the        Concepción,     100 + nodes,
+methods (e.g., weakest link in the Chile and large 250 + links
+                                                                     line chart in Fig. 6, which maps key developments from
+GA + MP)       integrated methods Iranian grid                       1980 to 2022. The early decades emphasized foundational,
+Simulation-    Slower for real-      Urban multi-    50–70           theory-driven optimization. The 2000s introduced heuristic
+based Models time or dynamic         modal network nodes,            approaches tailored to larger and more complex networks.
+               problems              with multiple   150 + links     A peak in genetic algorithm-based studies during the 2010s
+                                     agents
+
+
+
+13
+Innovative Infrastructure Solutions (2026) 11:3                                                            Page 13 of 28 3
+
+
+
+
+Fig. 4 The frequency distribution of FSP studies by decade
+
+
+
+
+Fig. 5 Heatmap of FSP method usage percentages
+
+paralleled a shift toward solving non-linear, real-world prob-   refinement of the FSP research agenda—from determinis-
+lems. Recent years have been marked by the emergence of          tic models grounded in efficiency to adaptive frameworks
+hybrid, multi-objective, and adaptive models that respond to     responsive to equity, sustainability, and smart mobility
+uncertainties, dynamic passenger behaviors, and policy con-      demands. The heatmap and timeline together underscore
+straints. Collectively, these trends highlight a progressive     the growing complexity of modern transit systems and the
+
+
+
+                                                                                                               13
+3   Page 14 of 28                                                                        Innovative Infrastructure Solutions (2026) 11:3
+
+
+
+
+Fig. 6 Timeline of FSP research trends
+
+corresponding need for modeling approaches that are both               The TNDP has evolved significantly since the early
+scalable and socially aware.                                        2000s, shifting from sequential treatments toward unified
+                                                                    frameworks capable of capturing the complex interdepen-
+                                                                    dencies between spatial routing and temporal service con-
+Integrated TRNDP and FSP studies                                    figuration. Fusco et al. [62], and Ceder and Israeli [27]
+                                                                    proposed sequential frameworks where route and frequency
+The integration of the TRNDP and the FSP has undergone              choices were iteratively optimized under user equilibrium
+a progressive evolution under the name of TNDP, driven by           constraints, thereby reinforcing the bidirectional depen-
+the recognition that spatial and temporal dimensions of tran-       dency between service structure and usage patterns. The
+sit planning are inherently intertwined. Foundational efforts       body of research published between 2002 and 2004 further
+in this domain laid the groundwork for unified models that          crystallized this integrated perspective. Carrese and Gori
+reflect the complex interdependencies between route struc-          [26] introduced a sequential heuristic that iteratively opti-
+ture, frequency decisions, user behavior, and operational           mized both route sets and service frequencies, balancing user
+costs. The groundwork for this paradigm shift was evident           and operator costs. In parallel, multiple studies employed
+even earlier. Studies like [111] and [28] introduced itera-         GA, such as [16] and [30], by encoding frequencies directly
+tive procedures for aligning line layouts with service fre-         within the chromosomes, enabling co-evolution of routes
+quencies, albeit in simplified environments. Another pivotal        and service intervals under realistic constraints. Comple-
+early contribution came from [143], who introduced one              menting GA usage, studies such [122] and [159] focused
+of the first frameworks to jointly address route generation         on synchronizing transfers through joint optimization of
+and frequency determination. Their hybrid heuristic model           route structures and service frequencies to reduce passenger
+encapsulated the interplay between user travel patterns and         wait times. These innovations were further refined through
+operator strategies, initiating a shift toward integrated transit   MILP models. Wan and Lo [164] embedded frequency
+planning. Building on this, Chien et al. [32] employed GA           variables into a single-level formulation, supporting capac-
+to optimize feeder bus locations and headways concurrently,         ity management and user-class differentiation. This line of
+accounting for realistic urban constraints such as intersection     research extended beyond urban bus systems. Lai and Lo
+delays and heterogeneous demand. This marked a method-              [97] applied similar principles, integrating route selection
+ological leap, capturing both spatial and temporal variables        and frequency-dependent fleet scheduling. Similarly, Lai
+within a single optimization objective aimed at minimizing          and Lo [97] applied integrated optimization to dynamic
+system-wide costs. This trajectory of integration continued         and environmentally constrained contexts. Gao et al. [65]
+with [62], who designed a heuristic for medium-sized towns          synthesized system-wide behavior by integrating frequency
+that considered user and operator costs in tandem, drawing          assignment and route choice under elastic demand, empha-
+inspiration from [13] foundational models that had earlier          sizing the continuous nature of transit optimization in a
+proposed an AI-based heuristic where demand-influenced              user-responsive environment [178]. introduced a discrete
+frequency settings responded dynamically to evolving route          optimization model balancing network connectivity with
+structures.                                                         route directness, thus highlighting the trade-offs between
+
+
+
+13
+Innovative Infrastructure Solutions (2026) 11:3                                                                  Page 15 of 28 3
+
+
+minimizing passenger transfers and operational costs. In the      railway transit design that co-optimized routing, frequency,
+same year, computational innovations enabled more robust          and user equilibrium under uncertainty. In a macroeconomic
+optimization approaches. For instance, Agrawal and Mathew         context, Albalate and Bel [4] discussed how institutional
+[2] employed a parallel GA framework to jointly optimize          and financial constraints influence integrated transit plan-
+routes and frequencies, enhancing both convergence speed          ning in Europe, highlighting the need for context-sensitive
+and solution quality. This was extended by [52], where SA         design. Szeto and Wu [157] contributed a MILP, incorpo-
+and GA were hybridized to ensure frequency adequacy               rating demand coverage and capacity balancing, directly
+and passenger convenience under realistic operational             linking route design with frequency responsiveness. Simi-
+constraints. Complementing these heuristic approaches,            larly, Derrible and Kennedy [44] applied graph theory to
+Duff-Riddell and Bester [45] offered a simulation-based           enhance topological optimization, offering insights extend-
+framework integrating routing, assignment, and frequency          able to frequency tuning via flow-based metrics [51]. tested
+decisions under variable demand. Further developments in          integrated route-frequency models using real-world data,
+2005 introduced hybrid metaheuristics (i.e., TS) such as the      feeding passenger assignment outcomes back into the opti-
+work of Zhao et al. [179], which increased robustness by          mization loop. Hua et al. [80] introduced stochastic demand
+combining algorithmic strategies to simultaneously optimize       modeling into robust TNDP, laying the foundation for resil-
+network topology and service levels while explicitly model-       ient frequency design under uncertainty. Bagloee and Ceder
+ing transfer penalties. The integration trend was reinforced      [14] advanced real-world applicability by proposing a clus-
+by [68], which employed mathematical programming to co-           tering and Newtonian gravity-based model for simultaneous
+optimize line layouts and frequencies, aiming to minimize         routing and frequency optimization, validated in cities like
+total travel time and improve service regularity. Between         Winnipeg and Chicago. In this decade, research increasingly
+2007 and 2010, the literature saw a proliferation of biologi-     emphasized large-scale, elasticity-sensitive frameworks.
+cally inspired and multi-level heuristics. Gallo et al. [63]         Next advances in TNDP research reflect a decisive evo-
+introduced local search refinements into GA-based designs,        lution toward integrated modeling frameworks that jointly
+directly encoding frequency within solution chromosomes.          optimize TRNDP and FSP. This shift stems from the rec-
+Simultaneously, Yang et al. [168] demonstrated the potential      ognition that routing structures and service frequencies are
+of ACO methods for jointly determining route structure and        operationally inseparable in real-world contexts, and that
+service frequencies, while [112] addressed the dual goals         their combined optimization yields greater system efficiency,
+of strategic route configuration and operational frequency        passenger satisfaction, and adaptability to dynamic demand.
+balancing. Fan and Mumford, 2010further enhanced this             A series of studies published in 2012 laid the groundwork
+integration by minimizing transfer and waiting penalties via      for this integrated paradigm. Cipriani et al. [35] introduced
+genetic algorithms. Similarly, Zhao and Zeng [180] intro-         a two-stage heuristic that generated flow-based routes and
+duced a simulation–optimization model that jointly tuned          optimized frequencies through a GA, while incorporating
+route layout, headways, and schedules under stochastic            probabilistic mode choice to model elasticity and conges-
+demand. Obeng and Ugboro [125] proposed a multi-objec-            tion effects in Rome. Hadas and Ranjitkar [74] introduced a
+tive model to optimize network topology and frequency in          multi-criteria spatial model that embeds transfer quality into
+balance with user and operator costs, while [55] revealed         the optimization of both routes and frequencies, demon-
+that frequency settings significantly influence flow modula-      strating the utility of spatial connectivity metrics in guiding
+tion under elastic demand. Cea Ch and Malbran [40] rein-          frequency-responsive designs. In parallel, Wu et al. [167]
+forced this by integrating real-time demand adjustments into      embedded frequency assignment into a demand-sensitive
+both routing and frequency allocation, emphasizing flexibil-      ridership framework, ensuring that service levels adapt
+ity as a core feature of modern frameworks. Additional con-       dynamically to the topology and flow of passenger move-
+tributions such as [116] and [139] refined dual-level models      ments. Similarly, Roca-Riu et al. [147] focused on align-
+that allowed route and frequency co-evolution using service       ing headways with inter-terminal connectivity, using hybrid
+performance criteria. The importance of real-world service        optimization to jointly minimize generalized travel costs and
+metrics was highlighted by [31], which introduced perfor-         balance passenger transfers. Cipriani et al. [36] introduced a
+mance indices (e.g., punctuality, regularity) as inputs to fre-   heuristic model that iteratively adjusts both route structure
+quency adjustment mechanisms. Meanwhile, Mesbah et al.            and frequency under uncertainty, showing the operational
+[117] embedded frequency sensitivity into signal-priority         benefit of co-optimizing planning and scheduling variables.
+strategies, illustrating how infrastructure and service-level     Meanwhile, Yu et al. [173] employed ACO to capture high-
+decisions can be co-optimized [161]. focused on service           demand corridors and adapt service frequency through
+regularity and headway consistency as critical to passenger       pheromone-based learning, facilitating an emergent balance
+satisfaction, while [104] applied a game-theoretic model to       between demand coverage and service regularity. By 2013,
+
+
+
+                                                                                                                      13
+3   Page 16 of 28                                                                      Innovative Infrastructure Solutions (2026) 11:3
+
+
+the integration of TRNDP and FSP had expanded into evo-           the interdependence between infrastructure and operations
+lutionary and multi-objective frameworks. Mumford [119]           in uncertain environments. Meanwhile, Leong et al. [107]
+introduced refined operators to optimize trade-offs between       employed a BCO-inspired algorithm for integrated railway
+direct service, transfer minimization, and frequency equity.      planning that directly optimized headways and fleet alloca-
+Gutiérrez-Jarpa et al. [73] emphasized that origin–destina-       tions, exemplifying the adaptability of bio-inspired comput-
+tion intensity should drive frequency allocation, reinforcing     ing in multimodal settings. Other notable efforts include
+the notion that routing and service levels cannot be treated      [94], who formulated a bi-level model for bus routing and
+independently. Nikolić and Teodorović [124] extended              frequency planning in park-and-ride networks, capturing the
+nature-inspired algorithms by using Bee Colony Optimiza-          interplay between service allocation and modal transitions.
+tion (BCO) to frequency assignment, allowing frequencies          Shi et al. [155] explored spatial service planning using GIS-
+to adapt in real-time to emerging demand paths, while they        based assessment tools, highlighting how frequency con-
+integrated passenger equilibrium with operator constraints,       siderations can be indirectly optimized through coordinated
+providing one of the most complete representations of joint       spatial-infrastructural analysis. These studies demonstrate a
+TRNDP–FSP optimization in literature. Building on these           clear and continuing trend: the co-optimization of TRNDP
+foundations, subsequent studies have further refined the          and FSP is no longer an analytical aspiration but a practi-
+integrated approach. For example, Cancela et al. [25] pro-        cal necessity. Across mathematical programming, heuris-
+posed a MILP formulation that jointly optimizes routes and        tic search, and simulation-based approaches, researchers
+frequencies while minimizing passenger waiting and trans-         increasingly treat frequency not as a secondary scheduling
+fer penalties. Owais et al. [138] contributed a set covering      problem but as an embedded design variable that affects all
+formulation aided with random priority search for multi-          aspects of TNDP—from cost and coverage to equity and
+objective transit design and a demand-clustering approach         resilience.
+for candidate route generation. Although frequency opti-             Recent literature reveals a marked progression toward
+mization was secondary in these studies, their spatially          TNDP, particularly within the context of multimodal sys-
+aware models provided robust foundations for integrated           tems, demand uncertainty, and urban complexity. This
+service design. Metaheuristic methods have continued to           methodological shift reflects the increasing need to recon-
+demonstrate strong potential for large-scale implementa-          cile strategic network configuration with tactical service
+tions. Kechagiopoulos and Beligiannis [92] utilized PSO,          scheduling in a unified, data-driven manner. One of the
+and [118] developed simple adaptive heuristics to solve           foundational studies in this direction is [176], who proposed
+integrated TRNDP–FSP problems. Other contributions,               a cluster-based optimization approach for locating transit
+such as [10], adopted alternating-objective GA to recon-          hubs within multimodal systems. Their work effectively
+cile competing goals like cost minimization and accessibil-       bridged the spatial structure of the network with opera-
+ity. Similarly, Owais et al. [134] and Nayeem et al. [121]        tional frequency settings, highlighting the critical role of
+jointly optimized headways by GA algorithms and rout-             hub placement in shaping both accessibility and service
+ing under dynamic demand, showcasing the flexibility of           intensity. This concept of spatial-operational integration
+adaptive methods in real-time contexts. These algorithmic         was further advanced by [21], who developed a differential
+developments have been paralleled by structural modeling          evolution algorithm for jointly solving TRNDP-FSP. Their
+innovations. Arbex and da Cunha [10] proposed a mixed-            model emphasized computational efficiency and scalability,
+integer goal programming model for rapid rail systems that        making it suitable for large-scale urban applications. Liu
+jointly determines line structures, stop patterns, and service    et al. [110] applied a Pareto-front GA to balance cost effi-
+frequencies using decomposition techniques, successfully          ciency with service coverage, thus enabling equitable ser-
+validated on urban networks in Seville and Santiago. In con-      vice design through bi-objective trade-offs. Fan et al. [56]
+trast, Gutiérrez-Jarpa et al. [72] introduced a multi-objective   contributed a grid-based model for intersecting bimodal
+TRNDP formulation that, while not explicitly optimiz-             transit systems, integrating frequency into both node-level
+ing FSP, integrated modal competition considerations—             and path-level design decisions. Their work offered a fine-
+underscoring broader system performance criteria such as          grained reflection of real-world spatial constraints while
+equity and efficiency. Other works continued this integra-        ensuring frequency coordination across modes. Algorith-
+tion in rapid transit contexts. Canca et al. [24] employed        mic innovation was also evident in [95], who extended
+adaptive neighborhood search to co-optimize line routing          traditional route generation algorithms by embedding fre-
+and frequency assignment, allowing for flexible passenger         quency metrics directly into the evaluation process. This
+allocation and operational feasibility under fleet constraints.   approach enabled adaptive search procedures that dynami-
+Addressing demand uncertainty, An and Lo [9] introduced           cally adjusted both routing and service levels. In parallel,
+a two-phase stochastic programming model that captured            Islam et al. [88] introduced a stochastic beam search method
+
+
+
+13
+Innovative Infrastructure Solutions (2026) 11:3                                                                   Page 17 of 28 3
+
+
+aided by heuristics to address demand uncertainty in TNDP          NSGA-II algorithm was introduced by [29] for co-optimiz-
+models—underscoring the relevance of robust, uncertainty-          ing network layouts and frequency distributions. The model
+aware design frameworks. Jha et al. [90] contributed a multi-      achieved enhanced convergence and solution diversity,
+objective metaheuristic targeting frequency-constrained            making it suitable for applications involving dynamic data-
+TRNDP under dynamic ridership patterns. Their framework            sets and real-time updates. Wei et al. [165] fromulated an
+balanced system efficiency with passenger satisfaction,            integrated feeder transit design model as MILP. It jointly
+illustrating the dual operational and user-centric focus of        optimized stop selection and frequency assignment, incor-
+modern models. Feng et al. [58] further emphasized pas-            porating demand elasticity, passenger transfer penalties,
+senger experience by embedding transfer time directly into         and cost constraints. This operationally detailed model
+the objective function, enhancing temporal realism in route-       illustrated the critical importance of coordinated decisions
+frequency optimization. A notable advancement in mul-              at the micro-level of network planning. Together, these
+timodal modeling was presented by [81], who formulated             studies represent a mature and expanding field of research
+TRNDP as a hub-and-spoke network problem that simul-               that embraces the complexity of real-world transit systems.
+taneously optimizes route configuration, hub selection, and        They advocate for fully integrated TNDP approaches that
+service frequencies. Their approach quantified the benefits        are not only computationally feasible and scalable, but also
+of integration in terms of both service accessibility and fleet    behaviorally informed, resilient to uncertainty, and adapt-
+resource allocation. These contributions collectively signal       able to evolving urban mobility demands.
+a paradigm shift: from disjointed optimization of routing              Post-COVID pandemic, TNDP received the least atten-
+and scheduling components toward co-optimized, respon-             tion in top journal publications. A little number of studies
+sive, and multimodal frameworks that capture the interde-          embraced electric and autonomous bus systems in the form
+pendent dynamics of urban transit systems. Building on             of traditional TNDP solution framework. One prominent
+these foundations, recent studies have introduced advanced         thread involves optimizing electric bus deployment by
+techniques to further deepen the integration. Park et al. [140]    jointly designing routes, frequencies, and charging infra-
+proposed a multi-objective TNDP framework incorporating            structure under practical constraints. For instance, Huang et
+variable demand and transit equity. Their use of NSGA-II           al. [82] proposed a hierarchical MILP and Lagrangian logic
+and local search enabled joint optimization of system effi-        framework to coordinate electric bus routing and opportu-
+ciency, unmet demand reduction, and equitable frequency            nity-charging schedules, demonstrating improved service
+distribution—key factors in inclusive and sustainable transit      levels and cost savings. Complementing this, Iliopoulou
+design. Yoon and Chow [171] pushed the methodological              et al. [87] introduced multi-objective electric bus planning
+frontier by combining RL with sequential TNDP optimiza-            in cities with existing trolleybus systems—using MO-PSO
+tion. Their model learned from real-time demand signals            and MILP to balance fleet costs, charging station place-
+and adjusted both routing and service frequency through            ment, and network performance. Parallel developments in
+belief updates and adaptive expansion, demonstrating the           autonomous mobility are reshaping multimodal TNDP. A
+power of AI-based strategies in dynamic environments.              Transit-Centric Multimodal Urban Mobility framework by
+The trend toward many-objective formulations is exem-              [70] integrates fixed-route transit, feeder electric buses, and
+plified by [120] who employed an evolutionary algorithm            Autonomous Mobility-on-Demand fleets, jointly optimiz-
+to optimize cost, travel time, coverage, and convenience           ing transit network design, fleet sizing, and pricing to mini-
+simultaneously. This approach significantly expanded the           mize passenger disutility. Additionally, Pinto et al. [144]
+decision space, offering transit planners a robust toolkit for     modeled large-scale multimodal transit networks incorpo-
+navigating conflicting objectives in dense urban contexts.         rating Shared Autonomous Mobility Services as first-mile/
+To manage such complexity, Ahmed et al. [3] proposed a             last-mile feeders, using MILP-based optimization to reduce
+selection hyper-heuristic framework, which automates the           door-to-door user costs in Chicago‐area networks. In the
+selection of low-level heuristics during optimization. This        autonomous-bus-specific domain, a neural-evolutionary
+method supported joint TNDP modeling while accommo-                algorithm was introduced by [79] that leverages Graph Neu-
+dating diverse operator and passenger-centric goals under a        ral Networks and evolutionary search to design autonomous
+multi-objective lens. Attention to small and medium-sized          bus route networks, outperforming traditional heuristics by
+cities also gained traction. Cipriani et al. [34] tailored route   20–50% on standard benchmarks. RL methods have further
+and frequency plans to regional conditions, incorporating          matured by [170] who demonstrated hybrid models com-
+transfer penalties and fleet capacity constraints. By balanc-      bining deep RL with metaheuristics to redesign real-world
+ing frequency regularity with spatial coverage, the model          networks (e.g., Laval, QC), yielding solutions superior in
+addressed practical limitations in resource-constrained tran-      service quality and cost compared to existing systems. Col-
+sit systems. In terms of algorithmic refinement, an improved       lectively, these innovations mark a clear need of further
+
+
+
+                                                                                                                       13
+3   Page 18 of 28                                                                     Innovative Infrastructure Solutions (2026) 11:3
+
+
+research toward integrated, technology-enabled TNDP                The relative stagnation of TNDP research in the 2020s
+frameworks—ones that seamlessly combine electrification,        can be attributed to several interrelated factors. First, com-
+autonomy, fleet operations, and infrastructure deployment       putational barriers continue to constrain progress: although
+in unified, data-driven optimization models.                    processing power has increased, many-objective formula-
+    The central theme across this section review is the rec-    tions and real-time hybrid frameworks remain computa-
+ognition that decoupling route and frequency design leads       tionally intensive, limiting their applicability in large-scale
+to suboptimal solutions, and that integrated, cost-efficient    or operational settings. Second, data limitations persist, as
+transit networks require holistic models accounting for         real-time passenger flows, multimodal integration data, and
+spatial, temporal, and behavioral complexities. This forms      fine-grained behavioral information are often siloed within
+a critical link in the general solution to TNDP, paving the     agencies or restricted by privacy concerns, reducing the
+way for robust transit network optimization. Figure 7           feasibility of AI-driven approaches. Third, the field faces
+visualizes the distribution of TNDP studies across differ-      diminishing returns from traditional models: classical opti-
+ent decades, reflecting notable historical trends. The early    mization, heuristic, and metaheuristic methods have been
+period (1970s–1990s) witnessed foundational but sparse          extensively tested on benchmark networks, and incremental
+contributions, with only a handful of studies exploring inte-   refinements no longer yield the same impact they once did.
+grated approaches. A significant surge in scholarly activ-      Collectively, these factors help explain why the rapid meth-
+ity occurred during the 2000s, signaling the start of deeper    odological expansion of the 2000s and 2010s has slowed in
+exploration into combining network design with frequency        the current decade, reinforcing the need for new paradigms
+setting, often leveraging heuristic and metaheuristic tech-     rooted in AI, data-sharing frameworks, and resilience-ori-
+niques. This momentum continued into the 2010s, marking         ented design.
+the peak of academic output in this domain, with diverse           Figure 8 captures not only shifts in the dominant para-
+models addressing multimodal integration, demand elastic-       digms in the TNDP but also reflects the growing computa-
+ity, and real-time optimization. In contrast, the 2020s show    tional sophistication and interdisciplinary nature of the field.
+a slight decline, suggesting a potential plateau or shift in    In the earliest stage of integrated TRNDP and FSP research,
+research focus, though recent works point to renewed inter-     spanning the 1980s and 1990s, scholarly efforts were limited
+est in equity, AI-driven models, and uncertainty-based          in number and scope. The studies that did emerge during
+planning.                                                       this foundational period relied exclusively on mathematical
+
+
+
+
+Fig. 7 The frequency distribution of TNDP studies by decade
+
+
+13
+Innovative Infrastructure Solutions (2026) 11:3                                                                Page 19 of 28 3
+
+
+
+
+Fig. 8 Heatmap of TNDP method usage percentages
+
+
+programming techniques. These models were typically              or simulation, aiming to leverage both the exploratory
+deterministic, analytically tractable, and designed under        strength of heuristics and the rigor of structured optimiza-
+simplified assumptions to accommodate the computational          tion. Although mathematical programming was still present
+limitations of the time. Heuristic or AI-based approaches        (around 20%), it often served a supportive role in hybrid
+were completely absent, and research focused on proving          frameworks. Significantly, AI/ML techniques began to sur-
+theoretical principles rather than solving real-world com-       face, though still limited (~ 5%), suggesting an exploratory
+plexities. Nonetheless, this era laid the conceptual and algo-   stage of machine intelligence integration. In the 2020s, the
+rithmic groundwork for the methodological expansion that         field has shown two critical developments. First, AI and ML
+would follow. The 2000s marked a significant methodologi-        techniques now represent approximately 15% of all meth-
+cal transition. While mathematical programming remained          odological efforts, marking a considerable increase. Tools
+dominant—used in about 50% of the studies—there was a            like RL, Evolutionary AI, and Hyper-Heuristics have been
+clear emergence of heuristic and metaheuristic approaches,       introduced to tackle the dynamic, data-driven aspects of
+accounting for roughly 33% of the methodologies employed.        TRNDP and FSP, particularly under uncertainty and real-
+Techniques such as GAs, SA, and ACO gained traction due          time constraints. Second, heuristic and metaheuristic meth-
+to their ability to handle large-scale, non-linear, and multi-   ods continue to lead (~ 60%) but are increasingly embedded
+objective problems more flexibly than traditional models.        within multi-objective optimization settings and integrated
+These approaches were particularly appealing for model-          with geographic or simulation-based tools. Meanwhile,
+ing real-world transit systems with complex constraints          the share of standalone mathematical programming has
+and passenger behaviors. However, AI and machine learn-          decreased further to around 15%, although it still plays
+ing (ML) had not yet entered the scene, reflecting the gap       an important role in hybrid models, especially in captur-
+between theoretical advances in AI and their application in      ing structural relationships and ensuring feasible solutions.
+the transportation domain. The 2010s witnessed a substan-        Across these four decades, a clear trend emerges: a move
+tial methodological boom, with heuristic and metaheuristic       from mathematically rigorous but rigid models toward
+approaches becoming the predominant tools, used in more          more adaptive, scalable, and hybridized techniques. Heuris-
+than 65% of the studies. This rise coincided with advance-       tics have become the methodological backbone due to their
+ments in computing power and the increasing availability of      flexibility and robustness, while AI/ML is beginning to fill
+open-source optimization libraries, which enabled research-      the gap between complex decision-making and data-rich
+ers to tackle larger and more complex transit network prob-      environments. Interestingly, despite their promise, AI meth-
+lems. Moreover, this decade saw a rise in hybrid approaches      ods are still underutilized, perhaps due to challenges related
+that combined heuristics with mathematical programming           to data availability, model explainability, and institutional
+
+
+
+                                                                                                                    13
+3   Page 20 of 28                                                                       Innovative Infrastructure Solutions (2026) 11:3
+
+
+inertia in transportation planning. Nevertheless, mathemati-      solutions but often lack optimality, typically being applied
+cal programming remains valuable as a foundational com-           in medium-sized city contexts. Metaheuristics (such as GA,
+ponent, particularly in hybrid frameworks that demand both        ACO, PSO) have emerged as effective tools for handling
+structure and adaptability.                                       larger networks (e.g., 100 + nodes), thanks to their flex-
+   The emerging paradigms of RL and digital twin frame-           ibility and adaptability, although their performance can be
+works offer realistic pathways to overcome the stagnation         highly sensitive to parameter tuning. Bi-level programming
+observed in post-2020 TNDP research. RL provides adap-            and multi-objective optimization frameworks capture real-
+tive decision-making by continuously learning from demand         world complexity by simultaneously addressing user and
+fluctuations, while digital twins create dynamic, virtual rep-    operator needs, yet they remain computationally intensive,
+licas of transit systems for predictive experimentation. Both     particularly when dealing with multiple conflicting objec-
+approaches hold the potential to embed real-time respon-          tives or extensive transfer constraints, as seen in Chilean
+siveness and resilience into network design. However, their       networks like Concepción [72]. Stochastic programming
+practical application is currently constrained by institutional   introduces robustness against demand uncertainty but
+and structural barriers rather than computational feasibility.    suffers from “scenario explosion,” limiting its use in
+Chief among these barriers are data silos across transit agen-    large-scale networks. Meanwhile, AI/ML-based methods—
+cies, privacy restrictions on passenger-level mobility data,      though promising in learning user behavior and adapting
+and the lack of standardized frameworks for inter-organiza-       services dynamically—are often constrained by the avail-
+tional data exchange. Without addressing these governance         ability of reliable training data and interpretability concerns,
+and data-access challenges, even the most sophisticated           especially in synthetic or simulation-driven environments.
+RL or digital twin models cannot fully realize their poten-       GIS-based planning provides spatial precision and is use-
+tial. Thus, future progress requires not only methodologi-        ful in network visualization and stop placement, yet it faces
+cal innovation but also institutional reforms that promote        preprocessing bottlenecks as network size increases. Hybrid
+data openness, interoperability, and collaborative planning       methods, combining the strengths of heuristics and exact
+across stakeholders [8, 136].                                     optimization (e.g., GA + MILP), have shown significant
+   Despite the rapid advancement of machine learning              potential in complex real-world grids by balancing solution
+and AI techniques, their adoption within TNDP research            quality and feasibility but often inherit the limitations of
+has been relatively slow compared to metaheuristics and           their weakest component. Lastly, simulation-based models,
+hybrid optimization frameworks. Three interrelated bar-           though highly realistic and behaviorally rich, are generally
+riers explain this trend. First, data availability and quality    too slow for real-time optimization or large dynamic net-
+remain a central limitation: training AI models requires          works due to computational overhead.
+large-scale, high-resolution datasets that capture demand            While metaheuristics dominated the 2010s due to their
+and operational information, which are often fragmented           flexibility and scalability, their methodological evolution
+across agencies or subject to privacy restrictions. Second,       plateaued after 2020. This stagnation can be attributed to
+interpretability issues constrain adoption, as many machine       two main factors. First, the field reached a state of satura-
+learning approaches operate as “black boxes,” providing           tion: most metaheuristic variants were extensively tested
+limited transparency for planners and policymakers who            on benchmark networks, leading to incremental rather than
+must justify design decisions to stakeholders. Third, inte-       fundamental innovations. Second, the research agenda has
+gration challenges persist, since AI models are not always        progressively shifted toward hybrid and AI-enhanced meth-
+easily embedded within established multi-objective opti-          ods capable of addressing new challenges such as real-time
+mization frameworks that dominate TNDP research. As a             adaptability, demand uncertainty, and equity integration.
+result, while AI methods such as reinforcement learning           Although computational power has increased, this alone
+and digital twins hold clear promise for adaptive and real-       does not compensate for the need to embed richer behav-
+time transit planning, their practical use will depend on         ioral, temporal, and policy dimensions into transit planning
+overcoming these institutional and methodological hurdles.        models. Consequently, metaheuristics remain valuable as
+Addressing these challenges is therefore as important as the      components within hybrid or many-objective frameworks,
+technical refinement of the AI models themselves.                 but no longer represent the primary frontier of methodologi-
+   Table 2 shows a methodological summary of the TNDP.            cal advancement in TNDP research after 2020.
+Traditional mathematical programming approaches, while               Figure 9 provides a breakdown of the most prevalent
+offering precise formulations, struggle to scale efficiently      objective types employed in TNDP studies. These objectives
+due to computational intractability—especially in large,          are central to the multi-objective optimization frameworks
+real-time transit systems such as urban multimodal net-           that dominate modern TNDP approaches. A large propor-
+works. Heuristic methods, in contrast, offer more scalable        tion of the studies prioritize minimizing total operational
+
+
+
+13
+Innovative Infrastructure Solutions (2026) 11:3                                                                   Page 21 of 28 3
+
+
+and user cost, reflecting the traditional focus on economic         service efficiency and user satisfaction. This is especially
+efficiency in transit planning. This objective often encom-         important in congested urban environments, where in-vehi-
+passes both operator costs (e.g., fleet size, driver hours, fuel)   cle time often dominates total trip duration. Studies such as
+and user-related costs (e.g., waiting times, transfers). For        [58] focus on optimizing route directness and frequency to
+example, studies such as [171] and [10] adopt cost mini-            reduce the time passengers spend onboard, often trading off
+mization as a primary criterion, using advanced algorithms          with network coverage. Lastly, the multi-objective formula-
+to balance supply with fluctuating demand under budget              tion—where two or more of these goals are simultaneously
+constraints. Closely following in frequency is the goal             optimized—is now the dominant paradigm. Over 50% of
+of maximizing network coverage, which aims to expand                the TNDP studies adopt a multi-objective perspective,
+accessibility by ensuring that the majority of the popula-          often relying on evolutionary or hybrid metaheuristics (e.g.,
+tion or activity centers are within reach of transit services.      NSGA-II, Pareto-based genetic algorithms) to navigate the
+This objective appears prominently in studies like [110]            inherent trade-offs. This approach allows for the generation
+and [143], where the optimization framework emphasizes              of Pareto frontiers, offering transit planners a flexible set
+inclusive service design, particularly in medium-sized cities       of solutions based on differing policy priorities [137, 138].
+or urban peripheries. The objective to minimize passenger              Figure 10 compares seven key algorithms applied in
+transfers is also well-represented, especially in recent stud-      TNDP across six evaluation criteria: exploration ability,
+ies addressing passenger comfort and network connectivity.          exploitation ability, scalability, adaptability, computational
+Works such as [90] and [130] show that reducing transfers           efficiency, and ease of implementation. GA show balanced
+improves the attractiveness of public transport and increases       performance across all metrics, making them a versatile and
+mode share, particularly in networks designed for multi-            widely adopted choice TNDP studies. Their moderate-to-
+modal or feeder-hub configurations. Additionally, minimiz-          high scores in both exploration and exploitation make them
+ing in-vehicle travel time reflects a growing concern with          suitable for large, complex networks. SA stands out for its
+
+
+
+
+Fig. 9 Distribution of design objectives in TNDP studies
+
+
+                                                                                                                       13
+3   Page 22 of 28                                                                        Innovative Infrastructure Solutions (2026) 11:3
+
+
+
+
+Fig. 10 TNDP algorithms strength comparison
+
+exploitation ability, reflecting its strength in local optimiza-   data-driven transit design. However, it remains complex to
+tion, but its adaptability and scalability are more limited,       implement and computationally demanding, which explains
+which has led to its use primarily in smaller or constrained       its limited use so far.
+problem instances. ACO excels in exploration, fitting stud-            Although the integration of route network design and fre-
+ies that seek global search performance, but suffers from          quency setting has been extensively modeled in academic
+relatively lower computational efficiency and ease of imple-       research, its practical implementation remains at an early
+mentation, which restrict its widespread adoption. PSO             stage. Most transit agencies continue to rely on sequential
+and BCO show similar performance profiles with strong              or heuristic planning processes due to institutional inertia,
+exploration and reasonable scalability, aligning with studies      fragmented data environments, and the perceived risks of
+from the 2010s where these methods were applied for multi-         deploying complex optimization models in operational set-
+objective TNDP tasks. Differential evolution (DE) is among         tings. Nevertheless, recent pilot projects in Europe and Asia
+the top-performing algorithms in scalability and adaptabil-        demonstrate a gradual shift toward integrated decision-sup-
+ity, supporting its emerging role in recent years (especially      port platforms, often facilitated by the availability of open
+in studies from the late 2010s onward) where it was used to        mobility data, smart card systems, and advanced simulation
+manage multi-modal or intersecting networks. RL, although          tools. These initiatives suggest that while integration is still
+still underrepresented in literature, scores highest in adapt-     primarily driven by academic research, it is beginning to find
+ability and scalability, confirming its potential for real-time,   footholds in practice. The pace of adoption will depend less
+
+
+
+13
+Innovative Infrastructure Solutions (2026) 11:3                                                                     Page 23 of 28 3
+
+
+on methodological readiness, which is increasingly mature,         and micromobility services into network design frameworks
+and more on organizational willingness, cross-agency col-          [7]. These data streams provide rich insights into first–last
+laboration, and the development of governance frameworks           mile connectivity, demand volatility, and cross-modal sub-
+that can sustain data-driven planning across multiple stake-       stitution patterns, offering the potential to design transit net-
+holders [78, 158].                                                 works that are more adaptive and multimodally integrated
+    Resilience in transit network design can be concep-            [6]. However, their incorporation also raises methodologi-
+tualized and modeled through several complementary                 cal challenges. The heterogeneity of data sources (e.g.,
+approaches. Robust optimization focuses on ensuring                ride-hailing platforms, bike-sharing systems, e-scooter
+performance under worst-case scenarios by safeguard-               providers), their volatility over short time horizons, and
+ing against demand uncertainty, link failures, or parameter        the lack of standardized data-sharing protocols complicate
+mis-specification. Stochastic planning adopts a probabilis-        their direct use in large-scale optimization models. Integrat-
+tic perspective, explicitly modeling disruption likelihoods,       ing such data may therefore risk inflating model complexity
+demand variability, and recovery trajectories to provide           and undermining scalability [131]. A promising direction is
+solutions that balance efficiency with risk exposure. Mean-        incremental integration, starting with aggregated mobility
+while, redundancy-based design emphasizes structural con-          indicators that complement conventional transit data and
+tinuity by embedding spare capacity, alternative routes, and       progressively advancing toward real-time, AI-enhanced
+multimodal backup options into the network. Each approach          optimization frameworks capable of handling multimodal
+captures a distinct dimension of resilience: robust optimi-        dynamics. In this way, micromobility and ride-sharing data
+zation ensures guaranteed service levels under uncertainty,        can enhance TNDP without overwhelming its methodologi-
+stochastic planning reflects the probabilistic nature of real-     cal tractability [126].
+world disruptions, and redundancy provides physical adapt-
+ability to shocks. Future research should not treat these as
+competing paradigms but rather as complementary layers of          Conclusion
+resilience. Hybrid models that integrate robust, stochastic,
+and redundancy-based strategies offer the most promising           This study has provided the most comprehensive and tem-
+pathway toward transit systems that are not only efficient but     porally resolved review of the TNDP to date, spanning
+also adaptive, inclusive, and reliable in the face of climate      five decades and encompassing both the TRNDP and the
+change, pandemics, and other systemic shocks [91],166.             FSP, as well as their integration. By systematically tracing
+    Moving forward, equity in TNDP research should be              methodological evolution, the review reveals critical tran-
+operationalized through standardized and measurable indi-          sitions—from deterministic mathematical programming to
+cators that enable comparability across studies and facilitate     the dominance of heuristics and metaheuristics in the 2000s
+real-world benchmarking. Three categories of metrics stand         and 2010s, and more recently, the gradual emergence of
+out as particularly relevant. First, accessibility indices, such   AI and ML approaches post-2020. Using percentage-based
+as cumulative opportunity measures (percentage of jobs,            visual analytics, taxonomies, and a novel scalability–perfor-
+schools, or health facilities reachable within a fixed travel      mance matrix, the study maps how methodological prefer-
+time) and gravity-based measures, can quantify geographic          ences have shifted over time, highlighting the plateauing of
+inclusivity. Second, distributional fairness metrics, includ-      metaheuristics, the decline of classical optimization, and the
+ing the Gini coefficient, Theil index, or other inequality         limited adoption of AI to date. The scientific value added
+measures applied to service supply or travel times, provide        lies in four areas: (i) introducing a longitudinal perspective
+a rigorous way to assess whether resources are equitably           that captures five decades of TNDP evolution; (ii) devel-
+distributed across populations and neighborhoods. Third,           oping a scalability–performance matrix to systematically
+vulnerability-sensitive indicators can measure the propor-         evaluate solution methodologies against network size and
+tion of low-income, elderly, or mobility-impaired residents        complexity; (iii) explicitly analyzing TRNDP–FSP inte-
+within catchment areas of high-frequency or step-free tran-        gration as an underexplored but critical research frontier;
+sit services. Together, these metrics offer a transparent and      and (iv) setting forth a forward-looking agenda on equity,
+replicable framework for embedding equity into TNDP                resilience, and AI-driven adaptability. These contributions
+models. Standardization across studies would not only              advance both the theoretical and methodological founda-
+enhance scholarly comparability but also provide policy-           tions of TNDP research. From an applicability standpoint,
+makers with concrete tools to evaluate and monitor progress        the findings provide decision-support insights for city plan-
+toward more inclusive transit systems.                             ners and transit authorities. The scalability–performance
+    A critical frontier for the next wave of TNDP research is      matrix offers a pathway to align methodological choices
+the integration of real-time mobility data from ride-sharing       with network scale, data availability, and institutional
+
+
+
+                                                                                                                        13
+3   Page 24 of 28                                                                                        Innovative Infrastructure Solutions (2026) 11:3
+
+
+capacity. The integration of TRNDP and FSP provides a             Declarations
+blueprint for balancing operator efficiency with passenger
+                                                                  Conflict of interest The authors declare that they have no conflict of
+accessibility. Moreover, by embedding equity and resilience       interest.
+into TNDP, this review highlights planning dimensions that
+are vital for post-pandemic, climate-sensitive, and socially      Ethical approval All authors have read and approved the final manu-
+diverse urban contexts. At the same time, this study has lim-     script and agree to its submission to the journal.
+itations. While over 170 studies were analyzed, the focus
+                                                                  Open Access This article is licensed under a Creative Commons
+was primarily on methodological contributions, with less          Attribution 4.0 International License, which permits use, sharing,
+attention to political, institutional, and financial barriers     adaptation, distribution and reproduction in any medium or format,
+that affect TNDP implementation. Furthermore, while AI,           as long as you give appropriate credit to the original author(s) and the
+reinforcement learning, and digital twins are highlighted         source, provide a link to the Creative Commons licence, and indicate
+                                                                  if changes were made. The images or other third party material in this
+as promising, their adoption is constrained by data silos,        article are included in the article’s Creative Commons licence, unless
+interoperability challenges, and interpretability concerns.       indicated otherwise in a credit line to the material. If material is not
+Future research should therefore prioritize: (i) embed-           included in the article’s Creative Commons licence and your intended
+ding standardized equity and resilience metrics—such as           use is not permitted by statutory regulation or exceeds the permitted
+                                                                  use, you will need to obtain permission directly from the copyright
+accessibility indices, Gini coefficients, and redundancy          holder. To view a copy of this licence, visit ​h​t​t​p​​:​/​/​​c​r​e​a​​t​i​​v​e​c​​o​m​m​o​​n​s​.​​o​
+measures—into TNDP formulations; (ii) overcoming insti-           r​g​​/​l​i​c​e​n​s​e​s​/​b​y​/​4​.​0​/.
+tutional barriers to data sharing to unlock the full potential
+of AI, RL, and digital twin applications; and (iii) develop-
+ing hybrid, interpretable frameworks that combine classical       References
+optimization, metaheuristics, and AI for solutions that are
+both robust and operationally feasible.                           1.     Afandizadeh S, Khaksar H, Kalantari N (2013) Bus fleet optimi-
+   Implications of this study extend to both academia and                zation using genetic algorithm a case study of Mashhad. Int J Civ
+                                                                         Eng 11:43–52
+practice.                                                         2.     Agrawal J, Mathew TV (2004) Transit route network design
+                                                                         using parallel genetic algorithm. J Comput Civ Eng 18:248–256
+● Academic contributions: (a) providing the most tem-             3.     Ahmed L, Mumford C, Kheiri A (2019) Solving urban transit
+  porally comprehensive synthesis of TNDP research;                      route design problem using selection hyper-heuristics. Eur J Oper
+                                                                         Res 274:545–559
+  (b) introducing novel analytical frameworks including           4.     Albalate D, Bel G (2010) What shapes local public transporta-
+  taxonomies, heatmaps, and the scalability–performance                  tion in Europe? Economics, mobility, institutions, and geography.
+  matrix; and (c) identifying underexplored frontiers in                 Transp Res Part E Logist Transp Rev 46:775–790
+  equity, resilience, and AI-based transit planning.              5.     Almutairi A, Owais M, Ahmed AS (2024) Notes on bus user
+                                                                         assignment problem using section network representation
+● Practical contributions: (a) offering a decision-support               method. Appl Sci 14:3406
+  framework to guide agencies in method selection; (b)            6.     Almutairi A, Owais M (2025) Reliable vehicle routing problem
+  demonstrating how integrated TRNDP–FSP models can                      using traffic sensors augmented information. Sensors 25(7):2262
+  enhance coordinated planning; and (c) highlighting the          7.     Almutairi A, Owais M (2024) Active traffic sensor location prob-
+                                                                         lem for the uniqueness of path flow identification in large-scale
+  urgency of embedding inclusivity and resilience into                   networks. IEEE Access. ​h​t​t​p​​s​:​/​​/​d​o​i​​.​o​​r​g​/​​1​0​.​1​​1​0​9​​/​A​C​​C​E​S​S​.​2​0​2​4​.​3​
+  network design.                                                        5​0​9​5​2​3
+                                                                  8.     Al-Shami ES, Owais M, AbdelRaheem SE, Mohamed WAEW,
+In sum, this review not only consolidates half a century of              Fahmy MF (2025) Modeling tensile strength of unconfined
+                                                                         lap-spliced steel bars using deep residual neural networks and
+TNDP scholarship but also sets a strategic roadmap for the               variance-based sensitivity analysis. Innov Infrastruct Solut
+next wave of research and practice. Bridging classical opti-             10(8):1–25
+mization with modern, data-rich paradigms is essential for        9.     An K, Lo HK (2016) Two-phase stochastic program for transit
+creating transit networks that are efficient, equitable, resil-          network design under demand uncertainty. Transp Res Part B
+                                                                         Methodol 84:157–181
+ient, and technologically adaptive, capable of meeting the        10.    Arbex RO, da Cunha CB (2015) Efficient transit network design
+challenges of next-generation urban mobility.                            and frequencies setting multi-objective optimization by alternat-
+                                                                         ing objective genetic algorithm. Transp Res Part B Methodol
+Funding Open access funding provided by The Science, Technology          81:355–376
+& Innovation Funding Authority (STDF) in cooperation with The     11.    Asplund D, Pyddoke R (2020) Optimal fares and frequencies for
+Egyptian Knowledge Bank (EKB).                                           bus services in a small city. Res Transp Econ 80:100796
+                                                                  12.    Baaj MH, Mahmassani HS (1991) An AI-based approach for tran-
+                                                                         sit route system planning and design. J Adv Transp 25:187–209
+                                                                  13.    Baaj MH, Mahmassani HS (1995) Hybrid route generation heu-
+                                                                         ristic algorithm for the design of transit networks. Transp Res Part
+                                                                         C Emerg Technol 3:31–50
+
+
+
+13
+Innovative Infrastructure Solutions (2026) 11:3                                                                                 Page 25 of 28 3
+
+14. Bagloee SA, Ceder AA (2011) Transit-network design methodol-          38. Curtin KM, Biba S (2011) The transit route arc-node service max-
+    ogy for actual-size road networks. Transp Res Part B Methodol             imization problem. Eur J Oper Res 208:46–56
+    45:1787–1804                                                          39. Dakic I, Leclercq L, Menendez M (2021) On the optimization
+15. Berrebi SJ, Watkins KE, Laval JA (2015) A real-time bus dis-              of the bus network design: an analytical approach based on the
+    patching policy to minimize passenger wait on a high frequency            three-dimensional macroscopic fundamental diagram. Transp
+    route. Transp Res Part B Methodol 81:377–389                              Res Part B Methodol 149:393–417
+16. Bielli M, Caramia M, Carotenuto P (2002) Genetic algorithms           40. De Cea Ch J, Malbran RH (2008) Demand responsive urban pub-
+    in bus network optimization. Transp Res Part C-Emerg Technol              lic transport system design: methodology and application. Transp
+    10:19–34                                                                  Res Part A Policy Pract 42:951–972
+17. Boffey B, García FRF, Laporte G, Mesa JA, Pelegrín BP (1995)          41. De Sá EM, Contreras I, Cordeau J-F (2015) Exact and heuristic
+    Multiobjective routing problems. TOP 3:167–220                            algorithms for the design of hub networks with multiple lines. Eur
+18. Borndörfer R, Grötschel M, Pfetsch ME (2007) A column-gen-                J Oper Res 246:186–198
+    eration approach to line planning in public transport. Transp Sci     42. dell’Olio L, Moura JL, Ibeas A (2006) Bi-level mathematical pro-
+    41:123–132                                                                gramming model for locating bus stops and optimizing frequen-
+19. Bruno G, Gendreau M, Laporte G (2002) A heuristic for the loca-           cies. Transp Res Rec J Transp Res Board 1971:23–31
+    tion of a rapid transit line. Comput Oper Res 29:1–12                 43. dell’Olio L, Ibeas A, Ruisánchez F (2012) Optimizing bus-size
+20. Bruno G, Ghiani G, Improta G (1998) A multi-modal approach to             and headway in transit networks. Transportation 39:449–464
+    the location of a rapid transit line. Eur J Oper Res 104:321–332      44. Derrible S, Kennedy C (2011) Applications of graph theory
+21. Buba AT, Lee LS (2018) A differential evolution for simultane-            and network science to transit network design. Transp Rev
+    ous transit network design and frequency setting problem. Expert          31:495–519
+    Syst Appl 106:277–289                                                 45. Duff-Riddell W, Bester C (2005) Network modeling approach to
+22. Camporeale R, Caggiani L, Fonzone A, Ottomanelli M (2017)                 transit network design. J Urban Plann Dev 131:87–97
+    Quantifying the impacts of horizontal and vertical equity in tran-    46. Dufourd H, Gendreau M, Laporte G (1996) Locating a transit line
+    sit route planning. Transp Plann Technol 40:28–44                         using tabu search. Locat Sci 4:1–19
+23. Canca D, Barrena E, De-Los-Santos A, Andrade-Pineda JL (2016)         47. Durán-Micco J, van Kooten Niekerk M, Vansteenwegen P (2022)
+    Setting lines frequency and capacity in dense railway rapid transit       Designing bus line plans for realistic cases-the Utrecht case study.
+    networks with simultaneous passenger assignment. Transp Res               Expert Syst Appl 187:115918
+    Part B Methodol 93:251–267                                            48. Durán-Micco J, Vansteenwegen P (2022) A survey on the transit
+24. Canca D, De-Los-Santos A, Laporte G, Mesa JA (2017) An adap-              network design and frequency setting problem. Public Transport
+    tive neighborhood search metaheuristic for the integrated railway         14:155–190
+    rapid transit network design and line planning problem. Comput        49. Escudero LF, Muñoz S (2009) An approach for solving a modifi-
+    Oper Res 78:1–14                                                          cation of the extended rapid transit network design problem. TOP
+25. Cancela H, Mauttone A, Urquhart ME (2015) Mathematical pro-               17:320–334
+    gramming formulations for transit network design. Transp Res          50. Escudero LF, Muñoz S (2016) A survey-based approach for
+    Part B Methodol 77:17–37                                                  designing the lines of a rapid transit network. Discrete Appl Math
+26. Carrese S, Gori S (2002) An urban bus network design procedure.           210:14–34
+    Appl Optim 64:177–196                                                 51. Estrada M, Roca-Riu M, Badia H, Robusté F, Daganzo CF
+27. Ceder A, Israeli Y (1998) User and operator perspectives in tran-         (2011) Design and implementation of efficient transit networks:
+    sit network design. Transp Res Rec 1623:3–7                               procedure, case study and validity test. Procedia Soc Behav Sci
+28. Ceder A, Wilson NH (1986) Bus network design. Transp Res Part             17:113–135
+    B Methodol 20:331–344                                                 52. Fan L, Mumford CL (2010) A metaheuristic approach to the
+29. Chai S, Liang Q (2020) An improved NSGA-II algorithm for                  urban transit routing problem. J Heuristics 16:353–372
+    transit network design and frequency setting problem. J Adv           53. Fan W, Gurmu Z, Haile E (2013) A bi-level metaheuristic
+    Transp 2020:2895320                                                       approach to designing optimal bus transit route network. In 2013
+30. Chakroborty P (2003) Genetic algorithms for optimal urban transit         IEEE international conference on cyber technology in automa-
+    network design. Comput-Aided Civ Infrastruct Eng 18:184–200               tion, control and intelligent systems. IEEE, pp 308–313
+31. Chen X, Yu L, Zhang Y, Guo J (2009) Analyzing urban bus ser-          54. Fan W, Machemehl RB (2006) Using a simulated annealing algo-
+    vice reliability at the stop, route, and network levels. Transp Res       rithm to solve the transit route network design problem. J Transp
+    Part A Policy Pract 43:722–734                                            Eng 132:122–132
+32. Chien S, Yang Z, Hou E (2001) Genetic algorithm approach for          55. Fan W, Machemehl RB (2008) Tabu search strategies for the
+    transit route planning and design. J Transp Eng 127:200–207               public transportation network optimizations with variable transit
+33. Chowdhury SM, I-Jy Chien S (2002) Intermodal transit system               demand. Comput-Aided Civ Infrastruct Eng 23:502–520
+    coordination. Transp Plann Technol 25:257–287                         56. Fan W, Mei Y, Gu W (2018) Optimal design of intersecting
+34. Cipriani E, Fusco G, Patella SM, Petrelli M, Quadrifoglio L               bimodal transit networks in a grid city. Transp Res Part B Meth-
+    (2019) Transit network design for small-medium size cities.               odol 111:203–226
+    Transp Plann Technol 42:84–97                                         57. Farahani RZ, Miandoabchi E, Szeto WY, Rashidi H (2013) A
+35. Cipriani E, Gori S, Petrelli M (2012) A bus network design proce-         review of urban transportation network design problems. Eur J
+    dure with elastic demand for large urban areas. Public Transport          Oper Res 229:281–302
+    4:57–76                                                               58. Feng X, Zhu X, Qian X, Jie Y, Ma F, Niu X (2019) A new transit
+36. Cipriani E, Gori S, Petrelli M (2012) Transit network design: a           network design study in consideration of transfer time composi-
+    procedure and an application to a large urban area. Transp Res            tion. Transp Res Part D Transp Environ 66:85–94
+    Part C Emerg Technol 20:3–14                                          59. Fu Q, Liu R, Hess S (2012) A review on transit assignment mod-
+37. Constantin I, Florian M (1995) Optimizing frequencies in a                elling approaches to congested networks: a new perspective. Pro-
+    transit network: a nonlinear bi-level programming approach. Int           cedia Soc Behav Sci 54:1145–1155
+    Trans Oper Res 2:149–164                                              60. Furth PG (1986) Zonal route design for transit corridors. Transp
+                                                                              Sci 20:1–12
+
+
+
+                                                                                                                                     13
+3   Page 26 of 28                                                                                  Innovative Infrastructure Solutions (2026) 11:3
+
+61. Furth PG, Wilson NH (1981) Setting frequencies on bus routes:        82. Huang D, Wang Y, Jia S, Liu Z, Wang S (2023) A lagrangian
+    theory and practice. Transp Res Rec 818:1–7                               relaxation approach for the electric bus charging scheduling opti-
+62. Fusco G, Gori S, Petrelli M (2002) A heuristic transit network            misation problem. Transportmetrica A Transp Sci 19:2023690
+    design algorithm for medium size towns. In: Proceedings of the       83. Ibarra-Rojas OJ, Delgado F, Giesen R, Muñoz JC (2015) Plan-
+    13th Mini-EURO Conference, Bari, Italy                                    ning, operation, and control of bus transport systems: a literature
+63. Gallo M, D’Acierno L, Montella B (2010) A meta-heuristic                  review. Transp Res Part B Methodol 77:38–75
+    approach for solving the urban network design problem. Eur J         84. Ibeas A, Alonso B, dell’Olio L, Moura JL (2014) Bus size and
+    Oper Res 201:144–157                                                      headways optimization model considering elastic demand. J
+64. Gallo M, Montella B, D’Acierno L (2011) The transit network               Transp Eng 140:04013021
+    design problem with elastic demand and internalisation of exter-     85. Iliopoulou C, Kepaptsoglou K (2019) Integrated transit route
+    nal costs: an application to rail frequency optimisation. Transp          network design and infrastructure planning for on-line electric
+    Res Part C Emerg Technol 19:1276–1305                                     vehicles. Transp Res Part D: Transp Environ 77:178–197
+65. Gao Z, Sun H, Shan LL (2004) A continuous equilibrium network        86. Iliopoulou C, Kepaptsoglou K, Vlahogianni E (2019) Meta-
+    design model and algorithm for transit systems. Transp Res Part           heuristics for the transit route network design problem: a review
+    B Methodol 38:235–250                                                     and comparative analysis. Public Transp 11:487–521
+66. Gkiotsalitis K, Cats O (2018) Reliable frequency determina-          87. Iliopoulou C, Tassopoulos IX, Kepaptsoglou K (2024) Multi-
+    tion: incorporating information on service uncertainty when set-          objective planning of electric bus systems in cities with trolleybus
+    ting dispatching headways. Transp Res Part C Emerg Technol                infrastructure networks. Sustain Cities Soc 103:105227
+    88:187–207                                                           88. Islam KA, Moosa IM, Mobin J, Nayeem MA, Rahman MS
+67. Gkiotsalitis K, Cats O (2021) Public transport planning adap-             (2019) A heuristic aided stochastic beam search algorithm for
+    tion under the COVID-19 pandemic crisis: literature review of             solving the transit network design problem. Swarm Evol Comput
+    research needs and directions. Transp Rev 41:374–392                      46:154–170
+68. Guan J, Yang H, Wirasinghe SC (2006) Simultaneous optimiza-          89. Jayakrishnan R (2007) Real-time mass transport vehicle routing
+    tion of transit line configuration and passenger line assignment.         problem: local routing with global optimization
+    Transp Res Part B Methodol 40:885–902                                90. Jha SB, Jha JK, Tiwari MK (2019) A multi-objective meta-heu-
+69. Guihaire V, Hao J-K (2008) Transit network design and schedul-            ristic approach for transit network design and frequency setting
+    ing: a global review. Transp Res Part A Policy Pract 42:1251–1273         problem in a bus transit system. Comput Ind Eng 130:166–186
+70. Guo X, Wang Q, Zhao J (2022) Data-driven vehicle rebalanc-           91. Juhana T, Yuliana H, Hendrawan I, Musashi Y (2024) Com-
+    ing with predictive prescriptions in the ride-hailing system. IEEE        parative analysis of ARIMA, Prophet, and Glmnet for long term
+    Open J Intell Transp Syst 3:251–266                                       evolution (LTE) base station traffic forecasting. Emerg Sci J
+71. Gutiérrez-Jarpa G, Laporte G, Marianov V (2018) Corridor-based            8(6):2197–2217
+    metro network design with travel flow capture. Comput Oper Res       92. Kechagiopoulos PN, Beligiannis GN (2014) Solving the urban
+    89:58–67                                                                  transit routing problem using a particle swarm optimization based
+72. Gutiérrez-Jarpa G, Laporte G, Marianov V, Moccia L (2017)                 algorithm. Appl Soft Comput 21:654–676
+    Multi-objective rapid transit network design with modal competi-     93. Kepaptsoglou K, Karlaftis M (2009) Transit route network design
+    tion: the case of Concepción, Chile. Comput Oper Res 78:27–43             problem. J Transp Eng 135:491–505
+73. Gutiérrez-Jarpa G, Obreque C, Laporte G, Marianov V (2013)           94. Khakbaz A, Shahandeh Nookabadi A, Nader Shetab Boush-
+    Rapid transit network design for optimal cost and origin–destina-         ehri S (2017) Urban bus fleet routing in transportation network
+    tion demand capture. Comput Oper Res 40:3000–3009                         equipped with park-and-ride: a case study of Babol, Iran. Trans-
+74. Hadas Y, Ranjitkar P (2012) Modeling public-transit connectiv-            port 32:55–65
+    ity with spatial quality-of-transfer measurements. J Transp Geogr    95. Khanzad I, Seyedabrishami S, Nazemi M, Zarrinmehr A (2016)
+    22:137–147                                                                Transit network design problem: an expansion of the route gen-
+75. Hadas Y, Shnaiderman M (2012) Public-transit frequency setting            eration algorithm. In Euro working group on transportation.
+    using minimum-cost approach with stochastic demand and travel             Springer, pp 183–197
+    time. Transp Res Part B Methodol 46:1068–1084                        96. Kim H-S, Kim D-K, Kho S-Y, Lee Y-G (2016) Integrated deci-
+76. Hamdouch Y, Lawphongpanich S (2008) Schedule-based transit                sion model of mode, line, and frequency for a new transit line to
+    assignment model with travel strategies and capacity constraints.         improve the performance of the transportation network. KSCE J
+    Transp Res Part B Methodol 42:663–684                                     Civ Eng 20:393–400
+77. Han AF, Wilson NH (1982) The allocation of buses in heavily          97. Lai M, Lo HK (2004) Ferry service network design: optimal fleet
+    utilized networks with overlapping routes. Transp Res Part B              size, routing, and scheduling. Transp Res Part A Policy Pract
+    Methodol 16:221–232                                                       38:305–328
+78. Hazem RT, Hadi AH, Nassar YS (2024) The degree of consis-            98. Laporte G, Marín Á, Mesa JA, Ortega FA (2007) An integrated
+    tency through adopting SMART objectives for succession of                 methodology for the rapid transit network design problem. Algo-
+    feasibility studies to infrastructure projects. HighTech Innov J          rithmic Methods for Railway Optimization: International Dag-
+    5(3):614–626                                                              stuhl Workshop, Dagstuhl Castle, Germany, June 20–25, 2004,
+79. Holliday A, Dudek G (2024) A neural-evolutionary algorithm                4th International Workshop, ATMOS 2004, Bergen, Norway,
+    for autonomous transit network design. In 2024 IEEE interna-              September 16–17, 2004, Revised Selected Papers. Springer, pp
+    tional conference on robotics and automation (ICRA). IEEE, pp             187–199
+    4457–4464                                                            99. Laporte G, Marin A, Mesa JA, Perea F (2011) Designing robust
+80. Hua S, Ziyou G, Jiancheng L (2011) The robust model of continu-           rapid transit networks with alternative routes. J Adv Transp
+    ous transportation network design problem with demand uncer-              45:54–65
+    tainty. J Transp Syst Eng Inf Technol 11:70–76                       100. Laporte G, Mesa JA (2020) The design of rapid transit networks,
+81. Huang D, Liu Z, Fu X, Blythe PT (2018) Multimodal transit net-            Location science. Springer, pp 687–703
+    work design in a hub-and-spoke network framework. Transp A           101. Laporte G, Mesa JA, Ortega FA (2000) Optimization methods for
+    Transp Sci 14:706–735                                                     the planning of rapid transit systems. Eur J Oper Res 122:1–10
+
+
+
+
+13
+Innovative Infrastructure Solutions (2026) 11:3                                                                                  Page 27 of 28 3
+
+102. Laporte G, Mesa JA, Ortega FA (2002) Locating stations on rapid       126. Owais M (2025) How to incorporate machine learning and micro-
+     transit lines. Comput Oper Res 29:741–759                                  simulation tools in travel demand forecasting in multi-modal net-
+103. Laporte G, Mesa JA, Ortega FA, Sevillano I (2005) Maximizing               works. Expert Syst Appl 262:125563
+     trip coverage in the location of a single rapid transit alignment.    127. Owais M, Ahmed AS (2022) Frequency based transit assignment
+     Ann Oper Res 136:49–63                                                     models: graph formulation study. IEEE Access 10:62991–63003
+104. Laporte G, Mesa JA, Perea F (2010) A game theoretic framework         128. Owais M, Ahmed AS, Moussa GS, Khalil AA (2020) An optimal
+     for the robust railway transit network design problem. Transp Res          metro design for transit networks in existing square cities based
+     Part B Methodol 44:447–459                                                 on non-demand criterion. Sustainability 12:9566
+105. Laporte G, Pascoal MM (2015) Path based algorithms for metro          129. Owais M, Ahmed AS, Moussa GS, Khalil AA (2021) Design
+     network design. Comput Oper Res 62:78–94                                   scheme of multiple-subway lines for minimizing passengers
+106. Lee Y-J, Choi JY, Yu JW, Choi K (2015) Geographical applica-               transfers in mega-cities transit networks. Int J Rail Transp
+     tions of performance measures for transit network directness. J            9:540–563
+     Public Transp 18:89–110                                               130. Owais M, Ahmed AS, Moussa GS, Khalil AA (2021) Integrat-
+107. Leong KH, Abdul-Rahman H, Wang C, Onn CC, Loo S-C (2016)                   ing underground line design with existing public transportation
+     Bee inspired novel optimization algorithm and mathematical                 systems to increase transit network connectivity: case study in
+     model for effective and efficient route planning in railway system.        Greater Cairo. Expert Syst Appl 167:114183
+     PLoS ONE 11:e0166064                                                  131. Owais M, El Sayed MA (2025) Red light crossing violations
+108. Li X, Quadrifoglio L (2010) Feeder transit services: choosing              modelling using deep learning and variance-based sensitivity
+     between fixed and demand responsive policy. Transp Res Part C              analysis. Expert Syst Appl 267:126258
+     Emerg Technol 18:770–780                                              132. Owais M, Hassan T (2018) Incorporating dynamic bus stop
+109. Li Y, Soleimani H, Zohal M (2019) An improved ant colony                   simulation into static transit assignment models. Int J Civ Eng
+     optimization algorithm for the multi-depot green vehicle routing           16:67–77
+     problem with multiple objectives. J Clean Prod 227:1161–1172          133. Owais M, Moussa G, Abbas Y, El-Shabrawy M (2013) Optimal
+110. Liu Y, Feng X, Jia Y, Wu J (2018) Bi-objective optimization of             frequency setting for circular bus routes in urban areas. JES J Eng
+     transit network and frequencies design using Pareto genetic algo-          Sci 41:1796–1811
+     rithm. Adv Transp Stud 46                                             134. Owais M, Moussa G, Abbas Y, El-Shabrawy M (2014) Simple
+111. Mandl CE (1980) Evaluation and optimization of urban public                and effective solution methodology for transit network design
+     transportation networks. Eur J Oper Res 5:396–404                          problem. Int J Comput Appl 89:32–40
+112. Marín Á (2007) An extension to rapid transit network design           135. Owais M, Moussa GS, Abbas YA, El-Shabrawy M (2013) Opti-
+     problem. TOP 15:231–241                                                    mal circular bus routes planning for transit network design prob-
+113. Marín Á, García-Ródenas R (2009) Location of infrastructure in             lem in urban areas. JES J Eng Sci 41:1447–1466
+     urban railway networks. Comput Oper Res 36:1461–1477                  136. Owais M, Shehata A, Shaband A, Moussa GS (2025) A frame-
+114. Marin A, Jaramillo P (2008) Urban rapid transit network capacity           work for establishing an automated traffic violation detection sys-
+     expansion. Eur J Oper Res 191:45–60                                        tem in New Assiut City using ordinary CCTV units. Mansoura
+115. Martínez H, Mauttone A, Urquhart ME (2014) Frequency opti-                 Eng J 50(3):11
+     mization in public transportation systems: formulation and meta-      137. Owais M, Osman MK (2018) Complete hierarchical multi-objec-
+     heuristic approach. Eur J Oper Res 236:27–36                               tive genetic algorithm for transit network design problem. Expert
+116. Mauttone A, Urquhart ME (2009) A route set construction algo-              Syst Appl 114:143–154
+     rithm for the transit network design problem. Comput Oper Res         138. Owais M, Osman MK, Moussa G (2015) Multi-objective transit
+     36:2440–2449                                                               route network design as set covering problem. IEEE Trans Intell
+117. Mesbah M, Sarvi M, Currie G (2008) New methodology for                     Transp Syst 17:670–679
+     optimizing transit priority at the network level. Transp Res Rec      139. Pacheco J, Alvarez A, Casado S, González-Velarde JL (2009) A
+     2089:93–100                                                                tabu search approach to an urban transport problem in northern
+118. Moussa G, Owais M (2014) A novel solution methodology for                  Spain. Comput Oper Res 36:967–979
+     transit route network design problem. Int J Civ Environ Struct        140. Park SJ, Kang S, Byon Y-J, Kho S-Y (2022) Multiobjective
+     Constr Archit Eng 8:283–290                                                approach to the transit network design problem with variable
+119. Mumford CL (2013) New heuristic and evolutionary operators                 demand considering transit equity. J Adv Transp 2022:5887985
+     for the multi-objective urban transit routing problem. In 2013        141. Patil GR, Ukkusuri SV (2007) System-optimal stochastic trans-
+     IEEE congress on evolutionary computation. IEEE, pp 939–946                portation network design. Transp Res Rec J Transp Res Board
+120. Nayeem MA, Islam MM, Yao X (2018) Solving transit network                  2029:80–86
+     design problem using many-objective evolutionary approach.            142. Patnaik J, Chien S, Bladikas A (2004) Estimation of bus arrival
+     IEEE Trans Intell Transp Syst 20:3952–3963                                 times using APC data. J Public Transp 7:1–20
+121. Nayeem MA, Rahman MK, Rahman MS (2014) Transit network                143. Pattnaik S, Mohan S, Tom V (1998) Urban bus transit route net-
+     design by genetic algorithm with elitism. Transp Res Part C                work design using genetic algorithm. J Transp Eng 124:368–375
+     Emerg Technol 46:30–45                                                144. Pinto HK, Hyland MF, Mahmassani HS, Verbas IÖ (2019) Joint
+122. Ngamchai S, Lovell DJ (2003) Optimal time transfer in bus tran-            design of multimodal transit networks and shared autonomous
+     sit route network design using a genetic algorithm. J Transp Eng           mobility fleets. Transp Res Procedia 38:98–118
+     129:510–521                                                           145. Quadrifoglio L, Li X (2009) A methodology to derive the critical
+123. Nielsen OA (2000) A stochastic transit assignment model consid-            demand density for designing and operating feeder transit ser-
+     ering differences in passengers utility functions. Transp Res Part         vices. Transp Res Part B Methodol 43:922–935
+     B Methodol 34:377–402                                                 146. Repolho HM, Antunes AP, Church RL (2013) Optimal location of
+124. Nikolić M, Teodorović D (2013) Transit network design by bee               railway stations: the Lisbon-Porto high-speed rail line. Transp Sci
+     colony optimization. Expert Syst Appl 40:5945–5955                         47:330–343
+125. Obeng K, Ugboro I (2008) Effective strategic planning in public       147. Roca-Riu M, Estrada M, Trapote C (2012) The design of interur-
+     transit systems. Transp Res Part E Logist Transp Rev 44:420–439            ban bus networks in city centers. Transp Res Part A Policy Pract
+                                                                                46:1153–1165
+
+
+
+                                                                                                                                      13
+3   Page 28 of 28                                                                                                   Innovative Infrastructure Solutions (2026) 11:3
+
+148. Ruisanchez F, dell’Olio L, Ibeas A (2012) Design of a tabu search   167. Wu Z, Shen B, Lv D (2012) Study on the transit network evalu-
+     algorithm for assigning optimal bus sizes and frequencies in             ation method based on the transit ridership model. Procedia Soc
+     urban transport services. J Adv Transp 46:366–377                        Behav Sci 43:428–434
+149. Saidi S, Wirasinghe S, Kattan L, Esmaeilnejad S (2017) A gener-     168. Yang Z, Yu B, Cheng C (2007) A parallel ant colony algorithm
+     alized framework for complex urban rail transit network analysis.        for bus network optimization. Comput-Aided Civ Infrastruct Eng
+     Transp A Transp Sci 13:874–892                                           22:44–55
+150. Samanta S, Jha MK (2011) Modeling a rail transit alignment          169. Yoo G-S, Kim D-K, Chon KS (2010) Frequency design in urban
+     considering different objectives. Transp Res Part A Policy Pract         transit networks with variable demand: model and algorithm.
+     45:31–45                                                                 KSCE J Civ Eng 14:403–411
+151. Saw K, Katti BK, Joshi G (2015) Literature review of traffic        170. Yoo S, Lee JB, Han H (2023) A reinforcement learning approach
+     assignment: static and dynamic. Int J Transp Eng 2:339–347               for bus network design and frequency setting optimisation. Public
+152. Schöbel A (2012) Line planning in public transportation: models          Transp 15:503–534
+     and methods. OR Spectrum 34:491–510                                 171. Yoon G, Chow JY (2024) A sequential transit network design
+153. Schöbel A, Scholl S (2004) Line planning with minimal transfers          algorithm with optimal learning under correlated beliefs. Transp
+154. Shalaby A, Farhan A (2004) Prediction model of bus arrival               Res Part E Logist Transp Rev 191:103707
+     and departure times using AVL and APC data. J Public Transp         172. Yu B, Kong L, Sun Y, Yao B, Gao Z (2015) A bi-level program-
+     7:41–61                                                                  ming for bus lane network design. Transp Res Part C Emerg
+155. Shi Y, Blainey S, Hounsell N (2017) Using GIS to assess the              Technol 55:310–327
+     potential for centralised planning of bus networks. Transp Plann    173. Yu B, Yang Z-Z, Jin P-H, Wu S-H, Yao B-Z (2012) Transit route
+     Technol 40:119–142                                                       network design-maximizing direct and transfer demand density.
+156. Szeto WY, Jiang Y (2014) Transit route and frequency design:             Transp Res Part C Emerg Technol 22:58–75
+     bi-level modeling and hybrid artificial bee colony algorithm        174. Yu B, Yang Z, Yao J (2010) Genetic algorithm for bus frequency
+     approach. Transp Res Part B Methodol 67:235–263                          optimization. J Transp Eng 136:576–583
+157. Szeto WY, Wu Y (2011) A simultaneous bus route design and fre-      175. Yu, Machemehl RB, Xie C (2015) Demand-responsive transit cir-
+     quency setting problem for Tin Shui Wai, Hong Kong. Eur J Oper           culator service network design. Transp Res Part E Logist Transp
+     Res 209:141–155                                                          Rev 76:160–175
+158. Te MCL, Bautista JAT, Dimacali SMEV, Lood AVM, Pangan               176. Yuan Y, Yu J (2018) Locating transit hubs in a multi-modal trans-
+     MGM, Chua AY (2024) A smart IoT urban flood monitoring sys-              portation network: a cluster-based optimization approach. Transp
+     tem using a high-performance pressure sensor with LoRaWAN.               Res Part E Logist Transp Rev 114:85–103
+     HighTech Innov J 5(4):918–936                                       177. Zhang W, Zhao H, Xu M (2021) Optimal operating strategy of
+159. Tom V, Mohan S (2003) Transit route network design using fre-            short turning lines for the battery electric bus system. Commun
+     quency coded genetic algorithm. J Transp Eng 129:186–195                 Transp Res. ​h​t​t​p​s​:​​​/​​/​d​o​​i​.​o​​r​​g​​/​​1​0​​.​1​0​​​1​​6​​/​j​.​c​o​m​​m​t​r​.​​2​0​2​1​.​1​0​0​0​2​3
+160. Uchida K, Sumalee A, Watling D, Connors R (2005) Study on           178. Zhao F, Ubaka I (2004) Transit network optimization–minimiz-
+     optimal frequency design problem for multimodal network                  ing transfers and optimizing route directness. J Public Transp
+     using probit-based user equilibrium assignment. Transp Res Rec           7:63–82
+     1923:236–245                                                        179. Zhao F, Ubaka I, Gan A (2005) Transit network optimization:
+161. Van Oort N, van Nes R (2009) Regularity analysis for optimizing          minimizing transfers and maximizing service coverage with an
+     urban transit network design. Public Transport 1:155–168                 integrated simulated annealing and tabu search method. Transp
+162. Verbas İÖ, Mahmassani HS (2013) Optimal allocation of service            Res Rec 1923:180–188
+     frequencies over transit network routes and time periods: formu-    180. Zhao F, Zeng X (2008) Optimization of transit route network,
+     lation, solution, and implementation using bus route patterns.           vehicle headways and timetables for large-scale transit networks.
+     Transp Res Rec J Transp Res Board 2334:50–59                             Eur J Oper Res 186:841–855
+163. Verbas İÖ, Mahmassani HS (2015) Exploring trade-offs in fre-        181. Zhao J, Dessouky M (2008) Service capacity design problems
+     quency allocation in a transit network using bus route patterns:         for mobility allowance shuttle transit systems. Transp Res Part B:
+     methodology and application to large-scale urban systems.                Methodol 42:135–146
+     Transp Res Part B Methodol 81:577–595                               182. Zheng M, Zhou R, Liu S, Liu F, Guo X (2020) Route design
+164. Wan QK, Lo HK (2003) A mixed integer formulation for mul-                model of multiple feeder bus service based on existing bus lines.
+     tiple-route transit network design. J Math Model Algorithms              J Adv Transp 2020:8853872
+     2:299–308
+165. Wei M, Liu T, Sun B, Jing B (2020) Optimal integrated model for     Publisher’s note Springer Nature remains neutral with regard to juris-
+     feeder transit route design and frequency-setting problem with      dictional claims in published maps and institutional affiliations.
+     stop selection. J Adv Transp 2020:6517248
+166. Widians JA, Wardoyo R, Hartati S (2024) A hybrid ant colony
+     and grey wolf optimization algorithm for exploitation-explora-
+     tion balance. Emerg Sci J 8(4):1642–1654
+
+
+
+
+13
+

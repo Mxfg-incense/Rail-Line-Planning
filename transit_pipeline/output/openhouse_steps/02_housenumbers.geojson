@@ -1,0 +1,252 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.5836349,
+          24.9123675
+        ]
+      },
+      "properties": {
+        "addr:housenumber": "107"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.5609203,
+          24.9044051
+        ]
+      },
+      "properties": {
+        "addr:housenumber": "558号"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.634171,
+          24.8748008
+        ]
+      },
+      "properties": {
+        "addr:housenumber": "1466"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.5962269,
+          24.9062456
+        ]
+      },
+      "properties": {
+        "addr:housenumber": "69"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.4998081,
+          24.9162372
+        ]
+      },
+      "properties": {
+        "addr:housenumber": "1688"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.5896582,
+          24.913094
+        ]
+      },
+      "properties": {
+        "addr:housenumber": "9-5"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.5845057,
+          24.9089794
+        ]
+      },
+      "properties": {
+        "addr:housenumber": "75"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.5844939,
+          24.9089353
+        ]
+      },
+      "properties": {
+        "addr:housenumber": "73"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.6069277,
+          24.8679688
+        ]
+      },
+      "properties": {
+        "addr:housenumber": "1001"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.5902915,
+          24.9135531
+        ]
+      },
+      "properties": {
+        "addr:housenumber": "279"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.5860673,
+          24.9155617
+        ]
+      },
+      "properties": {
+        "addr:housenumber": "22-23"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.5986191,
+          24.9238786
+        ]
+      },
+      "properties": {
+        "addr:housenumber": "264"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.5986515,
+          24.9193216
+        ]
+      },
+      "properties": {
+        "addr:housenumber": "204"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.5928746,
+          24.9201207
+        ]
+      },
+      "properties": {
+        "addr:housenumber": "374"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.5927911,
+          24.9202489
+        ]
+      },
+      "properties": {
+        "addr:housenumber": "315"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.5793175,
+          24.9164513
+        ]
+      },
+      "properties": {
+        "addr:housenumber": "163号"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.5857039,
+          24.8062833
+        ]
+      },
+      "properties": {
+        "addr:housenumber": "181號"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.6678716,
+          24.9439934
+        ]
+      },
+      "properties": {
+        "addr:housenumber": "97号"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.6666108,
+          24.942445
+        ]
+      },
+      "properties": {
+        "addr:housenumber": "97号"
+      }
+    }
+  ]
+}

@@ -1,0 +1,771 @@
+                                                                                                                                                                                                                                                                        1
+
+
+
+
+                                                 Advanced Artificial Intelligence Strategy for
+                                                 Optimizing Urban Rail Network Design using
+                                                          Nature-Inspired Algorithms
+                                                                Hariram Sampath Kumar, Member, IEEE, Archana Singh, Manish Kumar Ojha
+
+
+
+                                           Abstract—This study introduces an innovative methodology                     algorithm is chosen by stating the reason for superiority over
+                                        for the planning of metro network routes within the urban                       others. In the upcoming section, a detailed review of various
+                                        environment of Chennai, Tamil Nadu, India. A comparative
+arXiv:2407.04087v1 [cs.NE] 4 Jul 2024
+
+
+
+
+                                                                                                                        research & survey papers has been included. In section 3, a
+                                        analysis of the modified Ant Colony Optimization (ACO) method
+                                        (previously developed) with recent breakthroughs in nature-                     detailed methodology of the research and different data utilized
+                                        inspired algorithms demonstrates the modified ACO’s superi-                     for the research has been discussed. In section 4, the results
+                                        ority over modern techniques. By utilizing the modified ACO                     acquired using modified ACO algorithm and analysing differ-
+                                        algorithm, the most efficient routes connecting the origin and                  ent data using Python is presented and discussed. Followed by
+                                        destination of the metro route are generated. Additionally, the                 in the final section, a short brief about the objectives achieved
+                                        model is applied to the existing metro network to highlight
+                                        variations between the model’s results and the current network.                 and the future works has been discussed.
+                                        The Google Maps platform, integrated with Python, handles real-
+                                        time data, including land utilization, Geographical Information                 A. Comparative Analysis of Nature Inspired Algorithms
+                                        Systems (GIS) data, census information, and points of interest.
+                                        This processing enables the identification of stops within the
+                                        city and along the chosen routes. The resulting metro network                                                TABLE I
+                                        showcases substantial benefits compared to conventional route                    C OMPARATIVE A NALYSIS OF L ATEST NATURE -I NSPIRED A LGORITHMS
+                                        planning methods, with noteworthy enhancements in workforce                      S. No.   Article Title and Authors     Algorithm / Model              Observations                               Challenges
+                                                                                                                           1.     El-Sayed M. El-kenawy,        Greylag Goose
+                                        productivity, decreased planning time, and cost-efficiency. This                          et al., “Greylag Goose
+                                                                                                                                  Optimization:      Nature-
+                                                                                                                                                                Optimization
+                                                                                                                                                                Algorithm
+                                                                                                                                                                                    •   Balanced exploration & exploita-
+                                                                                                                                                                                        tion.
+                                                                                                                                                                                                                              •   Tuning of parameters like pop-
+                                                                                                                                                                                                                                  ulation size, mutation rate, and
+                                        study significantly enhances the efficiency of urban transport                            inspired      optimization
+                                                                                                                                  algorithm” [29]
+                                                                                                                                                                                    •   Easy to implement due to basic
+                                                                                                                                                                                        concept.                              •
+                                                                                                                                                                                                                                  crossover rate is a difficult task.
+                                                                                                                                                                                                                                  Lack of comprehensive theoreti-
+                                        systems, specifically in rapidly changing metropolitan settings                                                                             •   Good convergence speed for cer-
+                                                                                                                                                                                        tain optimization problems.           •
+                                                                                                                                                                                                                                  cal analysis.
+                                                                                                                                                                                                                                  Advanced benchmarking to be
+                                                                                                                                                                                                                                  used.
+                                        such as Chennai.
+                                                                                                                           2.     Marzia Ahmed, et al.,         Gooseneck Bar-
+                                                                                                                                  “Gooseneck barnacle op-       nacle Optimiza-     •   Able to maintain population di-       •   Converges prematurely to subop-
+                                          Index Terms—ACO, GIS, Metro Network, Python, Route                                      timization algorithm: A
+                                                                                                                                  novel nature inspired op-
+                                                                                                                                                                tion Algorithm
+                                                                                                                                                                                    •
+                                                                                                                                                                                        versity.
+                                                                                                                                                                                        Handle large no. of decision          •
+                                                                                                                                                                                                                                  timal solutions.
+                                                                                                                                                                                                                                  Only initial success in certain ap-
+                                        Planning                                                                                  timization theory and ap-
+                                                                                                                                  plication” [30]
+                                                                                                                                                                                        variables without computational
+                                                                                                                                                                                        complexity.                           •
+                                                                                                                                                                                                                                  plications.
+                                                                                                                                                                                                                                  Will     not     explore      high-
+                                                                                                                                                                                    •   Adaptable to different domain.            dimensional solution spaces.
+
+                                                                                                                           3.     Muxuan Han, et al.,           Walrus Optimizer
+                                                                                                                                  “Walrus optimizer: A                              •   Maintain population of candidate      •   Under development, for novelty
+                                                              I. I NTRODUCTION                                                    novel      nature-inspired
+                                                                                                                                  metaheuristic algorithm”                          •
+                                                                                                                                                                                        solutions.
+                                                                                                                                                                                        Designed for multiple domain          •
+                                                                                                                                                                                                                                  & validation.
+                                                                                                                                                                                                                                  Lack of comparison with existing
+                                                                                                                                  [31]                                                  problems.                                 algorithms.
+                                           Based on the literature survey, a research gap was found                        4.     Mohamed Abdel-Basset,         Nutcracker Opti-
+                                                                                                                                  et al., “Nutcracker opti-     mizer               •   Adaptable to different field of ap-   •   Converges to sub-optimal solu-
+                                        for application of Artificial Intelligence (AI) in Transportation                         mizer: A novel nature-
+                                                                                                                                  inspired metaheuristic al-                        •
+                                                                                                                                                                                        plications.
+                                                                                                                                                                                        Inspired by nutcracker birds for      •
+                                                                                                                                                                                                                                  tion.
+                                                                                                                                                                                                                                  Lack of research.
+                                                                                                                                                                                        search process.                           Tough to handle large-scale opti-
+                                        Route Planning. In this research, a detailed study is done                                gorithm for global opti-
+                                                                                                                                  mization and engineering
+                                                                                                                                                                                                                              •
+                                                                                                                                                                                                                                  mization problems.
+                                                                                                                                  design problems” [21]
+                                        to explore different applications of AI with Geographical                          5.     Benyamin Abdollahzadeh,
+                                                                                                                                  et al., “Mountain Gazelle
+                                                                                                                                                                Mountain
+                                                                                                                                                                Gazelle             •   Explored various optimization         •   Lack of theoretical understand-
+                                                                                                                                  Optimizer: A new Nature-      Optimizer               problems.                                 ing.
+                                        Information Systems (GIS) and variety of nature-inspired                                  inspired Metaheuristic Al-
+                                                                                                                                  gorithm for Global Opti-
+                                                                                                                                                                                    •   Easy to implement.                    •   Tuning of parameters.
+
+
+                                        algorithms. With reference to the previous work of the current                     6.
+                                                                                                                                  mization Problems” [20]
+                                                                                                                                  Farid         MiarNaeimi,     Horse Herd Op-
+                                                                                                                                  et al., “Horse herd           timization Algo-    •   Inspired by collective behaviour      •   Rigorous validation is needed.
+                                        research, focused on developing the modified ACO algorithm                                optimization algorithm: A
+                                                                                                                                  nature-inspired algorithm
+                                                                                                                                                                rithm
+                                                                                                                                                                                    •
+                                                                                                                                                                                        of herd of horses.
+                                                                                                                                                                                        Exhibits collective intelligence
+                                                                                                                                                                                                                              •   Lack of application in broader
+                                                                                                                                                                                                                                  community.
+                                                                                                                                  for       high-dimensional                            during search process.
+                                        [32]. This algorithm is to be compared with other latest                                  optimization problems”                            •   Dynamically adaptable.
+                                                                                                                                  [11]
+                                        nature-inspired algorithms and show its superiority over others.                   7.     Changting Zhong, et
+                                                                                                                                  al.,     “Beluga     whale
+                                                                                                                                                                Beluga    Whale
+                                                                                                                                                                Optimization        •   Inspired by social behaviour of       •   Lack of theory.
+                                                                                                                                  optimization:             A   Algorithm               beluga whales.                        •   Efficiency not maintained has
+                                        The urban rail network is to be created for Chennai the                                   novel       nature-inspired
+                                                                                                                                  metaheuristic algorithm”
+                                                                                                                                                                                    •   Simulates social interaction for
+                                                                                                                                                                                        effective collaboration.              •
+                                                                                                                                                                                                                                  problem size increased.
+                                                                                                                                                                                                                                  Imbalance between exploration &
+                                                                                                                                                                                        Maintained diversity within               exploitation.
+                                        capital of Tamil Nadu, India. The origin and destination of                               [17]                                              •
+                                                                                                                                                                                        groups.
+
+                                        the rail network is Tambaram and Shollingnallur, respectively.                     8.     Laith
+                                                                                                                                  al.,
+                                                                                                                                            Abualigah,
+                                                                                                                                          “Reptile
+                                                                                                                                                           et
+                                                                                                                                                      Search
+                                                                                                                                                                Reptile   Search
+                                                                                                                                                                Optimization        •   Simulates foraging behaviour of       •   Lack of theory and practical ap-
+                                                                                                                                  Algorithm (RSA): A            Algorithm               reptiles.                                 plication.
+                                        Additionally, the model generates results for existing urban rail                         nature-inspired      meta-
+                                                                                                                                  heuristic optimizer” [14]
+                                                                                                                                                                                    •   Adaptable to multiple environ-
+                                                                                                                                                                                        ments.
+                                                                                                                                                                                                                              •   Tuning of parameters – popula-
+                                                                                                                                                                                                                                  tion size & exploration rate for
+                                                                                                                                                                                                                                  optimality.
+                                        network in Chennai to show the variation between acquired                          9.     N.     Eslami,   et   al.,    Aphid-Ant Mutu-
+                                        results and the network.                                                                  “Aphid–Ant Mutualism:
+                                                                                                                                  A novel nature-inspired
+                                                                                                                                                                alism based Op-
+                                                                                                                                                                timization Algo-
+                                                                                                                                                                                    •   Simulates cooperative behaviour
+                                                                                                                                                                                        between aphids & ants.
+                                                                                                                                                                                                                              •
+                                                                                                                                                                                                                              •
+                                                                                                                                                                                                                                  Premature convergence.
+                                                                                                                                                                                                                                  Lack of validation and needs
+                                                                                                                                  metaheuristic algorithm       rithm               •   Adaptable and shares information          higher benchmarking.
+                                           Further in this section, a comparative analysis of various                             for solving optimization
+                                                                                                                                  problems” [19]
+                                                                                                                                                                                        with individuals.
+
+
+                                        nature-inspired algorithms is presented and the modified ACO                      10.     Benyamin Abdollahzadeh,
+                                                                                                                                  et al., “African vultures
+                                                                                                                                                                African Vulture
+                                                                                                                                                                Optimization        •   Simulates foraging behaviour of
+                                                                                                                                                                                        African Vultures.
+                                                                                                                                                                                                                              •   Improper maintenance of effi-
+                                                                                                                                                                                                                                  ciency for higher problem size.
+                                                                                                                                  optimization algorithm:       Algorithm
+                                                                                                                                  A new nature-inspired                             •   Combination of local exploration      •   Lack of convergence properties
+                                                                                                                                  metaheuristic algorithm                               & long-range movement.                    and optimization behaviour.
+                                          Hariram Sampath Kumar is with the Department of Artificial Intelli-                     for global optimization                           •   Maintain candidate solution and
+                                                                                                                                  problems” [12]                                        employability of mechanism.
+                                        gence, Amity University, Noida, Uttar Pradesh - 201313, India (e-mail:
+                                        harisb4160176@gmail.com).
+                                          Archana Singh is with the Department of Artificial Intelligence, Amity Uni-     In Table I, ten different nature-inspired algorithms are
+                                        versity, Noida, Uttar Pradesh - 201313, India (e-mail: asingh27@amity.edu).
+                                          Manish Kumar Ojha is with the Department of Artificial Intelligence, Amity    compared with respect to their method, applications, benefits,
+                                        University, Noida, Uttar Pradesh - 201313, India (e-mail: mkojha@amity.edu).    and drawbacks. The modified ACO algorithm (previous works)
+                                                                                                                                      2
+
+
+
+[32] is superior than the above-mentioned algorithms due to          ArcGIS 10.1 or above, focuses on macroecology, landscape
+the following reasons:                                               genetics, and evolution. Spatial Analyst extension-compatible.
+   • Based on the experimental work in our previous work, the        The toolbox eliminates post-SDM analysis, redundant &
+     modified ACO algorithm showed a better time complexity          time-consuming climate data pre-processing, and simplifying
+     for the current application compared to other equivalent        species distribution modelling and other GIS analysis chores
+     algorithms.                                                     [1].
+   • The scope of research done for above algorithms are to             Particle Swarm Optimisation (PSO) is used to suggest a new
+     be explored more in different applications and conditions.      urban park spatial location allocation (SLA) method. PSO uses
+   • The modified ACO algorithm is the best algorithm for            swarm intelligence for efficient optimisation. Population-based
+     optimal route determination problem.                            random search algorithms based on bird flock social behaviour
+                                                                     is used in the study. PSO is simpler, easier to build, and
+                   II. L ITERATURE R EVIEW                           requires less parameters than other AI methods. It considers
+   The Preferred Reporting Items for Systematic Reviews and          population density, accessibility, and competitiveness while
+Meta-Analyses (PRISMA) methodology is done to select the             configuring urban parks. SLA computation using the standard
+important research and review articles based on the scope of         overlaying method is challenging to determine park areas that
+the work using pre-defined criteria. It is for faster and in-depth   match these characteristics. Reduce computational complexity
+analysis of articles as per the need. A total of 67 articles is      and effectively identify parks with Particle Swarm Optimisa-
+reviewed as part of the research and considered 32 articles          tion (PSO). The service area in urban park simulation findings
+specifically for the review using the PRISMA. Fig. 1 is a            proved public green-space service fairness. For Service Level
+flowchart to depict the entire process of the review.                Agreement (SLA) issues, Particle Swarm Optimisation (PSO)
+                                                                     was found to be practical and effective. The technique can be
+                                                                     used in water-saving irrigation systems, farm service centres,
+                                                                     hospitals, supermarkets, and cinemas [2].
+                                                                        MSW is an increasing problem in towns globally since it
+                                                                     contributes to global warming and climate change. Municipal
+                                                                     solid waste (MSW) collection and disposal, in developing
+                                                                     nations, are essential for environmental and landscape sustain-
+                                                                     ability. These factors greatly affect life quality and expectancy.
+                                                                     The inquiry focuses on MSW collection in Danang, one of
+                                                                     Vietnam’s four major cities. Danang city has a high garbage
+                                                                     burden per capita and is affected by climate change, especially
+                                                                     extreme weather and natural disasters. A new truck routing
+                                                                     model for MSW collection in Danang is proposed. This study
+                                                                     uses Chaotic PSO and ArcGIS to optimise Danang’s vehicle
+                                                                     routing model. Empirical results on Danang’s dataset show that
+                                                                     the hybrid strategy generates higher total waste quantity than
+                                                                     existing methods, including human MSW collection [3]. The
+                                                                     test system simulates dynamic indoor pedestrian evacuation
+                                                                     during emergencies. An agent model, floor field model, and
+                                                                     PSO are used. The agent-based model simulates individual
+                                                                     movement using particle swarm optimisation, whereas the
+Fig. 1. PRISMA Flowchart [33]                                        floor field model simulates crowd movement. The software
+                                                                     has three primary modules: 3D visualisation, fire spread
+   Ecological and evolutionary studies employ SDMs exten-            simulation, and pedestrian evacuation movement simulation.
+sively. Most SDM methods involve considerable GIS data               The software provides a complete feature for public security
+preparation before model creation. This stage is often difficult     research and emergency management [4].
+and might lead to poorly parameterized models or SDM                    The visually handicapped have a significant obstacle when
+implementation issues. SDM development is not the last out-          it comes to exploring new surroundings. Therefore, there
+come for many investigations, and processing after modelling         is a want for a system that can provide safe assistance to
+might be difficult. SDMtoolbox streamlines complex species           individuals during their travel. The present research provides
+distribution modelling and geospatial analytic pre- and post-        a novel approach to path planning by utilising the Particle
+processing steps. A single interface houses 59 Python-based          Swarm Optimisation (PSO) algorithm, incorporating specified
+GIS utilities in the SDMtoolbox. Several tools improved              waypoints. The aforementioned method calculates the shortest
+Maxent SDM prediction performance. SDMtoolbox evaluates              possible route from the starting place to the ending position,
+haplotype network landscape connectivity using paths or least-       based on the predetermined waypoints. The provision of an
+cost corridors. It also corrects SDM data overpredictions,           accessible pedestrian route for those with visual impairments
+quantifies distribution changes between present and future           can be achieved by the utilisation of predetermined way-
+SDMs, and computes biodiversity indicators. SDMtoolbox, for          points (set of coordinates along pedestrian walkaway). The
+                                                                                                                                     3
+
+
+
+system comprises a process for selecting a destination and           is assessed and compared. DWT-SVD hashing prevents false
+a process for designing a journey. During the destination            positives in SVD-based watermarking through authentication
+selection process, users are provided with a comprehensive           [8].
+list of possible sites from which they can choose the specific          The World Health Organisation advises individuals to en-
+locations they wish to visit. The path planning procedure            gage in a minimum of 8000 steps of daily walking, which
+utilises the Euclidean distance formula to establish the path        can be effectively achieved through hiking. Moreover, it is
+length between all nodes, taking into account preset waypoints,      widely acknowledged that hiking is inherently environmentally
+the start points, and the final destination. The Particle Swarm      sustainable, as engaging in hikes to the closest waterfall or
+Optimisation (PSO) algorithm aims to minimise the overall            mountain peak not only promotes personal well-being but also
+cost for path length in order to find the shortest possible route.   contributes to the preservation of the natural resource. By
+The simulation analysis conducted on the proposed strategy           possessing the knowledge of selecting the nearest lodge to
+has yielded encouraging outcomes in terms of determining the         the intended destination, they are afforded the most expedient
+ideal path for various destinations. The findings of this study      means of embarking on an expedition. These assessments are
+will be utilised to investigate the feasibility of creating a path   performed on the waterfalls’ heights, the peaks’ elevation,
+guidance system for those with visual impairments, enabling          and their proximity to the mountain lodges [9]. Enhancing
+them to navigate unfamiliar surroundings autonomously [5].           public transit to minimise journey time and increase access
+   EvoloPy is a Python framework that is both open source            to underserved areas will encourage private vehicle owners to
+and cross-platform. It is designed to implement a diverse set        use it. Due to fewer exhaust emissions, reducing vehicle traffic
+of metaheuristic algorithms, both classical and contemporary,        should reduce traffic and air pollution. This study employed
+that draw inspiration from nature. The objective of this model       GIS, PSO, and GA to better assess Amman bus stop travel
+is to streamline the utilisation of metaheuristic algorithms by      time and serviceability. GIS modelling shortened trip time on
+individuals without specialised knowledge from various disci-        streets with redundant bus stops at irregular distances. Travel
+plines. EvoloPy offers a user-friendly interface and minimal         time on Zahran Street dropped 23.25% off-peak and 19.74%
+dependencies, facilitating the utilisation of this software by       peak. Compare that to 28.95% and 39% reductions from PSO.
+researchers and practitioners. It enables them to optimise and       The introduction of GA reduced Zahran Street travel time
+benchmark their specific issues by employing robust meta-            by 47.96%. The addition of bus stops on streets with few
+heuristic optimizers available in the existing literature. The       stops increased journey time. The increase in stations from 6
+aforementioned framework enables the development of novel            to 25 on Al-Quds Street increased travel time. The walking
+algorithms or the enhancement, integration, and evaluation of        distance to bus stop dropped from over 2000 m to 400 m due
+existing ones [6].                                                   to this longer travel duration. Bus stop serviceability is more
+   Smart cities have the potential to enhance the overall quality    important than capacity. The mean demand per Al-Quds Street
+of life for its residents, with Intelligent Transport Systems        bus stop was 10,456, whereas capacity was 1465. The GA
+emerging as a prominent subject within this domain. As the           and PSO algorithm are easy to implement in current networks
+population density within a given region continues to rise,          and planned projects, making them user-friendly for urban
+urban areas encounter challenges such as persistent traffic          planning [10].
+congestion. The present research presents an examination of             The implementation of emergency evacuation measures
+the applications of computational intelligent techniques and         during and following a flood is of utmost importance in
+analysis in facilitating traffic solutions. In order to enhance      order to minimise immediate consequences and enhance social
+the autonomy and intelligence of an environment, the util-           resilience for sustained recovery. In order to optimise the
+isation of prediction models and heuristics is deemed the            evacuation procedure, it is imperative to ascertain and forecast
+most effective approach. It presents the introduction of an          secure regions prior to the occurrence of a flood. The safe area
+application that utilises ML and optimisation techniques to          or shelter in place serves a dual purpose during a flood event,
+improve the capabilities of a smart ecosystem. In order to           functioning as both temporary shelters and meeting sites for
+verify its accuracy, a comprehensive assessment was con-             individuals to congregate prior to evacuation. The objective of
+ducted utilising Multi-Layer Perceptron in conjunction with          the study is to ascertain the safe zone based on the spatial
+Particle Swarm Optimisation, wherein it was compared to the          and environmental attributes of the metropolitan region. The
+most advanced methods now available. The evaluations were            important contribution of this study involves the utilisation of
+conducted utilising authentic data traffic under a situation of      MPSO in conjunction with local search (LMPSO) to identify
+unrestricted traffic flow [7].                                       secure regions. The method under consideration identifies the
+   Internet and photo editing apps have undermined multime-          most advantageous placement of temporary shelters in the
+dia data security in recent years. This work uses Optimal SVD-       form of evacuation stations. The comparative analysis of the
+DWT-based watermarking to prevent unauthorised duplication,          outcomes obtained from MPSO and LMPSO revealed that
+and protect copyright. A survey evaluates PSO, Genetic Al-           LMPSO exhibits superior efficiency compared to the modified
+gorithm, and ABC optimisation techniques to improve water-           version. LMPSO ensures a balanced distribution of optimal
+marking algorithms’ robustness and imperceptibility. PSNR,           locations for safe areas, hence benefiting the entire population
+SSIM, and NCC were used in this study as performance                 [13].
+measurements. We utilise Python Anaconda for experiments.               Solar and other renewable energy sources are popular re-
+Additionally, each optimisation algorithm’s computing time           placements to fossil fuels. The first step to expand solar energy
+                                                                                                                                  4
+
+
+
+usage is finding good locations for solar power facilities.         that could automate the computation of real-time and person-
+This study compares PSO and decision tree method for solar          alised walking intensity (WI) and propose a pleasant walking
+power site selection. MCDM is used in decision tree and PSO         route based on these inputs. The study took into account two
+algorithms to extract high-potential zones for optimal sites.       comfort aspects, namely shaded locations and temperature. In
+The findings suggest that research region has the capacity          order to achieve this objective, we developed an innovative
+to accommodate the establishment of solar power plants, as          technique for projecting shadows onto the ground and a fresh
+determined by a three-tier assessment of appropriateness. The       approach to establishing a network of pavement pathways. An
+optimisation approaches were compared, and it was found that        algorithm was developed to effectively calculate WI values
+the decision tree had a prediction rate of 0.29 for the extremely   while considering the user’s preferences. Subsequently, these
+high potential class, while the PSO had a prediction rate of        numbers were utilised to generate the optimal path for the
+0.13. Hence, the use of the decision tree methodology presents      user to traverse the pavements, taking into account the cur-
+a more effective approach in identifying prospective regions        rent weather conditions. The key findings can be examined
+for the advancement of solar energy inside the designated           from two perspectives. First, approaches for constructing a
+study area. The research findings offer a valuable asset for        network for pedestrians along pavements, traffic crossings and
+strategizing and making informed choices on the advancement         computing building shadows improve GIS functionality. Thus,
+of sustainable energy in the coming years. The decision tree        this would increase walk frequency and duration, improving
+employed for current study has the potential to be applied          population health. The validation process involved evaluating
+in many global regions for the purpose of identifying the           the model’s accuracy in shadow calculations and analysing the
+most suitable sites for the establishment of renewable energy       routes generated under various scenarios [23].
+facilities [15].                                                       GIS is the most used technology for mapping & identifying
+   The computing time and other factors of Python and Golang        Groundwater Potential Zones. ML algorithms for replicating
+are examined for naturally inspired computer methods. This          GWPZ’s influencing parameters may improve model per-
+research will assess which publicly available platform, Python      formance. The Karaj-Tehran plain, 5156 square kilometres,
+or Golang, is best for Nature-Inspired algorithm productivity       in Iran, hosted the research. This plain has flat and hilly
+and performance. Nature-inspired algorithms consume a lot of        topography between 818 and 4374 metres. 75% of 105 wells
+computer power and are easy to implement. They will compare         were used for model training and 25% for validation. The
+Python and Golang compute times for four Nature-Inspired            study also used SVM, XGB, LR, and RF models to compute
+algorithms [16]. The performance challenges encountered by          influential factor and create GWPZ maps. XGB and RF had
+particle swarm optimisation (PSO) algorithms mostly revolve         greater Kappa coefficients (80% and 65%). Performance of
+around enhancing the quality of solutions, increasing comput-       tree-based models (XGB and RF) was better than others. The
+ing speed, optimising computational resources, and addressing       model outputs show that height and slope affected GWPZ
+large problems. The SMO algorithm operates on the premise           projections in the research area. The results showed that ML
+of partitioning swarm into subgroups, potentially resulting in      and GIS accurately identify GWPZ [24].
+a reduction in its speedup. The research introduces a novel            The study optimises the high-pressure H-NG pipeline net-
+approach called multi-swarm-based parallel SMO to address           work with a statistical model. The compressor & pipeline
+complex problems on a large scale. The implementation of            station model uses gas hydrodynamics. The essay optimises
+PSMO-MS in this study utilises a synchronous master/slave           various goals using ant colony optimisation. First, a single-
+parallel architecture [18].                                         objective optimisation problem determines the best hydrogen-
+   Due to the difficulty of adequately representing hundreds of     NG mix within pipeline constraints. Operational variables for
+lakes, hydrological modelling frequently ignores lake effects       hydrogen injection into pipeline networks of natural gas at
+or simulates only the most important lakes in a watershed. The      various levels were also investigated. The current study intro-
+paper explores about BasinMaker, a GIS toolset. BasinMaker          duces an ACO-optimized multi-objective optimisation model
+creates vector-based hydrological routing networks for several      for bi- and tri-objective problems. Bi-objective optimisation
+rivers and lakes. Hydrological routing models need sub-basin        has received less attention than single-objective optimisation.
+& lake geometry, network topology, and channel parameters.          Few studies have used tri-objective function assessments to
+The HydroLAKES dataset encompasses all lakes with a size            show how hydrogen affects the natural gas (NG) network. This
+above 10 hectares. BasinMaker possesses a distinctive char-         study uses tri-objective & bi-objective functions to evaluate
+acteristic in its lake representation capabilities, rendering it    how hydrogen injection affects operational metrics. The article
+particularly advantageous for modellers who require explicit        gives tri-objective & bi-objective equations for modelling the
+representation of several lakes inside their watershed simula-      pipeline network of H-NG. These equations are optimised
+tion models [22].                                                   using ACO to close the gap. Pareto fronts show how various
+   Walking is a readily accessible and straightforward kind         issue objectives trade off. The tri-objective & bi-objective
+of physical activity that has been shown to be successful in        optimisation tasks aim to maximise natural gas hydrogen mole
+mitigating pollution, conserving resources, and improving the       percent. Optimising delivery station pressure, throughput, and
+overall well-being of the populace. Prior studies have demon-       power and minimising compressor fuel use are other goals.
+strated the necessity of developing a wireless interface (WI)       The findings will help pipeline operators transport H-NG blend
+that incorporates real-time conditions. The aim of the work         while reducing carbon intensity per unit of energy-delivered
+was to develop a Geographic Information System algorithm            fuel in natural gas pipeline networks [25].
+                                                                                                                                 5
+
+
+
+   In recent times, the optimum control problem has garnered                             III. M ETHODOLOGY
+significant attention due to its relevance in addressing real
+                                                                      The objective of the study is proposed in accomplishing the
+difficulties. In this context, meta-heuristic algorithms have
+                                                                   following targets:
+demonstrated efficacy in successfully and efficiently tack-
+                                                                      • Detailed review of latest nature-inspired algorithms and
+ling these challenges. Nevertheless, it is important that these
+methods may not be universally applicable in addressing                  comparative analysis of the same with modified ACO
+all optimisation problems in accordance with the no free                 algorithm, to show the superiority of modified ACO
+lunch theorem. Hence, there exists a perpetual opportunity               algorithm [32] compared to others.
+                                                                      • Validate the model by comparing its result with existing
+for the advancement of novel meta-heuristic algorithms. The
+current research introduces an optimisation method called as             urban rail route in the city.
+                                                                      • Optimal route identification for urban rail planning be-
+the Tyrannosaurus (T-Rex) Optimisation Algorithm (TROA),
+which is based on hunting techniques. The algorithm is devel-            tween chosen origin and destination in a city.
+                                                                      • Determination of rail stops along the chosen route by
+oped based on the hunting behaviour exhibited by the T-Rex.
+A total of 12 benchmark problems and 4 practical optimum                 considering land usage pattern, geographical data, census
+control issues were utilised to evaluate the performance of this         data, and point-of-interest places of the city with pro-
+technique. The outcomes achieved by the proposed method-                 posed rules & conditions.
+                                                                      • Creating final route with these stops as intermediate
+ology have demonstrated superior performance in comparison
+to the aforementioned methodologies [26].                                points along the urban rail route.
+                                                                      • Give an insight about the future developments of the
+                                                                         current research.
+   GKS optimizer (GKSO) is a revolutionary metaheuristic              First, research and review papers are collected from Else-
+algorithm (MA) based on Genghis Khan shark behaviour.              vier, IEEE, Springer, and other databases. A brief study on 67
+GKSO is designed for numerical optimisation and engineer-          papers is done and further 32 papers are chosen based on pre-
+ing design. GKS predation and survival behaviour create            defined criteria like published year, theory, and model used
+GKSO. The optimisation procedure simulates GKS’s hunting,          using PRISMA model.
+movement, foraging, and self-protection. These operators are          Second, a detailed study was performed on 32 papers and
+mocked efficiently with mathematical models to optimize            presented a comparative analysis of latest nature-inspired al-
+agents in different search space regions. The technique is         gorithms with modified ACO algorithm [32] (previous work).
+tested qualitatively and quantitatively on the suggested GKSO      Following the analysis, the modified ACO algorithm is supe-
+to prove its efficacy and superiority. Qualitative research        rior compared to other algorithms.
+shows GKSO’s exploration and exploitation potential. On
+                                                                      Third, the city for urban rail network is chosen. The
+CEC2019 and CEC2022 datasets, it quantifies GKSO utilising
+                                                                   developed model is used to find the route for existing urban
+eight fish optimisation methods and nine Mas. The study
+                                                                   rail network in the city to show the variations between the
+evaluates GKSO’s applicability and resilience through several
+                                                                   original rail route and the route generated by the model.
+experiments. These scenarios test GKSO for CEC2022 across
+                                                                      Fourth, the origin & the destination of the new urban rail
+maximum fitness evaluation amounts and dimensions. The
+                                                                   route is chosen. Further, the land usage data (refer Fig. 2),
+statistical results show that GKSO outperforms two algorith-
+                                                                   geographical data (refer Fig. 3), census data (refer Fig. 4),
+mic techniques. GKSO and 7 other optimizers are also tested
+                                                                   and point-of-interest places (refer Fig. 5) of the city is used
+using five constrained optimisation problems (OPs) from the
+                                                                   to determine the stops for urban rail network.
+CEC2020 benchmark restricted optimisation functions. The 50
+engineering case studies in these OPs demonstrate GKSO’s
+versatility in tackling complicated practical challenges [27].
+
+
+   In addition to hydrogen generation, transportation plays
+a role in the successful establishment of the decarbonised
+hydrogen economy globally. In order to address the inquiry
+regarding the production locations, routes, and forms of
+transportation for the necessary quantities of hydrogen, it
+is imperative to build a comprehensive model of a sector-
+integrated hydrogen transport system. The article presents a
+versatile approach and instrument for the spatial organisation
+of integrated energy transport systems across different sectors.
+It allows variable geographical adjustment and conformance
+to existing energy system models. A unique energy transport        Fig. 2. Land Usage Data of Chennai City
+system that investigates hydrogen starting point and transit in
+a hydrogen economy using ship transport and pipeline. The             Fourth, the multiple routes between the origin & destination
+model is validated by comparing it to hydrogen transport flux      are generated and optimal route between origin and destination
+orientation investigations [28].                                   is chosen by utilising modified ACO algorithm. The final
+                                                                                                                              6
+
+
+
+
+Fig. 3. Geographical Data of Chennai City                         Fig. 5. Point-of-interest places in Chennai City
+
+
+
+
+Fig. 4. Census Data of Chennai City
+
+
+
+
+network is created by integrating the determined stops along
+the chosen route.
+   The above implementation and determination of urban rail
+stops is done using Jupyter Notebook (The Python Environ-
+ment) and Google MAPS Platform. The results are observed
+for different stages of implementation. The complete planning
+of the research is represented in the Fig. 6.
+  In Fig. 6, the methodology establishes a framework for
+optimizing metro network route planning within a specific
+urban environment.
+   The proposed model offers several advantages that can
+significantly improve urban living. One of the key contri-
+bution lies on the potential to enhance efficiency and cost-
+effectiveness. The model aims to identify the most efficient
+routes for metro networks, leading to shorter travel times.
+Additionally, the optimized route planning process could min-
+imize construction expenses compared to conventional meth-
+ods, leading to cost savings during the development phase. By
+factoring in real-time data, the model strategically position’s
+stations to serve the most populated areas and major destina-
+tions. This improved accessibility encourages ridership on the
+metro network. This shift towards public transportation can       Fig. 6. Research Framework
+contribute to a more sustainable transportation system, reduc-
+ing traffic congestion and its associated environmental impact.
+With this technology, urban planners can make informed de-                          IV. R ESULT AND D ISCUSSION
+cisions during future infrastructure projects, ensuring optimal      The recently developed nature-inspired algorithms are com-
+resource allocation for metro network development.                pared with modified ACO algorithm of my previous work and
+   By prioritizing efficiency, accessibility, and cost-           the modified ACO algorithm [32] is considered over other
+effectiveness, the proposed model has the potential to            algorithms for choosing optimal route from multiple choices.
+contribute to a more sustainable, well-connected, and             The algorithm chooses the optimal solution based on total
+economically vibrant society.                                     distance and total time taken to travel from given origin to
+                                                                                                                                                                                   7
+
+
+
+destination. The model developed in the current research is
+used to create a metro rail route in the city – Chennai, Tamil
+Nadu.
+   The algorithm as determined the route with stops for the
+existing Chennai Metro Rail Network between Chennai Air-
+port and Thiruvottriyur. The final route is predicted as same
+as the existing one with a slight variation in number of stops
+from 14 to 12. The actual metro rail network and step by step
+implementation of the same using the algorithm is given in
+Fig. 7, 8, 9, 10, 11.
+
+
+
+
+                                                                               Fig. 9. Optimal route chosen between Chennai Airport and Thiruvottriyur
+                                                                               using developed model
+
+
+
+
+                                                                               Fig. 10. Factors influenced the optimal route selection using modified ACO
+                                                                               algorithm
+
+
+Fig. 7. Original Route of Chennai Metro Rail Network between Chennai           locations. The actual benefits of the developed model will
+Airport and Thiruvottriyur
+                                                                               reduce the work force, time taken, and cost involved for metro
+                                                                               route planning in a city (refer Table II).
+
+                                                                                                          TABLE II
+                                                                                  I MPROVEMENT IN FACTORS A FFECTING M ETRO ROUTE P LANNING
+                                                                                S. No.     Factors        Results using Traditional Method      Results using Developed AI Model
+                                                                                  1.     Work Force   90 to 95 persons                       15 to 18 persons
+                                                                                  2.     Time Taken   96 to 108 weeks                        5 to 7 weeks
+                                                                                  3.        Cost      250 to 300 crores (INR)                12 to 15 crores (INR)
+
+
+
+                                                                                  The results of different parts of implementation for new
+                                                                               urban rail route are presented and explained below:
+                                                                                  The Chennai city is found using GIS data and visualized
+                                                                               the entire area of the city, as shown in Fig. 12.
+                                                                                  The Fig. 13, shows the visualization of multiple routes
+                                                                               generated between the chosen origin and destination. Followed
+                                                                               by the optimal route is selected using the modified ACO
+                                                                               algorithm and the selection is influenced by total distance and
+                                                                               total time taken. The visualization and results of using the
+                                                                               modified ACO algorithm is shown in Fig. 14 and Fig. 15.
+                                                                                  The urban rail stops within the Chennai city is determined
+                                                                               based on external data like land usage data, census data, point-
+                                                                               of-interest places, & GIS data and by considering few rules
+Fig. 8. Multiple routes generated between Chennai Airport and Thiruvottriyur
+using developed model                                                          & conditions the locations are determined and visualized, as
+                                                                               shown in Fig. 16.
+   The origin and destination of the new metro network in the                     The final route between Tambaram and Sholingnallur with
+city is Tambaram and Sholingnallur, respectively. The final                    intermediate stops along the route is found by considering
+route between these locations consists of 7 stops at different                 the nearest determined stops along the route and within a
+                                                                                                                                                   8
+
+
+
+
+                                                                       Fig. 13. Multiple routes generated between Tambaram and Sholingnallur
+
+
+
+
+Fig. 11. Final route between Chennai Airport and Thiruvottriyur with
+Intermediate stops
+
+
+
+
+                                                                       Fig. 14. Optimal route chosen between Tambaram and Sholingnallur
+
+
+
+                                                                       for additional enhancement of the model in the future, in
+                                                                       following ways:
+                                                                          1) The model can be developed for route planning of
+                                                                             other public mode of transportation like highways, long-
+                                                                             distance bridges, waterways.
+                                                                          2) It can be further applied on societies in different areas
+Fig. 12. Visualization of the Chennai City                                   to provide a bigger impact on Global Sustainable De-
+                                                                             velopment Goals.
+
+prescribed range of distance. The visualization of the final                                         R EFERENCES
+route is shown in Fig. 17.
+                                                                        [1] J. L. Brown, “SDMtoolbox: a python-based GIS toolkit for landscape
+                                                                            genetic, biogeographic and species distribution model analyses,” Meth-
+                          V. C ONCLUSION                                    ods in Ecology and Evolution, vol. 5, no. 7, pp. 694–700, May 2014,
+                                                                            doi: https://doi.org/10.1111/2041-210x.12200.
+   The model for route planning of metro network within a city          [2] J. Yu et al., “Particle swarm optimization based spatial loca-
+is developed using modified ACO algorithm and by accessing                  tion allocation of urban parks — A case study in Baoshan Dis-
+                                                                            trict, Shanghai, China,” Aug. 2014, doi: https://doi.org/10.1109/agro-
+& processing GIS and other data. The existing rail route in                 geoinformatics.2014.6910575.
+the city is determined & compared to show the variations                [3] L. H. Son, “Optimizing Municipal Solid Waste collection us-
+shown in the model’s result with the original network. The                  ing Chaotic Particle Swarm Optimization in GIS based environ-
+                                                                            ments: A case study at Danang city, Vietnam,” Expert Systems
+intermediate stops along the new route are determined by                    with Applications, vol. 41, no. 18, pp. 8062–8074, Dec. 2014, doi:
+considering the land elevation, population, important places &              https://doi.org/10.1016/j.eswa.2014.07.020.
+nearby to important (point-of-interest) places, and the distance        [4] W. Zhang, Y. Zhou, W. Tian, and B. Hu, “GIS-based indoor
+                                                                            pedestrian evacuation simulation combining the particle swarm
+radius in which these conditions are to be considered. The                  optimization and the floor field model,” Jun. 2015, doi:
+implementation is completed and the results are visualized.                 https://doi.org/10.1109/geoinformatics.2015.7378551.
+The benefits of proposing this model in real-time is compared           [5] T. S. T. Yusof, S. F. Toha, and H. Md. Yusof, “Path Planning for Visually
+                                                                            Impaired People in an Unfamiliar Environment Using Particle Swarm
+to that of factors involved during traditional method and the               Optimization,” Procedia Computer Science, vol. 76, pp. 80–86, 2015,
+proposed model as shown a vast difference. There is potential               doi: https://doi.org/10.1016/j.procs.2015.12.281.
+                                                                                                                                                          9
+
+
+
+
+Fig. 15. Factors influenced the selection of optimal route using modified
+ACO algorithm
+
+
+
+
+                                                                               Fig. 17. Final route between Tambaram and Sholingnallur with Intermediate
+                                                                               stops
+
+
+
+                                                                               [15] S. N. Shorabeh, N. N. Samany, F. Minaei, H. K. Firozjaei, M. Homaee,
+                                                                                    and A. D. Boloorani, “A decision model based on decision tree and
+                                                                                    particle swarm optimization algorithms to identify optimal locations for
+                                                                                    solar power plants construction in Iran,” Renewable Energy, vol. 187,
+                                                                                    pp. 56–67, Mar. 2022, doi: https://doi.org/10.1016/j.renene.2022.01.011.
+                                                                               [16] P. Shukla, S. Thakur, S. Arora and A. Wadhwa, ”Nature-Inspired
+                                                                                    Algorithms Analysis on various Benchmark Functions using Python and
+                                                                                    Golang,” 2022 1st International Conference on Informatics (ICI), Noida,
+                                                                                    India, 2022, pp. 226-228, doi: 10.1109/ICI53355.2022.9786911.
+                                                                               [17] C. Zhong, G. Li, and Z. Meng, “Beluga whale optimization: A novel
+Fig. 16. All possible stops in the Chennai city for urban rail network              nature-inspired metaheuristic algorithm,” Knowledge-Based Systems, p.
+                                                                                    109215, Jun. 2022, doi: https://doi.org/10.1016/j.knosys.2022.109215.
+                                                                               [18] L. Belaiche, L. Kahloul, M. Houimli, S. Bousnane and S. Ben-
+                                                                                    harzallah, ”Multi-Swarm-based Parallel Spider Monkey Optimization
+ [6] H. Faris, I. Aljarah, S. Mirjalili, P. A. Castillo, and J. J.                  Algorithm,” 2022 International Conference on Advanced Aspects of
+     Merelo, “EvoloPy: An Open-source Nature-inspired Optimization                  Software Engineering (ICAASE), Constantine, Algeria, 2022, pp. 1-6,
+     Framework in Python,” Proceedings of the 8th International                     doi: 10.1109/ICAASE56196.2022.9931573.
+     Joint Conference on Computational Intelligence, 2016, doi:                [19] N. Eslami, S. Yazdani, M. Mirzaei, and E. Hadavandi,
+     https://doi.org/10.5220/0006048201710177.                                      “Aphid–Ant Mutualism: A novel nature-inspired metaheuristic
+ [7] Lucas Rodrigues Frank, Yan Mendes Ferreira, Eduardo Pagani Julio,              algorithm for solving optimization problems,” Mathematics and
+     F. Henrique, Bruno José Dembogurski, and Edelberto Franco Silva,              Computers in Simulation, vol. 201, pp. 362–395, Nov. 2022, doi:
+     “Multilayer Perceptron and Particle Swarm Optimization Applied to              https://doi.org/10.1016/j.matcom.2022.05.015.
+     Traffic Flow Prediction on Smart Cities,” Lecture Notes in Computer
+                                                                               [20] B. Abdollahzadeh, F. S. Gharehchopogh, N. Khodadadi, and S. Mir-
+     Science, pp. 35–47, Jan. 2019, doi: https://doi.org/10.1007/978-3-030-
+                                                                                    jalili, “Mountain Gazelle Optimizer: A new Nature-inspired Meta-
+     24305-0 4.
+                                                                                    heuristic Algorithm for Global Optimization Problems,” Advances
+ [8] B. P. Kulkarni, S. Sai Krishna, K. Meenakshi, P. Kora and K. Swaraja,
+                                                                                    in Engineering Software, vol. 174, p. 103282, Dec. 2022, doi:
+     ”Performance Analysis of Optimization Algorithms GA, PSO, and ABC
+                                                                                    https://doi.org/10.1016/j.advengsoft.2022.103282.
+     based on DWT-SVD watermarking in OpenCV Python Environment,”
+     2020 International Conference for Emerging Technology (INCET), Bel-       [21] M. Abdel-Basset, R. Mohamed, M. Jameel, and M. Abouhawwash,
+     gaum, India, 2020, pp. 1-5, doi: 10.1109/INCET49848.2020.9154134.              “Nutcracker optimizer: A novel nature-inspired metaheuristic al-
+ [9] S. Jovanov and A. Naumoski, ”A GIS-based Mapping of Mountain                   gorithm for global optimization and engineering design prob-
+     Peaks, Waterfalls and Mountain Lodges in North Macedonia,” 2020                lems,” Knowledge-Based Systems, p. 110248, Jan. 2023, doi:
+     4th International Symposium on Multidisciplinary Studies and Inno-             https://doi.org/10.1016/j.knosys.2022.110248.
+     vative Technologies (ISMSIT), Istanbul, Turkey, 2020, pp. 1-5, doi:       [22] M. Han et al., “BasinMaker 3.0: A GIS toolbox for distributed watershed
+     10.1109/ISMSIT50672.2020.9254627.                                              delineation of complex lake-river routing networks,” Environmental
+[10] N. Shatnawi, A. A. Al-Omari, and H. Al-Qudah, “Optimization of                 Modelling and Software, vol. 164, pp. 105688–105688, Jun. 2023, doi:
+     Bus Stops Locations Using GIS Techniques and Artificial Intel-                 https://doi.org/10.1016/j.envsoft.2023.105688.
+     ligence,” Procedia Manufacturing, vol. 44, pp. 52–59, 2020, doi:          [23] Tarek Al Shammas, P. Gullón, O. Klein, and F. Escobar, “De-
+     https://doi.org/10.1016/j.promfg.2020.02.204.                                  velopment of a GIS-based walking route planner with inte-
+[11] F. MiarNaeimi, G. Azizyan, and M. Rashki, “Horse herd optimization             grated comfort walkability parameters,” Computers, Environment and
+     algorithm: A nature-inspired algorithm for high-dimensional optimiza-          Urban Systems, vol. 103, pp. 101981–101981, Jul. 2023, doi:
+     tion problems,” Knowledge-Based Systems, vol. 213, p. 106711, Feb.             https://doi.org/10.1016/j.compenvurbsys.2023.101981.
+     2021, doi: https://doi.org/10.1016/j.knosys.2020.106711.                  [24] S. Vafadar, M. Rahimzadegan, and R. Asadi, “Evaluating the perfor-
+[12] B. Abdollahzadeh, F. S. Gharehchopogh, and S. Mirjalili, “African              mance of machine learning methods and Geographic Information System
+     vultures optimization algorithm: A new nature-inspired metaheuris-             (GIS) in identifying groundwater potential zones in Tehran-Karaj plain,
+     tic algorithm for global optimization problems,” Computers &                   Iran,” Journal of Hydrology, vol. 624, p. 129952, Sep. 2023, doi:
+     Industrial Engineering, vol. 158, p. 107408, Aug. 2021, doi:                   https://doi.org/10.1016/j.jhydrol.2023.129952.
+     https://doi.org/10.1016/j.cie.2021.107408.                                [25] Adarsh Kumar Arya, Rajesh Katiyar, P. Senthil Kumar, A.
+[13] N. N. Samany, M. Sheybani, and S. Zlatanova, “Detection of safe areas          Kapoor, Dan Bahadur Pal, and Gayathri Rangasamy, “A multi-
+     in flood as emergency evacuation stations using modified particle swarm        objective model for optimizing hydrogen injected-high pressure
+     optimization with local search,” Applied Soft Computing, vol. 111, p.          natural gas pipeline networks,” International Journal of Hydro-
+     107681, Nov. 2021, doi: https://doi.org/10.1016/j.asoc.2021.107681.            gen Energy, vol. 48, no. 76, pp. 29699–29723, Sep. 2023, doi:
+[14] L. Abualigah, M. A. Elaziz, P. Sumari, Z. W. Geem, and A. H. Gandomi,          https://doi.org/10.1016/j.ijhydene.2023.04.133.
+     “Reptile Search Algorithm (RSA): A nature-inspired meta-heuristic         [26] S. Durga, Padarbinda Samal, and Chinmoy Kumar Panigrahi,
+     optimizer,” Expert Systems with Applications, p. 116158, Nov. 2021,            “Tyrannosaurus       optimization    algorithm:    A      new    nature-
+     doi: https://doi.org/10.1016/j.eswa.2021.116158.                               inspired meta-heuristic algorithm for solving optimal control
+                                                                                  10
+
+
+
+     problems,” e-Prime, vol. 5, pp. 100243–100243, Sep. 2023, doi:
+     https://doi.org/10.1016/j.prime.2023.100243.
+[27] G. Hu, Y. Guo, G. Wei, and Laith Abualigah, “Genghis Khan shark opti-
+     mizer: A novel nature-inspired algorithm for engineering optimization,”
+     Advanced Engineering Informatics, vol. 58, pp. 102210–102210, Oct.
+     2023, doi: https://doi.org/10.1016/j.aei.2023.102210.
+[28] O. Linsel and V. Bertsch, “A flexible approach to GIS based mod-
+     elling of a global hydrogen transport system,” International Jour-
+     nal of Hydrogen Energy, vol. 52, pp. 334–349, Jan. 2024, doi:
+     https://doi.org/10.1016/j.ijhydene.2023.08.199.
+[29] E.-S. M. El-kenawy, Nima Khodadadi, Seyedali Mirjalili, A. A.
+     Abdelhamid, M. M. Eid, and A. Ibrahim, “Greylag Goose Op-
+     timization: Nature-inspired optimization algorithm,” Expert Systems
+     with Applications, vol. 238, pp. 122147–122147, Mar. 2024, doi:
+     https://doi.org/10.1016/j.eswa.2023.122147.
+[30] M. Ahmed, Mohd Herwan Sulaiman, Ahmad Johari Mohamad, and
+     M. Rahman, “Gooseneck barnacle optimization algorithm: A novel
+     nature inspired optimization theory and application,” Mathematics and
+     Computers in Simulation, vol. 218, pp. 248–265, Apr. 2024, doi:
+     https://doi.org/10.1016/j.matcom.2023.10.006.
+[31] M. Han, Z. Du, K. F. Yuen, H. Zhu, Y. Li, and Q. Yuan, “Wal-
+     rus optimizer: A novel nature-inspired metaheuristic algorithm,” Ex-
+     pert Systems with Applications, vol. 239, p. 122413, Apr. 2024, doi:
+     https://doi.org/10.1016/j.eswa.2023.122413.
+[32] H. Sampath Kumar, A. Singh, M. K. Ojha, ”Artificial Intelligence Based
+     Navigation in Quasi Structured Environment”, unpublished.
+[33] N. R. Haddaway, M. J. Page, C. C. Pritchard, and L. A. McGuin-
+     ness, “PRISMA2020: An R package and Shiny app for pro-
+     ducing PRISMA 2020-compliant flow diagrams, with interactivity
+     for optimised digital transparency and Open Synthesis,” Camp-
+     bell Systematic Reviews, vol. 18, no. 2, Mar. 2022, Available:
+     https://onlinelibrary.wiley.com/doi/full/10.1002/cl2.1230
+
+
+
+
+Hariram Sampath Kumar was born in Salem, Tamil Nadu, India in 2001.
+He received the B.E. degree in mechatronics engineering from Sona College
+of Technology (affiliated to Anna University, Chennai), Salem, Tamil Nadu
+in 2022. He is currently pursuing the MTech degree in artificial intelligence
+at Amity University Noida, Uttar Pradesh, India.
+   His research interest includes development of field robots & aerial robots,
+swarm intelligence, deep learning, and artificial intelligence for sustainable
+development.
+   Mr. Sampath Kumar has received Tamil Nadu State Council for Science
+& Technology Grant under Student Projects Scheme 2021 – 2022.
+
+
+
+
+Archana Singh received the B.Sc degree in computer science from University
+of Delhi in 1997, Masters’ degree in computer science and management from
+University of Pune, in 1999, MTech degree in computer engineering from
+IETE, New Delhi in 2008 and Ph.D. degree in data science focusing on data
+mining and machine learning from Amity University Noida in 2015.
+   She has 20 years of experience in academia and currently Professor &
+Head - Department of Artificial Intelligence at Amity University Noida. Her
+research interests include artificial intelligence, machine learning, and image
+processing.
+
+
+
+
+Manish Kumar Ojha a faculty member at Amity University Noida, has
+extensive academic and professional experience in technology-driven engi-
+neering & management. He received the BTech in Mechanical Engineering
+and MTech in Industrial Engineering and Management from IIT Kharagpur,
+India. He is currently pursuing the Ph.D. degree in Operations and Supply
+Chain Management from IIM Jammu, India.
+   His research interests include Operations Research, Quantitative Meth-
+ods, Supply Chain Management, and Optimization Techniques. He has also
+contributed significantly to academia, including publications in international
+journals and presentations at prestigious conferences.
+   Mr. Ojha has also achieved notable achievements, including a DAAD
+Scholarship for a master’s project at Technical University Dresden, Germany,
+and qualifying for CAT and GATE examinations.
+

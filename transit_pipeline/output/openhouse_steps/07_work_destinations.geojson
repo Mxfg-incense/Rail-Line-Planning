@@ -1,0 +1,4888 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.5836349,
+          24.9123675
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00001",
+        "category": "hotel_tourism",
+        "label": "Hotel / Tourism",
+        "name": "泉州巷里国际青年旅舍",
+        "area_m2": 0.0,
+        "jobs": 20.0,
+        "osm_id": 4170785402
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.5609203,
+          24.9044051
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00002",
+        "category": "retail_service",
+        "label": "Retail / Service",
+        "name": "",
+        "area_m2": 0.0,
+        "jobs": 6.0,
+        "osm_id": 4271528509
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.634171,
+          24.8748008
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00003",
+        "category": "hotel_tourism",
+        "label": "Hotel / Tourism",
+        "name": "InterContinental Quanzhou",
+        "area_m2": 0.0,
+        "jobs": 20.0,
+        "osm_id": 6054763235
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.5962269,
+          24.9062456
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00004",
+        "category": "hotel_tourism",
+        "label": "Hotel / Tourism",
+        "name": "城適旅休酒店（金悅店）",
+        "area_m2": 0.0,
+        "jobs": 20.0,
+        "osm_id": 6164088187
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.5896582,
+          24.913094
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00005",
+        "category": "retail_service",
+        "label": "Retail / Service",
+        "name": "Memento Bar",
+        "area_m2": 0.0,
+        "jobs": 6.0,
+        "osm_id": 8375148059
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.6069277,
+          24.8679688
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00006",
+        "category": "retail_service",
+        "label": "Retail / Service",
+        "name": "L‘Unico Italian Restaurant and Lounge Bar",
+        "area_m2": 0.0,
+        "jobs": 6.0,
+        "osm_id": 8566932717
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.5902915,
+          24.9135531
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00007",
+        "category": "retail_service",
+        "label": "Retail / Service",
+        "name": "Dogfish Cafe",
+        "area_m2": 0.0,
+        "jobs": 6.0,
+        "osm_id": 8567150317
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.5860673,
+          24.9155617
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00008",
+        "category": "retail_service",
+        "label": "Retail / Service",
+        "name": "85 degree bakery",
+        "area_m2": 0.0,
+        "jobs": 6.0,
+        "osm_id": 8567225017
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.5986191,
+          24.9238786
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00009",
+        "category": "retail_service",
+        "label": "Retail / Service",
+        "name": "Samuel Coffee x One more Bar",
+        "area_m2": 0.0,
+        "jobs": 6.0,
+        "osm_id": 8569062422
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.5986515,
+          24.9193216
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00010",
+        "category": "hotel_tourism",
+        "label": "Hotel / Tourism",
+        "name": "Hetangyueshe Hotel",
+        "area_m2": 0.0,
+        "jobs": 20.0,
+        "osm_id": 8569111317
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.5928746,
+          24.9201207
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00011",
+        "category": "retail_service",
+        "label": "Retail / Service",
+        "name": "Canetree Coffee & Tea",
+        "area_m2": 0.0,
+        "jobs": 6.0,
+        "osm_id": 8571584817
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.5927911,
+          24.9202489
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00012",
+        "category": "retail_service",
+        "label": "Retail / Service",
+        "name": "Orange Coffee",
+        "area_m2": 0.0,
+        "jobs": 6.0,
+        "osm_id": 8571584917
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.5793175,
+          24.9164513
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00013",
+        "category": "hotel_tourism",
+        "label": "Hotel / Tourism",
+        "name": "泉州鯉家客棧",
+        "area_m2": 0.0,
+        "jobs": 20.0,
+        "osm_id": 10723744007
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.5857039,
+          24.8062833
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00014",
+        "category": "hotel_tourism",
+        "label": "Hotel / Tourism",
+        "name": "晉江厦航酒店",
+        "area_m2": 0.0,
+        "jobs": 20.0,
+        "osm_id": 11860337969
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.6666108,
+          24.942445
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00016",
+        "category": "commercial_office",
+        "label": "Commercial / Office",
+        "name": "洛江区人民政府",
+        "area_m2": 0.0,
+        "jobs": 8.0,
+        "osm_id": 13528371946
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.5625825,
+          24.78018444
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00017",
+        "category": "retail_service",
+        "label": "Retail / Service",
+        "name": "SM City Jinjiang",
+        "area_m2": 116093.3261088226,
+        "jobs": 6633.904349075577,
+        "osm_id": 129207257
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.52951039999999,
+          24.841133575
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00020",
+        "category": "industry",
+        "label": "Industrial",
+        "name": "",
+        "area_m2": 2064.128132265061,
+        "jobs": 58.97508949328746,
+        "osm_id": 166256033
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.53194135,
+          24.84039655
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00021",
+        "category": "industry",
+        "label": "Industrial",
+        "name": "",
+        "area_m2": 7884.278822682798,
+        "jobs": 225.2651092195085,
+        "osm_id": 166256034
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.5303904,
+          24.83848995
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00022",
+        "category": "industry",
+        "label": "Industrial",
+        "name": "",
+        "area_m2": 12579.398922117427,
+        "jobs": 359.4113977747836,
+        "osm_id": 166256035
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.53073872499999,
+          24.8409722
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00023",
+        "category": "industry",
+        "label": "Industrial",
+        "name": "",
+        "area_m2": 12787.663420155644,
+        "jobs": 365.36181200444696,
+        "osm_id": 166256036
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.52912355,
+          24.84037825
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00024",
+        "category": "industry",
+        "label": "Industrial",
+        "name": "",
+        "area_m2": 2285.617642339319,
+        "jobs": 65.30336120969483,
+        "osm_id": 166256037
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.527284725,
+          24.83891415
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00025",
+        "category": "industry",
+        "label": "Industrial",
+        "name": "",
+        "area_m2": 12974.541273392737,
+        "jobs": 370.7011792397925,
+        "osm_id": 166256038
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.527876875,
+          24.8369676
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00026",
+        "category": "industry",
+        "label": "Industrial",
+        "name": "",
+        "area_m2": 13773.009934650734,
+        "jobs": 393.51456956144955,
+        "osm_id": 166256039
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.5293674,
+          24.8379226
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00027",
+        "category": "industry",
+        "label": "Industrial",
+        "name": "",
+        "area_m2": 7115.963432263583,
+        "jobs": 203.31324092181666,
+        "osm_id": 166256040
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.52896405,
+          24.839285175
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00028",
+        "category": "industry",
+        "label": "Industrial",
+        "name": "",
+        "area_m2": 19300.477986542508,
+        "jobs": 551.4422281869288,
+        "osm_id": 166256041
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.530621375,
+          24.84017195
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00029",
+        "category": "industry",
+        "label": "Industrial",
+        "name": "",
+        "area_m2": 12873.181589310989,
+        "jobs": 367.80518826602827,
+        "osm_id": 166256042
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.5265954,
+          24.83679955
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00030",
+        "category": "industry",
+        "label": "Industrial",
+        "name": "",
+        "area_m2": 13455.685442175716,
+        "jobs": 384.44815549073473,
+        "osm_id": 166256043
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.53067554444445,
+          24.839157255555556
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00031",
+        "category": "industry",
+        "label": "Industrial",
+        "name": "",
+        "area_m2": 9237.51692289859,
+        "jobs": 263.9290549399597,
+        "osm_id": 166256045
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.58585712499999,
+          24.9162939
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00040",
+        "category": "retail_service",
+        "label": "Retail / Service",
+        "name": "泉州影剧院",
+        "area_m2": 2368.863919004798,
+        "jobs": 135.36365251455987,
+        "osm_id": 294840505
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.58690815,
+          24.9085583
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00046",
+        "category": "hotel_tourism",
+        "label": "Hotel / Tourism",
+        "name": "华侨大厦",
+        "area_m2": 13581.87502515316,
+        "jobs": 1975.5454582040961,
+        "osm_id": 294951076
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.5917593967742,
+          24.925355925806453
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00047",
+        "category": "education",
+        "label": "Education",
+        "name": "泉州市第一中学",
+        "area_m2": 39333.65071436763,
+        "jobs": 2622.243380957842,
+        "osm_id": 294951077
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.60694443846154,
+          24.9130174
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00048",
+        "category": "hotel_tourism",
+        "label": "Hotel / Tourism",
+        "name": "海外交通博物馆",
+        "area_m2": 3529.2205604612827,
+        "jobs": 513.3411724307321,
+        "osm_id": 294951078
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.6011911,
+          24.9152009
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00049",
+        "category": "education",
+        "label": "Education",
+        "name": "泉州市图书馆",
+        "area_m2": 2091.696157813072,
+        "jobs": 139.44641052087147,
+        "osm_id": 294951079
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.602087625,
+          24.91518845
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00050",
+        "category": "hotel_tourism",
+        "label": "Hotel / Tourism",
+        "name": "泉州华侨历史博物馆",
+        "area_m2": 1410.882202744484,
+        "jobs": 205.21922949010676,
+        "osm_id": 294951080
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.671360425,
+          24.876997175
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00056",
+        "category": "commercial_office",
+        "label": "Commercial / Office",
+        "name": "泉州市人民政府",
+        "area_m2": 17852.32241295278,
+        "jobs": 4284.557379108667,
+        "osm_id": 294976098
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.58546984705882,
+          24.938368823529412
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00057",
+        "category": "hotel_tourism",
+        "label": "Hotel / Tourism",
+        "name": "中国闽台缘博物馆",
+        "area_m2": 9591.17048560083,
+        "jobs": 1395.0793433601207,
+        "osm_id": 294978292
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.58146255416666,
+          24.93921208333333
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00058",
+        "category": "hotel_tourism",
+        "label": "Hotel / Tourism",
+        "name": "泉州博物馆",
+        "area_m2": 10825.120079144835,
+        "jobs": 1574.5629206028852,
+        "osm_id": 294978293
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.592123775,
+          24.9264561
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00071",
+        "category": "education",
+        "label": "Education",
+        "name": "",
+        "area_m2": 476.77056784927845,
+        "jobs": 31.78470452328523,
+        "osm_id": 297052708
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.59148937500001,
+          24.925130925
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00072",
+        "category": "education",
+        "label": "Education",
+        "name": "",
+        "area_m2": 528.209065452218,
+        "jobs": 35.21393769681454,
+        "osm_id": 297052709
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.59202015,
+          24.92627835
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00073",
+        "category": "education",
+        "label": "Education",
+        "name": "",
+        "area_m2": 440.6832941621542,
+        "jobs": 29.378886277476948,
+        "osm_id": 297052710
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.591562375,
+          24.9243567
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00074",
+        "category": "education",
+        "label": "Education",
+        "name": "",
+        "area_m2": 598.5820287764072,
+        "jobs": 39.905468585093814,
+        "osm_id": 297052711
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.59092548333332,
+          24.92454318333333
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00075",
+        "category": "education",
+        "label": "Education",
+        "name": "",
+        "area_m2": 621.2311834841967,
+        "jobs": 41.41541223227978,
+        "osm_id": 297052712
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.59135893333332,
+          24.9241154
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00076",
+        "category": "education",
+        "label": "Education",
+        "name": "",
+        "area_m2": 462.7209251075983,
+        "jobs": 30.848061673839887,
+        "osm_id": 297052713
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.5919553,
+          24.925548266666667
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00077",
+        "category": "education",
+        "label": "Education",
+        "name": "",
+        "area_m2": 2195.6190955638885,
+        "jobs": 146.3746063709259,
+        "osm_id": 297052714
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.591749375,
+          24.9254156
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00078",
+        "category": "education",
+        "label": "Education",
+        "name": "",
+        "area_m2": 611.783318951726,
+        "jobs": 40.78555459678173,
+        "osm_id": 297052715
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.58793268333334,
+          24.916896433333335
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00080",
+        "category": "healthcare",
+        "label": "Healthcare",
+        "name": "福建医科大学附属第二医院",
+        "area_m2": 15011.52039322257,
+        "jobs": 2001.5360524296761,
+        "osm_id": 297052717
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.59037259411764,
+          24.919030811764706
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00089",
+        "category": "education",
+        "label": "Education",
+        "name": "泉州实验小学",
+        "area_m2": 22524.823331058025,
+        "jobs": 1501.6548887372016,
+        "osm_id": 328903186
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.59473948,
+          24.88535696
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00097",
+        "category": "retail_service",
+        "label": "Retail / Service",
+        "name": "泉州万达百货",
+        "area_m2": 30463.080908812582,
+        "jobs": 1740.747480503576,
+        "osm_id": 329420563
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.56975749285714,
+          24.916572842857143
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00107",
+        "category": "hotel_tourism",
+        "label": "Hotel / Tourism",
+        "name": "",
+        "area_m2": 1297.6298985555768,
+        "jobs": 188.74616706262935,
+        "osm_id": 470484041
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.66633520434783,
+          24.872914973913044
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00108",
+        "category": "education",
+        "label": "Education",
+        "name": "泉州师范学院",
+        "area_m2": 746677.1512504816,
+        "jobs": 49778.47675003211,
+        "osm_id": 471785157
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.6535125875,
+          24.87673519375
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00111",
+        "category": "healthcare",
+        "label": "Healthcare",
+        "name": "",
+        "area_m2": 3198.8406257629395,
+        "jobs": 426.51208343505857,
+        "osm_id": 473744079
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.65209494999999,
+          24.87556598333333
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00112",
+        "category": "healthcare",
+        "label": "Healthcare",
+        "name": "",
+        "area_m2": 12553.124998494983,
+        "jobs": 1673.7499997993311,
+        "osm_id": 473744080
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.65411906363637,
+          24.87995060909091
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00113",
+        "category": "education",
+        "label": "Education",
+        "name": "泉州幼儿师范高等专科学校",
+        "area_m2": 180773.34486672282,
+        "jobs": 12051.556324448187,
+        "osm_id": 473744086
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.65362735,
+          24.87613105
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00114",
+        "category": "healthcare",
+        "label": "Healthcare",
+        "name": "福建医科大学附属第二医院东海分院",
+        "area_m2": 85104.90872274339,
+        "jobs": 11347.321163032453,
+        "osm_id": 473744092
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.683299068,
+          24.881939132000003
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00115",
+        "category": "industry",
+        "label": "Industrial",
+        "name": "后渚港",
+        "area_m2": 174225.8849862069,
+        "jobs": 4977.8824281773395,
+        "osm_id": 473744110
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.60259741111112,
+          24.90586852222222
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00126",
+        "category": "retail_service",
+        "label": "Retail / Service",
+        "name": "南益广场",
+        "area_m2": 12657.371838405728,
+        "jobs": 723.2783907660416,
+        "osm_id": 481719839
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.57641654285715,
+          24.85397597142857
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00130",
+        "category": "education",
+        "label": "Education",
+        "name": "崇武小学",
+        "area_m2": 15630.696363203228,
+        "jobs": 1042.0464242135486,
+        "osm_id": 487927396
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.58215635,
+          24.917569475
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00131",
+        "category": "hotel_tourism",
+        "label": "Hotel / Tourism",
+        "name": "开元寺古船馆",
+        "area_m2": 777.9292527735233,
+        "jobs": 113.15334585796703,
+        "osm_id": 496703730
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.58181615000001,
+          24.9175436
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00132",
+        "category": "hotel_tourism",
+        "label": "Hotel / Tourism",
+        "name": "弘一法师纪念馆",
+        "area_m2": 1692.4846280515194,
+        "jobs": 246.1795822620392,
+        "osm_id": 496703731
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.654158475,
+          24.922918875
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00135",
+        "category": "retail_service",
+        "label": "Retail / Service",
+        "name": "",
+        "area_m2": 23831.063737422228,
+        "jobs": 1361.7750707098417,
+        "osm_id": 538349885
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.69241968333334,
+          24.952382266666664
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00136",
+        "category": "education",
+        "label": "Education",
+        "name": "屿光中学",
+        "area_m2": 22087.941464543343,
+        "jobs": 1472.5294309695562,
+        "osm_id": 538378445
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.65957258,
+          24.95403144
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00138",
+        "category": "education",
+        "label": "Education",
+        "name": "福建泉州外国语学校洛江校区",
+        "area_m2": 20896.323988199234,
+        "jobs": 1393.088265879949,
+        "osm_id": 538390416
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.65087050909091,
+          24.93641570909091
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00141",
+        "category": "retail_service",
+        "label": "Retail / Service",
+        "name": "",
+        "area_m2": 26686.30047672987,
+        "jobs": 1524.9314558131355,
+        "osm_id": 538390434
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.63935618000001,
+          24.939899246666666
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00149",
+        "category": "education",
+        "label": "Education",
+        "name": "华侨大学",
+        "area_m2": 543292.3909219503,
+        "jobs": 36219.492728130026,
+        "osm_id": 538390585
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.6489062,
+          24.932906850000002
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00151",
+        "category": "industry",
+        "label": "Industrial",
+        "name": "",
+        "area_m2": 26944.92141675949,
+        "jobs": 769.8548976216997,
+        "osm_id": 538390594
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.645237725,
+          24.930941824999998
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00156",
+        "category": "commercial_office",
+        "label": "Commercial / Office",
+        "name": "海西电子信息产业化育成基地",
+        "area_m2": 34261.1516469419,
+        "jobs": 8222.676395266057,
+        "osm_id": 538390633
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.63316075,
+          24.9033143
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00159",
+        "category": "industry",
+        "label": "Industrial",
+        "name": "",
+        "area_m2": 41702.03193363547,
+        "jobs": 1191.4866266752992,
+        "osm_id": 538390721
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.63217954,
+          24.9054361
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00160",
+        "category": "industry",
+        "label": "Industrial",
+        "name": "",
+        "area_m2": 31656.159154355526,
+        "jobs": 904.4616901244436,
+        "osm_id": 538390727
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.633556575,
+          24.91990195
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00161",
+        "category": "industry",
+        "label": "Industrial",
+        "name": "",
+        "area_m2": 17655.644717365503,
+        "jobs": 504.44699192472865,
+        "osm_id": 538390757
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.63548622,
+          24.91529608
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00163",
+        "category": "commercial_office",
+        "label": "Commercial / Office",
+        "name": "",
+        "area_m2": 7039.795728057623,
+        "jobs": 1689.5509747338294,
+        "osm_id": 538390764
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.63382885,
+          24.913226666666663
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00164",
+        "category": "industry",
+        "label": "Industrial",
+        "name": "",
+        "area_m2": 78481.57478763163,
+        "jobs": 2242.3307082180468,
+        "osm_id": 538390766
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.64526664285714,
+          24.910038649999997
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00169",
+        "category": "education",
+        "label": "Education",
+        "name": "泉州第五中学（城东校区）",
+        "area_m2": 111669.58455586433,
+        "jobs": 7444.638970390955,
+        "osm_id": 538390772
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.66108874999999,
+          24.950535666666667
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00170",
+        "category": "industry",
+        "label": "Industrial",
+        "name": "",
+        "area_m2": 93146.25472790003,
+        "jobs": 2661.3215636542864,
+        "osm_id": 538390778
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.65672631666666,
+          24.95299065
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00171",
+        "category": "industry",
+        "label": "Industrial",
+        "name": "",
+        "area_m2": 13862.168110698462,
+        "jobs": 396.06194601995605,
+        "osm_id": 538390791
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.65526570000002,
+          24.949682850000002
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00172",
+        "category": "industry",
+        "label": "Industrial",
+        "name": "",
+        "area_m2": 208527.26436290145,
+        "jobs": 5957.921838940041,
+        "osm_id": 538390795
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.63642588571429,
+          24.913749714285718
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00174",
+        "category": "industry",
+        "label": "Industrial",
+        "name": "",
+        "area_m2": 27275.637979850173,
+        "jobs": 779.3039422814335,
+        "osm_id": 538390797
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.6665083652174,
+          24.93257738695652
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00176",
+        "category": "education",
+        "label": "Education",
+        "name": "泉州医学高等专科学校",
+        "area_m2": 201512.41167357564,
+        "jobs": 13434.160778238376,
+        "osm_id": 538394091
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.6724132,
+          24.947770700000003
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00178",
+        "category": "education",
+        "label": "Education",
+        "name": "",
+        "area_m2": 12901.444807499647,
+        "jobs": 860.0963204999765,
+        "osm_id": 538394106
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.686563625,
+          24.9736319
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00179",
+        "category": "industry",
+        "label": "Industrial",
+        "name": "",
+        "area_m2": 30730.797065734863,
+        "jobs": 878.0227733067104,
+        "osm_id": 538394120
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.68379331428571,
+          24.972072999999998
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00180",
+        "category": "industry",
+        "label": "Industrial",
+        "name": "",
+        "area_m2": 41025.12104785442,
+        "jobs": 1172.1463156529835,
+        "osm_id": 538394121
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.6781194875,
+          24.8904767125
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00182",
+        "category": "industry",
+        "label": "Industrial",
+        "name": "",
+        "area_m2": 41161.146139770746,
+        "jobs": 1176.0327468505927,
+        "osm_id": 538404384
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.67839022000001,
+          24.88621004
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00183",
+        "category": "industry",
+        "label": "Industrial",
+        "name": "",
+        "area_m2": 33477.438369721174,
+        "jobs": 956.4982391348907,
+        "osm_id": 538404388
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.67587649,
+          24.876231490000002
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00185",
+        "category": "education",
+        "label": "Education",
+        "name": "福建省泉州第一中学（东海校区）",
+        "area_m2": 79096.96629813313,
+        "jobs": 5273.131086542209,
+        "osm_id": 538404392
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.67782206,
+          24.877843759999998
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00188",
+        "category": "education",
+        "label": "Education",
+        "name": "",
+        "area_m2": 25269.830835059285,
+        "jobs": 1684.6553890039525,
+        "osm_id": 538404401
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.65317042,
+          24.85334136
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00190",
+        "category": "commercial_office",
+        "label": "Commercial / Office",
+        "name": "",
+        "area_m2": 7211.778711631894,
+        "jobs": 1730.8268907916545,
+        "osm_id": 538404544
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.6340371,
+          24.89952795
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00201",
+        "category": "industry",
+        "label": "Industrial",
+        "name": "",
+        "area_m2": 13338.63277079165,
+        "jobs": 381.10379345119,
+        "osm_id": 538404763
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.61982626315789,
+          24.887010705263158
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00202",
+        "category": "education",
+        "label": "Education",
+        "name": "北京师范大学泉州附属中学",
+        "area_m2": 53803.935903579,
+        "jobs": 3586.9290602386,
+        "osm_id": 538427081
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.62261054166667,
+          24.8855381
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00203",
+        "category": "education",
+        "label": "Education",
+        "name": "",
+        "area_m2": 38671.674271941185,
+        "jobs": 2578.1116181294124,
+        "osm_id": 538427082
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.62414069230769,
+          24.88434541538462
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00204",
+        "category": "education",
+        "label": "Education",
+        "name": "黎明职业大学",
+        "area_m2": 302710.8043294996,
+        "jobs": 20180.720288633307,
+        "osm_id": 538427084
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.65172844000001,
+          24.8777606
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00205",
+        "category": "education",
+        "label": "Education",
+        "name": "",
+        "area_m2": 36133.93070217967,
+        "jobs": 2408.9287134786446,
+        "osm_id": 538427091
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.64857608,
+          24.88276966
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00206",
+        "category": "industry",
+        "label": "Industrial",
+        "name": "",
+        "area_m2": 48483.128634631634,
+        "jobs": 1385.232246703761,
+        "osm_id": 538427092
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.64638754444445,
+          24.87949173333333
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00207",
+        "category": "industry",
+        "label": "Industrial",
+        "name": "",
+        "area_m2": 124925.79104804993,
+        "jobs": 3569.3083156585694,
+        "osm_id": 538427093
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.64017293333335,
+          24.910112616666666
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00210",
+        "category": "industry",
+        "label": "Industrial",
+        "name": "",
+        "area_m2": 31997.56990508735,
+        "jobs": 914.2162830024957,
+        "osm_id": 538427173
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.67569622857143,
+          24.891373528571428
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00211",
+        "category": "industry",
+        "label": "Industrial",
+        "name": "",
+        "area_m2": 25540.04382430017,
+        "jobs": 729.7155378371477,
+        "osm_id": 538427230
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.674441,
+          24.891958725
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00212",
+        "category": "industry",
+        "label": "Industrial",
+        "name": "",
+        "area_m2": 3176.2658183574677,
+        "jobs": 90.75045195307051,
+        "osm_id": 538427231
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.68105335714286,
+          24.886121449999997
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00213",
+        "category": "industry",
+        "label": "Industrial",
+        "name": "后渚港",
+        "area_m2": 165681.47506514192,
+        "jobs": 4733.756430432626,
+        "osm_id": 538427254
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.6744636,
+          24.88483345
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00214",
+        "category": "commercial_office",
+        "label": "Commercial / Office",
+        "name": "",
+        "area_m2": 23819.05429339409,
+        "jobs": 5716.573030414581,
+        "osm_id": 538427255
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.67824259999999,
+          24.884621566666667
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00215",
+        "category": "commercial_office",
+        "label": "Commercial / Office",
+        "name": "",
+        "area_m2": 8817.303211122751,
+        "jobs": 2116.15277066946,
+        "osm_id": 538427258
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.7014430375,
+          24.8774792
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00216",
+        "category": "industry",
+        "label": "Industrial",
+        "name": "",
+        "area_m2": 197645.32090455294,
+        "jobs": 5647.009168701513,
+        "osm_id": 538427262
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.52864035294117,
+          24.957507170588233
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00220",
+        "category": "education",
+        "label": "Education",
+        "name": "南安华侨中学",
+        "area_m2": 78551.48760110885,
+        "jobs": 5236.765840073923,
+        "osm_id": 544144960
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.596724975,
+          24.8850001
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00221",
+        "category": "commercial_office",
+        "label": "Commercial / Office",
+        "name": "",
+        "area_m2": 4960.946091815829,
+        "jobs": 1190.627062035799,
+        "osm_id": 564535427
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.59648365,
+          24.89473845
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00235",
+        "category": "education",
+        "label": "Education",
+        "name": "丰泽区第三中心小学",
+        "area_m2": 5600.697806999087,
+        "jobs": 373.37985379993916,
+        "osm_id": 564709031
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.60074745833333,
+          24.907060016666666
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00248",
+        "category": "retail_service",
+        "label": "Retail / Service",
+        "name": "丰泽广场",
+        "area_m2": 45952.177746132016,
+        "jobs": 2625.8387283504007,
+        "osm_id": 568606499
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.611322825,
+          24.906805525
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00249",
+        "category": "education",
+        "label": "Education",
+        "name": "泉州市实验中学",
+        "area_m2": 22536.80196426809,
+        "jobs": 1502.4534642845392,
+        "osm_id": 568606500
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.60066872857143,
+          24.898809871428572
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00250",
+        "category": "education",
+        "label": "Education",
+        "name": "泉州九中",
+        "area_m2": 28068.53823570907,
+        "jobs": 1871.2358823806048,
+        "osm_id": 568606503
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.58558054166667,
+          24.897409291666666
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00251",
+        "category": "education",
+        "label": "Education",
+        "name": "主教学楼",
+        "area_m2": 1654.118149921298,
+        "jobs": 110.27454332808654,
+        "osm_id": 581085398
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.58631608571429,
+          24.898134914285716
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00252",
+        "category": "education",
+        "label": "Education",
+        "name": "新加坡校友楼",
+        "area_m2": 860.9252489954233,
+        "jobs": 57.39501659969489,
+        "osm_id": 581085402
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.585094325,
+          24.898547175
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00255",
+        "category": "retail_service",
+        "label": "Retail / Service",
+        "name": "南菜市场",
+        "area_m2": 2385.5952578336,
+        "jobs": 136.31972901906286,
+        "osm_id": 585711278
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.586038375,
+          24.900257375
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00256",
+        "category": "healthcare",
+        "label": "Healthcare",
+        "name": "博仕肛肠医院",
+        "area_m2": 670.6672699004412,
+        "jobs": 89.42230265339215,
+        "osm_id": 585711279
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.5867281,
+          24.9000973
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00257",
+        "category": "retail_service",
+        "label": "Retail / Service",
+        "name": "家居用品市场",
+        "area_m2": 3566.7024053931236,
+        "jobs": 203.8115660224642,
+        "osm_id": 585711280
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.58956416666666,
+          24.903919255555554
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00258",
+        "category": "education",
+        "label": "Education",
+        "name": "鲤城区图书馆",
+        "area_m2": 424.7238395214081,
+        "jobs": 28.31492263476054,
+        "osm_id": 585711284
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.58550704,
+          24.90675878
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00259",
+        "category": "retail_service",
+        "label": "Retail / Service",
+        "name": "中闽百汇",
+        "area_m2": 3890.7897175699472,
+        "jobs": 222.330841003997,
+        "osm_id": 585711288
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.5659598,
+          24.88723805
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00261",
+        "category": "retail_service",
+        "label": "Retail / Service",
+        "name": "百捷上悦城",
+        "area_m2": 31762.35398451984,
+        "jobs": 1814.9916562582766,
+        "osm_id": 586824083
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.56177663333334,
+          24.884847633333333
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00262",
+        "category": "commercial_office",
+        "label": "Commercial / Office",
+        "name": "新加坡城",
+        "area_m2": 24080.852411299944,
+        "jobs": 5779.404578711987,
+        "osm_id": 586824085
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.59180702857144,
+          24.89132912857143
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00263",
+        "category": "education",
+        "label": "Education",
+        "name": "现代中学",
+        "area_m2": 26408.57181714475,
+        "jobs": 1760.5714544763168,
+        "osm_id": 586828981
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.5857946375,
+          24.89766405416667
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00267",
+        "category": "education",
+        "label": "Education",
+        "name": "泉州七中",
+        "area_m2": 23640.583330124617,
+        "jobs": 1576.0388886749745,
+        "osm_id": 587715462
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.57997341666668,
+          24.901852166666668
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00268",
+        "category": "education",
+        "label": "Education",
+        "name": "泉州七中金山校区",
+        "area_m2": 15236.199416346848,
+        "jobs": 1015.7466277564565,
+        "osm_id": 587715464
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.577265975,
+          24.909843425
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00270",
+        "category": "commercial_office",
+        "label": "Commercial / Office",
+        "name": "T淘园",
+        "area_m2": 3076.338605001569,
+        "jobs": 738.3212652003765,
+        "osm_id": 587715486
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.57976343571428,
+          24.915050935714284
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00271",
+        "category": "retail_service",
+        "label": "Retail / Service",
+        "name": "中闽百汇商场",
+        "area_m2": 5261.664274260402,
+        "jobs": 300.6665299577372,
+        "osm_id": 587715488
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.58039623076924,
+          24.921369546153848
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00272",
+        "category": "commercial_office",
+        "label": "Commercial / Office",
+        "name": "开元盛世广场",
+        "area_m2": 23774.124706700444,
+        "jobs": 5705.789929608107,
+        "osm_id": 587715490
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.58003240666666,
+          24.919504482222223
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00273",
+        "category": "education",
+        "label": "Education",
+        "name": "泉州市培元中学",
+        "area_m2": 38436.03956152499,
+        "jobs": 2562.402637434999,
+        "osm_id": 587715491
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.58244621428571,
+          24.909862485714285
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00281",
+        "category": "retail_service",
+        "label": "Retail / Service",
+        "name": "",
+        "area_m2": 940.8403505682945,
+        "jobs": 53.76230574675969,
+        "osm_id": 587715507
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.58396185,
+          24.9097854
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00282",
+        "category": "retail_service",
+        "label": "Retail / Service",
+        "name": "",
+        "area_m2": 2583.972672522068,
+        "jobs": 147.65558128697532,
+        "osm_id": 587715508
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.5861987,
+          24.90983857142857
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00283",
+        "category": "retail_service",
+        "label": "Retail / Service",
+        "name": "",
+        "area_m2": 2147.4386534392834,
+        "jobs": 122.71078019653048,
+        "osm_id": 587715512
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.587588275,
+          24.9095785375
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00284",
+        "category": "retail_service",
+        "label": "Retail / Service",
+        "name": "",
+        "area_m2": 2439.7564766258,
+        "jobs": 139.41465580718858,
+        "osm_id": 587715514
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.58850775714286,
+          24.910338085714283
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00285",
+        "category": "retail_service",
+        "label": "Retail / Service",
+        "name": "",
+        "area_m2": 1202.7034945189953,
+        "jobs": 68.72591397251402,
+        "osm_id": 587715516
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.5889369,
+          24.911281518181816
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00286",
+        "category": "retail_service",
+        "label": "Retail / Service",
+        "name": "",
+        "area_m2": 1976.0612215399742,
+        "jobs": 112.91778408799853,
+        "osm_id": 587715518
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.59018215,
+          24.9139763
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00287",
+        "category": "retail_service",
+        "label": "Retail / Service",
+        "name": "",
+        "area_m2": 835.6524471491575,
+        "jobs": 47.75156840852329,
+        "osm_id": 587715519
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.58799996666666,
+          24.896917916666666
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00289",
+        "category": "healthcare",
+        "label": "Healthcare",
+        "name": "泉州市中医院",
+        "area_m2": 5074.2158665806055,
+        "jobs": 676.5621155440807,
+        "osm_id": 588258278
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.58874351666667,
+          24.897982983333332
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00290",
+        "category": "commercial_office",
+        "label": "Commercial / Office",
+        "name": "新城大厦",
+        "area_m2": 2128.736718714237,
+        "jobs": 510.89681249141694,
+        "osm_id": 588258279
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.5876389,
+          24.898983075
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00291",
+        "category": "commercial_office",
+        "label": "Commercial / Office",
+        "name": "泉州水产大厦",
+        "area_m2": 1388.6727133095264,
+        "jobs": 333.2814511942863,
+        "osm_id": 588258280
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.58899266666667,
+          24.89730788333333
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00292",
+        "category": "commercial_office",
+        "label": "Commercial / Office",
+        "name": "",
+        "area_m2": 3193.7542500048876,
+        "jobs": 766.5010200011731,
+        "osm_id": 588258283
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.58747808333334,
+          24.894386283333333
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00293",
+        "category": "commercial_office",
+        "label": "Commercial / Office",
+        "name": "汇金广场",
+        "area_m2": 4124.665543422103,
+        "jobs": 989.9197304213047,
+        "osm_id": 588258284
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.58942989999998,
+          24.89842531111111
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00294",
+        "category": "commercial_office",
+        "label": "Commercial / Office",
+        "name": "远太大厦",
+        "area_m2": 3282.6722484081984,
+        "jobs": 787.8413396179676,
+        "osm_id": 588258285
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.59044779999999,
+          24.897935577777776
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00295",
+        "category": "commercial_office",
+        "label": "Commercial / Office",
+        "name": "大洋百货",
+        "area_m2": 7525.0389373749495,
+        "jobs": 1806.009344969988,
+        "osm_id": 588258286
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.591377325,
+          24.8998258
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00297",
+        "category": "retail_service",
+        "label": "Retail / Service",
+        "name": "轻工电器",
+        "area_m2": 3243.109291166067,
+        "jobs": 185.32053092377527,
+        "osm_id": 588258288
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.585845075,
+          24.892134625
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00298",
+        "category": "education",
+        "label": "Education",
+        "name": "泉州七中崇德校区",
+        "area_m2": 4513.555738769472,
+        "jobs": 300.9037159179648,
+        "osm_id": 588258295
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.59383305000001,
+          24.942276507142857
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00300",
+        "category": "healthcare",
+        "label": "Healthcare",
+        "name": "910医院",
+        "area_m2": 118738.56692761183,
+        "jobs": 15831.808923681578,
+        "osm_id": 596744871
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.57828776875,
+          24.945803090625
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00301",
+        "category": "education",
+        "label": "Education",
+        "name": "",
+        "area_m2": 405806.3498086035,
+        "jobs": 27053.7566539069,
+        "osm_id": 596744917
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.58526265,
+          24.942297999999997
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00302",
+        "category": "education",
+        "label": "Education",
+        "name": "",
+        "area_m2": 16988.362429380417,
+        "jobs": 1132.5574952920279,
+        "osm_id": 596744918
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.58229502500001,
+          24.942610124999998
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00303",
+        "category": "education",
+        "label": "Education",
+        "name": "福建经贸学校",
+        "area_m2": 20604.376562446356,
+        "jobs": 1373.6251041630903,
+        "osm_id": 596744919
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.55492220555556,
+          24.77351162777778
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00304",
+        "category": "education",
+        "label": "Education",
+        "name": "晉江市羅山中學",
+        "area_m2": 68304.72773714794,
+        "jobs": 4553.648515809863,
+        "osm_id": 601304291
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.53787953999999,
+          24.773748899999998
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00305",
+        "category": "education",
+        "label": "Education",
+        "name": "羅山街道榮宗小學",
+        "area_m2": 6689.604285598965,
+        "jobs": 445.973619039931,
+        "osm_id": 601521330
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.55303389999999,
+          24.769787985714284
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00306",
+        "category": "education",
+        "label": "Education",
+        "name": "晉江市第六小學",
+        "area_m2": 13818.5387656495,
+        "jobs": 921.2359177099667,
+        "osm_id": 601521337
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.5574031,
+          24.787510649999998
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00307",
+        "category": "commercial_office",
+        "label": "Commercial / Office",
+        "name": "晋江市汽车交易市场",
+        "area_m2": 26119.931118643843,
+        "jobs": 6268.783468474522,
+        "osm_id": 601594422
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.558935425,
+          24.8041321
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00308",
+        "category": "education",
+        "label": "Education",
+        "name": "晉江市南區中學",
+        "area_m2": 63845.93296355568,
+        "jobs": 4256.395530903712,
+        "osm_id": 601594423
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.60705718333332,
+          24.8898822
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00312",
+        "category": "education",
+        "label": "Education",
+        "name": "泉州理工学院",
+        "area_m2": 26920.117695495486,
+        "jobs": 1794.6745130330323,
+        "osm_id": 606560199
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.61490713333335,
+          24.885187083333335
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00313",
+        "category": "retail_service",
+        "label": "Retail / Service",
+        "name": "现代家居广场",
+        "area_m2": 13166.223908618093,
+        "jobs": 752.3556519210339,
+        "osm_id": 606560202
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.69891526666667,
+          24.968721925
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00317",
+        "category": "education",
+        "label": "Education",
+        "name": "泉州华光职业学院",
+        "area_m2": 214366.58283159137,
+        "jobs": 14291.10552210609,
+        "osm_id": 614226010
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.55679904545454,
+          24.952553863636364
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00318",
+        "category": "education",
+        "label": "Education",
+        "name": "见龙亭小学",
+        "area_m2": 18490.911361962557,
+        "jobs": 1232.727424130837,
+        "osm_id": 617747918
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.6786844,
+          24.79276445
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00319",
+        "category": "industry",
+        "label": "Industrial",
+        "name": "",
+        "area_m2": 31104.520900841802,
+        "jobs": 888.7005971669087,
+        "osm_id": 621503532
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.57391655,
+          24.91758155
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00320",
+        "category": "industry",
+        "label": "Industrial",
+        "name": "",
+        "area_m2": 1363.9143707305193,
+        "jobs": 38.96898202087198,
+        "osm_id": 630414264
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.57454498235293,
+          24.915936364705882
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00321",
+        "category": "commercial_office",
+        "label": "Commercial / Office",
+        "name": "源和1916创意产业园",
+        "area_m2": 52471.09091770649,
+        "jobs": 12593.061820249557,
+        "osm_id": 630414266
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.575339325,
+          24.91644875
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00323",
+        "category": "hotel_tourism",
+        "label": "Hotel / Tourism",
+        "name": "门里博物馆",
+        "area_m2": 792.518416300416,
+        "jobs": 115.27540600733323,
+        "osm_id": 630414270
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.58256771111112,
+          24.765984466666666
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00326",
+        "category": "industry",
+        "label": "Industrial",
+        "name": "福建晉華",
+        "area_m2": 607602.7960485611,
+        "jobs": 17360.079887101747,
+        "osm_id": 639364498
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.61918949344263,
+          24.886886155737706
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00334",
+        "category": "education",
+        "label": "Education",
+        "name": "",
+        "area_m2": 4873.365397378802,
+        "jobs": 324.8910264919202,
+        "osm_id": 655128785
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.623793675,
+          24.904029174999998
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00339",
+        "category": "commercial_office",
+        "label": "Commercial / Office",
+        "name": "成功驿站",
+        "area_m2": 5373.557673797011,
+        "jobs": 1289.6538417112827,
+        "osm_id": 667935742
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.587721525,
+          24.898167725
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00343",
+        "category": "education",
+        "label": "Education",
+        "name": "",
+        "area_m2": 1062.431448623538,
+        "jobs": 70.8287632415692,
+        "osm_id": 672851065
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.6740968,
+          24.870370445454547
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00344",
+        "category": "hotel_tourism",
+        "label": "Hotel / Tourism",
+        "name": "泉州科技与规划馆",
+        "area_m2": 7293.579903110862,
+        "jobs": 1060.884349543398,
+        "osm_id": 705652319
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.6766363909091,
+          24.86990430909091
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00346",
+        "category": "education",
+        "label": "Education",
+        "name": "泉州图书馆",
+        "area_m2": 7104.95460793376,
+        "jobs": 473.6636405289173,
+        "osm_id": 705652321
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.504359725,
+          24.914414875
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00351",
+        "category": "commercial_office",
+        "label": "Commercial / Office",
+        "name": "",
+        "area_m2": 27219.431092169136,
+        "jobs": 6532.663462120592,
+        "osm_id": 779153627
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.49682688181818,
+          24.91240250909091
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00352",
+        "category": "industry",
+        "label": "Industrial",
+        "name": "",
+        "area_m2": 214356.61046048906,
+        "jobs": 6124.474584585401,
+        "osm_id": 779153629
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.52692354999999,
+          24.9566205
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00361",
+        "category": "retail_service",
+        "label": "Retail / Service",
+        "name": "",
+        "area_m2": 816.2132901549339,
+        "jobs": 46.6407594374248,
+        "osm_id": 801888374
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.52836841428572,
+          24.957894685714287
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00365",
+        "category": "education",
+        "label": "Education",
+        "name": "",
+        "area_m2": 630.3929893001914,
+        "jobs": 42.02619928667943,
+        "osm_id": 801888385
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.5290542,
+          24.958588483333333
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00366",
+        "category": "education",
+        "label": "Education",
+        "name": "",
+        "area_m2": 680.7948658689857,
+        "jobs": 45.38632439126571,
+        "osm_id": 801888386
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.528733325,
+          24.9588744
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00367",
+        "category": "education",
+        "label": "Education",
+        "name": "",
+        "area_m2": 950.3896334320307,
+        "jobs": 63.359308895468715,
+        "osm_id": 801888387
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.528062825,
+          24.958177499999998
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00368",
+        "category": "education",
+        "label": "Education",
+        "name": "",
+        "area_m2": 919.1024534255266,
+        "jobs": 61.27349689503511,
+        "osm_id": 801888395
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.527800425,
+          24.958423
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00369",
+        "category": "education",
+        "label": "Education",
+        "name": "",
+        "area_m2": 831.8321534916759,
+        "jobs": 55.45547689944506,
+        "osm_id": 801888396
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.52728557999998,
+          24.957828080000002
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00370",
+        "category": "education",
+        "label": "Education",
+        "name": "",
+        "area_m2": 1708.1809086799622,
+        "jobs": 113.87872724533081,
+        "osm_id": 801888397
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.52722442222222,
+          24.957405655555558
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00371",
+        "category": "education",
+        "label": "Education",
+        "name": "",
+        "area_m2": 857.8156648278236,
+        "jobs": 57.18771098852157,
+        "osm_id": 801888400
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.5282508,
+          24.958606225
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00375",
+        "category": "education",
+        "label": "Education",
+        "name": "",
+        "area_m2": 920.2921787202358,
+        "jobs": 61.35281191468239,
+        "osm_id": 801888404
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.5289043,
+          24.958095
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00376",
+        "category": "education",
+        "label": "Education",
+        "name": "",
+        "area_m2": 251.26875586807728,
+        "jobs": 25.0,
+        "osm_id": 801888405
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.528228875,
+          24.9590473
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00377",
+        "category": "education",
+        "label": "Education",
+        "name": "",
+        "area_m2": 1075.2100974991918,
+        "jobs": 71.68067316661278,
+        "osm_id": 801888406
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.67572548333334,
+          24.87739295
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00391",
+        "category": "education",
+        "label": "Education",
+        "name": "",
+        "area_m2": 2117.9389360249043,
+        "jobs": 141.19592906832696,
+        "osm_id": 808592141
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.6768115,
+          24.876263325
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00392",
+        "category": "education",
+        "label": "Education",
+        "name": "",
+        "area_m2": 1508.1562979221344,
+        "jobs": 100.54375319480896,
+        "osm_id": 808592143
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.677357075,
+          24.875628550000002
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00396",
+        "category": "education",
+        "label": "Education",
+        "name": "",
+        "area_m2": 815.9545814543962,
+        "jobs": 54.39697209695975,
+        "osm_id": 808592152
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.676145025,
+          24.877246175
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00397",
+        "category": "education",
+        "label": "Education",
+        "name": "",
+        "area_m2": 1287.888272613287,
+        "jobs": 85.85921817421914,
+        "osm_id": 808592153
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.675147475,
+          24.876647849999998
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00398",
+        "category": "education",
+        "label": "Education",
+        "name": "",
+        "area_m2": 2912.2810396254063,
+        "jobs": 194.1520693083604,
+        "osm_id": 808592155
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.6759019076923,
+          24.876327746153848
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00399",
+        "category": "education",
+        "label": "Education",
+        "name": "",
+        "area_m2": 1517.3472956866026,
+        "jobs": 101.15648637910684,
+        "osm_id": 808592156
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.676912875,
+          24.87584105
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00401",
+        "category": "education",
+        "label": "Education",
+        "name": "",
+        "area_m2": 815.9545814543962,
+        "jobs": 54.39697209695975,
+        "osm_id": 808592158
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.677256675,
+          24.87516095
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00404",
+        "category": "education",
+        "label": "Education",
+        "name": "",
+        "area_m2": 815.9545814096928,
+        "jobs": 54.39697209397952,
+        "osm_id": 808592162
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.676394775,
+          24.877000975
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00407",
+        "category": "education",
+        "label": "Education",
+        "name": "",
+        "area_m2": 1206.963453412056,
+        "jobs": 80.4642302274704,
+        "osm_id": 808592168
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.52803088,
+          24.7780029
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00461",
+        "category": "industry",
+        "label": "Industrial",
+        "name": "",
+        "area_m2": 84554.71438210132,
+        "jobs": 2415.8489823457517,
+        "osm_id": 890948499
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.64510475,
+          24.94090695
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00476",
+        "category": "retail_service",
+        "label": "Retail / Service",
+        "name": "",
+        "area_m2": 2842.8322832882404,
+        "jobs": 162.4475590450423,
+        "osm_id": 895719942
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.633006025,
+          24.97364485
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00498",
+        "category": "retail_service",
+        "label": "Retail / Service",
+        "name": "",
+        "area_m2": 3016.8246550559998,
+        "jobs": 172.38998028891427,
+        "osm_id": 895721841
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.59046154285714,
+          24.91426812857143
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00504",
+        "category": "retail_service",
+        "label": "Retail / Service",
+        "name": "",
+        "area_m2": 1226.4211972355843,
+        "jobs": 70.08121127060481,
+        "osm_id": 905026232
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.607538425,
+          24.826187525
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00578",
+        "category": "education",
+        "label": "Education",
+        "name": "",
+        "area_m2": 10150.916732348502,
+        "jobs": 676.7277821565668,
+        "osm_id": 948294180
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.63084768125,
+          24.91768635
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00580",
+        "category": "industry",
+        "label": "Industrial",
+        "name": "集装箱货场",
+        "area_m2": 34496.587483778596,
+        "jobs": 985.616785250817,
+        "osm_id": 954841971
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.63604907777777,
+          24.922137255555555
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00583",
+        "category": "industry",
+        "label": "Industrial",
+        "name": "",
+        "area_m2": 25011.954261645675,
+        "jobs": 714.6272646184478,
+        "osm_id": 954841974
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.638584725,
+          24.928004925
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00586",
+        "category": "industry",
+        "label": "Industrial",
+        "name": "",
+        "area_m2": 5200.573010355234,
+        "jobs": 148.58780029586384,
+        "osm_id": 954841987
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.6389377,
+          24.927707899999998
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00587",
+        "category": "industry",
+        "label": "Industrial",
+        "name": "",
+        "area_m2": 4767.0394545048475,
+        "jobs": 136.20112727156706,
+        "osm_id": 954841988
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.63677765,
+          24.926200475
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00588",
+        "category": "industry",
+        "label": "Industrial",
+        "name": "",
+        "area_m2": 13655.892516344786,
+        "jobs": 390.168357609851,
+        "osm_id": 954841989
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.63726395,
+          24.926081500000002
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00589",
+        "category": "industry",
+        "label": "Industrial",
+        "name": "",
+        "area_m2": 11963.936580896378,
+        "jobs": 341.8267594541822,
+        "osm_id": 954841990
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.48989099999999,
+          24.82130322
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00594",
+        "category": "retail_service",
+        "label": "Retail / Service",
+        "name": "超市",
+        "area_m2": 6564.567868153128,
+        "jobs": 375.1181638944645,
+        "osm_id": 970899441
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.4896954875,
+          24.80622945
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00661",
+        "category": "education",
+        "label": "Education",
+        "name": "瑶琼小学",
+        "area_m2": 10460.7066330362,
+        "jobs": 697.3804422024133,
+        "osm_id": 1080254220
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.67346315,
+          24.873829045
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00662",
+        "category": "commercial_office",
+        "label": "Commercial / Office",
+        "name": "",
+        "area_m2": 174659.77548739314,
+        "jobs": 41918.34611697435,
+        "osm_id": 1083081570
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.54023076153847,
+          24.779618853846156
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00663",
+        "category": "healthcare",
+        "label": "Healthcare",
+        "name": "",
+        "area_m2": 195747.88230147632,
+        "jobs": 26099.717640196843,
+        "osm_id": 1084618404
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.57129705,
+          24.8763829
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00665",
+        "category": "industry",
+        "label": "Industrial",
+        "name": "安踏",
+        "area_m2": 21925.750955618918,
+        "jobs": 626.4500273033976,
+        "osm_id": 1085258777
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.59354837999999,
+          24.915964273333334
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00674",
+        "category": "healthcare",
+        "label": "Healthcare",
+        "name": "泉州市第一医院",
+        "area_m2": 30747.456513300538,
+        "jobs": 4099.660868440072,
+        "osm_id": 1100999095
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.54229915714286,
+          24.850972057142858
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00679",
+        "category": "industry",
+        "label": "Industrial",
+        "name": "",
+        "area_m2": 170065.20551145822,
+        "jobs": 4859.005871755949,
+        "osm_id": 1113153958
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.66196554999999,
+          24.93619825
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00682",
+        "category": "retail_service",
+        "label": "Retail / Service",
+        "name": "大润发",
+        "area_m2": 23889.72492530942,
+        "jobs": 1365.1271385891098,
+        "osm_id": 1124408271
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.56855928571429,
+          24.88474377142857
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00684",
+        "category": "retail_service",
+        "label": "Retail / Service",
+        "name": "百捷星光城",
+        "area_m2": 52843.85365084559,
+        "jobs": 3019.648780048319,
+        "osm_id": 1139525637
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.49141592222223,
+          24.87379757777778
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00691",
+        "category": "education",
+        "label": "Education",
+        "name": "",
+        "area_m2": 137511.91120596242,
+        "jobs": 9167.46074706416,
+        "osm_id": 1160383047
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.561712925,
+          24.8915097
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00692",
+        "category": "commercial_office",
+        "label": "Commercial / Office",
+        "name": "",
+        "area_m2": 6808.174212500453,
+        "jobs": 1633.9618110001088,
+        "osm_id": 1164210976
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.590298875,
+          24.81254215
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00719",
+        "category": "industry",
+        "label": "Industrial",
+        "name": "",
+        "area_m2": 30216.792868304998,
+        "jobs": 863.3369390944285,
+        "osm_id": 1185255111
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.65365511666666,
+          24.915351275000003
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00757",
+        "category": "commercial_office",
+        "label": "Commercial / Office",
+        "name": "国网泉州供电公司",
+        "area_m2": 31554.457428008318,
+        "jobs": 7573.0697827219965,
+        "osm_id": 1220322616
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.61650552,
+          24.77039636
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00762",
+        "category": "education",
+        "label": "Education",
+        "name": "晋江第九实验小学",
+        "area_m2": 27468.847806117963,
+        "jobs": 1831.2565204078642,
+        "osm_id": 1220664414
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.52853458181818,
+          24.864339509090907
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00763",
+        "category": "industry",
+        "label": "Industrial",
+        "name": "",
+        "area_m2": 56448.253128964454,
+        "jobs": 1612.8072322561272,
+        "osm_id": 1220988791
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.5108755,
+          24.806321224999998
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00781",
+        "category": "education",
+        "label": "Education",
+        "name": "晋江第五中学",
+        "area_m2": 20906.55143976491,
+        "jobs": 1393.7700959843273,
+        "osm_id": 1225584640
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.65704641428572,
+          24.934327914285713
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00784",
+        "category": "education",
+        "label": "Education",
+        "name": "丰泽区海滨实验小学",
+        "area_m2": 24921.992553651333,
+        "jobs": 1661.466170243422,
+        "osm_id": 1234339284
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.6622218181818,
+          24.934512118181818
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00785",
+        "category": "retail_service",
+        "label": "Retail / Service",
+        "name": "泉州五金机电商城",
+        "area_m2": 51334.734688550234,
+        "jobs": 2933.413410774299,
+        "osm_id": 1234339286
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.66880791428571,
+          24.93417677142857
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00786",
+        "category": "education",
+        "label": "Education",
+        "name": "泉州实验小学（洛江校区）",
+        "area_m2": 31986.24270442128,
+        "jobs": 2132.416180294752,
+        "osm_id": 1234339291
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.66692807142856,
+          24.935709042857145
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00787",
+        "category": "education",
+        "label": "Education",
+        "name": "福建省泉州第十一中学",
+        "area_m2": 50657.25743415952,
+        "jobs": 3377.1504956106346,
+        "osm_id": 1234339292
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.63798096666666,
+          24.908452483333335
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00788",
+        "category": "commercial_office",
+        "label": "Commercial / Office",
+        "name": "广电网络",
+        "area_m2": 7803.760402277112,
+        "jobs": 1872.9024965465069,
+        "osm_id": 1234339299
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.64414078571428,
+          24.9082613
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00789",
+        "category": "education",
+        "label": "Education",
+        "name": "泉州老年大学",
+        "area_m2": 11268.877458244562,
+        "jobs": 751.2584972163041,
+        "osm_id": 1234339300
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.6453995,
+          24.907498475
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00790",
+        "category": "education",
+        "label": "Education",
+        "name": "泉州市丰泽幼儿园",
+        "area_m2": 22382.20404058695,
+        "jobs": 1492.14693603913,
+        "osm_id": 1234339301
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.64106140909092,
+          24.914312809090912
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00791",
+        "category": "education",
+        "label": "Education",
+        "name": "丰泽区实验小学（城东校区）",
+        "area_m2": 19843.685628265142,
+        "jobs": 1322.912375217676,
+        "osm_id": 1234339307
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.6579774,
+          24.9212095
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00792",
+        "category": "education",
+        "label": "Education",
+        "name": "丰泽第三实验小学（城东小区）",
+        "area_m2": 14707.70473870635,
+        "jobs": 980.51364924709,
+        "osm_id": 1234339312
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.64333006,
+          24.93317906
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00794",
+        "category": "commercial_office",
+        "label": "Commercial / Office",
+        "name": "泰禾广场",
+        "area_m2": 17130.907260894775,
+        "jobs": 4111.417742614746,
+        "osm_id": 1234339315
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.64700976956522,
+          24.934688769565216
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00795",
+        "category": "education",
+        "label": "Education",
+        "name": "城东中学",
+        "area_m2": 74458.41952061653,
+        "jobs": 4963.894634707769,
+        "osm_id": 1234339317
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.58559224285715,
+          24.918202066666666
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00797",
+        "category": "education",
+        "label": "Education",
+        "name": "泉州六中",
+        "area_m2": 15068.71121121943,
+        "jobs": 1004.5807474146287,
+        "osm_id": 1242740282
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.6320920125,
+          24.87648505
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00831",
+        "category": "commercial_office",
+        "label": "Commercial / Office",
+        "name": "海丝国际中心",
+        "area_m2": 21633.239338189363,
+        "jobs": 5191.977441165447,
+        "osm_id": 1311433165
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.57333475625,
+          24.88451033125
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00838",
+        "category": "education",
+        "label": "Education",
+        "name": "泉州第五中学桥南校区",
+        "area_m2": 51151.51727116853,
+        "jobs": 3410.101151411235,
+        "osm_id": 1311832653
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.5876974,
+          24.905174475
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00841",
+        "category": "hotel_tourism",
+        "label": "Hotel / Tourism",
+        "name": "锡兰侨民旧居",
+        "area_m2": 1448.9140060693026,
+        "jobs": 210.75112815553493,
+        "osm_id": 1315123272
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.583426575,
+          24.91424435
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00842",
+        "category": "education",
+        "label": "Education",
+        "name": "泉州温陵实验幼儿园",
+        "area_m2": 463.9804766178131,
+        "jobs": 30.932031774520873,
+        "osm_id": 1315123273
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.583299475,
+          24.911582574999997
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00843",
+        "category": "hotel_tourism",
+        "label": "Hotel / Tourism",
+        "name": "傅氏洋楼",
+        "area_m2": 318.2570720613003,
+        "jobs": 46.29193775437095,
+        "osm_id": 1315123275
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.57920733571429,
+          24.944575285714286
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00872",
+        "category": "education",
+        "label": "Education",
+        "name": "",
+        "area_m2": 3236.501641139388,
+        "jobs": 215.7667760759592,
+        "osm_id": 1339439600
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.58738170000001,
+          24.848547025000002
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00905",
+        "category": "retail_service",
+        "label": "Retail / Service",
+        "name": "山姆会员商店",
+        "area_m2": 30386.588353537023,
+        "jobs": 1736.3764773449727,
+        "osm_id": 1352092086
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.57759270833333,
+          24.946075141666668
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00931",
+        "category": "education",
+        "label": "Education",
+        "name": "教学楼",
+        "area_m2": 5147.579413548112,
+        "jobs": 343.17196090320743,
+        "osm_id": 1380170505
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.57923537692308,
+          24.946076215384615
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00932",
+        "category": "education",
+        "label": "Education",
+        "name": "实训楼",
+        "area_m2": 4576.809216186404,
+        "jobs": 305.12061441242696,
+        "osm_id": 1380170506
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.57708112,
+          24.950365220000002
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00933",
+        "category": "education",
+        "label": "Education",
+        "name": "16栋",
+        "area_m2": 1955.802010834217,
+        "jobs": 130.38680072228115,
+        "osm_id": 1380170507
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.5771537,
+          24.949883225
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00934",
+        "category": "education",
+        "label": "Education",
+        "name": "11栋",
+        "area_m2": 1886.4588032215834,
+        "jobs": 125.76392021477223,
+        "osm_id": 1380170508
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.57735445,
+          24.949447875
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00935",
+        "category": "education",
+        "label": "Education",
+        "name": "10栋",
+        "area_m2": 2457.1634164452553,
+        "jobs": 163.81089442968369,
+        "osm_id": 1380170509
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.5755345,
+          24.950782025
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00936",
+        "category": "education",
+        "label": "Education",
+        "name": "15栋",
+        "area_m2": 1877.0334326475859,
+        "jobs": 125.13556217650573,
+        "osm_id": 1380170510
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.57535552499999,
+          24.950285475
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00937",
+        "category": "education",
+        "label": "Education",
+        "name": "12栋",
+        "area_m2": 1898.450776591897,
+        "jobs": 126.56338510612646,
+        "osm_id": 1380170511
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.575227375,
+          24.949810125
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00938",
+        "category": "education",
+        "label": "Education",
+        "name": "13栋",
+        "area_m2": 2033.54697316885,
+        "jobs": 135.56979821125665,
+        "osm_id": 1380170512
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.57512167499999,
+          24.949328774999998
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00939",
+        "category": "education",
+        "label": "Education",
+        "name": "14栋",
+        "area_m2": 2121.991593003273,
+        "jobs": 141.4661062002182,
+        "osm_id": 1380170513
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.580774975,
+          24.945604075
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00940",
+        "category": "education",
+        "label": "Education",
+        "name": "1栋",
+        "area_m2": 3338.0122523903847,
+        "jobs": 222.53415015935897,
+        "osm_id": 1380170514
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.58072687500001,
+          24.944293225
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00941",
+        "category": "education",
+        "label": "Education",
+        "name": "3栋",
+        "area_m2": 3096.1743929088116,
+        "jobs": 206.41162619392077,
+        "osm_id": 1380170515
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.5807282,
+          24.94503385
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00942",
+        "category": "education",
+        "label": "Education",
+        "name": "2栋",
+        "area_m2": 3254.9709892123938,
+        "jobs": 216.9980659474929,
+        "osm_id": 1380170516
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.580701025,
+          24.943771325
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00943",
+        "category": "education",
+        "label": "Education",
+        "name": "4栋",
+        "area_m2": 2636.6821082681417,
+        "jobs": 175.7788072178761,
+        "osm_id": 1380170517
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.580337925,
+          24.942650475
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00944",
+        "category": "education",
+        "label": "Education",
+        "name": "5栋",
+        "area_m2": 2193.1873449981213,
+        "jobs": 146.21248966654142,
+        "osm_id": 1380170518
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.57634655,
+          24.945740125
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00945",
+        "category": "education",
+        "label": "Education",
+        "name": "建工楼",
+        "area_m2": 978.7770428955555,
+        "jobs": 65.2518028597037,
+        "osm_id": 1380170520
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.50041818,
+          24.80989087
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00958",
+        "category": "industry",
+        "label": "Industrial",
+        "name": "",
+        "area_m2": 35441.25248170504,
+        "jobs": 1012.6072137630013,
+        "osm_id": 1416666266
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.49880615384616,
+          24.809273100000002
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00959",
+        "category": "industry",
+        "label": "Industrial",
+        "name": "",
+        "area_m2": 33442.98489650292,
+        "jobs": 955.5138541857978,
+        "osm_id": 1416666267
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.6800275,
+          24.8762065
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00961",
+        "category": "hotel_tourism",
+        "label": "Hotel / Tourism",
+        "name": "C&D",
+        "area_m2": 2727.5034437924623,
+        "jobs": 396.72777364254,
+        "osm_id": 1429265301
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.629396225,
+          24.854245625
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00962",
+        "category": "healthcare",
+        "label": "Healthcare",
+        "name": "",
+        "area_m2": 128614.00462219119,
+        "jobs": 17148.533949625493,
+        "osm_id": 1445943312
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.69155531999999,
+          24.777438080000003
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00967",
+        "category": "education",
+        "label": "Education",
+        "name": "石狮市树德高级中学",
+        "area_m2": 131478.6131483689,
+        "jobs": 8765.240876557926,
+        "osm_id": 1459083155
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.56327146999999,
+          24.77368278
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00969",
+        "category": "industry",
+        "label": "Industrial",
+        "name": "",
+        "area_m2": 166220.04470373667,
+        "jobs": 4749.144134392476,
+        "osm_id": 1467700940
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.59761025714286,
+          24.906002414285716
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00970",
+        "category": "commercial_office",
+        "label": "Commercial / Office",
+        "name": "泉州厦航酒店",
+        "area_m2": 1100.9922792166471,
+        "jobs": 264.2381470119953,
+        "osm_id": 1490426947
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.59192968571428,
+          24.887939999999997
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00971",
+        "category": "commercial_office",
+        "label": "Commercial / Office",
+        "name": "泉州东海大酒店",
+        "area_m2": 1650.417247466743,
+        "jobs": 396.1001393920183,
+        "osm_id": 1490427748
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.58126169999998,
+          24.91169928888889
+        ]
+      },
+      "properties": {
+        "destination_id": "D_00981",
+        "category": "commercial_office",
+        "label": "Commercial / Office",
+        "name": "泉州工艺美术合作社",
+        "area_m2": 8391.390427812934,
+        "jobs": 2013.933702675104,
+        "osm_id": 1508804974
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.59018174666667,
+          24.918519886666665
+        ]
+      },
+      "properties": {
+        "destination_id": "D_01005",
+        "category": "education",
+        "label": "Education",
+        "name": "",
+        "area_m2": 1087.780718818307,
+        "jobs": 72.51871458788713,
+        "osm_id": 1509403893
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.5871801,
+          24.9164202
+        ]
+      },
+      "properties": {
+        "destination_id": "D_01016",
+        "category": "healthcare",
+        "label": "Healthcare",
+        "name": "",
+        "area_m2": 1052.7017673552036,
+        "jobs": 140.3602356473605,
+        "osm_id": 1509435147
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.589998525,
+          24.9131388875
+        ]
+      },
+      "properties": {
+        "destination_id": "D_01037",
+        "category": "retail_service",
+        "label": "Retail / Service",
+        "name": "",
+        "area_m2": 308.71331502497196,
+        "jobs": 17.640760858569827,
+        "osm_id": 1510168183
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.58867942500001,
+          24.91251034
+        ]
+      },
+      "properties": {
+        "destination_id": "D_01046",
+        "category": "hotel_tourism",
+        "label": "Hotel / Tourism",
+        "name": "",
+        "area_m2": 2502.8802368342876,
+        "jobs": 364.05530717589636,
+        "osm_id": 1510168192
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.59092844999999,
+          24.919376483333334
+        ]
+      },
+      "properties": {
+        "destination_id": "D_01082",
+        "category": "education",
+        "label": "Education",
+        "name": "",
+        "area_m2": 1152.0768454819918,
+        "jobs": 76.80512303213278,
+        "osm_id": 1510172062
+      }
+    }
+  ]
+}

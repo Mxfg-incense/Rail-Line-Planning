@@ -1,0 +1,795 @@
+                                                            Planning Spatial Networks with Monte Carlo Tree Search
+
+
+                                                                    Victor-Alexandru Darvariu 1 2 Stephen Hailes 1 Mirco Musolesi 1 2 3
+
+
+                                                                   Abstract                               1. Introduction
+                                                We tackle the problem of goal-directed graph con-         Graphs are a pervasive representation that arises naturally in
+                                                struction: given a starting graph, a budget of mod-       a variety of disciplines; however, their non-Euclidean struc-
+arXiv:2106.06768v2 [cs.AI] 16 Feb 2022
+
+
+
+
+                                                ifications, and a global objective function, the aim      ture has traditionally proven challenging for machine learn-
+                                                is to find a set of edges whose addition to the           ing and decision-making approaches. The emergence of the
+                                                graph achieves the maximum improvement in the             Graph Neural Network learning paradigm (Scarselli et al.,
+                                                objective (e.g., communication efficiency). This          2009) and geometric deep learning more broadly (Bronstein
+                                                problem emerges in many networks of great im-             et al., 2017) have brought about encouraging breakthroughs
+                                                portance for society such as transportation and           in diverse application areas for graph-structured data: rele-
+                                                critical infrastructure networks. We identify two         vant examples include combinatorial optimization (Vinyals
+                                                significant shortcomings with present methods.            et al., 2015; Bello et al., 2016; Khalil et al., 2017), recom-
+                                                Firstly, they focus exclusively on network topol-         mendation systems (Monti et al., 2017; Ying et al., 2018)
+                                                ogy while ignoring spatial information; however,          and computational chemistry (Gilmer et al., 2017; Jin et al.,
+                                                in many real-world networks, nodes are embedded           2018; You et al., 2018; Bradshaw et al., 2019).
+                                                in space, which yields different global objectives
+                                                                                                          There is an increasing interest in the problem goal-directed
+                                                and governs the range and density of realizable
+                                                                                                          graph construction, in which the aim is to build or modify
+                                                connections. Secondly, existing RL methods scale
+                                                                                                          the topology of a graph (i.e., add a set of edges) so as to max-
+                                                poorly to large networks due to the high cost of
+                                                                                                          imize the value of a global objective function. Unlike classic
+                                                training a model and the scaling factors of the
+                                                                                                          graph algorithms, which assume that the graph topology is
+                                                action space and global objectives.
+                                                                                                          static, in this setting the graph structure itself is dynamically
+                                                In this work, we formulate this problem as a              changed. As this task involves an element of exploration (op-
+                                                deterministic MDP. We adopt the Monte Carlo               timal solutions are not known a priori), its formulation as a
+                                                Tree Search framework for planning in this do-            decision-making process is a suitable paradigm. Model-free
+                                                main, prioritizing the optimality of final solutions      reinforcement learning (RL) techniques have been applied
+                                                over the speed of policy evaluation. We propose           in the context of the derivation of adversarial examples for
+                                                several improvements over the standard UCT al-            graph-based classifiers (Dai et al., 2018) and generation of
+                                                gorithm for this family of problems, addressing           molecular graphs (You et al., 2018). Darvariu et al. (2021)
+                                                their single-agent nature, the trade-off between          have formulated the optimization of a global structural graph
+                                                the costs of edges and their contribution to the          property as an MDP and approached it using a variant of the
+                                                objective, and an action space linear in the num-         RL-S2V (Dai et al., 2018) algorithm, showing that general-
+                                                ber of nodes. We demonstrate the suitability of           izable strategies for improving a global network objective
+                                                this approach for improving the global efficiency         can be learned, and can obtain performance superior to
+                                                and attack resilience of a variety of synthetic and       prior approaches (Beygelzimer et al., 2005; Schneider et al.,
+                                                real-world networks, including Internet backbone          2011; Wang & Van Mieghem, 2008; Wang et al., 2014) in
+                                                networks and metro systems. Our approach ob-              some cases. However, when applying such approaches to
+                                                tains a 24% improvement in these metrics com-             improve the properties of real-world networked systems,
+                                                pared to UCT on the largest networks tested and           two challenges become apparent:
+                                                scalability superior to previous methods.
+                                                                                                            1. Inability to account for spatial properties of the graphs:
+                                            1
+                                             Department of Computer Science, University College London,        optimizing the topology of the graph alone is only part
+                                         London, United Kingdom 2 The Alan Turing Institute, London,           of the problem in many cases. A variety of real-world
+                                         United Kingdom 3 Department of Computer Science and Engineer-
+                                         ing, University of Bologna, Bologna, Italy. Correspondence to:        networks share the property that nodes are embedded in
+                                         Victor-Alexandru Darvariu <v.darvariu@ucl.ac.uk>.                     space, and this geometry has a strong relationship with
+                                                                                                               the types of topologies that can be created (Gastner &
+                                     Planning Spatial Networks with Monte Carlo Tree Search
+
+
+
+
+                                                                                 ...
+
+
+
+
+                                                                                              ...
+
+
+
+
+                                                                                                                      ...
+                                                                                 ...
+
+
+
+
+                                                                                             ...
+
+
+
+
+                                                                                                                      ...
+                  used budget              used budget
+
+
+
+
+Figure 1. Schematic of our approach. Left: given a spatial graph G0 , an objective function F, and a budget defined in terms of edge
+lengths, the goal is to add a set of edges such that the resulting graph G∗ maximally increases F. Right: we formulate this problem as a
+deterministic MDP, in which states are graphs, actions represent the selection of a node, transitions add an edge every two steps, and the
+reward is based on F. We use Monte Carlo Tree Search to plan the optimal set of edges to be added using knowledge of this MDP, and
+propose a method (SG-UCT) that improves on standard UCT.
+
+
+
+     Newman, 2006b; Barthélemy, 2011). Since there is a               very limited set of assumptions. For this reason, it can be
+     cost associated with edge length, connections tend to             applied to a vast class of spatial networked systems.
+     be local, and long-range connections must be justified
+                                                                       As objective functions, in this study, we consider the global
+     by some gain (e.g., providing connectivity to a hub).
+                                                                       properties of network efficiency and robustness to targeted
+     Furthermore, objective functions defined over nodes’
+                                                                       attacks. While these represent a variety of practical scenar-
+     positions (such as efficiency) are key for understanding
+                                                                       ios, our approach is broadly applicable to any other struc-
+     their organization (Latora & Marchiori, 2001).
+                                                                       tural property. We perform an evaluation on synthetic graphs
+  2. Scalability: existing methods based on RL are challeng-           (generated by a spatial growth model) and several real-world
+     ing to scale, due to the sample complexity of current             graphs (internet backbone networks and metro transporta-
+     training algorithms, the linear increase of possible ac-          tion networks), comparing SG-UCT to UCT as well as a
+     tions in the number of nodes, and the complexity of               variety of baselines that have been proposed in the past. Our
+     evaluating the global objectives (typically polynomial            results show that SG-UCT performs best out of all methods
+     in the number of nodes). Additionally, training data              in all the settings we tested; moreover, the performance gain
+     (i.e., instances of real-world graphs) are scarce and we          over UCT is substantial (24% on average and up to 54%
+     are typically interested in a specific starting graph (e.g.,      over UCT on the largest networks tested in terms of a ro-
+     a particular infrastructure network to be improved).              bustness metric). In addition, we conduct an ablation study
+                                                                       that explores the impact of the algorithmic components.
+In this paper, we set out to address these shortcomings. For
+the first time, we consider the problem of the construction of         2. Preliminaries
+spatial graphs as a decision-making process that explicitly
+captures the influence of space on graph-level objectives,             MDPs and Planning. Markov Decision Processes (MDPs)
+realizable links between nodes, and connection budgets. Fur-           are widely adopted for effective formalization of decision
+thermore, to address the scalability issue, we propose to use          making tasks. The decision maker, usually called an agent,
+planning methods in order to plan an optimal set of edges              interacts with an environment. When in a state s ∈ S, the
+to add to the graph, which sidesteps the problem of sample             agent must take an action a out of the set A(s) of valid ac-
+complexity since we do not need to learn a policy. We adopt            tions, receiving a reward r governed by the reward function
+the Monte Carlo Tree Search framework – specifically, the              R(s, a). Finally, the agent finds itself in a new state s0 , de-
+UCT algorithm (Kocsis & Szepesvári, 2006) – and show                  pending on a transition model P that governs the joint proba-
+it can successfully be applied in planning graph construc-             bility distribution P (s0 , a, s) of transitioning to state s0 after
+tion strategies. We illustrate our approach at a high level in         taking action a in state s. This sequence of interactions gives
+Figure 1. Finally, we propose several improvements over                rise to a trajectory S0 , A0 , R1 , S1 , A1 , R2 , . . . ST , which
+the basic UCT method in the context of spatial networks.               continues until a terminal state ST is reached. In determin-
+These relate to important characteristics of this family of            istic MDPs, there exists a unique state s0 s.t. P (St+1 =
+problems: namely, their single-agent, deterministic nature;            s0 |St = s, At = a) = 1. The tuple (S, A, P, R, γ) defines
+the inherent trade-off between the cost of edges and their             this MDP, where γ ∈ [0, 1] is a discount factor. We also
+contribution to the global objective; and an action space              define a policy π(a|s), a distribution of actions over states.
+that is linear in the number of nodes in the network. Our              There exists a spectrum of algorithms for constructing a pol-
+proposed approach, Spatial Graph UCT (SG-UCT), is de-                  icy, ranging from model-based algorithms (which assume
+signed with these characteristics in mind and it relies on a           knowledge of the MDP) to model-free algorithms (which
+                                    Planning Spatial Networks with Monte Carlo Tree Search
+
+require only samples of agent-environment interactions). In                               P by Latora
+                                                                   efficiency as formalized                  & Marchiori, and let
+the cases in which either the full MDP specification or a          FE (G) = N (N1−1) i6=j∈V sp(i,j)    1
+                                                                                                            , where sp(i, j) is the
+model are available, planning can be used to construct a pol-      cumulative length of the shortest path between vertices i
+icy, for example by using forward search (Russell & Norvig,        and j. To normalize,  P we divide       by the ideal efficiency
+2010).                                                             FE∗ (G) = N (N1−1) i6=j∈V d(i,j)  1
+                                                                                                         , and possible values are
+Monte Carlo Tree Search. Monte Carlo Tree Search                   thus in [0, 1].1 Efficiency is computable in O(|V |3 ) by using
+(MCTS) is a model-based planning technique that addresses          e.g. the Floyd-Warshall shortest path algorithm.2
+the inability to explore all paths in large MDPs by construct-     Robustness. We consider the property of robustness, i.e., the
+ing a policy from the current state. Values of states are esti-    resilience of the network in the face of removals of nodes.
+mated through the returns obtained by executing simulations        We adopt a robustness measure widely used in the litera-
+from the starting state. Upper Confidence Bounds for Trees         ture (Albert et al., 2000; Callaway et al., 2000) and of practi-
+(UCT), a variant of MCTS, consists of a tree search in which       cal interest and applicability based on the largest connected
+the decision at each node is framed as an independent multi-       component (LCC), i.e., the component with most nodes. In
+armed bandit problem. At decision time, the tree policy of         particular, we use the definition in (Schneider et al., 2011),
+the algorithm selects the child node correspondingqto action       which considers the size of the LCC as nodes are removed
+                                     R(s,a)           2 ln N (s)
+a that maximizes U CT (s, a) = N      (s,a) + 2cp      N (s,a) ,   from the network. We consider only the targeted attack case
+where R(s, a) is the sum of returns obtained when taking           as previous work has found it is more challenging (Albert
+action a in state s, N (s) is the number of parent node visits,    et al., 2000; Darvariu et al., 2021).PWe define the robust-
+                                                                                                           N
+N (s, a) the number of child node visits, and cp is a constant     ness measure as FR (G) = Eξ [ N1 i=1 s(G, ξ, i)], where
+that controls the level of exploration (Kocsis & Szepesvári,      s(G, ξ, i) denotes the fraction of nodes in the LCC of G
+2006). In the standard version of the algorithm, the returns       after the removal of the first i nodes in the permutation
+are estimated using a random default policy when expanding         ξ (in which nodes appear in descending order of their de-
+a node. MCTS has been applied to great success in con-             grees). Possible values are in [ N1 , 0.5). This quantity can
+nectionist games such as Morpion Solitaire (Rosin, 2011),          be estimated using Monte Carlo simulations and scales as
+Hex (Nash, 1952; Anthony et al., 2017), and Go, which was          O(|V |2 × (|V | + |E|)).
+previously thought computationally intractable (Silver et al.,     It is worth noting that the value of the objective functions
+2016; 2018).                                                       typically increases the more edges exist in the network (the
+Spatial Networks. We define a spatial network as the tuple         complete graph has both the highest possible efficiency and
+G = (V, E, f, w). V is the set of vertices, and E is the set       robustness). However, constructing a complete graph is
+of edges. f : V → M is a function that maps nodes in the           wasteful, and so it may be necessary to balance the contribu-
+graph to a set of positions M . We require that M admits           tion of an edge to the objective with its cost. The proposed
+a metric d, i.e., there exists a function d : M × M → R+           method explicitly accounts for this trade-off, which is widely
+defining a pairwise distance between elements in M . The           observed in infrastructure and brain networks (Gastner &
+tuple (M, d) defines a space, common examples of which             Newman, 2006a; Bullmore & Sporns, 2012).
+include Euclidean space and spherical geometry. w : E →
+R+ associates a weight with each edge: a positive real-            3. Proposed Method
+valued number that denotes its capacity.
+                                                                   In this section, we first formulate the construction of spatial
+Global Objectives in Spatial Networks. We consider two             networks in terms of a global objective function as an MDP.
+global objectives F for spatial networks that are represen-        Subsequently, we propose a variant of the UCT algorithm
+tative of a wide class of properties relevant in real-world        (SG-UCT) for planning in this MDP, which exploits the
+situations. Depending on the domain, there are many other          characteristics of spatial networks.
+global objectives for spatial networks that can be considered,
+                                                                       1
+to which the approach that we present is directly applicable.            It is worth noting that efficiency is a more suitable metric for
+                                                                   measuring the exchange of information than the inverse average
+Efficiency. Efficiency is a metric quantifying how well            path length between pairs of nodes. In the extreme case where the
+a network exchanges information. It measures how fast              network is disconnected (and thus some paths lengths are infinite),
+information can travel between any pair of nodes in the            this metric does not go to infinity. More generally, this metric is
+                                                                   better suited for systems in which information is exchanged in a
+network on average, and is hypothesized to be an under-            parallel, rather than sequential, way (Latora & Marchiori, 2001).
+lying principle for the organization of networks (Latora               2
+                                                                         In practice, this may be made faster by considering dynamic
+& Marchiori, 2001). Efficiency does not solely depend              shortest path algorithms, e.g. (Demetrescu & Italiano, 2004).
+on topology but also on the spatial distances between the
+nodes in the network. We adopt the definition of global
+                                   Planning Spatial Networks with Monte Carlo Tree Search
+
+3.1. Spatial Graph Construction as an MDP                           are defined as:3
+Spatial Constraints in Network Construction. Spatial
+                                                                        A(St = ((V, Et , f, w), ∅, bt ))
+networks that can be observed in the real world typically
+incur a cost to edge creation. Take the example of a power                     = {v ∈ V | dv < |V | − 1 ∧ |B(v, bt )| > 0}
+grid: the cost of a link can be expressed as a function of              A(St = ((V, Et , f, w), {σt }, bt ))
+its geographic distance as well as its capacity. It is vital to                                    / Et ∧ v ∈ B(σt , bt )}
+                                                                               = {v ∈ V | (σt , v) ∈
+consider both aspects of link cost in the process of network
+construction. P We let c(i, j) denote the cost of edge (i, j)
+and C(Γ) = (i,j)∈Γ c(i, j) be the cost of a set of edges            Transitions: The deterministic transition model adds an
+Γ. We consider c(i, j) = w(i, j) ∗ d(f (i), f (j)) to capture       edge every two steps. Concretely, we define it as P (St =
+the notion that longer, higher capacity connections are more        s0 |St−1 = s, At−1 = a) = δSt s0 , where s0 =
+expensive – although different notions of cost may be desir-
+able depending on the domain. To ensure fair comparisons,           ((V, Et−1 ∪ (σt−1 , a), f, w), ∅, bt−1 − c(σt−1 , a)), if 2 | t
+we normalize costs c(i, j) to be in [0, 1].                         ((V, Et−1 , f, w), {a}, bt−1 ), otherwise
+Problem Statement. Let G(N ) be the set of labeled, undi-
+rected, weighted, spatial networks with N nodes. We let             Reward: The final reward RT −1 is defined as F(GT ) −
+F : G(N ) → [0, 1] be an objective function, and b0 ∈ R+            F(G0 ) and all intermediary rewards are 0.
+be a modification budget. Given an initial graph G0 =
+                                                                    Episodes in this MDP proceed for an arbitrary number of
+(V, E0 , f, w) ∈ G(N ) , the aim is to add a set of edges Γ to
+                                                                    steps until the budget is exhausted and no valid actions
+G0 such that the graph G∗ = (V, E∗ , f, w) satisfies:
+                                                                    remain (concretely, |A(St )| = 0). Since we are in the finite
+                                                                    horizon case, we let γ = 1. Given the MDP definition above,
+                                                                    the problem specified in Equation 1 can be reinterpreted as
+          G∗ = argmax F(G0 ),                                 (1)   finding the trajectory τ∗ that starts at S0 = (G0 , ∅, b0 ) such
+                  G0 ∈G0                                            that the final reward RT −1 is maximal – actions along this
+ where G0 = {G ∈ G(N ) | E = E0 ∪ Γ . C(Γ) ≤ b0 }                   trajectory will define the set of edges Γ.
+
+                                                                    3.2. Algorithm
+MDP Formulation. We next define the MDP elements:
+                                                                    The formulation above can, in principle, be used with any
+State: The state St is a 3-tuple (Gt , σt , bt ) containing the     planning algorithm for MDPs in order to identify an optimal
+spatial graph Gt = (V, Et , f, w), an edge stub σt ∈ V , and        set of edges to add to the network. The UCT algorithm,
+the remaining budget bt . σt can be either the empty set            discussed in Section 2, is one such algorithm that has proven
+∅ or the singleton {v}, where v ∈ V . If the edge stub is           very effective in a variety of settings. We refer the reader
+non-empty, it means that the agent has “committed” in the           to Browne et al. (2012) for an in-depth description of the
+previous step to creating an edge originating at the edge           algorithm and its various applications. However, the generic
+stub.                                                               UCT algorithm assumes very little about the particulars
+Action: For scalability to large graphs, an action At corre-        of the problem under consideration, which, in the context
+sponds to the selection of a single node in V (thus having at       of spatial network construction, may lead to sub-optimal
+most |V | choices). We enforce spatial constraints as follows:      solutions. In this section, we identify and address concerns
+given a node i, we define the set K(i) of connectable nodes         specific to this family of problems, and formulate the Spatial
+j that represent realizable connections. We let:                    Graph UCT (SG-UCT) variant of UCT in Algorithm 1. The
+                                                                    evaluation presented in Section 4 compares SG-UCT to
+                                                                    UCT and other baselines, and contains an ablation study of
+     K(i) = {j ∈ V | c(i, j) ≤ ρ        max        c(i, k)}
+                                    k∈V.(i,k)∈E0                    SG-UCT’s components.
+                                                                        3
+                                                                          Depending on the type of network being considered, in prac-
+which formalizes the idea that a node can only connect as           tice there may be different types of constraints on the connections
+far as a proportion ρ of its longest existing connection, with      that can be realized. For example, in transportation networks, there
+K(i) fixed based on the initial graph G0 . This has the benefit     can be obstacles that make link creation impossible, such as pro-
+of allowing long-range connections if they already exist in         hibitive landforms or populated areas. In circuits and utility lines,
+the network. Given an unspent connection budget bt , we let         planarity is a desirable characteristic as it makes circuit design
+                                                                    cheaper. Such constraints can be captured by the definition of
+the set B(i, bt ) = {j ∈ K(i) | c(i, j) ≤ bt } consist of those     K(i) and enforced by the environment when providing the agent
+connectable nodes whose cost is not more than the unspent           with available actions A(s). Conversely, defining K(i) = V \ {i}
+budget. Letting the degree of node v be dv , available actions      recovers the simplified case where no constraints are imposed.
+                                  Planning Spatial Networks with Monte Carlo Tree Search
+
+Best Trajectory Memorization (BTM). The standard
+UCT algorithm is applicable in a variety of settings, in-
+cluding multi-agent, stochastic environments. For example,
+in two-player games, an agent needs to re-plan from the new
+state that is arrived at after the opponent executes its move.
+However, the single-agent (puzzle), deterministic nature of
+the problem considered means that there is no-need to re-
+plan trajectories after a stochastic event: the agent can plan   Figure 2. Illustration of the asymmetry in the number of actions
+all its actions from the very beginning in a single step. We     at even (state has no edge stub) versus odd t (state has an edge
+                                                                 stub). Spatial constraints are imposed in the latter case, reducing
+thus propose the following modification over UCT: memo-
+                                                                 the number of actions.
+rizing the trajectory with the highest reward found during
+the rollouts, and returning it at the end of the search. We
+name this Best Trajectory Memorization, shortened BTM.           the branching factor of the search is small since only con-
+This is similar in spirit (albeit much simpler) to ideas used    nectable nodes need to be considered. However, the number
+in Reflexive and Nested MCTS for deterministic puzzles,          of actions when selecting the origin node of the edge (even
+where the best move found at lower levels of a nested search     values of t) remains large, which might become detrimen-
+are used to inform the upper level (Cazenave, 2007; 2009).       tal to performance as the size of the network grows (we
+Cost-Sensitive Default Policy. The standard default policy       illustrate this in Figure 2). Can this be mitigated?
+used to perform out-of-tree actions in the UCT framework is      We consider limiting the nodes that can initiate connections
+based on random rollouts. While evaluating nodes using this      to a specific subset – which effectively prunes away all
+approach is free from bias, rollouts can lead to high-variance   branches in the search tree that are not part of this set. Con-
+estimates, which can hurt the performance of the search.         cretely, let a reduction policy φ be a function that, given the
+Previous work has considered hand-crafted heuristics and         initial graph G0 , outputs a strict subset of its nodes.4 Then,
+learned policies as alternatives, although, perhaps counter-     we modify our definition of allowed actions as follows: un-
+intuitively, learned policies may lead to worse results (Gelly   der a reduction policy φ, we define
+& Silver, 2007). As initially discussed in Section 2, the
+value of the objective functions we consider grows with                        Aφ (St ) = A(St ) ∩ φ(G0 ), if 2 | t
+the number of edges of the graph. We thus propose the                                    = A(St ), otherwise
+following default policy for spatial networks: sampling
+each edge with probability inversely proportional to its cost.   We investigate the following class of reduction policies: a
+Formally, we let the probability of edge i, j being selected     node i is included in φ(G0 ) if and only if it is among the top
+during rollouts be proportional to (maxi,j c(i, j)−c(i, j))β ,   nodes ranked by a local node statistic λ(i). More specifi-
+where β denotes the level of bias. β → 0 reduces to random       cally, we consider the λ(i) listed below, where gain(i, j) =
+choices, while β → ∞ selects the minimum cost edge. This         F(V, E ∪ (i, j), f, w) − F(V, E, f, w). Since the perfor-
+is very inexpensive computationally, as the edge costs only      mance of reduction strategies may depend heavily on F, we
+need to be calculated once, at the start of the search.          treat it as a tunable hyperparameter.
+Action Space Reduction. In certain domains, the number           • Degree (DEG): di ; Inverse Degree (ID): maxj dj − di ;
+of actions available to an agent is large, which can greatly       Number of Connections (NC): |K(i)|
+affect scalability. Previous work in RL has considered de-
+composing actions into independent sub-actions (He et al.,       • Best Edge (BE): maxj∈K(i) gain(i, j); BE Cost Sensitive
+2016), generalizing across similar actions by embedding            (BECS): maxj∈K(i) gain(i,j)
+                                                                                       c(i,j)
+them in a continuous space (Dulac-Arnold et al., 2015),                                P
+or learning which actions to eliminate via supervision pro-      • Average Edge (AE): j∈K(i) gain(i, j)/|K(i)|; AECS:
+                                                                   P        gain(i,j)
+vided by the environment (Zahavy et al., 2018). Existing             j∈K(i) c(i,j) /|K(i)|.
+approaches in planning consider progressively widening the
+                                                                     4
+search based on a heuristic (Chaslot et al., 2008) or learn-           Learning a reduction policy in a data-driven way is also possi-
+ing a partial policy for eliminating actions in the search       ble; however, obtaining the supervision signal (i.e., node rankings
+                                                                 over multiple MCTS runs) is very expensive. Furthermore, since
+tree (Pinto & Fern, 2017).                                       we prioritize performance on specific graph instances over general-
+Concretely, with the MDP definition used, the action space       izable policies, simple statistics may be sufficient. Still, a learned
+                                                                 reduction policy that predicts an entire set at once may be able to
+grows linearly in the number of nodes. This is partly ad-        identify better subsets than individual statistics alone. Furthermore,
+dressed by the imposed connectivity constraints: once an         a possible limitation of using a reduction policy is that the optimal
+edge stub is selected (equivalently, at odd values of t),        trajectory in the full MDP may be excluded. We consider these
+                                                                 worthwhile directions for future investigations.
+                                  Planning Spatial Networks with Monte Carlo Tree Search
+
+Algorithm 1 Spatial Graph UCT (SG-UCT).                          ISPs (Knight et al., 2011)) and Metro (a dataset of metro net-
+ 1: Input: spatial graph G0 = (V, E0 , f, w),                    works in major cities around the world (Roth et al., 2012)).
+    objective function F, budget b0 , reduction policy φ         Due to computational budget constraints, we limit the sizes
+ 2: Output: actions A0 , . . . AT −1                             of networks considered to |V | = 150.
+ 3: for i in V : compute K(i)                                    Setup. For all experiments, we allow agents a modifica-
+ 4: compute Φ = φ(G0 )                                           tion budget equal to a proportion τ of the total cost of the
+ 5: t = 0, b0 = τ ∗ C(E0 ), S0 = (G0 , ∅, b0 )                   edges of the original graph, i.e., b0 = τ ∗ C(E0 ). We use
+ 6: ∆max = −∞                                                    τ = 0.1. We let ρ = 1 for synthetic graphs and ρ = 2 for
+ 7: bestActs = array(), pastActs = array()                       real-world graphs, respectively. Confidence intervals are
+ 8: loop                                                         computed using results of 10 runs, each initialized using
+ 9:   if |Aφ (St )| = 0 then return bestActs                     a different random seed. Rollouts are not truncated. We
+10:   create root node vt from St                                allow a number of node expansions per move nsims equal
+11:   for i = 0 to nsims                                         to 20 ∗ |V | (a larger number of expansions can improve
+12:       vl , treeActs = T REE P OLICY(vt , Φ)                  performance, but leads to diminishing returns), and select as
+13:       ∆, outActs = M IN C OST P OLICY(vl , Φ)                the move at each step the node with the maximum average
+14:       BACKUP(vl , ∆)                                         value (commonly referred to as M AX C HILD). The hyperpa-
+15:       if ∆ > ∆max then                                       rameter selection methodology and values are provided in
+16:           bestActs = [pastActs, treeActs, outActs]           the Technical Appendix.
+17:           ∆max = ∆
+18:   child = M AX C HILD(vt )                                   Baselines. The baselines we compare against are detailed
+19:   pastActs.append(child.action)                              below. These methods represent the major approaches that
+20:   t+ = 1, St = child.state                                   have been considered in the past for the problem of goal-
+                                                                 directed graph modifications: namely, evaluating a local
+                                                                 node statistic (Beygelzimer et al., 2005), a shallow greedy
+                                                                 criterion (Schneider et al., 2011), or the spectral properties
+4. Evaluation                                                    of the graph (Wang & Van Mieghem, 2008; Wang et al.,
+4.1. Experimental Protocol                                       2014). We do not consider previous RL-based methods since
+                                                                 they are unsuitable for the scale of the largest graphs taken
+Definitions of Space and Distance. For all experiments in        into consideration, for which the time needed to evaluate the
+this paper, we consider the unit 2D square as our space, i.e.    objective functions makes training prohibitively expensive.
+we let M = [0, 1] × [0, 1] and the distance d be Euclidean
+distance. In case the graph is defined on a spherical coordi-
+                                                                 • Random (FE , FR ): Randomly selects an available action.
+nate system (as is the case with physical networks positioned
+on Earth), we use the WGS84 variant of the Mercator pro-         • Greedy (FE , FR ): Selects the edge that gives the biggest
+jection to project nodes to the plane; then normalize to the       improvement in F: formally, edge (i, j) that satisfies
+unit plane. For simplicity, we consider uniform weights, i.e.,     argmaxi,j gain(i, j). We also consider the cost-sensitive
+w(i, j) = 1 ∀ (i, j) ∈ E.                                          variant GreedyCS , for which the gain is offset by the cost:
+Synthetic and Real-World Graphs. As a means of gen-                argmaxi,j gain(i,j)
+                                                                               c(i,j) .
+erating synthetic graph data, we use the popular model
+proposed by Kaiser & Hilgetag (2004), which simulates a          • MinCost (FE , FR ): Selects edge (i, j) that satisfies
+process of growth for spatial networks. Related to the Wax-        argmini,j c(i, j).
+man model (Waxman, 1988), in this model the probability
+                                                                 • LBHB (FE ): Adds an edge between the node with Low-
+that a connection is created is inversely proportional to its
+                                                                   est Betweenness and the node with Highest Betweeness;
+distance from existing nodes. The distinguishing feature
+                                                                   formally, letting the betweeness centrality of node i be gi ,
+of this model is that, unlike e.g. the Random Geometric
+                                                                   this strategy adds an edge between nodes argmini gi and
+Graph (Dall & Christensen, 2002), this model produces con-
+                                                                   argmaxj gj .
+nected networks: a crucial characteristic for the types of
+objectives we consider. We henceforth refer to this model        • LDP (FR ): Adds an edge between the vertices with
+as Kaiser-Hilgetag (shortened KH). We use αKH = 10 and             the Lowest Degree Product, i.e., vertices i, j that satisfy
+βKH = 10−3 , which yields sparse graphs with scale-free            argmini,j di · dj .
+degree distributions – a structure similar to road infrastruc-
+ture networks. We also evaluate performance on 7 networks        • FV (FR ): Adds an edge between the vertices i, j that
+belonging to the following real-world datasets: Internet (a        satisfy argmaxi,j |yi − yj |, where y is the Fiedler Vec-
+dataset of internet backbone infrastructure from a variety of      tor (Fiedler, 1973; Wang & Van Mieghem, 2008).
+                                  Planning Spatial Networks with Monte Carlo Tree Search
+
+                                                                 find that BTM indeed brings a net improvement in perfor-
+                                                                 mance: on average, 5% for FE and 11% for FR . The
+                                                                 benefit of the cost-based default policy is substantial (espe-
+                                                                 cially for FR ), ranging from 4% on small graphs to 27% on
+                                                                 the largest graphs considered, and grows the higher the level
+                                                                 of bias. This is further evidenced in Figure 3, which shows
+                                                                 the average reward obtained as a function of β. In terms
+                                                                 of reduction policies, even for a random selection of nodes,
+                                                                 we find that the performance penalty paid is comparatively
+                                                                 small: a 60% reduction in actions translates to at most 15%
+Figure 3. Mean reward for SG-UCTMINCOST as a function of β,
+suggesting a bias towards low-cost edges is beneficial.
+                                                                 reduction in performance, and as little as 5%; the impact
+                                                                 of random action reduction becomes smaller as the size of
+                                                                 the network grows. The best-performing reduction policies
+                                                                 are those based on a node’s gains, with BECS and AECS
+• ERes (FR ): Adds an edge between vertices with the             outperforming UCT with no action reduction. For the FR
+  highest pairwise Effective Resistance, i.e., nodes i, j        objective, a poor choice of bias can be harmful: prioritizing
+  that satisfy argmaxi,j Ωi,j . Ωi,j is defined as (L̂−1 )ii +   nodes with high degrees leads to a 32% reduction in perfor-
+  (L̂−1 )jj − 2(L̂−1 )ij , where L̂−1 is the pseudoinverse of    mance compared to UCT, while a bias towards lower-degree
+  the graph Laplacian L (Wang et al., 2014).                     nodes is beneficial.
+                                                                 Runtime Analysis. We also conduct a runtime analysis
+4.2. Evaluation Results                                          in order to compare the computational complexities of the
+Synthetic and Real-world Graphs. We consider 50 syn-             considered methods. For this, we assume that the number
+thetic KH graphs each of sizes {25, 50, 75} and the real-        of edges |E| depends on the number of nodes |V | by a
+world graphs described previously. The obtained results          constant factor m, i.e., |E| ≈ m|V |. This assumption is
+are shown in Table 1. On synthetic graphs, we find that          appropriate since the class of graphs under consideration
+SG-UCT outperforms UCT and all other methods in all the          is highly sparse (e.g., for the specific real-world networks
+settings tested, obtaining 13% and 32% better performance        considered, m = 1.191). Determining the allowed actions
+than UCT on the largest synthetic graphs for the efficiency      and computing the cost of the edges is performed once
+and robustness measures respectively. For FR , UCT outper-       at the start of execution, which costs O(|V |) in the worst
+forms all baselines, while for FE the performance of the         case via a KD-Tree. As discussed, for a generic network
+Greedy baselines is superior to UCT. Interestingly, MinCost      the robustness and efficiency objectives have complexity
+yields solutions that are superior to all other heuristics and   O(|V |2 × (|V | + |E|)) and O(|V |3 ) respectively. Given the
+comparable to search-based methods while being very cheap        above assumption regarding edge density, the complexity of
+to evaluate. Furthermore, UCT performance decays in com-         the robustness objective becomes O(|V |2 ×(|V |+m|V |)) =
+parison to the baselines as the size of the graph increases.     O(|V |2 × ((m + 1)|V |)) = O(|V |2 × |V |) = O(|V |3 ).
+On real-world graphs, we find that SG-UCT performs better        Thus, both objectives can be computed in O(|V |3 ). Then,
+than UCT and all other methods in all settings tested. The       the runtime complexity per edge addition for the various
+differences in performance between SG-UCT and UCT are            methods is as follows:
+10% and 39% for FE and FR respectively. We note that
+the Greedy approaches do not scale to the larger real-world         • Random: O(1); LDP, LBHB: O(|V |2 ), since they in-
+graphs due to their complexity: O(|V |)2 choices need to              volve computing the pairwise product of two arrays of
+be considered at each step, in comparison to the O(|V |)              size |V |;
+required by UCT and SG-UCT. An extended version of the              • FV, ERes: O(|V |3 ), since they involve computing the
+real-world graph results, split by individual graph instance,         (pseudo)inverse of the graph Laplacian;
+is shown in Table 3 in the Technical Appendix.
+                                                                    • Greedy, GreedyCS: O(|V |5 ), since F must be com-
+Ablation Study. We conduct an ablation study on synthetic             puted in O(|V |3 ) after adding each of O(|V |2 ) possi-
+graphs in order to assess the impact of the components of             ble edges;
+SG-UCT. The obtained results are shown in Table 2, where
+SG-UCTBTM denotes UCT with best trajectory memoriza-                • UCT, SG-UCT: O(|V |4 ), since the O(|V |3 ) computa-
+tion, SG-UCTMINCOST denotes UCT with the cost-based                   tion of F is performed for O(|V |) simulations.
+default policy, SG-UCTφ − q for q in {40, 60, 80} denotes
+UCT with a particular reduction policy φ, and q represents       Thus, our method also yields improved scalability compared
+the percentage of original nodes that are selected by φ. We      to a standard greedy search, which was also observed em-
+                                        Planning Spatial Networks with Monte Carlo Tree Search
+
+
+                               Table 1. Results obtained by the methods on synthetic and real-world graphs.
+  F           G      R ANDOM        LDP         FV      ER ES   M IN C OST   LBHB     G REEDY   G REEDY CS      UCT        SG-UCT ( OURS )
+  FE      KH-25     0.128±0.008      —          —        —        0.270      0.119     0.298      0.281      0.288±0.003     0.305±0.000
+          KH-50     0.089±0.005      —          —        —        0.303      0.081     0.335      0.311      0.307±0.003     0.341±0.000
+          KH-75     0.077±0.004      —          —        —        0.315      0.072     0.339      0.319      0.311±0.003     0.352±0.001
+        I NTERNET   0.036±0.005      —          —        —        0.096      0.039       ∞          ∞        0.137±0.002     0.145±0.006
+          M ETRO    0.013±0.002      —          —        —        0.049      0.007       ∞          ∞        0.056±0.001     0.064±0.000
+  FR      KH-25     0.031±0.002    0.049       0.051    0.054     0.065        —       0.064      0.083      0.092±0.001     0.107±0.001
+          KH-50     0.033±0.002    0.044       0.049    0.057     0.082        —       0.078      0.102      0.112±0.002     0.140±0.001
+          KH-75     0.035±0.002    0.040       0.049    0.052     0.099        —       0.074      0.115      0.120±0.001     0.158±0.000
+        I NTERNET   0.014±0.005    0.025       0.015    0.021     0.072        —         ∞          ∞        0.083±0.002     0.128±0.006
+          M ETRO    0.009±0.002    0.012       0.013    0.020     0.048        —         ∞          ∞        0.068±0.002     0.085±0.001
+
+
+
+
+                                                                             is admissible, allowing our method to optimize for complex,
+    Table 2. Ablation study for the components of SG-UCT.
+                                                                             non-linear objectives that may arise in the real world (the re-
+       |V |               25              50             75
+                                                                             silience of the network to targeted attacks is one example of
+ FE    UCT                0.288±0.003     0.307±0.003    0.311±0.003
+       SG-UCT BTM         0.304±0.001     0.324±0.002    0.324±0.002         such a non-linear objective). Furthermore, our method can
+       SG-UCT MINCOST     0.299±0.001     0.327±0.001    0.333±0.001         be applied for objectives for which no solutions are currently
+       SG-UCT RAND-80     0.284±0.005     0.305±0.003    0.303±0.003
+       SG-UCT RAND-60     0.271±0.007     0.288±0.004    0.288±0.003         known without the expertise required to cast the problem as
+       SG-UCT RAND-40     0.238±0.009     0.263±0.005    0.271±0.003         a mathematical program. Necessarily, the generic nature of
+       SG-UCT DEG-40      0.237±0.003     0.262±0.003    0.255±0.002
+       SG-UCT INVDEG-40   0.235±0.002     0.268±0.001    0.283±0.001         our method means that it may perform worse on certain spe-
+       SG-UCT NC-40       0.234±0.003     0.268±0.002    0.262±0.003         cific problems with linear constraints and objectives. The
+       SG-UCT BE-40       0.286±0.002     0.304±0.002    0.297±0.001
+       SG-UCT BECS-40     0.290±0.001     0.316±0.001    0.319±0.002         trade-offs arising from the use of generic machine learn-
+       SG-UCT AE-40       0.286±0.002     0.302±0.003    0.297±0.002         ing and decision-making algorithms is a topic of ongoing
+       SG-UCT AECS-40     0.289±0.001     0.317±0.001    0.319±0.002
+                                                                             debate in the combinatorial optimization community (Ben-
+ FR    UCT                0.092±0.001     0.112±0.002    0.120±0.001
+       SG-UCT BTM         0.106±0.001     0.123±0.001    0.128±0.001
+                                                                             gio et al., 2021), and we view these classes of methods as
+       SG-UCT MINCOST     0.105±0.001     0.131±0.001    0.153±0.001         complementary.
+       SG-UCT RAND-80     0.091±0.001     0.111±0.001    0.119±0.001
+       SG-UCT RAND-60     0.089±0.003     0.107±0.002    0.115±0.002
+       SG-UCT RAND-40     0.083±0.001     0.102±0.002    0.110±0.002         5. Conclusion
+       SG-UCT DEG-40      0.069±0.001     0.086±0.001    0.092±0.001
+       SG-UCT INVDEG-40   0.094±0.001     0.114±0.001    0.124±0.001
+       SG-UCT NC-40       0.071±0.001     0.087±0.002    0.092±0.001         In this work, we have addressed the problem of spatial graph
+       SG-UCT BE-40       0.088±0.001     0.108±0.001    0.115±0.001         construction: namely, given an initial spatial graph, a bud-
+       SG-UCT BECS-40     0.097±0.001     0.115±0.001    0.121±0.001
+       SG-UCT AE-40       0.088±0.001     0.103±0.001    0.114±0.001         get defined in terms of edge lengths, and a global objective,
+       SG-UCT AECS-40     0.098±0.001     0.117±0.001    0.126±0.001         finding a set of edges to be added to the graph such that
+                                                                             the value of the objective is maximized. For the first time
+                                                                             among related works, we have formulated this task as a de-
+                                                                             terministic MDP that accounts for how the spatial geometry
+pirically. While for certain network design problems (e.g.,                  influences the connections and organizational principles of
+Dilkina et al. (2011)) a greedy approach represents a reason-                real-world networks. Building on the UCT framework, we
+able approximation, it is too expensive to compute for this                  have considered several concerns in the context of this prob-
+family of problems.                                                          lem space and proposed the Spatial Graph UCT (SG-UCT)
+                                                                             algorithm to address them.
+4.3. Discussion                                                              Our evaluation results show performance substantially bet-
+Our work is related to a large body of prior work in net-                    ter than UCT (24% on average and up to 54% in terms of
+work design and optimization (Ahuja et al., 1995). Notably,                  a robustness measure) and all existing baselines taken into
+the Upgrading Shortest Path (Dilkina et al., 2011) and Pre-                  consideration. Furthermore, our approach brings an impor-
+disaster Transportation Network Preparation (Peeta et al.,                   tant improvement in scalability with respect to recent work
+2010; Wu et al., 2016) problems resemble our case studies                    in deep RL for goal-directed graph construction (Darvariu
+on efficiency and robustness improvement. Such works for-                    et al., 2021), by scaling to graphs that are 3 times larger in
+mulate the problem under study as a mathematical program                     size and not requiring the expensive process of training a
+on a case-by-case basis, for which known combinatorial                       model for this task. We hope that our work will be used as
+solvers can be applied. In contrast, our method is generic                   a basis for the design of more cost-effective infrastructure
+and makes no assumptions about the objective at hand. In                     systems such as communication, power, transportation, and
+principle, any objective function defined on a spatial graph                 water distribution networks.
+                                 Planning Spatial Networks with Monte Carlo Tree Search
+
+References                                                     Chaslot, G. M. J.-B., Winands, M. H. M., Herik, H. J. V. D.,
+                                                                 Uiterwijk, J. W. H. M., and Bouzy, B. Progressive Strate-
+Ahuja, R. K., Magnanti, T. L., Orlin, J. B., and Reddy,
+                                                                 gies for Monte-Carlo Tree Search. New Mathematics and
+  M. R. Chapter 1 Applications of network optimization.
+                                                                 Natural Computation, 04(03):343–357, 2008.
+  In Handbooks in Operations Research and Management
+ Science, volume 7 of Network Models, pp. 1–83. Elsevier,      Dai, H., Li, H., Tian, T., Huang, X., Wang, L., Zhu, J., and
+ 1995.                                                           Song, L. Adversarial attack on graph structured data. In
+                                                                 ICML, 2018.
+Albert, R., Jeong, H., and Barabási, A.-L. Error and attack
+  tolerance of complex networks. Nature, 406(6794):378–        Dall, J. and Christensen, M. Random geometric graphs.
+  382, 2000.                                                     Physical Review E, 66(1):016121, 2002.
+
+Anthony, T., Tian, Z., and Barber, D. Thinking Fast and        Darvariu, V.-A., Hailes, S., and Musolesi, M. Goal-directed
+  Slow with Deep Learning and Tree Search. In NeurIPS,           graph construction using reinforcement learning. Pro-
+  2017.                                                          ceedings of the Royal Society A: Mathematical, Physical
+                                                                 and Engineering Sciences, 477(2254):20210168, 2021.
+Barthélemy, M. Spatial networks. Physics Reports, 499
+  (1-3), 2011.                                                 Demetrescu, C. and Italiano, G. F. A new approach to
+                                                                 dynamic all pairs shortest paths. Journal of the ACM
+Bello, I., Pham, H., Le, Q. V., Norouzi, M., and Bengio, S.     (JACM), 51(6):968–992, 2004.
+  Neural Combinatorial Optimization with Reinforcement
+  Learning. arXiv:1611.09940, 2016.                            Dilkina, B., Lai, K. J., and Gomes, C. P. Upgrading shortest
+                                                                 paths in networks. In CPAIOR, 2011.
+Bengio, Y., Lodi, A., and Prouvost, A. Machine Learning
+  for Combinatorial Optimization: a Methodological Tour        Dulac-Arnold, G., Evans, R., van Hasselt, H., Sunehag, P.,
+  d’Horizon. European Journal of Operational Research,           Lillicrap, T., Hunt, J., Mann, T., Weber, T., Degris, T.,
+  290:405–421, 2021.                                             and Coppin, B. Deep Reinforcement Learning in Large
+                                                                 Discrete Action Spaces. In ICML, 2015.
+Beygelzimer, A., Grinstein, G., Linsker, R., and Rish, I.
+  Improving Network Robustness by Edge Modification.           Fiedler, M. Algebraic connectivity of graphs. Czechoslovak
+  Physica A, 357:593–612, 2005.                                  Mathematical Journal, 23(2):298–305, 1973.
+
+                                                               Gastner, M. T. and Newman, M. E. J. Shape and efficiency
+Bradshaw, J., Paige, B., Kusner, M. J., Segler, M. H. S.,
+                                                                 in spatial distribution networks. Journal of Statistical
+  and Hernández-Lobato, J. M. A Model to Search for
+                                                                 Mechanics: Theory and Experiment, 2006(01):P01015,
+  Synthesizable Molecules. In NeurIPS, 2019.
+                                                                 2006a.
+Bronstein, M. M., Bruna, J., LeCun, Y., Szlam, A., and Van-
+                                                               Gastner, M. T. and Newman, M. E. J. The spatial structure
+  dergheynst, P. Geometric Deep Learning: Going beyond
+                                                                 of networks. The European Physical Journal B, 49(2):
+  Euclidean data. IEEE Signal Processing Magazine, 34
+                                                                 247–252, 2006b.
+  (4):18–42, 2017.
+                                                               Gelly, S. and Silver, D. Combining online and offline knowl-
+Browne, C. B., Powley, E., Whitehouse, D., Lucas, S. M.,         edge in UCT. In ICML, 2007.
+  et al. A Survey of Monte Carlo Tree Search Methods.
+  IEEE Transactions on Computational Intelligence and AI       Gilmer, J., Schoenholz, S. S., Riley, P. F., Vinyals, O., and
+  in Games, 4(1):1–43, 2012.                                     Dahl, G. E. Neural Message Passing for Quantum Chem-
+                                                                 istry. In ICML, 2017.
+Bullmore, E. and Sporns, O. The economy of brain network
+  organization. Nature Reviews Neuroscience, 13(5):336–        Hagberg, A., Swart, P., and S. Chult, D. Exploring network
+  349, 2012.                                                     structure, dynamics, and function using networkx. In
+                                                                 SciPy, 2008.
+Callaway, D. S., Newman, M. E. J., Strogatz, S. H., and
+  Watts, D. J. Network robustness and fragility: Percolation   He, J., Ostendorf, M., He, X., Chen, J., Gao, J., Li, L., and
+  on random graphs. Phys. Rev. Lett., 85:5468–5471, 2000.        Deng, L. Deep Reinforcement Learning with a Com-
+                                                                 binatorial Action Space for Predicting Popular Reddit
+Cazenave, T. Reflexive monte-carlo search. In Computer           Threads. In EMNLP, 2016.
+  Games Workshop, 2007.
+                                                               Hunter, J. D. Matplotlib: A 2D graphics environment. Com-
+Cazenave, T. Nested monte-carlo search. In IJCAI, 2009.          puting in Science & Engineering, 9(3):90–95, 2007.
+                                   Planning Spatial Networks with Monte Carlo Tree Search
+
+Jin, W., Barzilay, R., and Jaakkola, T. Junction Tree Varia-      Schneider, C. M., Moreira, A. A., Andrade, J. S., Havlin, S.,
+   tional Autoencoder for Molecular Graph Generation. In            and Herrmann, H. J. Mitigation of malicious attacks on
+   ICML, 2018.                                                      networks. PNAS, 108(10):3838–3841, 2011.
+Kaiser, M. and Hilgetag, C. C. Spatial growth of real-world       Silver, D., Huang, A., Maddison, C. J., Guez, A., et al.
+  networks. Physical Review E, 69(3):036103, 2004.                   Mastering the game of Go with deep neural networks and
+                                                                     tree search. Nature, 529(7587):484–489, 2016.
+Khalil, E., Dai, H., Zhang, Y., Dilkina, B., and Song,
+  L. Learning combinatorial optimization algorithms over          Silver, D., Hubert, T., Schrittwieser, J., Antonoglou, I., et al.
+  graphs. In NeurIPS, 2017.                                          A general reinforcement learning algorithm that masters
+Knight, S., Nguyen, H. X., Falkner, N., Bowden, R., and              chess, shogi, and Go through self-play. Science, 362
+  Roughan, M. The Internet Topology Zoo. IEEE Journal                (6419):1140–1144, 2018.
+  on Selected Areas in Communications, 29(9):1765–1775,           Vinyals, O., Fortunato, M., and Jaitly, N. Pointer Networks.
+  2011.                                                             In NeurIPS, 2015.
+Kocsis, L. and Szepesvári, C. Bandit Based Monte-Carlo
+                                                                  Wang, H. and Van Mieghem, P. Algebraic connectivity
+  Planning. In ECML, 2006.
+                                                                   optimization via link addition. In Bionetics, 2008.
+Latora, V. and Marchiori, M. Efficient Behavior of Small-
+                                                                  Wang, X., Pournaras, E., Kooij, R. E., and Van Mieghem, P.
+  World Networks. Physical Review Letters, 87(19):
+                                                                   Improving robustness of complex networks via the effec-
+  198701, 2001.
+                                                                   tive graph resistance. The European Physical Journal B,
+McKinney, W. et al. pandas: a foundational Python library          87(9):221, 2014.
+ for data analysis and statistics. Python for High Perfor-
+ mance and Scientific Computing, 14(9):1–9, 2011.                 Waskom, M. L. Seaborn: statistical data visualization. Jour-
+                                                                   nal of Open Source Software, 6(60):3021, 2021.
+Monti, F., Bronstein, M. M., and Bresson, X. Geometric
+ Matrix Completion with Recurrent Multi-Graph Neural              Waxman, B. Routing of multipoint connections. IEEE
+ Networks. In ICML, 2017.                                          Journal on Selected Areas in Communications, 6(9):1617–
+                                                                   1622, 1988.
+Nash, J. Some games and machines for playing them. Tech-
+  nical report, Rand Corporation, 1952.                           Wu, X., Sheldon, D., and Zilberstein, S. Optimizing re-
+                                                                   silience in large scale networks. In AAAI, 2016.
+Paszke, A., Gross, S., Massa, F., Lerer, A., et al. Pytorch: An
+  imperative style, high-performance deep learning library.       Ying, R., He, R., Chen, K., Eksombatchai, P., Hamilton,
+  In NeurIPS, 2019.                                                 W. L., and Leskovec, J. Graph Convolutional Neural Net-
+                                                                    works for Web-Scale Recommender Systems. In KDD,
+Peeta, S., Salman, F. S., Gunnec, D., and Viswanath, K. Pre-
+                                                                    2018.
+  disaster investment decisions for strengthening a highway
+  network. Computers & Operations Research, 37(10):               You, J., Liu, B., Ying, R., Pande, V., and Leskovec, J. Graph
+  1708–1719, 2010.                                                  Convolutional Policy Network for Goal-Directed Molec-
+                                                                    ular Graph Generation. In NeurIPS, 2018.
+Pinto, J. and Fern, A. Learning partial policies to speedup
+  mdp tree search via reduction to iid learning. The Journal      Zahavy, T., Haroush, M., Merlis, N., Mankowitz, D. J., and
+  of Machine Learning Research, 18(1):2179–2213, 2017.              Mannor, S. Learn What Not to Learn: Action Elimination
+Rosin, C. D. Nested Rollout Policy Adaptation for Monte             with Deep Reinforcement Learning. In NeurIPS, 2018.
+  Carlo Tree Search. In IJCAI, 2011.
+Roth, C., Kang, S. M., Batty, M., and Barthelemy, M. A
+  long-time limit for world subway networks. Journal of
+  The Royal Society Interface, 9(75):2540–2550, 2012.
+Russell, S. J. and Norvig, P. Artificial Intelligence: a Mod-
+  ern Approach. Prentice Hall, third edition, 2010.
+Scarselli, F., Gori, M., Tsoi, A. C., Hagenbuchner, M., and
+  Monfardini, G. The Graph Neural Network Model. IEEE
+  Transactions on Neural Networks, 20(1):61–80, January
+  2009.
+                                                Planning Spatial Networks with Monte Carlo Tree Search
+
+A. Reproducibility
+Implementation. We implement all approaches and baselines in Python using                         Table 3. Real-world graphs considered in the
+a variety of numerical and scientific computing packages (Hunter, 2007; Hag-                      evaluation.
+berg et al., 2008; McKinney et al., 2011; Paszke et al., 2019; Waskom, 2021),                          DATASET       G RAPH      |V |    |E|
+while the calculations of the objective functions (efficiency and robustness)                       I NTERNET         C OLT      146     178
+are performed in a custom C++ module as they are the main speed bottleneck.                                          G TS C E    130     169
+                                                                                                                   TATA N LD     141     187
+In a future version, we will release the implementation as Docker containers                                      U S C ARRIER   138     161
+together with instructions that enable reproducing (up to hardware differences)                        M ETRO     BARCELONA      135     159
+all the results reported in the paper, including tables and figures.                                                B EIJING     126     139
+                                                                                                                    M EXICO      147     164
+Data Availability. In terms of the real-world datasets, the Internet dataset                                       M OSCOW       134     156
+is publicly available without any restrictions and can be downloaded via                                             O SAKA      107     122
+the Internet Topology Zoo website, http://www.topology-zoo.org/
+dataset.html. The Metro dataset was originally collected by Roth et al. (2012), and was licensed to us by the authors
+for the purposes of this work. A copy of the Metro dataset can be obtained by others by contacting its original authors for
+licensing (see https://www.quanturb.com/data). The considered graphs are detailed in Table 3.
+
+B. Additional Evaluation Details
+Impact of Action Subsets on UCT Results. We include an additional experiment related to the Action Space Reduction
+problem discussed in the Algorithm subsection of the manuscript. We consider, starting from the same initial graph, a
+selection of 1000 subsets of size 40% of all nodes, obtained with a uniform random φ. We show the empirical distribution
+of the reward obtained by UCT with different sampled subsets in Figure 4. Since the subset that is selected has an important
+impact on performance, a reduction policy yielding high-reward subsets is highly desirable (effectively, we want to bias
+subset selection towards the upper tail of the distribution of obtained rewards).
+
+                                   N = 25                                    N = 50                               N = 75
+                                                                                                  20
+      Est. Density
+
+
+
+
+                     10
+           FE
+
+
+
+
+                                                              10
+
+                      0                                        0                                   0
+                           0.1            0.2           0.3        0.15   0.20      0.25   0.30          0.20     0.25   0.30    0.35
+                                      R                                          R                                   R
+      Est. Density
+
+
+
+
+                     25                                       20                                  25
+           FR
+
+
+
+
+                      0                                        0                                   0
+                          0.050   0.075         0.100           0.05         0.10          0.15         0.075    0.100   0.125   0.150
+                                      R                                          R                                   R
+
+                            Figure 4. Empirical distribution of reward obtained for subsets selected by a uniform random φ.
+
+
+Hyperparameters. Hyperparameter optimization for UCT and SG-UCT is performed separately for each objective function
+and synthetic graph model / real-world network dataset. For synthetic graphs, hyperparameters are tuned over a disjoint set
+of graphs. For real-world graphs, hyperparameters are optimized separately for each graph. We consider an exploration
+constant cp ∈ {0.05, 0.1, 0.25, 0.5, 0.75, 1}. Since the ranges of the rewards may vary in different settings, we further
+employ two means of standardization: during the tree search we instead use F(GT ) as the final reward RT −1 , and further
+standardize cp by multiplying with the average reward R(s) observed at the root in the previous timestep – ensuring
+consistent levels of exploration. The hyperparameters for the ablation study are bootstrapped from those of standard UCT,
+while β ∈ {0.1, 0.25, 0.5, 1, 2.5, 5, 10} for the SG-UCTMINCOST variant is optimized separately. These results are used to
+reduce the hyperparameter search space for SG-UCT for both synthetic and real-world graphs. Values of hyperparameters
+used are shown in Table 4. For estimating FR we use |V |/4 Monte Carlo simulations.
+Extended Results. Extended results for real-world graphs, split by graph instance, are shown in Table 5.
+                                       Planning Spatial Networks with Monte Carlo Tree Search
+
+Infrastructure and Runtimes. Experiments were carried out on an internal cluster of 8 machines, each equipped with 2
+Intel Xeon E5-2630 v3 processors and 128GB RAM. On this infrastructure, all experiments reported in this paper took
+approximately 21 days to complete.
+
+
+                                                         Table 4. Hyperparameters used.
+                                                                             Cp             φ                       β
+                                                       O BJECTIVE            FE     FR      FE          FR          FE      FR
+                      E XPERIMENT      G RAPH          AGENT
+                      I NTERNET        C OLT           SG-UCT                0.05   0.05    AECS-40     AECS-40     25      25
+                                                       UCT                   0.1    0.1     —           —           —       —
+                                       G TS C E        SG-UCT                0.1    0.05    AECS-40     AECS-40     25      25
+                                                       UCT                   0.25   0.1     —           —           —       —
+                                       TATA N LD       SG-UCT                0.05   0.05    AECS-40     AECS-40     25      25
+                                                       UCT                   0.1    0.1     —           —           —       —
+                                       U S C ARRIER    SG-UCT                0.05   0.05    AECS-40     AECS-40     25      25
+                                                       UCT                   0.05   0.1     —           —           —       —
+                      M ETRO           BARCELONA       SG-UCT                0.05   0.05    AECS-40     AECS-40     25      25
+                                                       UCT                   0.05   0.05    —           —           —       —
+                                       B EIJING        SG-UCT                0.05   0.05    AECS-40     AECS-40     25      25
+                                                       UCT                   0.05   0.05    —           —           —       —
+                                       M EXICO         SG-UCT                0.05   0.05    AECS-40     AECS-40     25      25
+                                                       UCT                   0.25   0.05    —           —           —       —
+                                       M OSCOW         SG-UCT                0.25   0.1     AECS-40     AECS-40     25      25
+                                                       UCT                   0.05   0.05    —           —           —       —
+                                       O SAKA          SG-UCT                0.05   0.05    AECS-40     AECS-40     25      25
+                                                       UCT                   0.05   0.25    —           —           —       —
+                      KH-25            —               SG-UCT                0.05   0.25    AECS-40     AECS-40     25      25
+                                                       UCT                   0.1    0.1     —           —           —       —
+                                                       SG-UCT MINCOST        0.1    0.1     —           —           25      25
+                      KH-50            —               SG-UCT                0.05   0.05    AECS-40     AECS-40     25      25
+                                                       UCT                   0.05   0.25    —           —           —       —
+                                                       SG-UCT MINCOST        0.05   0.25    —           —           10      25
+                      KH-75            —               SG-UCT                0.05   0.05    AECS-40     AECS-40     25      25
+                                                       UCT                   0.05   0.1     —           —           —       —
+                                                       SG-UCT MINCOST        0.05   0.1     —           —           25      25
+
+
+
+
+       Table 5. Rewards obtained by baselines, UCT, and SG-UCT on real-world graphs, split by individual graph instance.
+                                             R ANDOM      LDP        FV        ER ES     M IN C OST   LBHB       UCT         SG-UCT ( OURS )
+       F       G              G RAPH
+       FE   I NTERNET         C OLT        0.081±0.003      —          —         —         0.127      0.098   0.164±0.003        0.199±0.000
+                             G TS C E      0.017±0.007      —          —         —         0.082      0.014   0.110±0.004        0.125±0.002
+                           TATA N LD       0.020±0.004      —          —         —         0.078      0.015   0.102±0.003        0.110±0.002
+                          U S C ARRIER     0.026±0.014      —          —         —         0.097      0.026   0.171±0.005        0.178±0.002
+             M ETRO       BARCELONA        0.020±0.005      —          —         —         0.063      0.003   0.067±0.002        0.076±0.000
+                            B EIJING       0.008±0.003      —          —         —         0.028      0.003   0.041±0.001        0.046±0.001
+                            M EXICO        0.007±0.002      —          —         —         0.032      0.011   0.037±0.001        0.041±0.000
+                           M OSCOW         0.011±0.003      —          —         —         0.038      0.007   0.043±0.001        0.053±0.001
+                             O SAKA        0.017±0.005      —          —         —         0.082      0.010   0.093±0.003        0.102±0.000
+       FR   I NTERNET         C OLT        0.007±0.004    0.005      0.006     0.009       0.075        —     0.055±0.003        0.089±0.000
+                             G TS C E      0.023±0.011    0.048      0.017     0.031       0.099        —     0.098±0.005        0.155±0.003
+                           TATA N LD       0.017±0.010    0.011     -0.002     0.013       0.074        —     0.093±0.006        0.119±0.002
+                          U S C ARRIER     0.010±0.004    0.035      0.038     0.033       0.041        —     0.085±0.007        0.125±0.003
+             M ETRO       BARCELONA        0.020±0.007    0.010      0.009     0.036       0.071        —     0.076±0.004        0.115±0.002
+                            B EIJING       0.004±0.004    0.003      0.002     0.001       0.037        —     0.055±0.003        0.062±0.001
+                            M EXICO        0.007±0.004    0.003      0.005     0.011       0.038        —     0.051±0.002        0.068±0.001
+                           M OSCOW         0.013±0.005    0.033      0.042     0.034       0.031        —     0.090±0.003        0.109±0.002
+                             O SAKA        0.003±0.006    0.008      0.011     0.015       0.064        —     0.066±0.004        0.072±0.001
+

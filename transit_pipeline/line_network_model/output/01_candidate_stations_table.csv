@@ -1,0 +1,55 @@
+﻿station_id,lon,lat,layers,sources,required,component_count,population_value,job_value,transport_value,commercial_value,total_value,name,station_type
+S001,121.43967762,31.24315951,"commercial,job,population","large_commercial_center,weighted_kmeans",False,7,178060.00,306672.06,0.00,150000.00,634732.06,189购物中心 / 鑫意生活广场 / 亚新生活广场 / 经纬时尚广场 / 半岛休闲广场,commercial+job+population_center
+S002,121.42556951,31.15323744,"job,population,transport","rail_hub,weighted_kmeans",False,3,84485.00,205150.75,260000.00,0.00,549635.75,上海南站,job+population+transport_center
+S003,121.41012257,31.17483526,"commercial,job,population","large_commercial_center,weighted_kmeans",False,3,80511.00,364415.85,0.00,30000.00,474926.85,圣诺亚广场,commercial+job+population_center
+S004,121.49575109,31.24377961,"commercial,job","large_commercial_center,weighted_kmeans",False,3,0.00,395777.26,0.00,60000.00,455777.26,正大广场 / 白玉兰广场,commercial+job_center
+S005,121.46877721,31.22560633,"commercial,job","large_commercial_center,weighted_kmeans",False,4,0.00,317749.16,0.00,90000.00,407749.16,大上海时代广场 / 上海广场 / 锦江国际购物中心,commercial+job_center
+S006,121.51346427,31.22387424,"commercial,job,population","large_commercial_center,weighted_kmeans",False,4,70691.00,257701.48,0.00,60000.00,388392.48,新梅联合广场 / 华润时代广场,commercial+job+population_center
+S007,121.49095496,31.19095701,job,weighted_kmeans,False,1,0.00,325443.30,0.00,0.00,325443.30,,job_center
+S008,121.40559898,31.21734387,"commercial,population","large_commercial_center,weighted_kmeans",False,3,262506.00,0.00,0.00,60000.00,322506.00,龙之梦购物中心 / 来福士广场,commercial+population_center
+S009,121.49350611,31.22285353,"commercial,population","large_commercial_center,weighted_kmeans",False,4,211965.00,0.00,0.00,90000.00,301965.00,上海城隍庙广场 / BFC 购物中心 / BFC 购物中心,commercial+population_center
+S010,121.45098161,31.25141624,transport,rail_hub,False,1,0.00,0.00,300000.00,0.00,300000.00,上海站,transport_center
+S011,121.52978914,31.22170390,job,weighted_kmeans,False,1,0.00,291757.76,0.00,0.00,291757.76,,job_center
+S012,121.48300772,31.22420036,"commercial,population","large_commercial_center,weighted_kmeans",False,3,196253.00,0.00,0.00,60000.00,256253.00,城隍庙第一购物中心 / 豫园鄂尔多斯广场,commercial+population_center
+S013,121.56254259,31.21202550,job,weighted_kmeans,False,1,0.00,255969.52,0.00,0.00,255969.52,,job_center
+S014,121.41816592,31.20478084,"job,population",weighted_kmeans,False,2,89696.00,165764.18,0.00,0.00,255460.18,,job+population_center
+S015,121.54325508,31.15443686,"commercial,job,population","large_commercial_center,weighted_kmeans",False,4,26508.00,161889.61,0.00,60000.00,248397.61,长青企业广场 / 御桥九六广场,commercial+job+population_center
+S016,121.44769365,31.19444679,"commercial,job","large_commercial_center,weighted_kmeans",False,2,0.00,208774.51,0.00,30000.00,238774.51,车享汽车生活广场,commercial+job_center
+S017,121.42493957,31.24924351,population,weighted_kmeans,False,1,229598.00,0.00,0.00,0.00,229598.00,,population_center
+S018,121.45505898,31.16774488,job,weighted_kmeans,False,1,0.00,225003.45,0.00,0.00,225003.45,,job_center
+S019,121.55358129,31.20466805,transport,rail_hub,False,1,0.00,0.00,220000.00,0.00,220000.00,龙阳路,transport_center
+S020,121.40681994,31.25270322,population,weighted_kmeans,False,1,216504.00,0.00,0.00,0.00,216504.00,,population_center
+S021,121.48246225,31.15742703,"job,population",weighted_kmeans,False,2,44949.00,168755.16,0.00,0.00,213704.16,,job+population_center
+S022,121.55112057,31.23259265,"commercial,job","large_commercial_center,weighted_kmeans",False,3,0.00,150696.11,0.00,60000.00,210696.11,大拇指广场 / 联洋广场,commercial+job_center
+S023,121.52275297,31.24700000,"commercial,job","large_commercial_center,weighted_kmeans",False,2,0.00,168527.22,0.00,30000.00,198527.22,裕景国际商务广场,commercial+job_center
+S024,121.41862773,31.23690433,"commercial,job","large_commercial_center,weighted_kmeans",False,2,0.00,167250.99,0.00,30000.00,197250.99,豪浦广场,commercial+job_center
+S025,121.46582428,31.24264113,"commercial,population","large_commercial_center,weighted_kmeans",False,3,99783.00,0.00,0.00,60000.00,159783.00,雅居乐国际广场 / 新金桥广场,commercial+population_center
+S026,121.52999307,31.19234337,job,weighted_kmeans,False,1,0.00,149164.40,0.00,0.00,149164.40,,job_center
+S027,121.45212230,31.21447416,"commercial,population","large_commercial_center,weighted_kmeans",False,2,97590.00,0.00,0.00,30000.00,127590.00,百盛购物中心,commercial+population_center
+S028,121.52877897,31.17422651,"commercial,population","large_commercial_center,weighted_kmeans",False,2,93739.00,0.00,0.00,30000.00,123739.00,欧亚美浦东家居广场,commercial+population_center
+S029,121.49272274,31.14902648,population,weighted_kmeans,False,1,123552.00,0.00,0.00,0.00,123552.00,,population_center
+S030,121.47849287,31.23809778,commercial,large_commercial_center,False,4,0.00,0.00,0.00,120000.00,120000.00,来福士广场 / 恒基名人购物中心 / 353广场 / 外滩中央广场,commercial_center
+S031,121.45249223,31.23111696,commercial,large_commercial_center,False,4,0.00,0.00,0.00,120000.00,120000.00,梅龙镇广场 / 中信富泰广场 / 818广场 / 金鹰国际购物广场,commercial_center
+S032,121.44155972,31.17888095,"commercial,population","large_commercial_center,weighted_kmeans",False,2,84442.00,0.00,0.00,30000.00,114442.00,全国土特产食品购物中心,commercial+population_center
+S033,121.48998947,31.25464037,population,weighted_kmeans,False,1,109914.00,0.00,0.00,0.00,109914.00,,population_center
+S034,121.46676613,31.20562113,"commercial,population","large_commercial_center,weighted_kmeans",False,2,76912.00,0.00,0.00,30000.00,106912.00,东汇广场,commercial+population_center
+S035,121.50832844,31.23642599,"commercial,population","large_commercial_center,weighted_kmeans",False,2,68981.00,0.00,0.00,30000.00,98981.00,自由贸易试验区览海国际广场,commercial+population_center
+S036,121.51289547,31.19608526,"commercial,population","large_commercial_center,weighted_kmeans",False,2,63904.00,0.00,0.00,30000.00,93904.00,百联临沂购物中心,commercial+population_center
+S037,121.50174121,31.17657322,population,weighted_kmeans,False,1,93226.00,0.00,0.00,0.00,93226.00,,population_center
+S038,121.54886782,31.18590965,"commercial,population","large_commercial_center,weighted_kmeans",False,2,59049.00,0.00,0.00,30000.00,89049.00,北蔡休闲广场,commercial+population_center
+S039,121.42717416,31.22958928,population,weighted_kmeans,False,1,82028.00,0.00,0.00,0.00,82028.00,,population_center
+S040,121.52442020,31.23390981,"commercial,population","large_commercial_center,weighted_kmeans",False,2,46596.00,0.00,0.00,30000.00,76596.00,世纪汇广场,commercial+population_center
+S041,121.52115181,31.15093490,population,weighted_kmeans,False,1,70363.00,0.00,0.00,0.00,70363.00,,population_center
+S042,121.43772553,31.18973217,commercial,large_commercial_center,False,2,0.00,0.00,0.00,60000.00,60000.00,腾飞广场 / 腾飞广场,commercial_center
+S043,121.42651585,31.17258322,commercial,large_commercial_center,False,2,0.00,0.00,0.00,60000.00,60000.00,汇阳广场 / 光大生活广场,commercial_center
+S044,121.54767782,31.21421167,population,weighted_kmeans,False,1,52204.00,0.00,0.00,0.00,52204.00,,population_center
+S045,121.44733988,31.15504080,population,weighted_kmeans,False,1,44256.00,0.00,0.00,0.00,44256.00,,population_center
+S046,121.55404692,31.24751829,population,weighted_kmeans,False,1,41735.00,0.00,0.00,0.00,41735.00,,population_center
+S047,121.43250970,31.19924420,commercial,large_commercial_center,False,1,0.00,0.00,0.00,30000.00,30000.00,百联徐汇商业广场,commercial_center
+S048,121.44164459,31.22568127,commercial,large_commercial_center,False,1,0.00,0.00,0.00,30000.00,30000.00,久百城市广场,commercial_center
+S049,121.55941877,31.15579745,commercial,large_commercial_center,False,1,0.00,0.00,0.00,30000.00,30000.00,百联东郊购物中心,commercial_center
+S050,121.50886700,31.14310973,commercial,large_commercial_center,False,1,0.00,0.00,0.00,30000.00,30000.00,中房金谊广场,commercial_center
+S051,121.54118441,31.20648259,commercial,large_commercial_center,False,1,0.00,0.00,0.00,30000.00,30000.00,富荟广场,commercial_center
+S052,121.50316533,31.16472608,commercial,large_commercial_center,False,1,0.00,0.00,0.00,30000.00,30000.00,亿丰时代广场,commercial_center
+S053,121.54557015,31.17396700,commercial,large_commercial_center,False,1,0.00,0.00,0.00,30000.00,30000.00,幕天商业广场,commercial_center
+S054,121.41738204,31.14101197,commercial,large_commercial_center,False,1,0.00,0.00,0.00,30000.00,30000.00,华轻梅陇购物中心,commercial_center

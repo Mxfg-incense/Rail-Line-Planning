@@ -804,7 +804,7 @@ def main():
     # 配置参数
     # 浦东新区陆家嘴-世纪公园区域 (bbox: west, south, east, north)
     BBOX = (121.48, 31.20, 121.56, 31.26)
-    OUTPUT_DIR = "/smb/j/SHT/COURSE-10/CS240/pj/transit_pipeline/output"
+    OUTPUT_DIR = os.path.join(os.path.dirname(__file__), "output")
     NUM_HUBS = 8  # 枢纽节点数量
     NUM_STATIONS = 15  # 目标车站数量
     TOTAL_POPULATION = 500000  # 模拟总人口

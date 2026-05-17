@@ -1,0 +1,1464 @@
+                                                                     Shape-Guided Mixed Metro Map Layout
+
+                                                                   T. Batik 1   , S. Terziadis 1                                                , Y.-S. Wang 2                                                                                                                                                                                   , M. Nöllenburg 1                                                                                                                                                                                       , and H.-Y. Wu 3,1
+arXiv:2208.14261v1 [cs.GR] 30 Aug 2022
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          Danshui
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              Hongshulin
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               Zhuwei
+
+                                                                                                                                                                                                                                                                                                 Xinbeitou
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              Xinbeitou
+
+
+
+
+                                                                                                                                                                                                                                                g
+                                                                                                                           n
+
+
+
+
+                                                                                                                                                                                                                                               an
+                                                                                                                       uli
+                                                                                                  i
+
+
+
+
+                                                                                                                      sh
+
+
+
+
+                                                                                                                                                                                                               i
+
+
+
+
+                                                                                                                                                                                                                                             gg
+                                                                                                                                                                          du
+                                                                                                 hu
+
+
+
+
+                                                                                                                                                                                                           gy
+                                                                                                                                               ei
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           Guandu
+                                                                                                                  ng
+
+
+
+
+                                                                                                                                                                                                                                          xin
+                                                                                                                                             uw
+
+
+
+
+                                                                                                                                                                        an
+                                                                                             ns
+
+
+
+
+                                                                                                                                                                                                          on
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              Beitou
+                                                                                                                 Ho
+                                                                                            Da
+
+
+
+
+                                                                                                                                                                      Gu
+
+
+
+
+                                                                                                                                                                                                      Zh
+
+
+
+
+                                                                                                                                                                                                                                        Fu
+                                                                                                                                           Zh
+                                                                                                                                                                                                                                                                                 Beitou
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            Qiyan
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Zhongyi                Fuxinggang
+
+
+                                                                                                                                                                                                                                                                               Qiyan
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         Qilian
+
+
+
+
+                                                                                                                                                                                                                                                                                  Qilian
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         Shipai
+
+
+
+
+                                                                                                                                                                                                                                                                                           Shipai                                                                                                                                                                                                                                                                                                                                                                                                                                                        Mingde
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              Zhishan
+                                                                                                                                                                                                                                                                                              Mingde
+                                                                                                                                                           Luzhou
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              Shilin
+                                                                                                                                                                                                                                                                                              Zhishan
+                                                                                                                                                        Sanmin-Senior-High-School
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 Xihu                                            Dahu-Park
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     Jiannan-Rd.                                                        Neihu
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          Dazhi
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              Wende
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              St.-Ignatius-High-School
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              Jiantan                                                                                                                                                              Huzhou
+                                                                                                                                                                                                                                                                                              Shilin                                                                                                                                                                                                                                                                                                       Luzhou                                                                                                                                                                                                                                                 Gangqian
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   Sanhe-Junior-High-School
+                                                                                                                                                                               St.-Ignatius-High-School                                                                                                                                                                                                                                                                                                                                                                                                                 Sanmin-Senior-High-School
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           Songshan-Airport
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     Da
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       Hu
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       hu
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Ne
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        -P
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         zh
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              Yuanshan                                                                                                                                                                      Donghu
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                          ihu
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ark
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           ou
+                                                                                                                                                                                                                                                                                              Jiantan                                                                                                                                                                                                                                                                                                                                                                                              Sanchong-Elementary-School
+                                                                                                                                                                                                Sanhe-Junior-High-School
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                   Gangqian
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     Donghu                                                                                                                                                                                                                                                                               Zhongshan-Junior-High-School
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    Daqiaotou                                                 Minquan-W.-Rd.
+                                                                                                                                                                                                                   Sanchong-Elementary-School                                                 Yuanshan                                                                                                                                      Xihu                                                                                                                                                                                                                                                                                                                                                                                                                                                                         Nangang-Software-Park
+
+
+
+                                                                                                                                                                                                                                                                                                                 d.
+                                                                                                                                                                                                                                                                                                       .-R
+                                                                                                                                                                                                                                                                                                    n-W                                                                                                                                                                                                                          Donghu                                                                                                                                                                                                                                  Zhongshan-Elementary-School
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  Xingtian-Temple
+                                                                                                                                                                                                                                                                                                  ua
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                   Jiannan-Rd.                                                                                                                                                                                                                                                                                                                                                                                   Nanjing-E.-Rd.
+                                                                                                                                                                                                                                                                                              nq
+                                                                                                                                                                                                                                                                                            Mi
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              Taipei-Bridge                                                                   Shuanglian
+                                                                                                                                                                                                                                                                                                                               Zhongshan-Elementary-School                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             Taipei-Nangang-Exhibition-Center
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            Nangang-Software-Park                                                                                                                                                                                                                        Songjiang-Nanjing
+                                                                                                                                                                                                                                                                                                                                                                                                       Songshan-Airport
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   Zhongxiao-Fuxing
+                                                                                                                                                                                                                                                                                                                                             Xingtian-Temple                                                                                                                                                                                                                                                                                                                                                                                                                        Zhongxiao-Xinsheng
+                                                                                                                                                                                                                                 Taipei-Bridge                                                                                                                                                                                                                                                                                                                                                                                                                    Cailiao                                                                                                                                                                                                                                          Nangang
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              Zhongshan
+                                                                                                                                                                                                                                                                                                                                                                                       Zhongshan-Junior-High-School                                                                                            Taipei-Nangang-Exhibition-Center
+                                                                                                                                                                                                                                                                                              Shuanglian
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           Daan                Zhongxiao-Dunhua
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                            ll
+                                                                                                                                                                                                                                                                                                                       Songjiang-Nanjing
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                          Ha
+                                                                                                                                                                                                                                                                                                                                                                  Nanjing-E.-Rd.                                                                                                                                                        Nangang                                                                                                                                                                                                                                                                                                                                                        Kunyang
+                                                                                                                                                                                                                       Cailiao                                                                                                                                                                                                                                                                                                                      Fu-Jen-University             Xinzhuang            Touqianzhuang        Xianse-Temple                                                                                                                          Shandao-Temple
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                      al-
+                                                                                                                                                                                                                                                                                                                                                                                                                                    ori
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             Sanchong
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                         a
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   Taipei-Main-Station
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                               em
+                                                                                                                                                                                                                                                                                                                                                                                ing
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                       hu
+                                                                                                                                                                                                                                                                                                                                                                                                   un
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                         n-M
+                                                                                                                                                                                                                                                                                                                                                                               ux
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                             all
+                                                                                                                                                                                                                                                                                                                                                                                                  -D
+                                                                                                                                                                                                                                                                                                                                                                             -F
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                         -H
+                                                                                                                                                                                                                                                                                                                                                                                                                     Se
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             Sun-Yat-Sen-Memorial-Hall
+                                                                                                                                                                                                                                                                                                                                                                       iao
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                               iao
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 i
+                                                                                                                                                                                                                                                                                                                                                                                                                                                       ity
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               np
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                un
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  un
+                                                                                                                                                                                                                                                                                                                                                                                                                   at-
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                    i-C
+                                                                                                                                                                                                                                                                                                                                                                   gx
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                             gx
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ha
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                              ch
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ch
+                                                                                                                                                                                                                                                                                              Zhongshan                                                                                                                                                                                                                     Kunyang
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                n-Y
+                                                                                                                                                                                                                                                                                                                                                                  on
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                           on
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                              ipe
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          us
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                          ng
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ng
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         Technology-Building                                                              Houshanpi
+                                                                                                                                                                                                                                                                                                                                                                Zh
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                         Zh
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                              Su
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Ho
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Yo
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       Yo
+                                                                                                                                                                                                                                                                                                                                                                                                                                            Ta
+                                                                                                                                                                                             Sanchong                                                                                                            Zhongxiao-Xinsheng
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              n
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          Longshan-Temple
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         me
+                                                                                                                                                                                                                                                                                                                     ion
+                                                                                                                                                                                                                                                                le
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Xi
+                                                                                                                                                                                                                                                                                                                 tat
+                                                                                                                                                                                                                                                              mp
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           Jiangzicui                                                                                                                                                                                 Taipei-City-Hall
+                                                                                                                                                                                                                                                                                                                -S
+                                                                                                                                                                                                                                                           -Te
+
+
+
+
+                                                                                                                                                                                                                                                                                                          ain
+                                                                                                                                                                                                                                                         an
+
+
+
+
+                                                                                                                                                                                                                                                                                                    i-M
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             NTU-Hospital                                                                                                                   Yongchun
+                                                                                                                                                                                                                                                     sh
+
+
+
+
+                                                                                                                                                                                                                                                                                 en
+
+
+
+
+                                                                                                                                                                                                                                                                                              ipe
+                                                                                                                                                                                                                                                    ng
+
+
+
+
+                                                                                                                                                                                                                                                                           Xim
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   Liuzhangli
+                                                                                                                                                                                                                                                                                            Ta
+                                                                                                                                                                                                                                               Lo
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                Shandao-Temple
+                                                                                                                                                                     Xianse-Temple                                                                                                                                                                               Yongchun                                                                                                                                                                                                                                                                                                                                     Xiaonanmen
+
+
+                                                                                                                                                                                                                           Jiangzicui                                Xiaonanmen               NTU-Hospital                                                                                                                                                                                                                                                                                                                                  Xinpu
+
+
+                                                                                                                                                                                                                                                                                                                                                                  Technology-Building                                                                                                                                                                                                                                                                                                                                                             Chiang-Kai-Shek-Memorial-Hall                                     Linguang
+                                                                                                                                                    Touqianzhuang                                                                                                                                Chiang-Kai-Shek-Memorial-Hall
+
+
+                                                                                                                                                                                                       Xinpu
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  Guting
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Banqiao
+                                                                                                                                                                                                                                                                                                                                                                 Liuzhangli
+                                                                                                                                        Xinzhuang                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         Xinhai
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              Taipower-Building
+                                                                                                                                                                                      Banqiao
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    Jingan
+                                                                                                                                                                                                                                                                                                                                                                                    Linguang
+                                                                                                                                                                                                                                                                                                 g
+                                                                                                                                                                                                                                                                                              tin
+                                                                                                                                                                                                                                                                                            Gu
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           Fuzhong                                                                                                                                                        Gongguan
+                                                                                                                  Fu-Jen-University                                                                                                                                                                                          Taipower-Building                                                                                                                                                                                                                                                                                                                                                                                                                                                               Wanfang Hospital
+
+                                                                                                                                                                    Fuzhong                                                                                                                                                                                                                    Xinhai                                                                                                                                                                                                                                                                                      Yongan-Market
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       Wanlong
+                                                                                                                                                                                                                                                                                                                                           Gongguan
+                                                                                                                                                                                                                                                                      Jingan                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              Wanfang Community
+                                                                                                                                                                                                                                                                                                                                                                                                             Wanfang Hospital                                                                                                                                             Far-Eastern-Hospital
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   Dingxi
+                                                                                                                                                    Far-Eastern-Hospital
+                                                                                                                                                                                                                                                                                                                                                      Wanlong
+                                                                                                                                                                                                                                         Yongan-Market                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 Jingmei                                                              Muzha            Taipei-Zoo
+                                                                                                                                                                                                                                                                                                                                                                                                                               Wanfang Community
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 Nanshijiao
+                                                                                                                                                                                                                                                                                                                                                                 Jingmei
+                                                                                                                                      Haishan
+                                                                                                                                                                                                                                    Dingxi                                                                                                                                                                                                                                                                                                                              Haishan
+                                                                                                                                                                                                                                                                                                                                                                                                                                                    Muzha                                                                                                                                                                                                                                                                                                                               Dapinglin
+
+
+
+                                                                                                                                                                                                                   Nanshijiao                                                                                                                                     Dapinglin                                                                                           Taipei-Zoo
+                                                                                                                           Tucheng
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  Xiaobitan                                            Qizhang
+
+
+
+
+                                                                                                      Yongning                                                                                                                                                                                                                                                   Qizhang                                                                                                                                                                                                Tucheng
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    Xindian-City-Office
+                                                                                                                                                                                                                                                                                                                               Xiaobitan                                                  Xindian-City-Office
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           Yongning
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                              Xindian                                                                                                                                                                                                                                                                                                                                                                                                      Xindian
+
+
+
+
+                                                                  (a)                                                                                                                                                                                                                      (b)                                                                                                                                                                                                                                                                                                                                                                                                                                       (c)
+                                         Figure 1: An example of Taipei metro maps, including (a) the input transit network and the guide shape (gray), and the output (b) without
+                                         and (c) with the shape.
+
+                                               Abstract
+                                               Metro or transit maps, are schematic representations of transit networks to facilitate effective route-finding. These maps are
+                                               often advertised on a web page or pamphlet highlighting routes from source to destination stations. To visually support such
+                                               route-finding, designers often distort the layout by embedding symbolic shapes (e.g., circular routes) in order to guide readers’
+                                               attention (e.g., Moscow map and Japan railway map). However, manually producing such maps is labor-intensive and the effect
+                                               of shapes remains unclear. In this paper, we propose an approach to generalize such mixed metro maps that take user-defined
+                                               shapes as an input. In this mixed design, lines that are used to approximate the shapes are arranged symbolically, while the
+                                               remaining lines follow classical layout convention. A three-step algorithm, including (1) detecting and selecting routes for
+                                               shape approximation, (2) shape and layout deformation, and (3) aligning lines on a grid, is integrated to guarantee good visual
+                                               quality. Our contribution lies in the definition of the mixed metro map problem and the formulation of design criteria so that the
+                                               problem can be resolved systematically using the optimization paradigm. Finally, we evaluate the performance of our approach
+                                               and perform a user study to test if the embedded shapes are recognizable or reduce the map quality.
+                                               CCS Concepts
+                                               • Human-centered computing → Visualization techniques; Interactive systems and tools;
+
+
+
+                                         1. Introduction                                                                                                                                                                                                                                                                                              metaphors for network visualization in physics, biology, engi-
+                                                                                                                                                                                                                                                                                                                                                      neering, etc. [WNTN19]. However, manually creating schematic
+                                         A metro or transit map used to show transportation line ser-                                                                                                                                                                                                                                                 maps is not straightforward and requires intensive iterative pro-
+                                         vices is an intuitive, schematic representation of a transit net-                                                                                                                                                                                                                                            cesses. Automatic approaches have been thus investigated to solve
+                                         work. Here, a schematic representation is a simplified network                                                                                                                                                                                                                                               this high-complexity problem [WNT∗ 20], however, most exist-
+                                         geometry (e.g., straightened lines, uniform spacing of stations,                                                                                                                                                                                                                                             ing approaches aim for one single style. For example, an octo-
+                                         etc.), to facilitate effective way-finding activities [Rob14b]. Such                                                                                                                                                                                                                                         linear (also octilinear) layout limits all edge orientations to hor-
+                                         nicely arranged representations make transit maps popular visual                                                                                                                                                                                                                                             izontal, vertical, or diagonal at 45◦ [NW11, SRMOW11, WC11].
+2                                   T. Batik & S. Terziadis & Y.-S. Wang & M. Nöllenburg & H.-Y. Wu / MixedMetroMap
+
+                                                                              • A general definition and solution for the mixed metro map prob-
+                                                                                lem beyond the state-to-the-art.
+                                                                              • An algorithmic approach to perform shape matching, shape ap-
+                                                                                proximation, and metro line alignment as a whole.
+                                                                              • Quantitative and qualitative evaluation to test shape recogniz-
+                                                                                ability and the corresponding influence on route planning tasks.
+                                                                                 The paper is structured as follows: In Section 2, we summa-
+    (a) Schematic Mapping Workshop logo         (b) Embedded heart            rize the state-of-the-art literature relevant to our approach. We then
+                                                                              begin with a definition of the proposed problem, followed by an
+Figure 2: Examples of shape-embedded layouts, including (a)
+                                                                              explanation of the design criteria and a high-level description of
+the logo of Schematic Mapping Workshop 2019 (courtesy of Dr.
+                                                                              our algorithm (Section 3). The method used to solve the proposed
+Maxwell J. Roberts), and (b) an example illustration from One
+                                                                              problem is detailed in Sections 4-6. We collect several results (Sec-
+Metro World [Cer16] (courtesy of Mr. Jug Cerović).
+                                                                              tion 7), examine the approach performance and quality (Section 8),
+                                                                              and conclude this paper and propose open topics in Section 9.
+
+A curvilinear layout constrains metro lines as continuous and                 2. Related Work
+smooth curves [FHN∗ 12]. Other styles such as concentric cir-
+                                                                              Metro maps are designed to help passengers navigate transit lines
+cles [FLW14] that align metro lines along concentric circles, or
+                                                                              when taking trains in a rail system. Since train routes are fixed
+multilinear [NN20] designs that relax octolinear layout by allowing
+                                                                              and passengers mainly need to know at which station to get on
+multiple edge directions were also proposed and their algorithmic
+                                                                              or off a train, some sort of distortions are allowed in metro maps
+complexity and perceptual effectiveness were investigated.
+                                                                              for improving readability. Since exact geographic information is
+   However, in reality, if we take a close look at the handcrafted            no longer needed, cartographers usually enlarge downtown areas
+metro maps by professional designers [Cer16,ZER21,Tra21], mul-                to label station names and prevent visual clutters [Ove08, Sch14].
+tiple styles are often incorporated in a single diagram. Designers            The stations on metro lines are re-positioned to fulfill several cri-
+often distinguish primary and secondary information to emphasize              teria, such as even spacing of stations [Deg13, Llo17], minimum
+the difference between specific lines in the system. To achieve this,         direction changes in routes [Rob14a], and the relative positions
+some lines in the map are arranged using a simple geometry (e.g.,             of stations [RGL17]. Generally, the layout of a metro map can
+circle, etc.) or an iconic shape (e.g., heart, etc.), while the remaining     be curvilinear, multilinear [RGL17], k-linear (including octolinear,
+lines follow the layout convention. The official Moscow map with a            hexalinear, and tetralinear) [NN20], and even based on concentric
+circular route highlighted is a typical example [Mos19], while maps           circles [RNC16, NRW19]. In addition to the network map, text or
+with more complicated shapes [ZER21] are more often used for                  image labels are placed around stations for passengers to connect
+advertising purposes or special events [KSH∗ 16, WCZ∗ 19]. Fig-               the map and the real world [Ove15]. The labels are expected to be
+ure 2 shows more examples, where a designer embedded the Vienna               overlap-free, close to their corresponding stations, and have consis-
+metro map to create a workshop logo [The19], and Cerović explains            tent orientations if they represent neighboring stations.
+the influence of shapes in mental map development [Cer16]. Nev-
+                                                                                 Schematic Layout Approaches. So far the most commonly
+ertheless, as summarized by Wu et al. [WNT∗ 20], creating transit
+                                                                              used metro map layout is octolinear, which was introduced by
+maps is an iterative process, and an automatic approach provides
+                                                                              Henry Beck for the London Underground in 1933. It is known that
+opportunities for scientists to effectively investigate advantages and
+                                                                              computing an optimal octolinear layout is NP-hard [Nöl05]. Sev-
+disadvantages of various metro maps.
+                                                                              eral categories of methods were then introduced to pursue high-
+   There exist automatic approaches for synthesizing metro maps               quality metro map layouts within a reasonable computation time.
+with more than one style; however, supported geometry (i.e., shape)           The first category is line simplification, which attempts to find
+is limited to either polylines [WTLY12] or circles [WPT∗ 15] to               a set of linked line segments to represent each path on the map
+the best of our knowledge. This paper presents a more general ap-             [Ney99, MG06, DHM08, CdBvK05, LD10]. During the simplifica-
+proach to the mixed layout problem, which allows the integration              tion process, the deviation between each station and the closest line
+of specific shapes and classical metro map layout. This is achieved           segment is bounded, and the number of line segments is minimized.
+by introducing a user-defined guide shape, represented as single or           The second is local optimization. Methods in this category itera-
+multiple polylines, as input. Figure 1 shows an example, where we             tively move stations to nearby positions to align edges in octolin-
+embed a heart shape into the Taipei metro system. This is done with           ear directions [AM00,Ave07]. Several strategies, such as simulated
+a three-step approach by firstly matching routes for shape approx-            annealing [MWTAT06], ant colony optimization [WR13], mag-
+imation, then deforming the network layout, and finally, aligning             netic force field [CR14], and least-squares optimization [vDL18]
+lines on a grid. Note that each individual step here has been catego-         were applied to prevent the algorithm from falling into local mini-
+rized as a challenging problem [FSSS15, WNT∗ 20, LvDW16]. To                  mums. The third category is to formulate a metro map layout prob-
+guarantee the visual quality of the generated maps, the guide shape           lem into a mixed-integer linear program [NW11, WPT∗ 15], which
+should be recognizable in the final layout, while the remaining part          distinguishes hard constraints that must be fulfilled and soft con-
+of the layout should still fulfill the classical octolinear design crite-     straints that are globally optimized. Typically, the octolinear lay-
+ria [NW11]. Our contributions in the paper are summarized:                    out is mandatory since edge orientation is formulated using a set
+                                T. Batik & S. Terziadis & Y.-S. Wang & M. Nöllenburg & H.-Y. Wu / MixedMetroMap                                    3
+
+
+
+
+(a) Input network and shape      (b) Route matching         (c) Smooth deformation     (d) Octolinear deformation          (e) Grid alignment
+Figure 3: Algorithmic pipeline of our layout approach. (a) The input metro network and a user-specified shape. (b) Shape and route matching,
+shown in blue. (c) Shape fitting using a smooth layout. (d) Shape fitting using an octolinear layout. (e) Final layout after aligning stations
+and lines on a modified grid, which includes the shape.
+
+
+
+of binary variables in the model, whereas other aesthetic require-         3.1. The Mixed Metro Map Problem
+ments can be relaxed if they conflict with others. Finally a recent
+                                                                           We define the mixed metro map problem in a more general fash-
+result computes shortest paths between candidate positions of sta-
+                                                                           ion by relaxing the user-specified shape constraints introduced by
+tions on a predefined grid [BBS20, BBS21]. This was formulated
+                                                                           Wu et al. [WTLY12, WPT∗ 15]. Note that to retain consistency, in
+as an ILP, but heuristical solutions through repeated applications of
+                                                                           this paper, we follow the terminology and symbols used in the re-
+shortest path algorithms can be obtained very quickly. In addition
+                                                                           cent transit map survey [WNT∗ 20]. A transit network is defined
+to methods belonging to the above-mentioned categories, the works
+                                                                           as N = (S,C), where S = {v1 , v2 , ..., vn } represents a vertex set of
+of [WC11] and [WP16] applied a two-step deformation technique
+                                                                           stations and C = {e1 , e2 , . . . , em } is an edge set describing station
+to achieve the goal. Their methods first compute curvilinear layouts
+                                                                           connectivity. In addition to classical networks, a path cover T of
+of metro maps and then rotate each edge to the closest octolinear
+                                                                           N is used to describe a set of paths, in N, indicating the different
+direction. Each step solves a least-squares optimization problem.
+                                                                           service lines in the transportation system. Note that each connec-
+Compared to previous works, our approach allows embedding a
+                                                                           tion e ∈ C belongs to one or more paths in T . Moreover, a guide
+guide shape with arbitrary edge directions into a schematic metro
+                                                                           shape P, which can consist of one or more open or closed polylines
+map, which is challenging to integrate with their frameworks.
+                                                                           P = {p1 , p2 , ..., pk }, is introduced to express the user’s design goal.
+   Station Names Labeling. Station names are essential in metro
+maps, yet the labeling problem itself is also NP-hard [GIM∗ 01,            3.2. Design Principles
+NH18]. Several previous methods solve the layout and the la-
+                                                                           Based on criteria collected for layout approaches [WNT∗ 20] and
+beling problems in two steps to reduce the computation cost
+                                                                           open criteria raised by the design studio [ZER21, Cer16], we sum-
+[WC11,WTLY11]. Niedermann and Haunert in particular present a
+                                                                           marize the design principles for our mixed metro maps as follows:
+general framework for labeling network maps [NH18]. Since occlu-
+sions could be inevitable when the layout does not provide enough          D1 Constrained Layouts: To increase legibility [WNT∗ 20,
+space for labeling, the methods of [NH18, YMK∗ 18, TMK∗ 19]                  Rob14b] line configurations are often simplified to an octolinear
+systematically scale certain edges on the map to solve the prob-             design [NW11]. In such a layout, the preservation of the input
+lem. There are also methods considering both layout and labeling             topology is often assumed a natural constraint [WNT∗ 20].
+problems simultaneously when computing metro maps [SR05, SR-               D2 Topographic Accuracy and Relative Positions of Stations:
+MOW11,NW11]. Please refer to [WNT∗ 20] for details as our work               The topographic accuracy has been discussed as an important
+does not focus on station names labeling problem.                            factor in a schematic representation [Rob14b] to preserve users’
+                                                                             mental map of a city. Relative positions between pairs of stations
+                                                                             should be maintained.
+                                                                           D3 Spatially-separated Stations: To avoid overlaps between sta-
+                                                                             tions, a minimum distance between stations is commonly incor-
+3. Overview                                                                  porated. This distance is preferably uniform [Gar94, NW11].
+                                                                           D4 Simplification of Trajectories: Line orientations are expected
+Our approach was developed by firstly investigating several real-            as continuous as possible [Gar94, NW11].
+world examples [ZER21, Mos19, Cer16] and existing design cri-
+                                                                              The aforementioned design rules have been defined previ-
+teria [Rob14b, WNT∗ 20], and then summarizing common design
+                                                                           ously [WNT∗ 20] and are applied to real-world metro maps in gen-
+principles for our mixed metro map layout. Secondly, we trans-
+                                                                           eral. In this paper, we further propose design criteria, which allow
+form these design principles to aesthetic constraints. Finally, these
+                                                                           us to achieve the desired affect when embedding the guide shape in
+aesthetic constraints are formulated into equations for a mathe-
+                                                                           the final layout.
+matical model that can be solved systematically. We will demon-
+strate these design principles, followed by an introduction of our         D5 Translation and Scale Invariant Shape Embedding: The
+approach pipeline achieving these goals.                                     shape can be translated and scaled when embedding it, while
+4                                 T. Batik & S. Terziadis & Y.-S. Wang & M. Nöllenburg & H.-Y. Wu / MixedMetroMap
+
+  we exclude rotation to avoid adding another layer of recognition          guide shape P can be arbitrary and the path W similar to P may
+  complexity [TP89].                                                        not exist, we insert dummy edges to the network for enhancing
+D6 Shape Representation: The edges in the transit network                   visual quality. Specifically, if the geographic distance between two
+  should be appropriately selected to approximate the shapes. Per-          stations vi and v j ∈ S is smaller than a predefined threshold and
+  ceptually, the embedded shape in the layout should be recogniz-           no edge connecting vi and v j exists, we insert a dummy edge to
+  able.                                                                     connect the two stations (Figure 4).
+D7 Hybrid Edge Orientation: Edges that are used to approximate                 We adapt the shape-preserving Dijkstra algorithm [FS11] to find
+  the guide shape should follow the shape structure, while the re-          a path W that can approximate P. The cost of a path in the shape-
+  maining edges follow the aforementioned classical design.                 preserving Dijkstra algorithm, in contrast to the normal shortest
+                                                                            path algorithm, is given by similarity between the path and P.
+3.3. Mixed Metro Map Pipeline                                               Specifically, we quantify the difference between the path W and the
+                                                                            P using the direction-based integral Fréchet distance [dBC11] be-
+Figure 3 gives a conceptual overview of the proposed algorith-
+                                                                            tween W and P, which we write as δ(W, P). We also use the concept
+mic pipeline. Initially, the user needs to select a transit network
+                                                                            of the partial similarity [dBC11] δ partial (W, P), which is defined by
+and provide a target shape as input to our approach. Figure 3(a)
+                                                                            a subpath P0 of P, which minimizes δ(W, P0 ) (see Figure 4).
+shows an example, where the transit network is drawn with col-
+ored lines and a user-specified shape (heart) is marked in gray. In            The cost of a connection is given by the difference between the
+the second step, as shown in Figure 3(b), we scale and translate the        slope of the metro connections and the slope of the corresponding
+guide shape in order to find an appropriate sub-network to approx-          section of the guide shape. So in case the difference between those
+imate this shape (Section 4). Once the guide shape is uniformly             slopes is small, the additional cost of the connection for the path is
+scaled and translated, we adapt a two-step deformation procedure            small, too. Rather than considering the Euclidean distance between
+inspired by Wang et al. [WC11, WP16] in order to create a rela-             points in the original shape-preserving Dijkstra algorithm [FS11],
+tively well-representative network embedding. Here, we first gen-           the direction-based integral Fréchet distance is beneficial for our
+erate a smooth layout (Figure 3(c)) to balance mutual distance be-          use case because it is scale and translation invariant (i.e., P is
+tween stations and straighten lines with degree 2 stations, followed        given with an arbitrary size and position). It provides a robust map-
+by synthesizing a nearly octolinear layout (Figure 3(d)). This opti-        ping between P and W , and small variations between two lines are
+mization process is detailed in Section 5. In the last step, to guar-       not disproportionately penalized. Experiments can be found in Ap-
+antee that the metro lines are fully aligned on a grid (Figure 3(e)),       pendix A.
+we introduce a grid alignment approach while retaining the mixed               In our implementation, we grow the path W from a station on
+layout structure (see Section 6).                                           the metro map until none of the inserted stations can reduce the
+                                                                            Fréchet distance. Let W0 be the initial path and Wk be the path
+4. Route Matching and Shape                                                 composed of k + 1 stations. Namely, the growing process can be
+                                                                            expressed as W0 → W1 → W2 → ... → W . At each step k, we ex-
+We compute a metro map layout that exhibits the given guide shape.
+                                                                            amine all neighboring stations of Wk and insert the station v into a
+Limited by the metro network’s route structure, determining the op-
+                                                                            queue if it can reduce the direction-based integral Fréchet distance.
+timal size and position of the guide shape is essential. In addition
+                                                                            In other words, δ(Wk + v, P) < δ(Wk , P). Then, for each station u
+to size and position, however, we do not rotate either the guide
+                                                                            in the queue, we compute the partial matching δ partial (Wk + u, P)
+shape or the metro map when computing the map layout because
+                                                                            to obtain a subsection of the guide shape P that is the most similar
+their orientations are restricted. For example, the upright direction
+                                                                            to Wk + u. The station u that has the shortest distance δ partial will
+of a “heart” shape is meaningful to humans; and the relative po-
+                                                                            be inserted to extend the path from Wk to Wk+1 . Note that we only
+sitions of stations help passengers navigate themselves in an urban
+                                                                            consider subsections of the guide shape P with the intent, that Wk+1
+area. An up-side-down metro map would conflict with users’ men-
+                                                                            approximates P better than Wk in each iteration. The algorithm re-
+tal map and decrease the map’s usability. To determine the position
+                                                                            peats until the queue is empty.
+of a guide shape, we first determine a path W consisting of metro
+connections e ∈ C. Then, we scale and translate the guide shape                Using paths with a few dummy edges to represent the guide
+P to align with the path W . Note that the guide shape’s size and           shape is preferable. To achieve this goal, we give dummy edges
+position will not be updated during the deformation process.                a high cost and real metro edges a small one. Since the starting ver-
+                                                                            tex of path W is unknown, we run the Dijkstra method from each
+   We focus on an automatic approach for aligning guide shapes
+                                                                            potential starting station and select the path W that has the least cost
+and metro maps, which determines a path inside the transit net-
+                                                                            δ(W, P). If the guide shape consists of multiple polylines, for exam-
+work visually similar to the guide shape P. However, as outlined
+                                                                            ple the eye-formed shape shown in Figure 11, we perform the route
+in Section 1, there are use cases (artistic or advertising purposes),
+                                                                            matching only for the the polyline containing the top left vertex,
+where specific lines must lie on iconic shapes. We optionally let
+                                                                            and all other polylines are placed at the correct scaling and offset
+designers define W manually.
+                                                                            to the matched one.
+                                                                               Once the path W is obtained, we transform the metro network
+4.1. Automatic Route Matching
+                                                                            to align W with the guide shape P. As mentioned previously, we
+We search for a path W = (e1 , e2 , ..., ek ) on the transport network      assume that the guide shape and the metro map are in the right
+that is visually similar to the user-defined guide shape. Since the         orientation, and thus the transformation contains only translation
+                                 T. Batik & S. Terziadis & Y.-S. Wang & M. Nöllenburg & H.-Y. Wu / MixedMetroMap                                           5
+
+
+
+                          W
+
+                      0
+                  W
+
+
+
+                                            P
+                                                p0
+
+
+                                                                            Figure 6: The station v0j , rather than v0i , is used to approximate the
+Figure 4: Dummy edges are shown with dotted lines. W 0 is shown             guide shape. This guarantees that no other metro line is closer to
+with a light blue stroke and W with a dark blue. The complete guide         the guide shape. Therefore, v0j is added to Sshape0
+                                                                                                                                  , but not v0i .
+shape P is shown in black and a subsection of the guide shape is
+drawn with an orange stroke.
+                                                                                                                                 0
+                                                                            shape with the network, rather than to define Cshape     . The reason is
+                                                                            that the automatically computed path W represents only the over-
+                                                                            all shape of the guide shape and may miss details. Therefore, we
+                                                                                     0
+                                                                            update Sshape at each step of the smooth deformation. This is done
+                                                                            as follows: let v∗i be a reflection of v0i over the closest point pi on
+                                                                                                                 0
+                                                                            the guide shape. We assign v0i to Sshape   if the line segment between
+                                                                            vi and vi does not intersect any of the edges in C0 , as illustrated
+                                                                             0       ∗
+
+                                                                            in Figure 6. Otherwise, such an intersection implies that another
+                                                                            station and metro line must be closer to the guide shape.
+     (a) Smooth deformation              (b) Grid alignment
+                                                                            5.1. Smooth Layout
+                                0
+Figure 5: Shape stations v0i ∈ Sshape and the corresponding edges
+that approximate a circular guide shape are visualized in blue. Sta-        We optimize four constraints to compute the smooth layout,
+tions and connections that do not approximate the guide shape are
+                                                                                         Ωsmooth = wc Ωc + wl Ωl + wa Ωa + w p Ω p .                     (1)
+shown in red.
+                                                                            Specifically, Ωc forces the layout to approximate the guide shape.
+                                                                            Ωl causes uniform edge lengths, Ωa maximizes angular resolutions,
+                                                                            and Ω p minimizes the distance of the position of a metro station
+and scaling. For simplicity, the alignment is achieved based on the
+                                                                            vi ∈ S to its geographical location. The corresponding weight to
+bounding boxes of P and W .
+                                                                            balance the potentially contrary constraints is denoted by w. Let
+                                                                            D(v0i ) be the degree of v0i . The constraint Ωc penalizes the distance
+5. Deformation                                                              of smooth stations and the polyline and is given as
+
+After aligning the guide shape P with the metro network, we de-                                 Ωc =       ∑         D(v0i )|pi − v0i |2 .               (2)
+form the metro network to fulfill the design principles outlined in
+                                                                                                             0
+                                                                                                       v0i ∈Sshape
+Section 3.2. This process is inspired by the two-step approach of
+Wang et al. [WC11]. First, we create a smooth layout (Figure 3.c)              To implement the Design principles D1 to D4 (outline in Sec-
+that aims to space stations evenly, avoid sharp bends, and maxi-            tion 3.2), three energy terms are applied to all stations vi ∈ C. The
+mize angular resolution. Additionally, the guide shape P is approx-         constraint Ωl forces stations to be evenly spaced. This eliminates
+imated by aligning metro stations with segments of P (Figure 6).            the information about the geographic distance between stations, but
+The smooth, as well as the mixed layout, are created using the least        creates a more uniform and balanced layout. Ωl is given by
+squares optimization by minimizing constraints iteratively.                              Ωl =     ∑ |(v0i − v0j ) − si j Ri j (vi − v j )|2 ,
+                                                                                                {i, j}∈C
+   In the following sections, we denote the geographic position of a                                                                                   
+station by vi ∈ S, the transformed position in the smooth optimiza-                             L                              cos θi j      − sin θi j
+                                                                               where si j =                and         Ri j =                             ,
+tion stage by v0i ∈ S0 , and in the mixed stage by ṽi ∈ S̃. We assume                      |vi − v j |                         sin θi j     cos θi j
+that the input metro network is planar. Otherwise, we planarize the                                                                                       (3)
+network by inserting dummy stations if two connections intersect.
+                                                                            L denotes the target length of the edges. This length is equal for all
+                                                                 0
+   To approximate the guide shape, a subset of stations v0i ∈ Sshape        edges where stations are not dummy nodes, and equals the average
+are pushed toward the guide shape segments that are located closest         length of the metro connections in the initial layout. In case vi or v j
+                                       0
+to them. As a result, the edges e0i ∈ Cshape connecting those stations      of {i, j} ∈ C is a dummy node and not a regular station, the target
+can represent the guide shape P. Figure 6 illustrates the connec-           length for {i, j} ∈ C is L/2. Besides, θ describes the unknown angle
+tions and stations that should and should not approximate the guide         of a connection {i, j} ∈ C0 and R is a rotation matrix, ensuring that
+shape. It deserves noting that we use W only to align the guide             the rotation of the connection is not penalized.
+6                                          T. Batik & S. Terziadis & Y.-S. Wang & M. Nöllenburg & H.-Y. Wu / MixedMetroMap
+
+   The constraint Ωa aims to maximize the angle between connec-                      6. Grid Alignment
+tions sharing a station. This separates the different metro lines in
+                                                                                    While the previous mixed layout step tries to align the shape edges
+case of station with a degree > 2 (e.g. an interchange), making it
+                                                                                    with the shape and the remaining edges with an octolinear direc-
+easier for the user to distinguish two metro lines. In case of a sta-
+                                                                                    tion, the resulting layout may still contain some edges that are not
+tion with degree = 2, the metro lines are straightened naturally. Ωa
+                                                                                    fully octolinear yet. Our goal is to compute a final layout, which
+is formulated as
+                                                                                    is as similar to the mixed layout as possible, while all edges of
+                                                          π − θi 0 2
+  Ωa = ∑                ∑      |v0i − (v0j + c0i j + tan(       )c jk )| , (4)      Cocto are exactly aligned with one of the octolinear directions and
+        v0 ∈S0 {i, j},{i,k}∈C0
+                                                            2                       all edges of Cshape are tracing the guide shape.
+         i                  shape
+
+
+where c0i j = 21 (v0k − v0j ). θi depends on the number of outgoing                     This issue can not easily be resolved by simply snapping every
+                                                                                     edge to the closest octolinear direction. However we can adapt an
+connections of v0 i , namely, θi = 2π/D(v0i ).
+                                                                                     existing layout algorithm developed by Bast et al. [BBS20], which
+   To preserve the overall geographic structure of the metro system,                 computes octolinear layouts of metro maps given as geographical
+we add the energy term Ω p . This term can avoid large deformations                  inputs on predefined grids, and renders edges as piece-wise octo-
+of the network and avoid a conflict with the mental map of users.                    linear curves.
+For example, to avoid a layout where stations located in the north
+                                                                                        We will proceed by giving a description of the original approach
+of a city are moved to the south. Ω p is given as:
+                                                                                     first and then we will describe all adaptions we made to accommo-
+                           Ω p = ∑ |v0i − vi |2 .                          (5)       date for our setting.
+                                    vi ∈S
+
+                                                                                     6.1. The Octi framework
+5.2. Mixed Layout
+                                                                                     In their Octi framework for metro map layout, Bast et al. [BBS20,
+Following the smooth optimization stage, we create a mixed layout.                   BBS21] consider a geographic network N as input. Let xmin , ymin ,
+Similar to the previous step, we differentiate between connections                   xmax and ymax be the minimal maximal x and y coordinate over all
+ẽ j ∈ C̃shape that aim to approximate the guide shape and octolinear                stations in N respectively. A grid graph G = (VG , EG ) (with cell
+connections ẽi ∈ C̃octo that do not contribute to the recognisability               diagonals) is created, with a cell size d equal to the average dis-
+of the shape. Octolinear edges should have an octolinear slope (e.g.                 tance between two stations in N multiplied by a factor fd with
+a multiple of π4 ), whereas shape connections approximate P and                      d(xmax − xmin )/de columns and d(ymax − ymin )/de rows. The di-
+should align to a section of the guide shape P. The differentiation                  mensions are chosen, s.t., N can be placed on top of G and the axis-
+between octolinear and shape connections is based on the assign-                     aligned bounding box of N is completely contained in that of G.
+ment used for the smooth stage. Therefore, if a connection was in                    Now every edge {a, b} of the grid is replaced with a path a, ab , ba , b
+   0
+Cshape   in the smooth layout, then this edge is treated as a shape edge             of length three. The two nodes ab and ba are called the port of a in
+e˜i ∈ C̃shape . Otherwise, the edge is an octolinear one.                            the direction of b and the port of b in the direction of a, respec-
+   To determine the mixed layout, each connection e˜i ∈ C̃octo is as-                tively, while a and b are called the sink nodes of their respective
+signed to its closest octolinear slope. In case of a conflict, the Hun-              ports. Note that every port node has as many ports as its original
+garian algorithm is applied to reassign the octolinear slope of each                 degree. Finally for every sink node, edges are introduced to create
+edge by minimizing the sum of rotations. We minimize the term                        the complete graph on its port nodes. Every edge between two ports
+                                                                                     of different sink nodes has weight ccop , every connection of a port
+                 Ωo =       ∑           |(θ0i j + ∆θi j ) − θ̃i j |2 ,     (6)       to its own sink node has a (sufficiently large) weight csink and every
+                        {i, j}∈C̃octo                                                connection {ab , ac } in the complete graph between port nodes of a
+to rotate octolinear edges e˜i ∈ C̃octo , where θ0i j denotes the angle of           node a have one of four possible values, inversely proportional to
+the connection after the smooth optimization, ∆θi j is the difference                the angle ]bac.
+between θ0i j and the target angle, and θ̃i j is the current slope of                  Let x(s) and y(s) be the x and y coordinates of a station s in N.
+the connection {i, j} ∈ C̃octo . Further we apply the constraints Ω p                Now the candidate set V c (s) of a station s is defined as all sink
+and Ωc equally as for the smooth layout. The mixed layout is than                    nodes of G, which have a distance of r or smaller to (x(s), y(s)).
+computed by minimizing
+                                                                                        By iterating over all edges of N in a computed order Σ, the edges
+                   Ωmixed = wo Ωo + w p Ω p + wc Ωc .                      (7)       are routed as paths through the grid. For the first edge {s,t}, this is
+                                                                                     done – conceptually – by temporarily adding virtual vertices as and
+   During the smooth and the mixed deformation stages, the pla-                      at to G and adding the edges (ax , k) for k ∈ V c (x) and x ∈ {s,t}.
+narity is checked after each optimization step. In case of an inter-                 Every such edge is relative to the distance of x and k. Now a shortest
+section the corresponding stations are moved back to the position at                 path Πs,t between as and at is computed, as and at are removed
+the previous iteration. An energy term is applied to avoid the same                  from G, the positions for s and t are fixed to the first and last sink
+intersection in the following optimization step. If the distance be-                 node of Πs,t and the piece-wise octolinear path between s and t is
+tween a station and a connection is below a pre-defined threshold,                   obtained by concatenating all sink nodes of Πs,t or the sink nodes
+we apply an energy term to move them apart. A parameter testing                      of port nodes in Πs,t . This is now done for all edges of Σ. Should
+is shown in Appendix B.                                                              an endpoint of an edge already be fixed to a grid node, no virtual
+                                 T. Batik & S. Terziadis & Y.-S. Wang & M. Nöllenburg & H.-Y. Wu / MixedMetroMap                                 7
+
+
+
+
+                 (a)                                 (b)                                 (c)                                  (d)
+Figure 7: Montreal metro map created with a cloverleaf-shaped guide inspired by the city’s logo. (a) Geographically accurate layout with
+the automatically computed path P highlighted. The input guide shape is shown on the bottom left. (b) The smooth layout, (c) the mixed
+layout and (d) the final grid-aligned layout.
+
+
+
+vertex is added and the shortest path is instead computed to or from
+the already fixed position.
+                                                                                                   p
+   Two main factors require adaption of this process, namely the
+additional design principle D7, i.e., the presence of the guide shape
+and that we do not use an input map with geographical station po-               (a) P on G     (b) Subsampling (c) Removal (d) Connections
+sitions, but the mixed layout, which lets us assume that our input is
+already reasonably close to the final layout we want to compute.            Figure 8: (a) P is overlayed on G. (b) P is subsampled to ensure
+                                                                            similar distances on P as on G. (c) Edges of G, which intersect
+                                                                            P and vertices of G, which are too close to a vertex of P are re-
+6.2. Adaptions                                                              moved. (d) Vertices of P are reconnected with vertices of G, which
+We reduce the size of the map by removing stations and reinserting          are within a certain distance range.
+them afterwards, similar to Section 5.2. While the original algo-
+rithm [BBS20] uses a similar approach and retains any vertex with
+degree three or higher, we also retain every vertex of Socto of de-
+gree two, if its two adjacent edges are not assigned to the same (or        the routing of edges in N using edges of P. Connections between
+opposing) octolinear angles, since the mixed layout already aims            port nodes of the same sink node are again weighted inversely pro-
+– in accordance with design principle D4 – to simplify line trajec-         portional to the angle of their connected edges, however, since the
+tories. Moreover, the mixed layout also, by design principle D6,            shape is not necessarily octolinear, we need to be able to derive
+approximates P and we therefore also keep all stations in Sshape .          these weights based on any arbitrary angle θ and we therefore use
+                                                                            2π − θ. Since θ ≤ π, we retain the desired property that no path of
+    Next, all computed paths are paths in G. Recall that P is given as      length two between two ports of the same sink is ever cheaper than
+a polygonal shape. To ensure that the distances along the shape are         their direct connecting edge.
+comparable to the average distances in the grid, P is subsampled,
+however, no vertices are removed towards this goal to ensure that no           Since the mixed layout already assigns and aligns stations and
+essential features of P are lost. We need a suitable representation of      edges with the guide shape, we first and foremost want to ensure
+P in G. This is done by overlaying P onto G, removing all edges of          that these edges are still routed along edges of P. Therefore we
+G, which cross an edge of P and all vertices, which are closer than         ensure that all edges of Cshape appear in Σ before any edge of Cocto .
+a small threshold value dmin to a vertex of P. Then we reconnect               When computing V c (s) for a station s ∈ Sshape , we drastically re-
+a node pi ∈ P with a node a ∈ G if their distance d 0 is dlow ≤             duce its size. In particular, we only keep the two nodes of G based
+d 0 ≤ dup , where dlow < d < dup . We choose dlow and dup , s.t. the        on our experiments, which are closest to s. After routing all edges,
+connecting edges are roughly the same size as the cell size of the          all previously removed stations are reinserted and finally all maxi-
+grid. Since the nodes on the guide shape are not perfectly aligned          mal sequences of stations of degree two are equally distributed.
+with nodes in G the connecting edges are not necessarily octolinear.
+We could approximate the shape using nodes of G, however we
+emphasize design principle D6 over D7 and allow some edges to               7. Experimental Results
+deviate from the octolinear or shape aligned directions.
+                                                                            The route matching and the computation of the smooth and mixed
+   The newly introduced edges also need to be assigned weights.             layout was performed on a a MacBook Pro (2017) with a 2.9 GHz
+Port-to-sink connections for shape nodes are weighted the same as           Quad-Core Intel processor. The grid alignement was implemented
+for normal nodes of G. Edges between port nodes of different sinks          in Python 3.8 using the NetworkX 2.6.3 module for shortest path
+are weighted with chop /2 or chop /20 if one or both sinks belong           and the bentley-ottman module 7.2.0 for segment crossing compu-
+to P respectively. These cost reductions are intended to encourage          tation. It was computed on a standard laptop running Ubuntu 21.20
+8                                 T. Batik & S. Terziadis & Y.-S. Wang & M. Nöllenburg & H.-Y. Wu / MixedMetroMap
+
+
+
+
+                                   (a)                                                                     (b)
+
+
+
+
+                                   (c)                                                                     (d)
+Figure 9: Berlin metro and S-Bahn map, consisting of 272 stations. The layout is created with a stadium-shaped guide and a path W for the
+stadium is provided. (a) Geographically accurate layout with the path W highlighted. The input guide shape is shown on the bottom left. (b)
+The smooth layout, (c) the mixed layout and (d) the final grid-aligned layout.
+
+
+
+with an Intel Core i5 processor (8 × 2.6 GHz) and 16GB of mem-              ure 13) a similar concept is applied. For the Lisbon metro network
+ory. The grid size factor fd was 0.2 for Moscow, Paris and Berlin           (Figure 12) a schematic representation of the coastline guide the
+and 0.3 for all other instances. The edge weights in G were set to          train connection reaching from top right to bottom left. Table 1 lists
+chop = 20 and dmin , dlow and dup were set to d5 , d2 and 3d
+                                                           2 , respec-      all the presented test-cases, the number of stations of the networks,
+tively.                                                                     the guide shape, and if W was provided or automatically computed.
+
+  Our test cases can be grouped into two scenarios/potential use-
+cases for our approach. In the first cases the path W was computed          8. Evaluation and Discussion
+automatically as outlined in Section 4.1. Figure 1 shows the metro
+                                                                            In this section, we examine the performance of our approach, and
+system of Taipei with a heart shape, and Figure 7 shows the one of
+                                                                            the visual quality of the maps generated using our system.
+Montreal with a cloverleaf shape, taken from the city’s logo. Fig-
+ures 10 and 11 use more complex guide shapes embedded in larger
+metro networks, demonstrating the capabilities and limitations of           8.1. Performance Evaluation
+our approach.
+                                                                            The measured computation times for the figures of the paper are
+   For the second type of test case, we provide a manually defined          summarized in Table 1. We observe that the running time increases
+path W . In Figure 9 a layout of the Berlin metro and train network         based on the network sizes and route sizes. As the grid alignment is
+is created where the ring line is emphasized in an stadium shape.           built based on the shortest path algorithm with complexity N(|V |2 ),
+The provided path W is highlighted. For the Moscow system (Fig-             the runtimes are not yet competitive for real-time applications (a
+                                T. Batik & S. Terziadis & Y.-S. Wang & M. Nöllenburg & H.-Y. Wu / MixedMetroMap                                9
+
+ Network             Lisbon (60) Montreal (68)             Taipei (96)   Moscow (204)         Berlin (272)        Berlin (272)   Paris (304)
+                       Figure 12        Figure 7             Figure 1       Figure 13            Figure 9           Figure 10     Figure 11
+ Guide Shape       Coastline (29)? Cloverleaf (91)         Heart (52)     Circle (30)?      Stadium (53)?           Bear (47)      Eye (78)
+ Route (s)                      –           3.82                  4.94               –                   –               80.15       223.52
+ Smooth (s)                 1.47            1.67                  4.77          39.44              133.21              167.47        189.45
+ Mixed (s)                  0.39            0.20                  0.53            5.98               21.12               25.21         25.46
+ Total (s)                  1.86            5.69                10.24           45.42              154.33              272.84        438.43
+Table 1: Test instances and guide shapes with number of vertices (after planarization and before subsampling, respectively) in parenthesis
+with their corresponding runtimes for the route matching and deformation processes. All times are given in seconds. Shapes marked with ?
+were manually defined, and therefore have no route matching time.
+
+
+
+
+Figure 10: Berlin metro and S-Bahn map created with a bear-
+shaped guide, shown in the bottom right. The guide shape is in-            Figure 12: Lisbon metro and train map. Created with an curved
+spired by the logo of Berlin.                                              guide shape, aiming to schematize the right and bottom train line
+                                                                           that follows the coast. The guide shape is shown at the top left.
+
+
+
+
+                                                                             Figure 13: Moscow metro map. Created with a circular guide.
+Figure 11: Paris metro map created with an eye-shaped guide con-
+sists of multiple polylines, shown in the bottom left.
+                                                                           8.2. Visual Quality Evaluation
+                                                                           To examine the visual quality of our layouts, we conducted an on-
+                                                                           line user study. As previously summarized in Section 3.2, one goal
+                                                                           of our approach is to make the embedded shapes recognizable on
+                                                                           maps (D6) so that they become helpful for general route-finding
+                                                                           tasks that can be done on the maps. Therefore, we are interested in
+minute for smaller instances like Montreal and Lisbon, multiple            two research questions, including (1) Are shapes in maps signifi-
+minutes for medium instances like Singapore and Moscow and up              cant enough to be identified? and (2) Are embedded shapes helpful
+to 15 minutes for the large instances Berlin, Paris, since we did not      or harmful for route planning tasks in comparison to classical de-
+parallelize our code).                                                     sign? For the shape recognizability (E1), we asked the participants
+10                                 T. Batik & S. Terziadis & Y.-S. Wang & M. Nöllenburg & H.-Y. Wu / MixedMetroMap
+
+to mark a shape if they saw one using a polyline drawing tool via
+mouse clicking. To evaluate the map usability (E2), we explicitly
+asked participants to trace and count the number of stations be-
+tween a start station and a destination station. The tasks are done
+on classical octolinear maps and our mixed metro maps. To ana-
+lyze the result of (E1), we overlay the polyline coordinates with
+the map and annotate each result manually. As for (E2), we ana-
+lyze task accuracy and time performance on both map styles. The                          (a)                     (b)                 (c)
+study begins with example training, followed by formal questions
+                                                                            Figure 14: (a) An example of the shape recognition task, and (b)
+on small (approx. 100 stations), medium (approx. 200 stations), and
+                                                                            accuracy and (c) time of the route finding task. The time is recorded
+large (approx. 300 stations) networks.
+                                                                            in seconds and the error bars represent the standard errors.
+   We received in total 65 results, while we removed one incom-
+plete answer and one which did not pass our training exercises. We
+analyzed 63 results from the participants (16 females, 40 males, and
+7 not disclosed) with ages ranging from 20 to 59. Five are profes-          embedding a shape covering a larger area would increase the map’s
+sional transit map users (e.g., cartographers, designers, transport         memorability. Another two participants mentioned that the embed-
+company employees, etc). 15 are everyday users, 25 are frequent             ded shapes might influence their planning decisions since they in-
+users, and 15 are occasional users. One participant rarely uses a           troduced additional bends in the map.
+transit map and two participants never used it. Figure 14 (a) gives an
+example of a route marking result from a participant, and Figure 14
+(b) shows a summary of the route finding task accuracy. For (E1),           8.3. Limitations and Discussion
+we prepared maps from cities in several countries and with different        Although the route matching generally found a good alignment be-
+guide shapes, including Montreal (flower), Singapore (heart), Paris         tween the guide shape and the metro network in our test cases, we
+(circle), Berlin (bear), and Paris (eye). More than 95% of the par-         cannot guarantee their global optimality. In addition, formalizing
+ticipants marked the shapes correctly in the the Montreal (flower),         and predicting the recognizability of shapes is a hard task, espe-
+Singapore (heart), and Paris (circle) maps. The eye in the Paris            cially on shapes with multiple polylines. Likely in such a scenario
+(eye) map was recognized by 89% of the participants. The coarse             not all features and subsections of a shape contribute equally to the
+shape of the bear was recognized by 60% of the participants, while          recognizability. Our approach does not differentiate sub-regions of
+none of them identified the teeth of the bear. We assume this could         the guide shape and treats the entire guide shape equally.
+be because the teeth are a small portion of the entire shape and
+the stations are not sufficient enough to represent it. Except for the         Our deformation process creates the layout by minimizing sets
+Berlin (bear) map (58%), more than 97% participants considered              of local constraints, which may cause unexpected results. For ex-
+the shapes in the study significant. We also asked participants if          ample, when deforming the transit network, the guide shape can
+the symbolic shapes helped them recognize the maps. This is done            prevent areas with a higher station density to expand, like in the
+trough a 5 Point Likert Scale Analysis (yes, partially yes, neutral,        Moscow map (Figure 13), where a larger circular route would be
+partially no, and no). When the shapes are simple (flower (3.75),           beneficial. Note that we also do not claim that any shape will be ap-
+heart (3.51), and circle (3.71)), the answers lean toward positive,         propriate for a transit map.However, we see other potentials in the
+while if the shapes are complicated (bear (2.85) and eye (3.31)),           marketing, such as logo (Figure 2) and poster design [ZER21]. An-
+the preference is close to neutral or negative.                             other limitation is inherited from the octolinear transit map design,
+                                                                            where we do not accept a station degree that is larger than eight.
+   For (E2), we compare task performance on a classical octolinear
+                                                                            In our implementation, we split high-degree stations into multiple
+layout and a layout with embedded shapes on Montreal (flower),
+                                                                            stations with degrees less than eight in a pre-processing step.
+Singapore (circle), and Berlin (stadium). With simple shapes (e.g.,
+circle, stadium, etc.), we see a slight improvement in task accu-              The grid alignment requires that the vertices of P are con-
+racy on Singapore and Berlin mixed maps (Figure 14(b)), and the             nected with a suitable set of vertices of the grid, which results
+time used to accomplish the route planning tasks is reduced in gen-         in non-octolinear edges at the interface between the grid and P.
+eral (Figure 14(c)). The Berlin (stadium) has better accuracy be-           The iterative computation might not always find a routing for all
+cause the stadium is a nice shape for representing a circular route         edges, although even for large networks, we found layouts where
+of this network. We also received some explicit feedback from the           only few number of edges (< 5) fail. An example is the lay-
+participants. Ten participants mentioned in the feedback form that          out of Tokyo, shown in Figure 15. The running time bottleneck
+they found the shape design interesting and potentially helpful, es-        of the grid alignment is the grid size and the shortest path algo-
+pecially when the shapes are simple, while two participants dis-            rithm. However, the underlying method of using repeated short-
+liked embedding artificial shapes due to the inaccuracy introduced          est path computations has been shown to be highly efficient on
+in comparison to more topographically correct maps. Two partici-            both octolinear [BBS20] and flexible grids [BBS21] and has re-
+pants mentioned that corners on the shapes were important features          cently been made openly available as part of a toolchain for tran-
+that were expected to be mapped to stations in the final result. It         sit map generation [Bro22]. Finally, our current approach applies
+is an interesting observation, while we did not come up with an             a post-processing labeling technique [NH18], which can poten-
+intuitive extension to achieve this. One participant suggested that         tially produce rather small text labels. The implementation is avail-
+                                T. Batik & S. Terziadis & Y.-S. Wang & M. Nöllenburg & H.-Y. Wu / MixedMetroMap                                   11
+
+                                                                              iterative schematization of networks. Geoinformatica 11, 4 (2007), 497–
+                                                                              513. doi:10.1007/s10707-007-0018-z. 2
+                                                                            [BBS20] BAST H., B ROSI P., S TORANDT S.: Metro maps on octilinear
+                                                                              grid graphs. Comput. Graph. Forum 39, 3 (2020), 357–367. doi:10.
+                                                                              1111/cgf.13986. 3, 6, 7, 10
+                                                                            [BBS21] BAST H., B ROSI P., S TORANDT S.: Metro Maps on Flexi-
+                                                                              ble Base Grids. Association for Computing Machinery, New York, NY,
+                                                                              USA, 2021, p. 12–22. doi:10.1145/3469830.3470899. 3, 6, 10
+                                                                            [Bro22] B ROSI P.: A toolchain for generating transit maps from schedule
+                                                                              data. In Schematic Mapping Workshop (2022). 10
+                                                                            [CdBvK05] C ABELLO S., DE B ERG M., VAN K REVELD M.: Schema-
+                                                                              tization of networks. Computational Geometry 30, 3 (2005), 223–238.
+                                                                              doi:10.1016/j.comgeo.2004.11.002. 2
+                                                                            [Cer16]   C EROVIC J.: One Metro World. Jug Cerovic, 2016. 2, 3
+                                                                            [CR14] C HIVERS D., RODGERS P.: Octilinear force-directed layout with
+                                                                              mental map preservation for schematic diagrams. In International Con-
+                                                                              ference on Theory and Application of Diagrams (2014), Springer, pp. 1–
+Figure 15: Tokyo metro map with a heart shaped guide guide. Five              8. doi:10.1007/978-3-662-44043-8_1. 2
+edges could not be routed. The grid alignment was computed based            [dBC11] DE B ERG M., C OOK A. F.:           Go with the flow: The
+on the smooth layout and only the dense center of the map is shown.           direction-based Fréchet distance of polygonal curves.    In The-
+                                                                              ory and Practice of Algorithms in (Computer) Systems (TAPAS’11)
+                                                                              (2011), vol. 6595 of LNCS, Springer, pp. 81–91. doi:10.1007/
+                                                                              978-3-642-19754-3_10. 4
+able at https://github.com/TobiasBat/Shape-Guided-Mixed-Metro-              [Deg13] D EGANI A.: A tale of two maps: Analysis of the london
+Map-Layout.                                                                   underground “diagram”. Ergonomics in Design 21, 3 (2013), 7–16.
+                                                                              doi:doi.org/10.1177/1064804613489125. 2
+                                                                            [DHM08] DWYER T., H URST N., M ERRICK D.: A fast and simple
+9. Conclusion and Future Work                                                 heuristic for metro map path simplification. In International Symposium
+                                                                              on Visual Computing (2008), Springer, pp. 22–30. doi:10.1007/
+In this paper, we introduced a new layout approach for synthe-                978-3-540-89646-3_3. 2
+sizing more engaging, mixed-style metro maps. This is achieved              [FHN∗ 12] F INK M., H AVERKORT H., N ÖLLENBURG M., ROBERTS
+by embedding recognizable shapes into a classical metro map.                  M. J., S CHUHMANN J., W OLFF A.: Drawing metro maps us-
+The presented algorithm handles automatic and interactive route               ing Bézier curves.     In Proceedings of Graph Drawing (GD’12)
+matching, shape-aware deformation, and finally, grid alignment                (2012), vol. 7704 of LNCS, Springer, pp. 463–474. doi:10.1007/
+                                                                              978-3-642-36763-2_41. 2
+sub-problems. With our results and evaluation, we show that the
+synthesized maps are of good quality and that the embedded shapes           [FLW14] F INK M., L ECHNER M., W OLFF A.: Concentric metro maps.
+are intuitively recognizable. As a primary future research direction,         In Proceedings of the Schematic Mapping Workshop (SMW’14) (2014).
+                                                                              Poster. 2
+we aim to investigate embedding more complex shapes, but also
+in combination with non-octolinear grids. One initial idea here is          [FS11] F UNKE S., S TORANDT S.: Path shapes: an alternative method
+                                                                              for map matching and fully autonomous self-localization. In Advances
+to decompose the network together with the shape hierarchically.              in Geographic Information Systems (SIGSPATIAL’11) (2011), ACM,
+We also plan to investigate more scalable methods to enable a real-           pp. 319–328. doi:10.1145/2093973.2094016. 4
+time workflow for larger networks with proper labeling as well as           [FSSS15] F UNKE S., S CHIRRMEISTER R., S KILEVIC S., S TORANDT
+to develop systematic quality metrics on such representations that             S.:   Compass-based navigation in street networks.     In Web
+are heavily linked to human shape recognition. Finally, we aim to             and Wireless Geographical Information Systems (W2GIS’15) (2015),
+conduct a usability test that covers the aforementioned spectrum to           vol. 9080 of LNCS, Springer, pp. 71–88.         doi:10.1007/
+                                                                              978-3-319-18251-3_5. 2
+examine the function of shapes in a layout design.
+                                                                            [Gar94] G ARLAND K.: Mr. Beck’s Underground Map. Harrow Weald:
+                                                                              Capital Transport Publishing, 1994. 3
+Acknowledgments                                                             [GIM∗ 01] G ARRIDO M. Á., I TURRIAGA C., M ÁRQUEZ A., P ORTILLO
+                                                                              J. R., R EYES P., W OLFF A.: Labeling subway lines. In International
+We thank Dr. Benjamin Niedermann from yWorks GmbH, Tübin-                     Symposium on Algorithms and Computation (2001), Springer, pp. 649–
+gen, Germany, who shared his metro map labeling code with us.                 659. doi:10.1007/3-540-45678-3_55. 3
+MN acknowledges funding from the Austrian Science Fund (FWF)
+                                                                            [KSH∗ 16] K WAN K. C., S INN L. T., H AN C., W ONG T.-T., F U C.-W.:
+under grant P31119.                                                           Pyramid of arclength descriptor for generating collage of shapes. ACM
+                                                                              Trans. Graph. 35, 6 (2016), 229–1. 2
+
+References                                                                  [LD10] L I Z., D ONG W.: A stroke-based method for automated gener-
+                                                                              ation of schematic network maps. International Journal of Geograph-
+[AM00] AVELAR S., M ÜLLER M.: Generating topologically correct                ical Information Science 24, 11 (2010), 1631–1647. doi:10.1080/
+  schematic maps. Technical report 336 (2000). doi:10.3929/                   13658811003766936]. 2
+  ETHZ-A-006653901. 2
+                                                                            [Llo17] L LOYD P. B.: From modernism to metro maps: Mondrian, beck,
+[Ave07]   AVELAR S.: Convergence analysis and quality criteria for an          and salomon. Brief Encounters 1, 1 (2017). 2
+12                                  T. Batik & S. Terziadis & Y.-S. Wang & M. Nöllenburg & H.-Y. Wu / MixedMetroMap
+
+[LvDW16] L ÖFFLER A., VAN D IJK T. C., W OLFF A.: Snapping graph             [SRMOW11] S TOTT J., RODGERS P., M ARTÍNEZ -OVANDO J. C.,
+  drawings to the grid optimally. In Graph Drawing and Network Visual-         WALKER S. G.: Automatic metro map layout using multicriteria opti-
+  ization (2016), pp. 144–151. 2                                               mization. IEEE Transactions Visualization and Computer Graphics 17,
+                                                                               1 (2011), 101–114. doi:10.1109/TVCG.2010.24. 1, 3
+[MG06] M ERRICK D., G UDMUNDSSON J.: Path simplification for metro
+  map layout. In International Symposium on Graph Drawing (2006),            [The19] T HE S CHEMATIC M APPING W ORKSHOP: The 2nd schematic
+  Springer, pp. 258–269. 2                                                     mapping workshop, 2019. https://schematicmapping2019.
+                                                                               ac.tuwien.ac.at, accessed 2021-11-15. 2
+[Mos19] M OSKOVSKY M ETROPOLITEN:      Moscow metro map
+  & central circle, 2019.  https://mosmetro.ru/mcc/                          [TMK∗ 19] TAKAHASHI S., M ARUYAMA K., K AWAGOE T., W U H.-Y.,
+  moscow-central-circle/, accessed 2021-03-08. 2, 3                            M ISUE K., A RIKAWA M.: Mental map preservation for progressively
+                                                                               labeling railway networks. International Journal of Art, Culture and
+[MWTAT06] M ARK WARE J., TAYLOR G. E., A NAND S., T HOMAS                      Design Technologies (IJACDT) 8, 1 (2019), 31–50. doi:10.4018/
+  N.: Automated production of schematic maps for mobile applica-               IJACDT.2019010103]. 3
+  tions. Transactions in GIS 10, 1 (2006), 25–42. doi:10.1111/j.
+                                                                             [TP89] TARR M. J., P INKER S.: Mental rotation and orientation-
+  1467-9671.2006.00242.x. 2
+                                                                               dependence in shape recognition. Cognitive Psychology 21, 2 (1989),
+[Ney99] N EYER G.: Line simplification with restricted orientations. In        233–282. doi:10.1016/0010-0285(89)90009-1. 4
+  Workshop on Algorithms and Data Structures (1999), Springer, pp. 13–       [Tra21] T RANSIT M APS:     Transit maps, 2021.              https://
+  24. doi:10.1007/3-540-48447-7_2. 2                                            transitmap.net, accessed 2021-11-15. 2
+[NH18] N IEDERMANN B., H AUNERT J.-H.: An algorithmic framework              [vDL18] VAN D IJK T. C., L UTZ D.: Realtime linear cartograms and
+  for labeling network maps. Algorithmica 80, 5 (2018), 1493–1533.             metro maps. In Proceedings of the 26th ACM SIGSPATIAL International
+  doi:10.1007/978-3-319-21398-9_54. 3, 10                                      Conference on Advances in Geographic Information Systems (2018),
+[NN20] N ICKEL S., N ÖLLENBURG M.: Towards data-driven multi-                  pp. 488–491. doi:10.1145/3274895.3274959. 2
+  linear metro maps. In Diagrammatic Representation and Inference            [WC11] WANG Y.-S., C HI M.-T.: Focus+context metro maps. IEEE
+  (2020), Springer International Publishing, pp. 153–161. doi:10.              Transactions Visualization and Computer Graphics 17, 12 (2011), 2528–
+  1007/978-3-030-54249-8_12. 2                                                 2535. doi:10.1109/TVCG.2011.205. 1, 3, 4, 5
+[Nöl05] N ÖLLENBURG M.:          Automated Drawing of Metro Maps.            [WCZ∗ 19] WANG Y., C HU X., Z HANG K., BAO C., L I X., Z HANG J.,
+  Master’s thesis, Fakultät für Informatik, Universität Karlsruhe (TH),        F U C.-W., H URTER C., D EUSSEN O., L EE B.: Shapewordle: tailoring
+  Aug. 2005.       URL: http://i11www.iti.kit.edu/extra/                       wordles using shape-aware archimedean spirals. IEEE Transactions on
+  publications/n-admm-05da.pdf. 2                                              Visualization and Computer Graphics 26, 1 (2019), 991–1000. 2
+[NRW19] N IEDERMANN B., RUTTER I., W OLF M.: Efficient algo-                 [WNT∗ 20] W U H.-Y., N IEDERMANN B., TAKAHASHI S., ROBERTS
+  rithms for ortho-radial graph drawing. arXiv preprint arXiv:1903.05048       M. J., N ÖLLENBURG M.: A survey on transit map layout from design,
+  (2019). doi:10.48550/arXiv.1903.05048. 2                                     machine, and human perspectives. Computer Graphics Forum (Special
+                                                                               Issue of EuroVis 2020) 39, 3 (2020), 619–646. doi:10.1111/cgf.
+[NW11] N ÖLLENBURG M., W OLFF A.: Drawing and labeling high-                   14030. 1, 2, 3
+  quality metro maps by mixed-integer programming. IEEE Transactions
+  Visualization and Computer Graphics 17, 5 (2011), 626–641. doi:            [WNTN19] W U H.-Y., N IEDERMANN B., TAKAHASHI S., N ÖLLEN -
+                                                                               BURG M.: A survey on computing schematic network maps: The chal-
+  10.1109/TVCG.2010.81. 1, 2, 3
+                                                                               lenge to interactivity. In Proceeding of the 2nd Schematic Mapping
+[Ove08] OVENDEN M.: Paris Metro style in map and station design.               Workshop (2019). https://www.ac.tuwien.ac.at/files/
+  Capital Transport Pub., 2008. 2                                              pub/smw19-position-5.pdf. 1
+[Ove15] OVENDEN M.: Transit Maps of the World: Expanded and Up-              [WP16] WANG Y.-S., P ENG W.-Y.: Interactive metro map editing. IEEE
+  dated Edition of the World’s First Collection of Every Urban Train Map       Transactions on Visualization and Computer Graphics 22, 2 (2016),
+  on Earth. Penguin, 2015. 2                                                   1115–1126. doi:10.1109/TVCG.2015.2430290. 3, 4
+[RGL17] ROBERTS M. J., G RAY H., L ESNIK J.: Preference versus per-          [WPT∗ 15] W U H.-Y., P OON S.-H., TAKAHASHI S., A RIKAWA M.,
+  formance: Investigating the dissociation between objective measures and      L IN C.-C., Y EN H.-C.: Designing and annotating metro maps with
+  subjective ratings of usability for schematic metro maps and intuitive       loop lines. In Proceedings of Information Visualisation (2015), IV ’15,
+  theories of design. International Journal of Human-Computer Studies          pp. 9–14. doi:10.1109/iV.2015.14. 2, 3
+  98 (2017), 109–128. doi:10.1016/j.ijhcs.2016.06.003. 2                     [WR13] WARE M., R ICHARDS N.: An ant colony system algorithm for
+[RNC16] ROBERTS M. J., N EWTON E. J., C ANALS M.: Radi(c)al de-                automatically schematizing transport network data sets. In 2013 IEEE
+  partures: Comparing conventional octolinear versus concentric circles        Congress on Evolutionary Computation (2013), IEEE, pp. 1892–1900.
+  schematic maps for the berlin u-bahn/s-bahn networks using objective         doi:10.1109/CEC.2013.6557790. 2
+  and subjective measures of effectiveness. Information Design Journal       [WTLY11] W U H.-Y., TAKAHASHI S., L IN C.-C., Y EN H.-C.: A zone-
+  (IDJ) 22, 2 (2016). doi:10.1075/idj.22.2.04rob. 2                            based approach for placing annotation labels on metro maps. In Inter-
+                                                                               national Symposium on Smart Graphics (2011), Springer, pp. 91–102.
+[Rob14a] ROBERTS M. J.: Schematic maps in the laboratory. In
+                                                                               doi:10.1007/978-3-642-22571-0_8. 3
+  Schematic Mapping Workshop (2014), University of Essex. URL:
+  http://repository.essex.ac.uk/id/eprint/11369. 2                           [WTLY12] W U H.-Y., TAKAHASHI S., L IN C.-C., Y EN H.-C.: Travel-
+                                                                               route-centered metro map layout and annotation. Computer Graphics Fo-
+[Rob14b] ROBERTS M. J.: What’s your theory of effective schematic              rum 31, 3 (2012), 925–934. doi:10.1111/j.1467-8659.2012.
+  map design? In Proceeding of the 1st Schematic Mapping Work-                 03085.x. 2, 3
+  shop (2014). URL: http://repository.essex.ac.uk/id/
+  eprint/11368. 1, 3                                                         [YMK∗ 18] YOSHIDA Y., M ARUYAMA K., K AWAGOE T., W U H.-Y.,
+                                                                               A RIKAWA M., TAKAHASHI S.: Progressive annotation of schematic
+[Sch14] S CHWETMAN J. D.: Harry beck’s london underground map: A               railway maps. In 2018 22nd International Conference Information Visu-
+   convex lens for the global city. Transfers 4, 2 (2014), 86–103. doi:        alisation (IV) (2018), IEEE, pp. 373–378. doi:10.1109/iV.2018.
+   10.3167/TRANS.2014.040207. 2                                                00070. 3
+[SR05] S TOTT J. M., RODGERS P.: Automatic metro map design tech-            [ZER21] ZERO PER ZERO: City railway system, 2021. https:
+  niques. In Proceedings of the 22nd International Cartographic Confer-        //www.zeroperzero.com/city-railway-system, accessed
+  ence (2005). doi:10.1109/TVCG.2010.24. 3                                     2021-08-25. 2, 3, 10
+                               T. Batik & S. Terziadis & Y.-S. Wang & M. Nöllenburg & H.-Y. Wu / MixedMetroMap   13
+
+Appendix A: Path Invariant Testing Experiment
+In this section, we would like to show several examples to demon-
+strate the proposed approach is translation and scale invariant, as
+explained in Section 6. For each test case, we generate an arbi-
+trary guide shape with random size and position. The results are
+shown in Figure 16, where we show the position and scale of the
+guide shape in the input image and the resulting path in the cor-
+responding output image. Figures 16(a)-(d) show the examples of
+Taipei metro system, Figures 16(e)-(f) are the examples of Mon-
+treal metro system, and Figures 16(g)-(h) depict the examples of
+Paris metro system. The guide shapes include a heart, a flower, and
+an eye, respectively. Based on this experiment, shape size and po-
+sition are invariant since the found paths are identical even though
+the shape size and position are different.
+14                               T. Batik & S. Terziadis & Y.-S. Wang & M. Nöllenburg & H.-Y. Wu / MixedMetroMap
+
+
+
+
+             (a) Input                         (a) Output                           (b) Input                       (b) Output
+
+
+
+
+            (c) Input)                         (c) Output                           (d) Input                       (d) Output
+
+
+
+
+             (e) Input                         (e) output                           (f) Input                       (f) Output
+
+
+
+
+            (g) Input                          (g) Output                           (h) Input                       (h) Output
+Figure 16: Results of the translation and scale invariant test. For each test-case, we show the input guide shape (gray) in the input image
+and the resulting path (highlighted with a bold line) in the output image.
+                                T. Batik & S. Terziadis & Y.-S. Wang & M. Nöllenburg & H.-Y. Wu / MixedMetroMap   15
+
+Appendix B: Parameter Testing Experiment
+To visually show the effects of different weight values in Equa-
+tions (1) and (7), we selected different parameter values for demon-
+stration (see Figures 17-20). In Figure 17(a) and 19(a), we applied
+the weights wc = 4, wl = 1, wa = 2, and w p = 0.16 for the smooth
+process. For the test-case 1, we adapted wc = 10.0, for test-case
+2, we used wa = 0.5, and for test-case 3, we set wa = 5.0. The
+corresponding results are shown in Figures 17(b)-(d) and 19(b)-
+(d). For the mixed layout, we applied the default weights wo = 2.0,
+w p = 0.1, and wc = 10.0. The default test-case and the test cases 1
+to 3 are computed with these default mixed weights.
+   The effects of weights for the mixed process are depicted in
+Figures 18 and 20. For the test-cases 4 to 7, the smooth layout is
+computed with the default parameters, and for the test case 4, we
+adapted wo and wc to 5.0. For the test-case 6, we use wo = 10.0 and
+for the test-case 7, we applied wc = 2. The results of the effects are
+further summarized in the following paragraphs.
+
+
+Smooth Layout Variables (Test-cases 1-3)
+In the smooth results of Taipei with the default parameters (Figure
+17(a)), one can see that the metro lines are straightened and stations
+are evenly spaced apart. Test-case 2 depicts the effect of wa clearly
+(Figure 17(c) and 19(c)). By decreasing the wa , the system priori-
+tizes the other objective functions and metro lines are less straight,
+resulting in a less clear layout after the mixed stage. By increas-
+ing wa (Test-case 3, Figure 17(d) and 19(d)) metro lines are even
+more straightened at the cost of the other objective functions. This
+results in a layout that does not preserve the geographic shape of
+the metro network. For a more complex network like Moscow, the
+effects of the different parameters are even more significant. This
+indicates that the potential conflicts between the different objec-
+tive functions and that the system is not able to find a reasonable
+solution. For example, if wa is decreased, the approach does not
+produce appealing results.
+
+
+Mixed Layout Variables (Test-cases 4-7)
+For the Taipei test data, the variation of the weights wo and wc in
+the mixed stage have relatively little effect on the results of the
+final layout, as one can see in Figure 18. This implies that the pro-
+cess is relatively stable and the system can find a good solution for
+the objective function. For the Moscow test cases, the system fails
+to rotate a large amount of edges to octolinear direction, indepen-
+dently from the parameters, especially in the dense center of the
+map. Therefore, when the weight wc is decreased (e.g., Test-case 5
+shown in Figure 20(e)), the system prioritizes the octolinear edge
+constraint and pushes stations away from the guide that should be
+located close to the guide shape.
+   When comparing different results of the smaller and less com-
+plex metro systems to the larger and more complex Moscow sys-
+tem, we can see that in the complex systems, the weights have to be
+balanced carefully, while in simple networks the system produces
+good potential results for a variety of parameters and finds a rea-
+sonable solution that satisfies different objective terms.
+16                              T. Batik & S. Terziadis & Y.-S. Wang & M. Nöllenburg & H.-Y. Wu / MixedMetroMap
+
+
+
+
+                       (a) Default Test-case; Parameters for the smooth stage: wc = 4, wl = 1, wa = 2, w p = 0.16.
+
+
+
+
+                         (b) Test-case 1; Parameters for the smooth stage: wc = 10, wl = 1, wa = 2, w p = 0.16.
+
+
+
+
+                         (c) Test-case 2; Parameters for the smooth stage: wc = 4, wl = 1, wa = 0.5, w p = 0.16.
+
+
+
+
+                         (d) Test-case 3; Parameters for the smooth stage: wc = 4, wl = 1, wa = 5.0, w p = 0.16.
+Figure 17: Taipei metro system computed with different weights for the smooth optimization process. The mixed stage was computed with
+the parameters wo = 2, w p = 0.1 and wc = 10. Left: smooth layout, center: mixed layout and right: grid aligned layout.
+                             T. Batik & S. Terziadis & Y.-S. Wang & M. Nöllenburg & H.-Y. Wu / MixedMetroMap                      17
+
+
+
+
+                               (e) Test-case 4; Parameters for the mixed stage: wo = 5, w p = 0.1, wc = 5.
+
+
+
+
+                              (f) Test-case 5; Parameters for the mixed stage: wo = 10, w p = 0.1, wc = 2.
+
+
+
+
+                             (g) Test-case 6; Parameters for the mixed stage: wo = 10, w p = 0.1, wc = 10.
+
+
+
+
+                               (h) Test-case 7; Parameters for the mixed stage: wo = 2, w p = 0.1, wc = 2.
+Figure 18: Taipei metro system computed with different weights for the mixed optimization process. The smooth stage was computed with
+the parameters wc = 10, wl = 1, wa = 2 and w p = 0.16. Left: smooth layout, center: mixed layout and right: grid aligned layout.
+18                              T. Batik & S. Terziadis & Y.-S. Wang & M. Nöllenburg & H.-Y. Wu / MixedMetroMap
+
+
+
+
+                       (a) Default Test-case; Parameters for the smooth stage: wc = 4, wl = 1, wa = 2, w p = 0.16.
+
+
+
+
+                         (b) Test-case 1; Parameters for the smooth stage: wc = 10, wl = 1, wa = 2, w p = 0.16.
+
+
+
+
+                         (c) Test-case 2; Parameters for the smooth stage: wc = 4, wl = 1, wa = 0.5, w p = 0.16.
+
+
+
+
+                        (d) Test-case 3; Parameters for the smooth stage: wc = 4, wl = 1, wa = 5.0, w p = 0.16.
+Figure 19: Moscow metro system computed with different weights for the smooth optimization process. The mixed stage was computed with
+the parameters wo = 2, w p = 0.1 and wc = 10. Left: smooth layout, center: mixed layout and right: grid aligned layout.
+                              T. Batik & S. Terziadis & Y.-S. Wang & M. Nöllenburg & H.-Y. Wu / MixedMetroMap                          19
+
+
+
+
+                                (e) Test-case 4; Parameters for the mixed stage: wo = 5, w p = 0.1, wc = 5.
+
+
+
+
+                               (f) Test-case 5; Parameters for the mixed stage: wo = 10, w p = 0.1, wc = 2.
+
+
+
+
+                              (g) Test-case 6; Parameters for the mixed stage: wo = 10, w p = 0.1, wc = 10.
+
+
+
+
+                                (h) Test-case 7; Parameters for the mixed stage: wo = 2, w p = 0.1, wc = 2.
+Figure 20: Moscow metro system computed with different weights for the mixed optimization process. The smooth stage was computed with
+the parameters wc = 10, wl = 1, wa = 2 and w p = 0.16. Left: smooth layout, center: mixed layout and right: grid aligned layout. Note that
+grid alignment layouts can have up to 5 edges, which could not be routed.
+

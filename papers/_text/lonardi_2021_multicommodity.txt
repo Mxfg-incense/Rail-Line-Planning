@@ -1,0 +1,935 @@
+                                                 Multicommodity routing optimization for
+                                                 engineering networks
+                                                 Alessandro Lonardi1,* , Mario Putti2 , and Caterina De Bacco1
+                                                 1 Max Planck Institute for Intelligent Systems, Cyber Valley, Tübingen 72076, Germany
+                                                 2 Department of Mathematics “Tullio Levi-Civita”, University of Padua, Via Trieste 63, Padua, Italy
+                                                 * alessandro.lonardi@tuebingen.mpg.de
+arXiv:2110.06171v2 [physics.soc-ph] 4 May 2022
+
+
+
+
+                                                 ABSTRACT
+
+                                                 Optimizing passengers routes is crucial to design efficient transportation networks. Recent results show that optimal transport
+                                                 provides an efficient alternative to standard optimization methods. However, it is not yet clear if this formalism has empirical
+                                                 validity on engineering networks. We address this issue by considering different response functions—quantities determining
+                                                 the interaction between passengers—in the dynamics implementing the optimal transport formulation. Particularly, we couple
+                                                 passengers’ fluxes by taking their sum or the sum of their squares. The first choice naturally reflects edges occupancy in
+                                                 transportation networks, however the second guarantees convergence to an optimal configuration of flows. Both modeling
+                                                 choices are applied to the Paris metro. We measure the extent of traffic bottlenecks and infrastructure resilience to node
+                                                 removal, showing that the two settings are equivalent in the congested transport regime, but different in the branched one.
+                                                 In the latter, the two formulations differ on how fluxes are distributed, with one function favoring routes consolidation, thus
+                                                 potentially being prone to generate traffic overload. Additionally, we compare our method to Dijkstra’s algorithm to show its
+                                                 capacity to efficiently recover shortest-path-like graphs. Finally, we observe that optimal transport networks lie in the Pareto
+                                                 front drawn by the energy dissipated by passengers, and the cost to build the infrastructure.
+
+
+
+                                                 1 Introduction
+                                                 Finding optimal flow configurations in transport networks is an important problem in many real-world applications. While
+                                                 natural systems like river basins [1–5], leaf venations [6–9], or slime molds [10–17] involve transport of one type of mass
+                                                 only, e.g. water, this may not be the case in several engineering systems. For instance, routing data packets in communication
+                                                 networks, or passengers in urban transportation networks, requires multicommodity approaches where mass of different types
+                                                 interacts in a shared infrastructure, contributing to minimize one unique cost.
+                                                     Despite their practical significance, multicommodity algorithms based on optimization routines are burdened by high
+                                                 computational complexity, caused by the simultaneous assignment of multiple commodities. Therefore, practitioners often
+                                                 rely on heuristics and approximations that lead to suboptimal solutions [18]. Distributed approaches like message-passing
+                                                 algorithms have demonstrated encouraging results [19–24], but remain computationally costly in scenarios where there is a
+                                                 large number of origin-destination pairs to be routed, or when the network is not sparse.
+                                                     A promising approach is that of optimal transport theory. Recent studies [25, 26] have shown that this theoretical formalism
+                                                 can be adapted to address multicommodity scenarios, generalizing well-established results for uni-commodity models [27–33].
+                                                 The works of Lonardi et al. [25] and Bonifaci et al. [26] focus on a theoretical characterization of the problem, drawing
+                                                 a formal connection between optimal transport and an equivalent dynamical system that is formulated in terms of physical
+                                                 quantities like conductivities and fluxes. While preliminary results on multilayer transportation networks [34] suggest an
+                                                 empirical validity of this choice, questions remain open about its applicability in settings involving the transport of passengers.
+                                                     In this work, we address this concern by studying the behavior of optimal transport approaches for multicommodity routing
+                                                 on urban transportation networks, with an empirical analysis on the Paris metro network. Our goal is to evaluate how different
+                                                 cost functions impact the distribution of passenger flows. In detail, we search for stationary solutions of a dynamics where
+                                                 edge capacities—conductivities—grow as an increasing function of the total amount of passengers traveling on the edges. We
+                                                 investigate numerically the cases where the dependence between conductivities and fluxes is either the sum of the passengers
+                                                 traveling on an edge (its 1-norm), or the sum of their squares (its 2-norm). The first choice is more intuitive, since counting the
+                                                 total number of users in a network is a natural metric to evaluate its occupancy. However, in the second case it is possible to
+                                                 prove that the companion gradient flow used in the numerical solver admits a unique stationary solution [25, 26].
+                                                     We design several experiments to investigate the main properties of optimal network configurations in the two cases. First,
+                                                 we observe that the 2-norm tends to dilute more substantially passengers on the network, avoiding heavily trafficked routes.
+                                                 Second, we compare our model with Dijkstra’s algorithm [35], a popular approach for shortest-path minimization. We find that
+
+
+                                                                                                                 1
+our method is a robust and efficient alternative to reproduce shortest-path-like networks. Furthermore, we test resilience to
+infrastructural failures, i.e., node and edge removal. Results show that the geographical locations of stations together with their
+degree, are decisive factors. Finally, we observe that optimal networks lie in the Pareto front drawn by two fundamental driving
+forces: the energy dissipated by passengers’ flows and the network infrastructural cost.
+
+2 Results and Discussion
+2.1 Multicommodity routing on networks
+We design a routing optimization problem on a network G(V, E), where V and E are the sets of nodes and edges, and each
+edge has length `e > 0. The edges are given a conventional orientation stored in a signed incidence matrix, with elements
+Bve = {+1, −1, 0} if v is the head, the tail, or neither of them for edge e, respectively. We model transportation of M ≥ 1
+commodities through the network, each identified by an index i. We use them to differentiate passengers entering the network
+from different stations (i ∈ V ), so that multiple users sharing the same path catalyze traffic congestion. Suppose that a commodity
+i has a mass rate Svi flowing into node v and outflows Sui ∀u 6= v, with ∑v Svi = 0, ∀i ∈ V , to ensure that the system is isolated.
+    The main quantities of interest are the edge conductivities µe ≥ 0, which can be thought of as capacities. These regulate how
+passengers flow on the network, as higher conductivity is allocated to edges that are more utilized, while low-conductivity edges
+are those with fewer passengers. Hence, determining the values of µe , ∀e ∈ E, implies determining the flows of passengers,
+and therefore of traffic on the network. The distribution of conductivities is regulated by the following dynamics and main
+equations of our model:
+
+      ∑ Lvu piu = Svi                  ∀v ∈ V, ∀i = 1, . . . , M                                                                (1)
+       u
+           dµe
+               = µeβ −2 f (Fe ) − µe       ∀e ∈ E.                                                                              (2)
+            dt
+Here L is the weighted Laplacian matrix of the network, with entries Lvu := ∑e (µe /`e )Bue Bve ; piv are pressure potentials
+generated by a commodity i on the nodes; f is a non-negative function of the fluxes Fe , M-dimensional vectors with entries
+Fei := µe (piu − piv )/`e , for e = (u, v). A visualization of the main model’s variables is shown in Fig. 1.
+     Equation (1) is Kirchhoff’s law, expressing conservation of mass; Eq. (2) regulates the time evolution of conductivities by
+means of a feedback mechanism where the higher the flux on an edge, the larger its conductivity µe . All commodities share one
+unique infrastructure, so we follow [25] and assume that µe is the same for all i. This particular modeling choice corresponds to
+not prioritize any commodity in particular, i.e. having all users sharing the metro infrastructure without any hierarchy. However,
+one could consider imposing a set of rules for traffic regulation by explicitly accounting for different µei terms.
+     The growth of µe is governed by the function f , that is typically an increasing and differentiable function of some norm
+of the fluxes [25, 26]. The aim of our work is to investigate how different expressions of f result in different distributions of
+passengers flows, thus we focus on the following two choices: (i) f (x) = ||x||22 (2-norm), and (ii) f (x) = ||x||21 (1-norm). The
+first captures intuition in contexts as plant biology, where nutrients travel independently in conduits which are held together in
+fibers, contributing to growth of branches. However, it may not be the most appropriate one in applications involving transport
+of passengers, as the 2-norm does not have a straightforward interpretation. On the contrary, the latter is arguably a more
+natural choice, backed up by the intuition that edge capacities are controlled by the number of passengers traveling on them
+(instead of the sum of squares). Both norms are taken squared, this is motivated by an analogy between our dynamics and
+Joule’s law in electrical circuits, that we discuss in Section 2.2. We remark that other possible choices of f can be used, e.g. the
+complete spectrum of p-norms, or a tunable sigmoid profile as in [13], these can be interesting subjects for future work. The
+effect of f is balanced by a negative linear term in the conductivities, determining their exponential decay in time if no mass is
+moving through an edge. Note that our dynamics is highly non-linear in µe , since least-square solutions of Kirchhoff’s law are
+of the form piv = ∑u Lvu   † Si , with † denoting the Moore-Penrose inverse. Finally, the role of the free parameter 0 < β < 2 is to
+                              u
+capture different transportation mechanisms: β > 1 consolidates passengers on fewer edges, following a principle of economy
+of scale; β < 1 enforces passengers to distribute more broadly along the network; β = 1 is shortest-path like.
+
+
+
+
+                                                                                                                                2/3
+                                          v                           G(V,E)                  S=-
+                                                                                                -
+                                                            μ
+
+                                                                           +     F=( 1
+                                                                          +         F ,F 2
+                                                           e                              )
+                                          ℓ            F 3∝ p 3 3      S=(+,-)                 S=-
+                                                   +          -p                                    -
+                                                                  -                    S=- -
+
+Figure 1. Schematic problem visualization. In brown we draw the edge capacities, green is used to highlight the length of
+one edge. From the central node a positive inflow of two commodities enters (orange and light blue), these move towards their
+destinations—the colored minuses—sharing an edge. Thus, multiple colored fluxes generate traffic congestion. In pink we
+represent the pressure potentials of a third commodity. Differences of pressure along an edge trigger F 3 .
+
+
+2.2 Connection with optimal transport
+The dynamics introduced in Section 2.1 has a strong connection with optimal transport theory. In fact, in [25] it is shown that
+stationary solutions of Eqs. (1) and (2) are also stationary points of the minimization problem:
+                         1   `e
+        min       J :=          f (Fe )                                                                                        (3)
+      F∈R|E|×M           2∑e µe
+
+           s.t.   ∑ `e µe2−β = K 2−β                                                                                           (4)
+                   e
+
+                  ∑ Bve Fei = Svi    ∀v ∈ V, ∀i = 1, . . . , M,                                                                (5)
+                   e
+
+for a fixed constant K > 0 and where J is the dissipation cost. This is also equivalent to minimizing JΓ := ∑e `e f (Fe )Γ , with
+Γ = (2 − β )/(3 − β ), generalizing Banavar et al. [36].
+    The crucial distinction between the 1-norm and 2-norm dynamics is that the latter admits the Lyapunov function
+                         1                   1
+      Lβ ({µe }) :=            piv Svi +           ∑ `e µe2−β ,                                                                (6)
+                         2∑i,v           2(2 − β ) e
+
+which enables to prove that asymptotics of the dynamics minimize J [25] for β ≤ 1. We remark that for β ≤ 1 the Lyapunov
+admits a unique minimum although possibly multiple minimizers, while for β > 1 the functional has several local minima.
+Noticeably, the first sum in Eq. (6) is equivalent to J = (1/2) ∑e `e ||Fe ||22 /µe (see Methods 4.1).
+                                                 γ
+    The second term in Eq. (6) is W := (∑e `e µe )/2γ with γ = 2 − β , interpretable as the cost to build the network. With this in
+mind, the Lyapunov functional becomes the sum of dissipation and infrastructural costs.
+    As mentioned before theoretical guarantees cannot be recovered for the 1-norm dynamics, where a Lyapunov functional is
+not straightforward to derive. While solving the dynamics may still result in meaningful flows, we cannot guarantee that these
+solutions minimize the cost JΓ , i.e. to have optimal transport.
+    However, we find empirically that on the metro network of Paris—our case of study—JΓ decreases along solution trajectories
+of the dynamics, with stationary solutions lying in a basin of the cost. This empirical result is valid here, but this may not be
+true for other configurations of the network or initial conditions of the dynamics, hence practitioners should first validate their
+model (see Methods 4.2 and 4.3 for a more detailed explanation; a listing of the variables introduced in Sections 2.1 and 2.2 can
+be found enclosed as Supplementary Information).
+
+2.3 Results on the Paris metro network
+In this work, we investigate the applicability of the dynamics in Eqs. (1) and (2) on the Paris metro. Topology data are taken
+from [37], the network is preprocessed to have a total of |V | = 302 nodes and |E| = 359 edges, coherently with the observed
+metro of Paris (Methods 4.2). As anticipated, we define commodities as stations where passengers enter. This means that each
+vector Si has only one positive element in v = i (where the passengers of type i enter), while the remaining elements of Si
+contain the outflows of passengers who travel from v. Other choices can also be made based on the application, but this will
+not impact the validity of the model. Lastly, we introduce the parameter 0 ≤ ρ ≤ 1. This averages the passenger inflows as
+  i (ρ) = Si − ρ(Si − hSi i), with h·i average over the nodes. When ρ tends to 1 passengers distribute uniformly on the
+Sv=i        v=i       v=i
+network, while ρ approaching 0 means passengers enter and exit station more heterogeneously, see Methods 4.3.
+
+
+                                                                                                                               3/3
+                  = 0.1                       = 1.0                     = 1.5                                      = 1.5
+                                                                                                                                                    0.01
+        a)                                                                                           b)
+
+
+
+
+                                                                                                                                    2-norm
+                                                                                                                                    2-norm
+
+                                                                                                                                                         flux difference
+                                                                                                                                                                           Place de Clichy
+       2-norm
+
+                                                                                                                                                                           Saint-Lazare
+                                                                                                                                                                           Charles de Gaulle-Étoile
+                                                                                                                                                                           Châtelet
+                                                                                                                                                                           Gare de Lyon
+
+
+
+
+                                                                                                                                    1-norm
+                                                                                                                                    1-norm
+                  = 0.1                       = 1.0                     = 1.5
+                                                                                                     c)                                                  -0.01
+                                                                                                              2-norm
+                                                                                                               2-norm
+                                                                                                              1-norm
+                                                                                                               1-norm
+                                                                                                   0.01     = 1.5
+       1-norm
+
+
+
+
+                                                                                                                                   ||Fe ||1
+                                                                                                   0.00
+                                                                                                             100    200    300
+                          0.00                                   0.01
+                                                                                                              edge index, e
+                                 ||Fe ||1 , fraction of passengers
+
+
+Figure 2. Optimal transport networks panel. (a) Optimal transport networks with β = 0.1, 1.0, 1.5 for the 1-norm and
+2-norm. Edge thickness and color are proportional to ||Fe ||1 , normalized to sum to 1; node sizes are proportional to the number
+of passengers entering them. All the quantities are averaged over 100 runs of the dynamics with µe (0) ∼ U(0, 1). (b) Network
+colored using the difference of the fluxes obtained with the 1-norm and with the 2-norm. Results are displayed for β = 1.5, and
+using the data of Fig. 2a. Widths of edges are proportional to the absolute value of the flux difference, so that by matching the
+color and size information it is possible to distinguish differences in networks generated by the two response functions. Marked
+stations are those discussed in Section 2.3. (c) Sorted flux distribution over the edges for β = 1.5. All quantities have been
+computed with ρ = 0.0, i.e. S(ρ = 0.0) = S (see Methods 4.2 and 4.3). Similar panels for ρ = 0.5 and ρ = 1.0 can be found in
+Supplementary Figs. 1 and 2.
+
+                                      a)                                                  b)
+                                                  = 0.0
+
+
+
+
+                                                                                                                                   idle edges fraction
+                                     0.6          = 0.5                                   0.08
+                                                                           Gini coefficient
+
+
+
+
+                                                  = 1.0
+                                                2-norm                                    0.06
+                                     0.5        1-norm
+                                                                                          0.04
+                                     0.4
+                                                                                          0.02
+                                     0.3
+                                                                                          0.00
+                                           0.1 0.3 0.5 0.7 0.9 1.1 1.3 1.5                       0.1 0.3 0.5 0.7 0.9 1.1 1.3 1.5
+
+
+Figure 3. Evaluation metrics for the optimal transport networks. (a) Gini coefficient vs. β . (b) Idle edges fraction vs. β .
+Each point is averaged over 100 runs of the dynamics with random initializations of the conductivities.
+
+
+    We test the two response functions f . Optimal fluxes resulting in the two cases can be seen in Fig. 2a, where the thickness of
+each edge is proportional to the fraction of passengers traveling through it. As expected, for β < 1 optimal transport networks
+are loopy, with many densely connected edges having fairly uniform fluxes. On the contrary, for β > 1 optimal topologies are
+more tree-like, with few central arteries where traffic is highly concentrated. This applies to both cases.
+    We notice two distinct behaviors, depending on β . For β < 1 (β = 0.1 in Fig. 2a), solutions cannot be distinguished. This
+is explained by the Lyapunov functionals Lβ being strictly convex in this case, with stationary conductivities that are their only
+minimum. This observation suggests that in the congested transportation regime (0 < β < 1), where one aims at minimizing
+traffic congestions, using the 2-norm is equivalent to the more intuitive 1-norm formulation. This is not the case for β > 1,
+where the two dynamics favor different local minima. These correspond to optimal networks with distinct central arteries where
+passengers are directed. The differences are further accentuated in Fig. 2b, where edges are colored with flux differences in
+these two cases, and where we highlight with markers instances of highly traversed stations. In detail, we can see that two
+routes branch from Charles de Gaulle-Étoile, the upper one passing by Place de Clichy is favored by the 1-norm, and the lower
+one reaching Saint-Lazare is preferred by the 2-norm. As for the connection between Châtelet and Gare de Lyon, we observe
+that the 1-norm tends to favor the shortest path between the two stations, with most passengers travelling in a straight line. On
+the contrary, the path selected by the 2-norm has a deflection.
+    Stimulated by these qualitative differences, we investigate different metrics for an in-depth quantitative evaluation for the
+case β = 1.5. First, analyzing the sorted distributions of the fluxes ||Fe ||1 in Fig. 2c, we notice that the 1-norm dynamics has
+
+
+                                                                                                                                                                                                      4/3
+a more pronounced fat-tailed distribution with a sharper and higher peak. This means that the 1-norm tends to concentrate
+fluxes on fewer edges. Such effect becomes starker for more homogeneous distributions of passengers entering the stations, i.e.
+setting ρ = 0.5, 1.0 (see Supplementary Figs. 1 and 2).
+    We quantify this using the Gini coefficient [38]:
+                                 1
+      Gini coefficient(x) :=            ∑ |xm − xn |
+                               2|E|2 x̄ m,n
+                                                                                                                                    (7)
+
+
+for a quantity x, with x̄ = ∑e xe /|E| being its mean, and m, n denoting edges. In our analysis we set xe = ||Fe ||1 . Results are
+shown in Fig. 3a, where the Gini coefficient is plotted against β for different values of ρ.
+    As expected, the Gini coefficient increases with β , as users’ paths are more concentrated along fewer edges. The values for
+the two dynamics are similar for β < 1, for the reasons mentioned above. Instead, for β > 1, markers progressively separate as
+β increases. The 2-norm has always smaller values than their counterparts, further demonstrating the tendency of the 2-norm to
+dilute fluxes on a larger area of the network.
+    We study the behavior of the fraction of idle edges, i.e. the number of edges with negligible fluxes, divided by the total
+number of edges |E|, see Fig. 3b. This quantity manifests a sudden phase transition at β = 1, where the dynamics switches
+from an homogeneous distribution of passengers on the entire network infrastructure, to a distribution progressively more
+concentrated on a smaller fraction of edges, as β increases. Finally, the 2-norm dynamics returns fewer idle edges than the
+1-norm, as paths are less concentrated. Notably, such abrupt phase transitions are typical of capacitated models on networks
+[36], and emerging in routing strategies involving a critical exponent regulating efficient transportation [39].
+    To summarize, we observe two main findings. First, we noticed that in the regime of β < 1 the 1-norm and the 2-norm
+produce identical optimal networks. This result does not hold for β > 1, where many local minima of Lβ generate different
+optimal paths. Second, analyzing the fraction of idle edges, the Gini coefficient of the fluxes, and their distribution, we found
+that in the regime of branched transportation (1 < β < 2), the 2-norm tends to limit more traffic congestion, as paths are less
+consolidated into fewer edges compared to the 1-norm.
+
+2.4 Comparison with Dijkstra algorithm
+As discussed, the main property connecting our 2-norm dynamics with optimal transport is that its stationary solutions are
+minimizers of the cost JΓ = ∑e `e ||Fe ||2Γ
+                                          2 , with Γ = (2 − β )/(3 − β ) [25]. This cost, for β = 1 and M = 1 is equivalent to that
+of [15, 16] and has optimal fluxes taking the shortest path from their source to their sink. A theoretical p    generalization of this
+result to the multicommodity setup is not trivial. In fact, for the 2-norm case the cost reads JΓ = ∑e `e ∑i (Fei )2 , that is not
+linear in the commodities, i.e. searching for its minimizer does not correspond to solving M uni-commodity problems, one for
+each i, and then overlapping them. As for the 1-norm, the dissipation cost with β = 1 is JΓ = ∑e ∑i `e |Fei |, and therefore its
+unique global minimum corresponds to that obtained overlapping M shortest paths.
+     We can numerically compare our methods with a shortest path routine using Dijkstra’s algorithm [35]. Precisely, we iterate
+over the commodities and assign a flux Fei equal to the fraction of passengers moving from the source v to the sink u, to each
+edge belonging the shortest path between v and u—the latter computed with Dijkstra’s algorithm.
+     We compare the optimal transport networks obtained using our methods with β = 1 (Fig. 4a) with the networks returned
+by Dijkstra’s algorithm (Fig. 4b). The three graphs are visibly similar but not identical. Particularly, we focus on the four
+highlighted areas in Fig. 4b, containing the main branches departing from the central area of the city of Paris. We see that
+the more trafficked routes in the pink South-West region are identical for our methods and for Dijkstra’s one. Traffic in the
+Nort-West blue region seems to be more diluted for our methods, with the 2-norm optimal network being slightly more similar
+to Dijkstra’s. As for the North green region, both our algorithms concentrate traffic in a curved branch covering a large portion
+of the Northside of the city. This route is not prioritized in Fig. 4b, as traffic in the green portion is more distributed. Finally, in
+the South-East yellow area, there is only one main route branching from the city center, while its shape is straight for Dijkstra’s,
+our methods favor a slight deflection.
+     We attribute these differences in the optimal topologies to the high complexity of the energy landscape of JΓ . In fact, while
+Dijkstra’s algorithm computes and overlaps each source-sink shortest path separately, our methods treat all the commodities at
+once. This may lead to convergence in suboptimal points, in particular around β = 1, where the cost transitions from being
+strictly convex (β ≤ 1) to strongly non-convex (β > 1). While our method in this case may not always reach an optimal solution,
+it has the practical advantage of having a worst-case complexity of O(M|V |2 ) [25]. In principle, this can be further reduced
+using a backward Euler scheme combined with the inexact Newton-Raphson method for the discretization of Eq. (2), and
+using a Multigrid solver for the solution of Eq. (1) in O(M|V |) steps [40]. By contrast, Dijkstra’s has a worst-case complexity
+of O(|E| + |V | log |V |) [41], with the algorithms that needs to be executed M 2 (in our application to the Paris metro there are
+M 2 = |V |2 source-destination pairs) times to solve a multicommodity problem.
+
+
+
+                                                                                                                                    5/3
+    Lastly, we test the deviation of the cost of our methods from Dijkstra’s one. In Fig. 4c we plot the relative cost difference
+taken in absolute value, that is ∆J := |JΓ − JDijkstra |/JDijkstra , with Dijkstra’s network cost calculated as JDijkstra = ∑e `e ||Fe ||1 .
+This has a sharp drop at β = 1, where traffic is not favored nor penalized, with the cost of our network that is similar to the
+one of the shortest path returned by Dijkstra’s algorithm. For β < 1 we have JΓ > JDijkstra , showing that penalizing traffic
+congestion has the drawback of producing more expensive infrastructures. We observe the opposite behavior for β > 1, where
+JΓ < JDijkstra , with congested networks that are progressively cheaper as β increases.
+
+          a)     1-norm                  2-norm           b)           Dijkstra   0.01                                  c)
+
+
+
+
+                                                                                     ∝||F || , fraction of passengers
+                                                                                                                                                      1-norm
+                                                                                                                         102                          2-norm
+
+
+
+
+                                                                                          e
+                                                                                          1
+                                                                                                                         101
+                                                                                                                                                                 ΔJ
+                                                                                                                         100
+                                                               N
+                                                           W       E                                                    10 1
+               = 1.0                 = 1.0                     S
+                                                                                  0.00                                         0.1 0.3 0.5 0.7 0.9 1.1 1.3 1.5
+
+
+Figure 4. Comparison between our methods and Dijkstra’s algorithm. Lenghts of edges are `˜e = `e /ne , with ne number
+of vehicles passing through e as in [37]. This rescaling has been performed following the intuition that metro users moving
+along the network may travel using the fastest route (that for paths of the same length is the one with more frequent trains) to
+reach their destination; this may not correspond to the geographically shortest one. (a) Optimal transport networks for our
+methods. Quantities are computed over 100 runs of the dynamics with random initialization of the conductivities, µe ∼ U(0, 1).
+(b) Optimal transport network computed with Dijkstra’s algorithm. For all three networks, edge widths and colors are ||Fe ||1 ,
+and the size of each node is proportional to the number of passengers entering in it. (c) Relative energy difference between our
+methods and Dijkstra’s, taken in absolute value. Errorbars are standard deviations over 100 realizations.
+
+
+2.5 Network robustness to failures
+We now showcase a possible relevant application of our model by analyzing network’s robustness to structural failures as nodes
+removal. Network managers interested in finding which stations are crucial for alleviating potential traffic overload can look at
+the congested transportation regime (we set β = 0.1 to favor homogeneous fluxes) and investigate how fluxes resulting from
+our model distribute along the network.
+    In detail, we remove sequentially a total of four stations from the network: Châtelet, Gare du Nord, Saint-Lazare, and Gare
+de Lyon. The last three are those with the largest number of inflowing passengers, while Châtelet has a central position and a
+high node degree d = 8. Once each station was removed, its passengers were redirected to its neighboring nodes, and then
+solutions of the dynamics were found with this setting, as depicted in Fig. 5.
+    In Fig. 5a we display the 1 + 4 networks obtained removing none, and the stations indicated in Fig. 5b. In Fig. 5c we plot
+the Gini coefficients of the optimal transport networks against β . We notice that for β > 1 all the points collapse together,
+regardless of the number of failures. This scenario, however, is of little interest for the situation we want to address, being flux
+aggregation already favored by β > 1. As for β < 1, the difference in Gini coefficient gets wider the lower the β , with the
+largest gap at β = 0.1, we thus investigate this case.
+    Removing Châtelet from the network causes a considerable jump in the Gini coefficient, thus increasing the possibility of
+traffic jams. In fact, as we see from the second plot in Fig. 5a, all the passengers who were traveling on the South-West route
+branching from the city center are redirected in a way that congests southern arteries of the network. Removing Gare du Nord
+is not as crucial for traffic rerouting. Indeed, the main difference between the second and the third network of Fig. 5a is that
+passengers who were departing from Gare du Nord move to its southern neighboring station, Gare de l’Est, and modify only
+slightly their path. A large jump in the Gini coefficient is visible after removing Saint-Lazare, which seems to be fundamental
+for connecting the central area of Paris to its north side. In the fourth plot in Fig. 5a, we can see that traffic becomes highly
+congested in the northern branch directed from east to west. Gare de Lyon causes a negligible change in the Gini coefficient,
+associated to a modest traffic rerouting in the South-East part of the network.
+
+2.6 Pareto front
+To conclude our analysis of the multicommodity routing problem it is possible to verify that stationary solutions of Eqs. (1)
+and (2) lie in the Pareto front (Fig. 6), which can be expressed in closed form as:
+       J
+         = γ,                                                                                                                                                         (8)
+       W
+
+
+                                                                                                                                                                      6/3
+                                                                                                                                             0.01
+
+
+
+
+                                                                                                                                                ∝||Fe||1 , fraction of passengers
+   a)
+   = 0.1
+   1-norm,
+
+
+
+
+                 N
+             W       E
+                 S
+                                                                                                                                             0.00
+                                  b)          passengers redistribution              c)
+                                                                                          0.7
+                                                                                                       failures = 0
+
+
+
+
+                                                                                                                          Gini coefficient
+                                                                                                       failures = 1
+                            1) Châtelet                                                                failures = 2
+                                                                                          0.6          failures = 3
+                                                                                                       failures = 4
+                            2) Gare du Nord
+                                                                                          0.5
+                            3) Saint-Lazare
+
+                            4) Gare de Lyon                                               0.4
+
+                                                                                          0.3
+                                                                                                0.1     0.5       1.0   1.5
+
+Figure 5. Traffic rerouting after network structural failures. (a) We plot the optimal transport networks after nodes
+trimming. Edge widths and color are normalized fluxes, the size of each node is proportional to the number passengers entering
+in it. All quantities are averaged over 100 runs of the dynamics with random initialization of the conductivities, µe ∼ U(0, 1).
+Stars highlight positions of removed stations, following the same scheme of Fig. 5b. (b) Network showing which stations have
+been removed, these correspond to the fully colored nodes, with colors chosen according to the legend on the left. Colored
+edges, and nodes with colored borders are those where the passengers get redirected. The colored borders are proportional to
+the passengers’ growth. (c) Gini coefficients vs. β , errorbars are standard deviations. Points are colored following the scheme
+used in the rest of the panel. Similar results for the 2-norm dynamics are in Supplementary Fig. 3.
+
+
+with γ = 2 − β (see Methods 4.4).
+    The emergence of a Pareto front between J and W is not limited to engineering networks like the ones studied here. A
+similar trade-off has been observed in the widened pipe model for plants of Koçillari [42], where minimization of hydraulic
+resistance and of carbon cost compete for natural selection.
+    Moreover, looking at the inset of Fig. 6 and Fig. 3 we can observe that the Gini coefficient and the fraction of idle edges can
+be interpreted as driving forces responsible for the design of the optimal transport network, counterbalancing its cost. In fact,
+congested transport networks obtained for low values of beta β have a high cost, but are more resilient to damage—low Gini
+and no idle edges—being their infrastructure densely connected. On the contrary, setting β large has the effect of producing
+sparse networks. These infrastructures have the benefit of being cheaper, but they are less resistant to node and edge failures, as
+mentioned in Section 2.5.
+
+                                               1.9                                   2-norm
+                                               1.7                                   1-norm
+                                               1.5                                    =2
+
+                                               1.3
+                                                                                                 J/W
+
+
+
+
+                                               1.1            W                1.5
+                                                      10 1
+                                               0.9
+                                                      10 3                 J
+                                               0.7
+                                                              3        1
+                                                         10       10
+                                               0.5                             0.1
+
+                                                     0.1 0.3 0.5 0.7 0.9 1.1 1.3 1.5
+
+Figure 6. Pareto front. We plot the dissipation/infrastructure cost ratio vs. β . Different points are averaged over 100 runs
+with random initialization of the conductivities, µe (0) ∼ U(0, 1). Inset: infrastructure cost, W , vs. dissipation cost, J. Marker
+shapes are identical to those of the main plot, colors follow the colorbar over β .
+
+
+
+
+                                                                                                                                                                             7/3
+3 Conclusions
+Multicommodity routing is a powerful tool to model optimal network configurations in transportation systems [18]. In this
+work, we developed a robust and efficient model able to perform this task by finding stationary solutions of a dynamical system
+controlling fluxes and conductivities of edges. Our dynamics extends previous works focusing solely on the unicommodity
+[15, 27, 28, 30, 43], and on the multicommodity setup [25, 26, 34].
+    Precisely, we propose two different response functions regulating the growth of conductivities, whose evolution is dictated
+by the passengers moving in the metro. We performed a thorough empirical study of the optimal transport networks resulting
+in the two cases. Using metrics like the fraction of idle edges and the Gini coefficient of the fluxes, we found that the two
+functions behave similarly in the congested transportation regime, but differently in the branched transportation one. In this
+case, the 1-norm dynamics produces flows that are more concentrated on fewer edges, potentially leading to traffic overload.
+We addressed the capability of our method to recover shortest path networks by comparing it with Dijkstra’s routine. Such
+comparison showed that our approach is a viable computational alternative to perform this task, achieving accurate results and
+being, in principle, scalable for large networks. Additionally, we performed an experiment to measure network robustness to
+infrastructural failures, revealing that the stations of Châtelet and Saint-Lazare are crucial to ease congestion of metro routes.
+Finally, we showed that solutions of our model lie in the Pareto front drawn by the energy dissipated during transport and the
+network infrastructural cost.
+    Altogether, our findings extend the current research in multicommodity routing problems using optimal transport principles
+and help to understand the mechanism underlying passenger flows in transportation systems.
+    Our formalism can be further extended to other possible applications related to the flow of passengers in transport networks.
+An example could be to incorporate time dependences in the passengers’ inflows, modeling scenarios where stations are subject
+to different loads during a day, thus generalizing [44]. One could also compare the extent of traffic jams in multicommodity
+settings to that of other routing strategies for urban transport displaying notable phase transitions and scaling laws [39, 45, 46].
+    We would like to remark that our approach is applicable to a variety of practical problems unrelated to transportation
+systems. A practitioner may then consider response functions for the dynamics alternative to those studied in this work. The
+analysis performed in this work show how such a problem can be addressed and paves the way for further research beyond
+urban transportation networks.
+
+4 Methods
+4.1 Lyapunov and dissipation cost equivalence
+Here we show that the first term of the Lyapunov functional in Eq. (6) is identical to the 2-norm dissipation cost J =
+(1/2) ∑e `e ||Fe ||22 /µe , we follow [25]. Multiplying both sides of Eq. (1) for piv and summing over i and v yields
+
+        ∑ (µe /`e )Bue Bve piu piv = ∑ piv Svi                                                                                     (9)
+       i,v,u,e                        i,v
+                         `e
+                    ∑ µe ||Fe ||22 = ∑ piv Svi ,                                                                                  (10)
+                     e                i,v
+
+where we made explicit the network Laplacian entries Lvu := ∑e (µe /`e )Bue Bve , and we used the definition of the fluxes
+Fei := µe (piu − piv )/`e , for e = (u, v), and ∀i. Equation (10) is the identity we wanted to prove.
+
+4.2 Preprocessing
+The original dataset in [37] is provided as a multilayer network embedded with different transportation types, thus we performed
+a preprocessing to extract the metro network. First, we trimmed nodes belonging to other layers and then merged redundant
+stations having the same name by collapsing them together. This redundancy was due to the presence of stations with two
+entrances located in slightly different geographical positions; their coordinates displacement was always negligible compared
+to the physical extension of the whole network. The trimmed graph reflects consistently the real topology of the Paris metro.
+For convenience, the longitude and the latitude of nodes are rescaled within the range [0, 1].
+    We did not have access to the exact travel routes data, so we assigned the entries of S based on the “importance” of each
+station. In fact the number of users validating their tickets when entering a station, the only data at disposal, is easier to track
+than the number of exiting users together with their entrance station. In practice, we assigned N − 1 positive “influence factors”
+                                                                                                                               i
+to each station i, one for each node u 6= i where the users entering in i can potentially exit: rui = gu / ∑w6=i gw , instead rv=i = 0,
+         v                                                                       i                                     i
+where g is the amount of users entering the metro from v = i. Note that 0 ≤ rv ≤ 1 for all v nodes, and ∑v6=i rv = 1. Thus, we
+can estimate the number of people exiting from a station u 6= i by assigning Sui = −rui gv=i , while Sv=i  i  = gv . The intuition is
+                                                                         v
+that a station with a high entering volume of passengers, i.e. high g , should have a large amount of exiting users, thus its
+“influence” value r should be high.
+
+
+                                                                                                                                   8/3
+                                          = 0.5                         = 1.0                       = 1.5
+                                           = 0.0    = 0.5
+                                           = 0.1    = 0.6 1.00                         1.0
+                             1.0           = 0.2    = 0.7
+                                           = 0.3    = 0.8
+                                           = 0.4    = 0.9
+                                                    = 1.0
+
+
+                             JΓ
+                                                         0.95                          0.9
+
+
+                             0.9
+                                   0      50       100           0     50        100         0     50        100
+                                       time step                     time step                   time step
+
+Figure 7. Validation of the dynamics with the 1-norm. We show the dissipation cost evolution along solution trajectories
+of Eqs. (1) and (2). Results are displayed for different combinations of ρ and β , and are averaged over 100 runs with random
+initializations of µe (0) ∼ U(0, 1). The curves are normalized in (0, 1). Shaded areas denote standard deviations, these are
+thicker for β > 1 since the cost is concave, with a rich landscape a local minima.
+
+
+4.3 Validation
+We validate Eqs. (1) and (2) with the 1-norm for several combinations of β and of the input loads S(ρ), with 0 ≤ ρ ≤ 1
+progressively smoothing the passengers inflows data collected in [47]. In detail, users entering stations are regulated as
+gv (ρ) = gv − ρ(gv − hgi) where gv are inflows in v as in [47], and h·i averages over the nodes. Using this procedure, we
+build S(ρ) following the “influence assignment” described in Methods 4.2. Thus, S(ρ = 0) = S corresponds to the originally
+                                 i (ρ = 1) = hgi and Si (ρ = 1) = −hgi/(|V | − 1) for all u 6= v = i. Meaning that for ρ = 1
+extrapolated mass matrix, while Sv=i                    u
+passengers move with uniform rates from each—and to—all stations. In Fig. 7 we plot the time-evolution of JΓ , which decreases
+over time.
+
+4.4 Pareto front derivation
+To obtain the Pareto form in closed form as in Eq. (8) it is sufficient to exploit the scaling µe ∼ (Fe )δ , δ = 3 − β , valid for
+stationary solutions of the multicommodity dynamics [25]. In particular, it is immediate to recover Eq. (8) by rewriting J in
+Eq. (3) as a function of the conductivities µe .
+
+Data availability
+All data used for the experiments on the Paris metro network are publicly available [37, 47].
+
+Code availability
+An open-source implementation of the code is accessible at https://github.com/aleable/McOpt.
+
+Author contributions
+All authors contributed to developing the models. A.L. and C.D.B. conceived the experiments, analyzed the results and reviewed
+the manuscript. A.L. conducted the experiments. All authors have read and agreed to the final version of the manuscript.
+
+Competing financial interests
+The authors declare no competing interests.
+
+Acknowledgments
+We thank Enrico Facca for helpful discussions and for insightful comments improving the manuscript. We acknowledge the
+help of Daniela Leite for data preprocessing. The authors thank the International Max Planck Research School for Intelligent
+Systems (IMPRS-IS) for supporting Alessandro Lonardi.
+
+References
+ 1. Sinclair, K. & Ball, R. C. Mechanism for Global Optimization of River Networks from Local Erosion Rules. Phys. Rev.
+    Lett. 76, 3360–3363, DOI: 10.1103/PhysRevLett.76.3360 (1996).
+
+
+
+                                                                                                                              9/3
+ 2. Rinaldo, A. et al. Minimum energy and fractal structures of drainage networks. Water Resour. Res. 28, 2183–2195, DOI:
+    10.1029/92WR00801 (1992).
+
+ 3. Rinaldo, A., Rodriguez-Iturbe, I., Rigon, R., Ijjasz-Vasquez, E. & Bras, R. L. Self-organized fractal river networks. Phys.
+    Rev. Lett. 70, 822–825, DOI: 10.1103/PhysRevLett.70.822 (1993).
+ 4. Sun, T., Meakin, P. & Jøssang, T. Minimum energy dissipation model for river basin geometry. Phys. Rev. E 49, 4865–4872,
+    DOI: 10.1103/PhysRevE.49.4865 (1994).
+
+ 5. Konkol, A., Schwenk, J., Katifori, E. & Shaw, J. B. Interplay of river and tidal forcings promotes loops in coastal channel
+    networks (2021). 2108.04151.
+ 6. Ronellenfitsch, H. & Katifori, E. Global Optimization, Local Adaptation, and the Role of Growth in Distribution Networks.
+    Phys. Rev. Lett. 117, 138301, DOI: 10.1103/PhysRevLett.117.138301 (2016).
+ 7. Ronellenfitsch, H. & Katifori, E. Phenotypes of vascular flow networks. Phys. Rev. Lett. 123, 248101, DOI: 10.1103/
+    PhysRevLett.123.248101 (2019).
+ 8. Katifori, E., Szöllősi, G. J. & Magnasco, M. O. Damage and Fluctuations Induce Loops in Optimal Transport Networks.
+    Phys. Rev. Lett. 104, 048704, DOI: 10.1103/PhysRevLett.104.048704 (2010).
+ 9. Xia, Q. The formation of a tree leaf. ESAIM: Control. Optimisation Calc. Var. 13, 359–377, DOI: 10.1051/cocv:2007016
+    (2007).
+
+10. Tero, A. et al. Rules for Biologically Inspired Adaptive Network Design. Science 327, 439–442, DOI: 10.1126/science.
+    1177894 (2010).
+11. Tero, A., Yumiki, K., Kobayashi, R., Saigusa, T. & Nakagaki, T. Flow-network adaptation in Physarum amoebae. Theory
+    biosciences 127, 89–94, DOI: 10.1007/s12064-008-0037-9 (2008).
+
+12. Tero, A., Kobayashi, R. & Nakagaki, T. Physarum solver: A biologically inspired method of road-network navigation.
+    Phys. A: Stat. Mech. its Appl. 363, 115–119, DOI: https://doi.org/10.1016/j.physa.2006.01.053 (2006).
+13. Tero, A., Kobayashi, R. & Nakagaki, T. A mathematical model for adaptive transport network in path finding by true slime
+    mold. J. Theor. Biol. 244, 553–564, DOI: https://doi.org/10.1016/j.jtbi.2006.07.015 (2007).
+
+14. Yamada, H., Toth, A. & Nakagaki, T. Intelligence: Maze-solving by an amoeboid organism. Nature 407, 470–470, DOI:
+    10.1038/35035159 (2000).
+15. Bonifaci, V., Mehlhorn, K. & Varma, G. Physarum can compute shortest paths. J. Theor. Biol. 309, 121 – 133, DOI:
+    https://doi.org/10.1016/j.jtbi.2012.06.017 (2012).
+16. Bonifaci, V. Physarum can compute shortest paths: A short proof. Inf. Process. Lett. 113, 4–7, DOI: https://doi.org/10.
+    1016/j.ipl.2012.09.005 (2013).
+17. Bonifaci, V. A revised model of fluid transport optimization in Physarum polycephalum. J. mathematical biology 74,
+    567–581, DOI: 10.1007/s00285-016-1036-y (2017).
+18. Salimifard, K. & Bigharaz, S. The multicommodity network flow problem: state of the art classification, applications, and
+    solution methods. Oper. Res. DOI: 10.1007/s12351-020-00564-8 (2020).
+19. Yeung, C. H. & Saad, D. Networking - A Statistical Physics Perspective. J. Phys. A Math. Theor. 46, 103001, DOI:
+    10.1088/1751-8113/46/10/103001 (2011).
+20. Yeung, C. H., Saad, D. & Wong, K. Y. M. From the physics of interacting polymers to optimizing routes on the London
+    Underground. Proc. Natl. Acad. Sci. 110, 13717–13722, DOI: 10.1073/pnas.1301111110 (2013).
+
+21. Altarelli, F., Braunstein, A., Dall’Asta, L., De Bacco, C. & Franz, S. The edge-disjoint path problem on random graphs by
+    message-passing. PLOS ONE 10, 1–18, DOI: 10.1371/journal.pone.0145222 (2016).
+22. De Bacco, C., Franz, S., Saad, D. & Yeung, C. H. Shortest node-disjoint paths on random graphs. J. Stat. Mech. Theory
+    Exp. 2014, P07009 (2014).
+
+
+                                                                                                                          10/3
+23. Xu, Y., Po, H. F., Yeung, C. H. & Saad, D. Scalable Node-Disjoint and Edge-Disjoint Multi-wavelength Routing (2021).
+    2107.00609.
+
+24. Yeung, C. H. & Saad, D. Competition for Shortest Paths on Sparse Graphs. Phys. Rev. Lett. 108, 208701, DOI:
+    10.1103/PhysRevLett.108.208701 (2012).
+25. Lonardi, A., Facca, E., Putti, M. & De Bacco, C. Designing optimal networks for multicommodity transport problem.
+    Phys. Rev. Res. 3, 043010, DOI: 10.1103/PhysRevResearch.3.043010 (2021).
+
+26. Bonifaci, V. et al. Physarum-inspired multi-commodity flow dynamics. Theor. Comput. Sci. DOI: https://doi.org/10.1016/j.
+    tcs.2022.02.001 (2022).
+27. Facca, E., Cardin, F. & Putti, M. Towards a Stationary Monge-Kantorovich Dynamics: The Physarum Polycephalum
+    Experience. SIAM J. on Appl. Math. 78, 651–676, DOI: 10.1137/16M1098383 (2016).
+28. Facca, E., Daneri, S., Cardin, F. & Putti, M. Numerical Solution of Monge-Kantorovich Equations via a Dynamic
+    Formulation. J. Sci. Comput. 82, 68, DOI: 10.1007/s10915-020-01170-8 (2020).
+29. Facca, E., Cardin, F. & Putti, M. Physarum Dynamics and Optimal Transport for Basis Pursuit (2020). 1812.11782.
+30. Facca, E., Cardin, F. & Putti, M. Branching structures emerging from a continuous optimal transport model. J. Comput.
+    Phys. 447, 110700, DOI: https://doi.org/10.1016/j.jcp.2021.110700 (2021).
+
+31. Baptista, D., Leite, D., Facca, E., Putti, M. & De Bacco, C. Network extraction by routing optimization. Sci. Reports 10,
+    088702, DOI: 10.1038/s41598-020-77064-4 (2020).
+32. Baptista, D. & De Bacco, C. Principled network extraction from images. R. Soc. open sci. 8, 210025, DOI: 10.1098/rsos.
+    210025 (2021).
+33. Baptista, D. & De Bacco, C. Convergence properties of optimal transport-based temporal networks. In Benito, R. M.
+    et al. (eds.) Complex Networks & Their Applications X, 578–592, DOI: https://doi.org/10.1007/978-3-030-93409-5_48
+    (Springer International Publishing, Cham, 2022).
+34. Ibrahim, A. A., Lonardi, A. & De Bacco, C. Optimal transport in multilayer networks for traffic flow optimization.
+    Algorithms 14, DOI: 10.3390/a14070189 (2021).
+
+35. Dijkstra, E. A note on two problems in connexion with graphs. Numer. Math. 1, 269–271, DOI: https://doi.org/10.1007/
+    BF01386390 (1959).
+36. Banavar, J. R., Colaiori, F., Flammini, A., Maritan, A. & Rinaldo, A. Topology of the Fittest Transportation Network.
+    Phys. Rev. Lett. 84, 4745–4748, DOI: 10.1103/PhysRevLett.84.4745 (2000).
+37. Kujala, R., Weckström, C., Darst, R. K., Mladenović, M. N. & Saramäki, J. A collection of public transport network data
+    sets for 25 cities. Sci. data 5, 180089, DOI: 10.1038/sdata.2018.89 (2018).
+38. Dixon, P. M., Weiner, J., Mitchell-Olds, T. & Woodley, R. Bootstrapping the gini coefficient of inequality. Ecology 68,
+    1548–1551 (1987).
+39. Yan, G., Zhou, T., Hu, B., Fu, Z.-Q. & Wang, B.-H. Efficient routing on complex networks. Phys. Rev. E 73, 046108, DOI:
+    10.1103/PhysRevE.73.046108 (2006).
+40. Facca, E. & Benzi, M. Fast Iterative Solution of the Optimal Transport Problem on Graphs. SIAM J. on Sci. Comput. 43,
+    A2295–A2319, DOI: 10.1137/20M137015X (2021).
+41. Fredman, M. L. & Tarjan, R. E. Fibonacci Heaps and Their Uses in Improved Network Optimization Algorithms. J. ACM
+    34, 596–615, DOI: 10.1145/28869.28874 (1987).
+
+42. Koçillari, L. et al. The widened pipe model of plant hydraulic evolution. Proc. Natl. Acad. Sci. 118, DOI: 10.1073/pnas.
+    2100314118 (2021).
+43. Hu, D. & Cai, D. Adaptation and Optimization of Biological Transport Networks. Phys. Rev. Lett. 111, 138701, DOI:
+    10.1103/PhysRevLett.111.138701 (2013).
+
+
+                                                                                                                        11/3
+44. Lonardi, A., Facca, E., Putti, M. & De Bacco, C. Infrastructure adaptation and emergence of loops in network routing with
+    time-dependent loads (2021). 2112.10620.
+
+45. Toroczkai, Z. & Bassler, K. E. Jamming is limited in scale-free systems. Nature 428, 716–716, DOI: 10.1038/428716a
+    (2004).
+46. Zhao, L., Lai, Y.-C., Park, K. & Ye, N. Onset of traffic congestion in complex networks. Phys. Rev. E 71, 026125, DOI:
+    10.1103/PhysRevE.71.026125 (2005).
+
+47. “Trafic annuel entrant par station du réseau ferré 2019”, accessed: 2020-08-28 (2019).
+
+
+
+
+                                                                                                                        12/3
+Multicommodity routing optimization for engineering networks:
+Supplementary Information (SI)
+1 Listing of important variables
+In order to facilitate readability, in Table S1 we list some of the main parameters of our model.
+
+ Variable       Dimension                               Definition                                          Interpretation
+  G(V, E)             —                                       —                                Network, V = set of nodes, E = set of edges
+  ` = {`e }          |E|                                      —                                       Euclidian length of the edges
+ B = {Bve }      |V | × |E|                                   —                                      Signed incidence matrix of G
+      M            Scalar                                     —                                         Number of commodities
+ S = {Svi }       |V | × M                                    —                             Mass matrix containing in/outflows of passengers
+ µ = {µe }           |E|                                      —                                             Edge conductivities
+ L = {Luv }      |V | × |V |                   Luv := ∑e (µe /`e )Bue Bve                            Weighted Laplacian matrix of G
+      β            Scalar                                     —                               Regulatory parameter for traffic congestion
+ p = {pv }           |V |                                     —                                       Pressure potentials on nodes
+ F = {Fei }       |E| × M                        Fei := µe (piu − piv )/`e                  Fluxes on edges generated by the commodities
+     f (·)    Scalar function                 f (·) = || · ||21 ; f (·) = || · ||22               Response function for fluxes coupling
+       J      Scalar function                 J := (1/2) ∑e `e f (Fe )/µe                                     Dissipation cost
+                                                                      γ
+      W       Scalar function                     W := (∑e `e µe )/2γ                                        Infrastructure cost
+      JΓ      Scalar function                      JΓ := ∑e `e f (Fe )Γ                   Dissipation cost, unconstrained minimization problem
+                                                                                    2−β
+    Lβ        Scalar function            Lβ := 2 ∑i,v piv Svi + 2(2−β
+                                                1                      1
+                                                                         ) ∑e `e µe                        Lyapunov functional
+   γ, δ , Γ       Scalars          γ := 2 − β ; δ := 1/(3 − β ); Γ := (2 − β )/(3 − β )              Auxiliary critical exponents
+      ρ           Scalar                                   —                                     Parameter for mass matrix smoothing
+
+                            Table S1. Comprehensive listing of the main parameters and variables used.
+
+
+
+2 Optimal transport networks
+In the panels in Fig. S1 and Fig. S2 we show the optimal transport networks for different configuration of the input forcings
+S(ρ). In detail, we display the results for ρ = 0.5 (Fig. S1), and those for ρ = 1.0 (Fig. S2). Looking at the rightmost networks
+(β = 1.5) of Fig. S1a and Fig. S2a one can observe a clear tendency of the 1-norm dynamics to concentrate traffic more than the
+2-norm one. This trend reflects on the sorted distributions plotted in Fig. S1c and Fig. S2c, where the fluxes are more fat-tailed
+and homogeneous for the 2-norm. Notably, the effect becomes starker the more the input inflows of passengers distribute
+uniformly on the nodes, i.e. increasing ρ.
+
+3 Network resistance to failures: 2-norm dynamics
+In Fig. S3 we reproduce the experiments designed to test the resilience of optimal networks to node failures. Overall, results
+are similar to those in the main text, it is worth mentioning how the Gini coefficient values Fig. S3c are higher than the
+correspondent ones for the 1-norm, symptom of the tendency of the latter forcing function to aggregate traffic. Another
+implication of this effect is that the Gini coefficient values for the 2-norm tend to separate more for higher β than those of the
+1-norm. In fact, the latter tend to be overlapped, regardless of the number of failures, on a larger portion of the x-axis (where
+β > 1).
+
+
+
+
+                                                                                                                                            1/3
+                      = 0.1                   = 1.0                    = 1.5                               = 1.5
+                                                                                                                                     0.01
+            a)                                                                               b)
+
+
+
+
+                                                                                                                            2-norm
+
+                                                                                                                                       flux difference
+                                                                               difference
+           2-norm
+
+
+
+
+                                                                                                                            1-norm
+                      = 0.1                   = 1.0                    = 1.5
+                                                                                                                                     -0.01
+                                                                                              c)    2-norm
+                                                                                                     2-norm
+                                                                                                    1-norm
+                                                                                                     1-norm
+                                                                                            0.01
+
+
+
+
+                                                                                                                          ∝||Fe||1
+                                                                                                   = 1.5
+           1-norm
+
+
+
+
+                                                                                            0.00
+                                                                                                   100      200    300
+                              0.00                              0.01
+                                ∝||Fe||1 , fraction of passengers                                   edge index, e
+
+
+Figure S1. Optimal transport networks panel with forcing S(ρ = 0.5). For a detailed description of the subplots one can
+refer to Fig. 2 in the main text.
+
+
+
+
+                      = 0.1                   = 1.0                    = 1.5                               = 1.5
+                                                                                                                                    0.01
+            a)                                                                               b)
+                                                                                                                           2-norm
+                                                                                                                           2-norm
+
+                                                                                                                                     flux difference
+                                                                               difference
+           2-norm
+
+
+
+
+                                                                                                                           1-norm
+
+
+
+
+                      = 0.1                   = 1.0                    = 1.5
+                                                                                                                                     -0.01
+                                                                                             c)     2-norm
+                                                                                                     2-norm
+                                                                                                    1-norm
+                                                                                                     1-norm
+                                                                                                                         ∝||Fe||1
+
+
+
+
+                                                                                            0.01   = 1.5
+           1-norm
+
+
+
+
+                                                                                            0.00
+                                                                                                   100      200    300
+                              0.00                              0.01
+                                ∝||Fe||1 , fraction of passengers                                   edge index, e
+
+
+Figure S2. Optimal transport networks panel with forcing S(ρ = 1.0). For a detailed description of the subplots one can
+refer to Fig. 2 in the main text.
+
+
+
+
+                                                                                                                                                         2/3
+                                                                                                                                   0.01
+
+
+
+
+                                                                                                                                      ∝||Fe||1 , fraction of passengers
+         a)
+         = 0.1
+         2-norm,
+
+
+
+
+                       N
+                   W       E
+                       S
+                                                                                                                                   0.00
+                                     b)          passengers redistribution   c)
+                                                                                  0.7
+                                                                                              failures = 0
+
+
+
+
+                                                                                                                Gini coefficient
+                                                                                              failures = 1
+                               1) Châtelet                                                    failures = 2
+                                                                                  0.6         failures = 3
+                                                                                              failures = 4
+                               2) Gare du Nord
+                                                                                  0.5
+                               3) Saint-Lazare
+
+                               4) Gare de Lyon                                    0.4
+
+                                                                                  0.3
+                                                                                        0.1   0.5       1.0   1.5
+
+Figure S3. Traffic rerouting after network structural failures (2-norm dynamics). For a detailed description of the
+subplots one can refer to Fig. 5 in the main text.
+
+
+
+
+                                                                                                                                                                          3/3
+

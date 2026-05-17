@@ -1,0 +1,1278 @@
+Joint Optimization of Pattern, Headway, and Fleet Size of Multiple Urban Transit Lines
+with Perceived Headway Consideration and Passenger Flow Allocation
+
+
+Max T.M. Ng
+Graduate Research Assistant
+Northwestern University Transportation Center
+600 Foster Street
+Evanston, IL 60208, USA
+Email: maxng@u.northwestern.edu
+
+Draco Tong
+Graduate Research Assistant
+Northwestern University Transportation Center
+600 Foster Street
+Evanston, IL 60208, USA
+Email: draco.tong@northwestern.edu
+
+Hani S. Mahmassani†
+William A. Patterson Distinguished Chair in Transportation
+Director, Transportation Center
+Northwestern University
+600 Foster Street
+Evanston, IL 60208, USA
+
+Ömer Verbas
+Technical Lead for Network Modeling and Simulation
+Transportation Systems & Mobility Group, Vehicle & Mobility Systems Department
+Argonne National Laboratory
+Lemont, IL 60439, USA
+Email: omer@anl.gov
+
+Taner Cokyasar
+Consultant
+The Transportation and Power Systems Division
+Argonne National Laboratory
+Lemont, IL 60439, USA
+Email: tcokyasar@anl.gov
+
+
+†
+    Deceased
+
+Updated Date: February 8, 2026
+
+A previous version is accepted for presentation in the 104th Transportation Research Board
+Annual Meeting in Washington, D.C. in January 2025.
+                                                                                                  2
+
+
+ABSTRACT
+
+This study addresses the urban transit pattern design problem, optimizing stop sequences,
+headways, and fleet sizes across multiple routes and periods simultaneously to minimize user costs
+(composed of riding, waiting, and transfer times) under operational constraints (e.g., vehicle
+capacity and fleet size). A destination-labeled multi-commodity network flow (MCNF)
+formulation is developed to solve the problem at a large scale more efficiently compared to the
+previous literature. The model allows for flexible pattern options without relying on pre-defined
+candidate sets and simultaneously considers multiple operational strategies such as express/local
+services, short-turning, and deadheading. It evaluates perceived headways of joint patterns for
+passengers, assigns passenger flows to each pattern accordingly, and allows transfers across
+patterns in different directions. The mixed-integer linear programming (MILP) model is
+demonstrated with a city-sized network of metro lines in Chicago, IL, USA, achieving near-
+optimal solutions in hours. The total weighted journey times are reduced by 0.61% and 5.76%
+under single-route and multi-period multi-route scenarios respectively. The model provides transit
+agencies with an efficient tool for comprehensive service design and resource allocation,
+improving service quality and resource utilization without additional operational costs.
+
+
+
+Keywords:
+train service design, transit pattern optimization, multi-commodity network flow, mixed-integer
+linear programming, headway
+                                                                                                   3
+
+
+1      INTRODUCTION
+
+1.1      Motivation
+
+The efficiency of transit systems is crucial for serving passengers within a tight budget. Many
+systems have seen significant changes in demand patterns since their original design decades ago,
+with more pronounced shifts following the COVID-19 pandemic, which has altered commuting
+behaviors and increased the demand for flexible, efficient transit solutions (Tahlyan et al., 2022).
+For example, there has been discussion of converting commuter rail services to regional rail
+models and consolidating transit agencies in North American cities (Cano, 2024; Freishtat, 2024).
+These changes, coinciding with the future potential redesign of transit networks with shared
+autonomous mobility services (Ng et al., 2024), necessitate a redesign of patterns to maintain
+efficiency within constrained operational budgets.
+
+Train service design problem has been well studied, considering a range of operational strategies
+to improve efficiency and services, such as route splitting (Wilson and González, 1982), zonal
+express/local services (Furth, 1986), short-turning and deadheading (Ceder, 1989; Furth, 1987),
+and skip-stop strategies (Peftitsi et al., 2023). More recent literature has formulated the problem
+with mathematical programming and solved different variants of the problems considering some
+operational strategies and small problem instances (Feng et al., 2024; Leiva et al., 2010; Ulusoy et
+al., 2010; Wang et al., 2018). Solution approaches that simultaneously consider multiple pattern
+designs, headways, and fleet sizes across routes can better support transit agencies in optimizing
+their services given a budget constraint.
+
+1.2      Problem Description
+
+This study addresses the service design problem for urban rail transit lines, optimizing stop
+sequences and headways of each pattern simultaneously to minimize user costs (composed of
+riding, waiting, and transfer times) under operational constraints (e.g., vehicle capacity and fleet
+size). Unlike line1 planning problems that determine patterns across multiple lines in a network
+(Schöbel, 2012), this study assumes pre-determined routes. This approach aligns more closely with
+train service route design and passenger flow allocation problems as examined by Feng et al.
+(2024).
+
+The train service design problem is combinatorial as the solution space explodes with possible
+service pattern combinations. It is also non-linear due to the relationship between waiting time and
+fleet requirements when setting headway. These limit previous solution approaches in solving
+larger or city-scale problems.
+
+This study develops a model that allows for flexible pattern options without relying on pre-defined
+candidate sets, and simultaneously considers multiple operational strategies, such as route splitting
+and express/local services. It also models bi-directional operations, including short-turning and
+deadheading, assuming continuous operations in each of the multiple periods (e.g., peak and off-
+peak hours). Demand is exogenous and inelastic, input into the model as origin-to-destination (O-
+D), stop-by-stop data. Headway is determined from a discrete set that overcomes the nonlinearity
+
+1
+    The terms “line” and “route” are used interchangeably in this paper.
+                                                                                                                           4
+
+
+with fleet requirement.2 Passenger flow is constrained by the capacity provided by the headway.
+We also allow transfers across patterns in different directions.
+
+Previous research investigated perceived headway when multiple patterns serve the same O-D
+pairs (Figure 1) (Verbas and Mahmassani, 2013). Passengers can take any minimum-cost path
+(Nguyen and Pallottino, 1989; Spiess and Florian, 1989; Verbas and Mahmassani, 2015a),
+considering weighted waiting, riding, and transfer times, subject to capacity constraints.
+Additionally, the assumption that passengers board the first available vehicle leads to the
+frequency share rule (Desaulniers and Hickman, 2007) where passenger numbers for the same O-
+D pair are distributed among different patterns based on their frequencies. This study explicitly
+considers the perceived headway of joint patterns and assigns passenger flows to each pattern
+accordingly.
+
+
+
+
+    Figure 1. Illustration of transit service patterns along a transit route. (Verbas and Mahmassani,
+                                                    2013)
+
+We further expand the model to optimize patterns and headways of multiple routes and periods
+(e.g., peak and off-peak hours), while assigning trains3 to each route from a pool. This broader
+approach captures the interconnected nature of urban transit systems, ensuring that fleet resources
+are allocated efficiently.
+
+1.3     Contributions
+
+This study presents theoretical and methodological contributions. Theoretically, this study
+formulates the transit service pattern design problem that jointly optimizes stop patterns,
+headways, and fleet sizes for metro line routes. This formulation is more general compared to
+previous works on train service design, as it allows multiple service strategies, considers perceived
+headways and flow assignment of multiple patterns, and includes transfers across patterns.
+Methodologically, we develop a destination-labeled multi-commodity network flow (MCNF)
+formulation, leading to efficient mixed-integer linear programming (MILP) solutions that address
+the problem at a large scale (more stops, multiple routes, and multiple periods) faster compared to
+previous literature. Binary variables assign stop sequences and headways to patterns, and
+
+
+2
+  While this may seem a limiting factor for choices of headway, it is close to real-world operations where train
+schedules are set at regular times (e.g., in minutes) instead of arbitrary decimals.
+3
+  Train or fleet size is chosen as one of the optimization units instead of train cars for scenarios where train drivers
+or train sets are the constraints. This is particularly relevant in systems where labor shortage poses a more critical
+constraint. Nevertheless, the formulation can be readily adapted to consider train car assignment as well.
+                                                                                                       5
+
+
+perceived headways to O-D pairs, while continuous variables assist in evaluating flows and costs.
+The methodology is demonstrated with a case study of metro lines in Chicago, USA.
+
+The remainder of the paper is structured as follows. Section 2 reviews the literature on the transit
+service design problem and headway and fleet size setting. Section 3 describes the MCNF model
+for single-route and multi-route formulations. Section 4 introduces the experiment setting of both
+single-route and multi-route problems, followed by the result discussion in Section 5. Section 6
+concludes the paper with limitations and future research directions.
+
+
+2     BACKGROUND
+
+2.1   Transit Service Design Problem
+
+The general transit network design problem has been extensively reviewed by Durán-Micco and
+Vansteenwegen (2022) and Farahani et al. (2013). While focusing on bus lines, Ibarra-Rojas et al.
+(2015) provided a comprehensive review of the literature on service design problems, highlighting
+the uncovered research area of design such as short-turning and express lines.
+
+Several rule-based and heuristic approaches have been proposed to optimize the deployment of
+various operating strategies in transit lines. These include route splitting (Wilson and González,
+1982), zonal express/local services (Furth, 1986), short-turning and deadheading (Ceder, 1989;
+Furth, 1987), and skip-stop strategies (Peftitsi et al., 2023). Gkiotsalitis et al. (2019) studied short-
+turning and interlining with optimal frequency & fleet size. Additionally, Baaj and Mahmassani
+(1991, 1995) developed general route generation heuristics.
+
+More recent and growing literature has focused on mathematical programming approaches. Leiva
+et al. (2010) enumerated paths to design limited stop services. Ulusoy et al. (2010) considered all-
+stop, short-turning, and express options with transfers. Yang et al. (2017) assigned passengers with
+a frequency logit model in designing short-turning patterns. Wang et al. (2018) developed a generic
+approach but with a limited number of stops. Chen et al. (2018) incorporated local service and
+short-turning in the greater transit network design problem, and Li et al. (2021) optimized patterns
+and frequencies with short-turning and train compositions. Feng et al. (2024) designed train service
+routes (express/local) with passenger flow allocation.
+
+This study distinguishes itself by not relying on pre-defined candidate pattern sets, allowing for
+more flexible pattern options. It offers a more holistic consideration of multiple service strategies
+simultaneously and addresses problems at a large scale (current study considering lines with at
+most 40 stops as reviewed by Feng et al. (2024)). We jointly optimize pattern, headway, and fleet
+size while taking into account perceived headway and performing trip assignments.
+
+2.2   Transit Headway and Fleet Size Setting
+
+While transit frequency and fleet size were usually considered jointly within the transit network
+design problem (e.g., Pinto et al., 2020), a considerable portion of the work focused specifically
+on optimizing headway and fleet assignment across routes assuming a designed network (e.g.,
+                                                                                                   6
+
+
+Verbas and Mahmassani, 2013, 2015b). Verbas et al. (2015) further optimized bus frequency with
+elastic demand. Martínez et al. (2014) set frequency with flow assignment, utilizing MILP for
+small instances, and metaheuristics for larger problems. Other problem types include frequency
+and pricing setting (Bertsimas et al., 2020), frequency and schedule setting with bounded
+stochastic user equilibrium (Jiang et al., 2022), and frequency in line planning problem with
+piecewise linear approximation of waiting time (Zhou et al., 2021).
+
+These studies collectively provide a foundation for understanding the complexity and
+interdependencies involved in the joint problem of transit service design and headway and fleet
+size setting. We build on this foundation by developing more integrated and scalable solutions to
+optimize transit service design.
+
+3     MODEL
+
+3.1   Nomenclature
+The notation is listed in Table 1. Sets are denoted as capital scripted characters (e.g.,
+𝒮! and 𝒫! ), constants as Greek or capital Roman characters (e.g., 𝛾 " and
+                                                                            *
+𝑇#$% ), and indices and variables as small Roman characters (e.g., 𝑑 and 𝑓&'#()  ). Superscripts are
+qualifiers and subscripts are indices. The cardinality of set 𝒮! is denoted with |𝒮! |.
+
+Table 1. Notation.
+ Sets and indices
+   𝒞!    Set of headway combinations of route 𝑟 ∈ ℛ, indexed by 𝑐 ∈ 𝒞!
+   𝒟!    Set of origins/destinations of route 𝑟 ∈ ℛ, indexed by 𝑜 ∈ 𝒟! and 𝑑 ∈ 𝒟! ,
+         respectively
+  ℋ!     Ordered set of headway choices of route 𝑟 ∈ ℛ, indexed by ℎ ∈ ℋ!
+   𝒫!    Set of patterns of route 𝑟 ∈ ℛ, indexed by 𝑝 ∈ 𝒫!
+   ℛ     Set of routes, indexed by 𝑟 ∈ ℛ
+   𝒮!    Set of stops of route 𝑟 ∈ ℛ, indexed by 𝑖, 𝑗, 𝑘 ∈ 𝒮!
+   𝒯     Set of time periods, indexed by 𝑡 ∈ 𝒯
+    +                                                                               +
+  ℎ()    Headway index taken by pattern 𝑝 ∈ 𝒫! under combination 𝑐 ∈ 𝒞! , where ℎ() = 0
+         indicates that the service is unavailable
+ Parameters
+   𝐵!    Vehicle capacity of route 𝑟 ∈ ℛ
+   𝐷&    Duration of period 𝑡 ∈ 𝒯
+  𝐸&,' Demand between origin 𝑜 ∈ 𝒟! and destination 𝑑 ∈ 𝒟! of period 𝑡 ∈ 𝒯
+   𝑀     A sufficiently large number (big-M)
+     -
+  𝑁      Number of vehicles available
+     .
+   𝑁     Number of vehicle-hours available
+     /
+   𝑇     Transfer cost
+     %   Travel time between stops 𝑖 ∈ 𝒮! and 𝑗 ∈ 𝒮!
+   𝑇#$
+     0
+  𝑇(     Perceived headway for combination 𝑐 ∈ 𝒞!
+     +
+   𝑇1    Headway of index ℎ ∈ ℋ!
+     /
+   𝛾     Transfer cost coefficient relative to travel time
+                                                                                                       7
+
+
+      𝛾0    Waiting cost coefficient relative to travel time
+    MILP decision variables
+       *
+    𝑓&'#()  Boarding flows at stop 𝑖 ∈ 𝒮! to destination 𝑑 ∈ 𝒟! via headway combination 𝑐 ∈ 𝒞
+            to trains of pattern 𝑝 ∈ 𝒫! in period 𝑡 ∈ 𝒯
+        2
+      𝑓&#)  Exit flows at stop 𝑖 ∈ 𝒮! from trains of pattern 𝑝 ∈ 𝒫! in period 𝑡 ∈ 𝒯
+      /
+    𝑓&'#$)( Transfer flows at stop 𝑖 ∈ 𝒮! (to stop 𝑗 ∈ {𝑖, 𝚤̃}) from trains of pattern 𝑝 ∈ 𝒫! to
+            headway combination 𝑐 ∈ 𝒞! , with destination 𝑑 ∈ 𝒟! in period 𝑡 ∈ 𝒯
+       %
+    𝑓&')#$ Inter-stop flows from stop 𝑖 ∈ 𝒮! to stop 𝑗 ∈ 𝒮! on trains of pattern 𝑝 ∈ 𝒫! with
+            destination 𝑑 ∈ 𝒟! in period 𝑡 ∈ 𝒯
+       0
+     𝑓&'#(  Entry flows at stop 𝑖 ∈ 𝒮! to destination 𝑑 ∈ 𝒟! to headway combination 𝑐 ∈ 𝒞! in
+            period 𝑡 ∈ 𝒯
+     𝑥&)#$ Binary variable indicating if stop 𝑗 ∈ 𝒮! is the next stop of 𝑖 ∈ 𝒮! in pattern 𝑝 ∈ 𝒫! in
+            period 𝑡 ∈ 𝒯
+      3
+    𝑥&)#$1 Binary variable indicating if stop 𝑗 ∈ 𝒮! is the next stop of 𝑖 ∈ 𝒮! in pattern 𝑝 ∈ 𝒫!
+            and the headway of pattern 𝑝 is ℎ ∈ ℋ! in period 𝑡 ∈ 𝒯
+     𝑦&)1 Binary variable indicating if the headway of pattern 𝑝 is ℎ ∈ ℋ! in period 𝑡 ∈ 𝒯
+     𝑧&#'( Binary variable indicating if passengers at stop 𝑖 ∈ 𝒮! with destination 𝑑 ∈ 𝒟! is
+            assigned the headway combination 𝑐 ∈ 𝒞! in period 𝑡 ∈ 𝒯
+    Additional decision variable in multi-route joint optimization
+         -
+      𝑛!&   Fleet size of route 𝑟 ∈ ℛ in period 𝑡 ∈ 𝒯
+
+Boarding in opposite directions at the same physical stop is represented by 𝑖 and 𝚤̃. Formally, 𝑑H =
+|𝒮! | − 𝑑 − 1 and [𝑑M           O O 4                                                O            O
+                    4 , 𝑑5 ] = N𝑑5 , 𝑑4 P. The same notation applies to a set, e.g., 𝒟! , so 𝒟! ∪ 𝒟! =
+𝒮! .
+
+We optimize the patterns and headways jointly for multiple routes ℛ and periods 𝒯. The simpler
+cases of single route or single period would reduce the optimization problem by shrinking the
+corresponding dimensions of variables (i.e., 𝑟 and 𝑡).
+
+3.2      Perceived Headway
+
+We assume that passengers take any minimum cost path (considering weighted waiting, riding,
+and transfer times and subject to capacity constraints). However, passengers of certain O-D pairs
+may be provided with more than one pattern to reach their destinations, or in other words, they can
+travel on trains of any pattern with similar journey times. We further assume that passengers take
+the first vehicle passing by in such cases. This leads to a perceived headway lower than any
+                                                             +            +
+relevant pattern headway, or mathematically 1/(∑1∈ℋ! 1/𝑇1 ) , where 𝑇1 is the headway of index
+ℎ ∈ ℋ! 5 , as the frequency share rule commonly adopted in the literature (Desaulniers and
+Hickman, 2007; Nguyen and Pallottino, 1989).
+
+To evaluate the perceived headway linearly, each unique combination 𝑐 ∈ 𝒞! of headway ℎ ∈ ℋ!
+and pattern 𝑝 ∈ 𝒫! for an O-D pair is pre-computed and iterated over. This allows the model to
+
+4
+    Stop numbering starts with 0.
+5
+    ℋ" consists of the headway choices and ℎ = 0 to indicate not-in-service.
+                                                                                                                 8
+
+
+consider the smaller perceived headway resulting from the operation of more than one pattern.
+                                                        +
+Eq.(1) formally defines the set of combination 𝒞! with ℎ() as the headway index taken by pattern
+                                      +
+𝑝 under each combination 𝑐, where ℎ() = 0 indicates that pattern 𝑝 is out of service.
+
+
+         𝒫                                  +      +        +       +            +                             (1)
+𝒞! = ℋ! ! \{(0,0, … ,0)} = XYℎ(,4 , ℎ(,5 , … , ℎ(,|𝒫! | Z : ℎ() ∈ ℋ! , ∃ℎ() ≠ 0^ ∀𝑟 ∈ ℛ
+For example, 𝑐 = (0,1) means first pattern is not available and second pattern offers first headway
+(e.g., 5-minute).
+
+The set of combinations with two patterns and two headways (0 indicating no service; 1 and 2
+indicating the first and second headway choice) is given by:                                 𝒞! =
+{(0,1), (0,2), (1,0), (1,1), (1,2), (2,0), (2,1), (2,2)} . Therefore, the number of possible
+combinations is |𝒞! | = |ℋ! ||𝒫!| − 1, accounting for all possible headway combinations (minus
+one for the all out-of-service pattern case). For example, |𝒞! | = 8 for two patterns and two non-
+zero headways, and |𝒞! | = 63 for three patterns and three non-zero headways.
+
+Each O-D pair experiences a specific headway-pattern combination. The perceived headway of a
+combination 𝑐 ∈ 𝒞! under a joint frequency served by multiple patterns is determined by 𝑇(0 in
+Eq.(2).
+                                                 ;4
+                                           ;4
+                                  +
+𝑇(0 = de                        f𝑇1% g h               ∀𝑐 ∈ 𝒞! , ∀𝑟 ∈ ℛ                                        (2)
+                        %             #$
+                 )∈𝒫! |1#$ <=
+
+
+By the frequency share rule, among passengers boarding at stop 𝑖 ∈ 𝒮! to go to destination 𝑑 ∈
+                                               *
+𝒟! , the portion using pattern 𝑝4 (with flow 𝑓&'#()&
+                                                     ) is also the portion of its frequency (inverse of
+headway) to the total frequency, i.e., Eq.(3). This leads to the ratios between the flows of any two
+patterns in Eq.(4).
+                                ;4
+    *
+  𝑓&'#()&
+                       i𝑇1+& j                          +
+        *    =                         ;4       ℎ4 = ℎ()& , ∀𝑖 ∈ 𝒮! , 𝑑 ∈ 𝒟! , 𝑝4 ∈ 𝒫! , 𝑐 ∈ 𝒞! , ∀𝑟 ∈ ℛ, 𝑡 ∈ 𝒯 (3)
+∑)∈𝒫! 𝑓&'#()
+                   ∑)∈𝒫! f𝑇 +% g
+                                1#$
+
+  *          +
+𝑓&'#()&
+          𝑇1'       +           +
+  *     =   + ℎ4 = ℎ()& , ℎ5 = ℎ()' , ∀𝑖 ∈ 𝒮! , 𝑑 ∈ 𝒟! , 𝑝4 , 𝑝5 ∈ 𝒫! , 𝑐 ∈ 𝒞! , ∀𝑟 ∈ ℛ, 𝑡 ∈ 𝒯                 (4)
+𝑓&'#()'
+          𝑇1 &
+
+
+3.3     Multi-Commodity Network Flow (MCNF) Formulation
+
+3.3.1    Network flow model
+
+We formulate the joint optimization of patterns and headways as an MCNF problem. Figure 2
+illustrates the network flow model with an example of two patterns with bi-directional
+consideration.
+                                                                                                                            9
+
+
+Vehicles travel from stop to stop on pattern arcs, forming a loop that includes both directions. At
+each origin, passengers enter a stop (of a direction) through entry arcs and are assigned a
+combination that defines which patterns (with corresponding headways) are available for
+passengers going to a particular destination. They then board the trains through a boarding arc,
+arrive at their destination and exit through an alighting arc.
+
+We now introduce the variables corresponding to each arc type in the network model before
+presenting the MILP setting. The pattern stop sequence is represented by pattern arcs, indicating
+that vehicles go from stop 𝑖 ∈ 𝒮! to stop 𝑗 ∈ 𝒮! in pattern 𝑝 ∈ 𝒫! . This is denoted by a binary
+variable 𝑥&)#$ in Eq.(5), which allows for the representation of different operational strategies such
+as short-turning and express service of Pattern 2 in Figure 2. 6 Operational and infrastructure
+constraints can be reflected by bounding some 𝑥&)#$ = 0, e.g., no overtaking track or turnout
+available for rail.
+
+                                   1       2                       '                                      !       Destination
+
+     Pattern 1
+
+     Pattern 2
+
+    Combination c                                            ...
+
+
+                    Origin         1       2                       i                                      !
+
+
+    Combination c            ...                             ...
+
+     Pattern 2
+
+     Pattern 1
+
+                                       &                           '(                              ! +2   ! +1    Destination
+
+                                               Pattern arc              Entry arc   Boarding arc                 Exit arc
+          Figure 2. Illustration of model formulation (only key nodes and links shown for clarity).
+
+
+       ∈ {0,1} if 𝑖 ≠ 𝑗
+𝑥&)#$ k                 ∀𝑖, 𝑗 ∈ 𝒮! , 𝑝 ∈ 𝒫! , 𝑟 ∈ ℛ, 𝑡 ∈ 𝒯                                                               (5)
+        = 0 if 𝑖 = 𝑗
+
+Headway choices of each pattern are discretized to overcome the non-linearity between waiting
+times and vehicle requirements. Each pattern 𝑝 ∈ 𝒫! is assigned one headway ℎ ∈ ℋ! , represented
+by the binary variable 𝑦&)1 in Eq.(6).
+𝑦&)1 = {0,1} ∀𝑝 ∈ 𝒫! , ℎ ∈ ℋ! , 𝑟 ∈ ℛ, 𝑡 ∈ 𝒯                                                                             (6)
+
+To evaluate vehicle requirements for the stop sequence of a pattern, the binary variable 𝑥&)#$ is
+                 3
+broken down to 𝑥&)#$1 in Eq.(7) to include the headway decision.
+
+
+
+
+6
+ Interlining is not explicitly modeled in this study but can be considered in the same framework by adjusting the
+network and link connection.
+                                                                                                         10
+
+
+ 3         ∈ {0,1} if 𝑖 ≠ 𝑗
+𝑥&)#$1 k                    ∀𝑖, 𝑗 ∈ 𝒮! , 𝑝 ∈ 𝒫! , ℎ ∈ ℋ! , 𝑟 ∈ ℛ, 𝑡 ∈ 𝒯                                  (7)
+            = 0 if 𝑖 = 𝑗
+
+The adopted pattern-headway combination 𝑐 ∈ 𝒞! for each O-D pair (𝑖, 𝑑), 𝑖 ∈ 𝒮! , 𝑑 ∈ 𝒟! is
+represented by the binary variable 𝑧&#'( in Eq.(8). 𝑧&#'( = 1 indicates that passengers at stop 𝑖
+going to destination 𝑑 take the patterns (with headways) defined in combination 𝑐. We note that
+the entry stop 𝑖 also indicates the direction of traveling, i.e., 𝑖 ≠ 𝚤̃.
+          ∈ {0,1} if 𝑖 ∉ p𝑑, 𝑑H q
+𝑧&#'( n                           ∀𝑖 ∈ 𝒮! , 𝑑 ∈ 𝒟! , 𝑐 ∈ 𝒞! , 𝑟 ∈ ℛ, 𝑡 ∈ 𝒯                               (8)
+           = 0 if 𝑖 ∈ p𝑑, 𝑑H q
+
+               0                *                   %                                2
+Flows (entry 𝑓&'#( , boarding 𝑓&'#() , inter-stop 𝑓&')#$ , ending 𝑓&') ) shown in Figure 3 are continuous
+variables in Eq.(9)-(12). Considering passengers entering stop 𝑖 ∈ 𝒮! with destination 𝑑 ∈ 𝒟! .
+                                                                                                      0
+They are first assigned to a certain pattern-headway combination 𝑐 ∈ 𝒞! , i.e., the entry arc 𝑓&'#(     .
+                                                                                *
+Then they board the vehicle of pattern 𝑝 ∈ 𝒫! through the boarding arc 𝑓&'#() , and travel from stop
+                                     %
+to stop through the pattern arcs 𝑓&')#$    till reaching the destination. Finally, they exit the vehicle
+                          2
+through the exit arc 𝑓&') .
+                                                   Stop i      Stop d
+                                           Origin
+                                            %
+                                          !!"#$
+
+                       Combinations c                ...            "!#"$
+                                            '
+                                          !!"#$&
+
+                              Pattern 1
+
+
+                           Pattern 2
+                                                                             +
+                                                              )
+                                                            !!"#(&$         !!"&
+
+                                                            #!&#(                        Pattern arc
+                           Pattern 3                         *
+                                                                                         Entry arc
+                                                           !!"&#(                        Boarding arc
+                                                                                         Exit arc
+                                                                       Destination       Transfer arc
+
+                                          Figure 3. Notation of flow variables.
+
+  0
+       ≥ 0 if 𝑖 ∉ p𝑑, 𝑑H q
+𝑓&'#( n                     ∀𝑑 ∈ 𝒟! , 𝑖 ∈ 𝒮! , 𝑐 ∈ 𝒞! , 𝑟 ∈ ℛ, 𝑡 ∈ 𝒯                                     (9)
+        = 0 if 𝑖 ∈ p𝑑, 𝑑H q
+
+  *
+            ≥ 0 if 𝑖 ∉ p𝑑, 𝑑Hq, ℎ()
+                                  +
+                                      >0
+𝑓&'#() n                            +     ∀𝑑 ∈ 𝒟! , 𝑖 ∈ 𝒮! , 𝑝 ∈ 𝒫! , 𝑐 ∈ 𝒞! , 𝑟 ∈ ℛ, 𝑡 ∈ 𝒯             (10)
+           = 0 if 𝑖 ∈ p𝑑, 𝑑H q or ℎ() = 0
+
+  %
+         ≥ 0 if 𝑖 ∉ p𝑑, 𝑑H q, 𝑖 < 𝑗
+𝑓&')#$ n                            ∀𝑑 ∈ 𝒟! , 𝑖, 𝑗 ∈ 𝒮! , 𝑝 ∈ 𝒫! , 𝑟 ∈ ℛ, 𝑡 ∈ 𝒯                         (11)
+        = 0 if 𝑖 ∈ p𝑑, 𝑑Hq or 𝑖 ≥ 𝑗
+                                                                                                     11
+
+
+ 2
+𝑓&$) ≥ 0, ∀𝑗 ∈ 𝒮! , 𝑝 ∈ 𝒫! , 𝑟 ∈ ℛ, 𝑡 ∈ 𝒯                                                          (12)
+
+The formulation can consider transfers across patterns. This allows better cooperation between
+express and local services, as some O-D pairs may not be directly connected by individual patterns.
+                                      /
+Transfer flows are represented by 𝑓&'#$)( in Eq.(13) that alight a vehicle of pattern 𝑝 ∈ 𝒫! at stop
+𝑖 ∈ 𝒮! , to board in the same direction (𝑗 = 𝑖) or opposite direction (𝑗 = 𝚤̃) and join the combination
+𝑐 ∈ 𝒞! . These passengers would then travel with other passengers that start their journey at stop 𝑖
+to destination 𝑑, therefore using the same combination 𝑐.
+
+  /       ≥ 0 if 𝑖 ∉ p𝑑, 𝑑Hq, 𝑗 ∈ {𝑖, 𝚤̃}
+𝑓&'#$)( n                                   ∀𝑑 ∈ 𝒟! , 𝑖, 𝑗 ∈ 𝒮! , 𝑝 ∈ 𝒫! , 𝑐 ∈ 𝒞! , 𝑟 ∈ ℛ, 𝑡 ∈ 𝒯   (13)
+         = 0 if 𝑖 ∈ p𝑑, 𝑑H q or 𝑗 ∉ {𝑖, 𝚤̃}
+
+3.3.2   Objective
+
+We now introduce the MILP model. It simultaneously determines the optimal patterns and
+headways by setting the binary variables and evaluates the objective by solving for the minimum-
+cost flows through the network. The commodity of MCNF refers to the destination labels that
+allow checking flow balance and O-D satisfaction with much fewer flow variables. The decision
+variable domains have been introduced in Eq.(5)-(13) in Section 3.3.1.
+
+The objective function in Eq.(14) aims to minimize the total weighted journey time of all
+passengers, formed by three main components, subject to the variable domains previously
+mentioned and constraints to discuss in Section 3.3.3.
+
+The first term is the summation of riding times of all inter-stop flows from stop 𝑖 ∈ 𝒮! to stop 𝑗 ∈
+𝒮! (𝑖 < 𝑗) of all destinations 𝑑 ∈ 𝒟! , patterns 𝑝 ∈ 𝒫! , and periods 𝑡 ∈ 𝒯, where 𝑇#$% is the travel
+time from stop 𝑖 to stop 𝑗.
+
+The second term is the weighted waiting times of all entry flows to all combination 𝑐 ∈ 𝒞! , at all
+stops 𝑖 ∈ 𝒮! to all destination 𝑑 ∈ 𝒟! , where 𝑇(0 is the perceived headway of combination 𝑐 in
+Eq.(2) and 𝛾 0 is a coefficient to reflect the disutility of waiting relative to riding.
+
+The third term is the weighted transfer times of all transfer flows at station 𝑖 ∈ 𝒮! , previously
+traveling on pattern 𝑝 ∈ 𝒫! , and joining other passengers to destination 𝑑 ∈ 𝒟! who get on the
+station 𝑗 = 𝑖 or 𝑗 = 𝚤̃ assigned combination 𝑐 ∈ 𝒞! . Each transfer costs perceived waiting time
+𝑇(0 /2 and transfer time 𝑇/ . The parameter 𝛾 / is a coefficient to reflect the disutility of transfers.
+                                                                                                  12
+
+
+                                                                 |C! |
+
+            ,
+                min              .
+                                                          %
+                                       y y y y y y 𝑇#$% 𝑓&')#$
+    >($)* ,>($)*+ ,?($+ ,@()-# ,A!(
+                                       &∈𝒯 !∈ℛ '∈𝒟! )∈𝒫! #∈𝒮! $D#E4
+  /      0       1       2     3
+B(-)# ,B(-)#$ ,B(-$)* ,B(*$ ,B(-)*$#
+
+                               0
+                                    𝑇(0 0
+                        +𝛾 yy y y y    𝑓                                                        (14)
+                                     2 &'#(
+                                   &∈𝒯 !∈ℛ '∈𝒟! #∈𝒮! (∈𝒞!
+                                                                          𝑇(0          /
+                        + 𝛾/ y y y y y y y f                                  + 𝑇/ g 𝑓&'#$)(
+                                                                           2
+                                   &∈𝒯 !∈ℛ '∈𝒟! #∈𝒮! $∈{#,L̃} )∈𝒫! (∈𝒞!
+s.t. Eq.(5)-(13),(15)-(18)
+
+3.3.3        Constraints
+
+The first batch of constraints stipulates the pattern stop sequence. The validity of a pattern is
+ensured by Eq.(15) that the number of incoming links to a stop equals the number of outgoing
+links for each pattern. Eq.(16) further restricts this number to be at most one, forming a closed
+loop for each pattern. 𝑥&)#$ then constrains whether flows are possible on links (𝑖, 𝑗) for pattern 𝑝
+(only when there are services), as enforced by the big-M constraint in Eq.(17) where 𝑀 is a
+sufficiently large number7.
+
+y 𝑥&)#$ = y 𝑥&)$O ∀𝑗 ∈ 𝒮! , 𝑝 ∈ 𝒫! , 𝑟 ∈ ℛ, 𝑡 ∈ 𝒯                                               (15)
+#∈𝒮!               O∈𝒮!
+
+
+0 ≤ y 𝑥&)#$ ≤ 1 ∀𝑗 ∈ 𝒮! , 𝑝 ∈ 𝒫! , 𝑟 ∈ ℛ, 𝑡 ∈ 𝒯                                                 (16)
+         #∈𝒮!
+
+  %
+𝑓')#$ ≤ 𝑀𝑥&)#$ ∀𝑑 ∈ 𝒟! , 𝑝 ∈ 𝒫! , 𝑖, 𝑗 ∈ 𝒮! , 𝑟 ∈ ℛ, 𝑡 ∈ 𝒯, 𝑖 < 𝑗                               (17)
+
+An optional constraint is bi-directional symmetry of a pattern in Eq.(18), generally more relevant
+to metro rail services.
+                                   𝑥&)#$ = 𝑥&)P̃ L̃ ∀𝑖, 𝑗 ∈ 𝒟! , 𝑝 ∈ 𝒫! , 𝑟 ∈ ℛ, 𝑡 ∈ 𝒯, 𝑖 < 𝑗   (18)
+
+Next, we consider the headway. Each pattern is assigned exactly one headway in Eq.(19). To break
+symmetries, patterns with smaller headways are assigned first in Eq.(20), which is equivalent to
+ℎ)& ≤ ℎ)' ∀𝑝4 , 𝑝5 ∈ 𝒫! , 𝑝4 < 𝑝5
+
+ y 𝑦&)1 = 1 ∀𝑝 ∈ 𝒫! , 𝑟 ∈ ℛ, 𝑡 ∈ 𝒯                                                              (19)
+1∈ℋ!
+
+1;4                    1;4
+
+y 𝑦&)& 14 ≥ y 𝑦&)' 14 ∀ 𝑝4 , 𝑝5 ∈ 𝒫! , ℎ ∈ ℋ! , 𝑟 ∈ ℛ, 𝑡 ∈ 𝒯, 𝑝4 < 𝑝5                           (20)
+1 4 D4                1 4 D4
+
+
+
+                                                     9
+7
+    𝑀 shall be at least as large as the maximum of 𝑓5678 .
+                                                                                                                       13
+
+
+                                                        3
+The headway setting results also constrain 𝑥&)#$1 , which denotes the headway and stop sequence
+                                          3
+of a pattern in Eq.(21). The variables 𝑥&)#$1 should also align with the pattern setting 𝑥)#$ in
+                              3
+Eq.(22). Similar to Eq.(17), 𝑥&)#$1 then constrain whether flows are possible with Eq.(23) where
+pattern capacity is the product of vehicle capacity 𝐵! (in passengers per vehicle) and frequency
+    +
+1/𝑇1 .
+    3
+𝑥&)#$1 ≤ 𝑦&)1 ∀𝑖, 𝑗 ∈ 𝒮! , 𝑝 ∈ 𝒫! , ℎ ∈ ℋ! , 𝑟 ∈ ℛ, 𝑡 ∈ 𝒯, 𝑖 ≠ 𝑗                                                     (21)
+        3
+y 𝑥&)#$1 = 𝑥&)#$ ∀𝑖, 𝑗 ∈ 𝒮! , 𝑝 ∈ 𝒫! , 𝑟 ∈ ℛ, 𝑡 ∈ 𝒯, 𝑖 ≠ 𝑗                                                           (22)
+1∈ℋ!
+
+
+    %
+                            1 3
+y 𝑓&')#$ ≤ 𝐵! y              + 𝑥    ∀𝑖, 𝑗 ∈ 𝒮! , 𝑝 ∈ 𝒫! , 𝑟 ∈ ℛ, 𝑡 ∈ 𝒯                                               (23)
+                           𝑇1 &)#$1
+'∈𝒟!                1∈ℋ!
+
+            3
+With 𝑥&)#$1 , we can now evaluate the vehicle requirement based on the journey time
+                          3                          +
+∑#∈𝒮! ∑$∈𝒮! 𝑇#$% ∑1∈ℋ! 𝑥&)#$1   and frequency 1/𝑇1 of a pattern. In Eq.(24), the total vehicle
+requirement across all patterns and stops must not exceed the number of vehicles assigned for
+            -
+period 𝑡, 𝑛!& , subject to positive fleet size for each route in Eq.(25).8 The vehicle assignment is
+first constrained by the fleet size 𝑁 - in Eq.(26), and then the sum of vehicle-hours available 𝑁 . in
+Eq.(27).9
+                            1 3
+y y y 𝑇#$% y                             -
+                             + 𝑥&)#$1 ≤ 𝑛!& ∀𝑟 ∈ ℛ, 𝑡 ∈ 𝒯                                                            (24)
+                           𝑇1
+)∈𝒫! #∈𝒮! $∈𝒮!      1∈ℋ!
+
+ -
+𝑛!& ≥ 0 ∀𝑟 ∈ ℛ, 𝑡 ∈ 𝒯                                                                                                (25)
+
+   -
+y 𝑛!& ≤ 𝑁-                                                                                                           (26)
+!∈ℛ
+
+        -
+y y 𝐷& 𝑛!& ≤ 𝑁.                                                                                                      (27)
+&∈𝒯 !∈ℛ
+
+
+The third batch of constraints governs the pattern-headway combinations. Passengers at stop 𝑖 to
+destination 𝑑 are only assigned one combination in Eq.(28). The assignment 𝑧&#'( is also bounded
+above by pattern-headway availability in Eq.(29), i.e., only combinations of selected headways of
+patterns serving the stop 𝑖 to destination 𝑑 can be assigned.
+
+y 𝑧&#'( ≤ 1 ∀𝑑 ∈ 𝒟! , 𝑖 ∈ 𝒮! , 𝑟 ∈ ℛ, 𝑡 ∈ 𝒯, 𝑖 ∉ p𝑑, 𝑑H q                                                            (28)
+(∈𝒞!
+
+
+8
+  The variable 𝑛": is allowed to be non-integer for cases where a train is shared across different patterns at different
+time. It can also be set as integers for strict operational requirement.
+9
+  The parameter 𝑁 ; reflects the total number of vehicles available, subtracted by the maintenance or workforce
+requirement (e.g., trains taken out of service at non-peak for maintenance, or drivers shifts).
+                                                                                                                      14
+
+
+                        H q ∀𝑖 ∈ 𝒮! , 𝑑 ∈ 𝒟! , 𝑐 ∈ 𝒞! , 𝑝 ∈ 𝒫! , 𝑟 ∈ ℛ, 𝑡 ∈ 𝒯, ℎ() ≠ 0       +
+            % , 𝑖 ∉ p𝑑, 𝑑
+𝑧&#'( ≤ 𝑦&)1#$                                                                                                       (29)
+
+                                                *
+The resulting 𝑧&#'( are then upper bounds for 𝑓&'#() in Eq.(30) to ensure no flows if a combination
+is not assigned. Eq.(31) further assigns flows among each pattern pairs based on frequency share
+                                        +
+rule in Eq.(4) when 𝑧&#'( = 1, where ℎ() is the headway index for pattern 𝑝 in combination 𝑐.
+  *
+𝑓&'#() ≤ 𝑀𝑧&#'( , 𝑖 ∉ p𝑑, 𝑑H q ∀𝑑 ∈ 𝒟! , 𝑖 ∈ 𝒮! , 𝑐 ∈ 𝒞! , 𝑝 ∈ 𝒫! , 𝑟 ∈ ℛ, 𝑡 ∈ 𝒯                                     (30)
+                       *     +       *           +
+−𝑀(1 − 𝑧&#'( ) ≤ 𝑇1% 𝑓&'#()&
+                             − 𝑇1% 𝑓&'#()'
+                                           ≤ 𝑀(1 − 𝑧&#'( )
+                             #$&                 #$'
+                                                                                                                     (31)
+                                   ∀𝑖 ∈ 𝒮! , 𝑑 ∈ 𝒟! , 𝑝4 , 𝑝5 ∈ 𝒫! , 𝑐 ∈ 𝒞! , 𝑟 ∈ ℛ, 𝑡 ∈ 𝒯, 𝑖 ∉ p𝑑, 𝑑H q, 𝑝4 < 𝑝5
+
+The remaining constraints ensure demand satisfaction and flow balance. Eq.(32) and Eq.(33)
+require respectively entry and exit flows to equal O-D demand, considering flows in both
+directions.
+    0         0
+y 𝑓&',( + y 𝑓&',Q( = 𝐸&,' ∀𝑜, 𝑑 ∈ 𝒟! , 𝑟 ∈ ℛ, 𝑡 ∈ 𝒯                                                                  (32)
+(∈𝒞!              (∈𝒞!
+
+       2                 2
+y 𝑓&') + y 𝑓&'R) = y 𝐸&,'                        ∀𝑑 ∈ 𝒟! , 𝑟 ∈ ℛ, 𝑡 ∈ 𝒯                                              (33)
+)∈𝒫!          )∈𝒫!                 ,∈𝒟!
+
+
+Flow balance is handled separately for non-destination and destination stops due to the destination
+label. For non-destination stops, Eq.(34) ensures that the sum of entry flows and transfer flows
+(from both directions) equals the sum of boarding flows at each combination node. Eq.(35) ensures
+that sum of boarding flows and inter-stop flows (already on the vehicle) at each stop equals the
+sum of alighting flows and transfer flows (to both directions) at the next stop.
+                   /                     /
+  0
+𝑓&'#(                                *
+      + y 𝑓&'##)( + y 𝑓&'L̃#)( = y 𝑓&'#() ∀𝑑, 𝑖 ∈ 𝒮! , 𝑐 ∈ 𝒞! , 𝑟 ∈ ℛ, 𝑡 ∈ 𝒯, 𝑖 ∉ p𝑑, 𝑑Hq                            (34)
+           )∈𝒫!                  )∈𝒫!            )∈𝒫!
+
+                  $;4                    |𝒮! |
+    *          %          %                                    /              /
+y 𝑓&'$() + y 𝑓&')#$ = y 𝑓&')$O + y 𝑓&'$$)( + y 𝑓&'$P̃ )(
+                                                                                                                     (35)
+(∈𝒞!               #D=                  OD$E4           (∈𝒞!           (∈𝒞!
+                                                                   ∀𝑑, 𝑗 ∈ 𝒮! , 𝑝 ∈ 𝒫! , 𝑟 ∈ ℛ, 𝑡 ∈ 𝒯, 𝑗 ∉ p𝑑, 𝑑Hq
+
+For destination stops, the sum of inter-stop flows equals the alighting flow in Eq.(36).
+$;4
+                   2
+    %
+y 𝑓&')#$ = 𝑓&$) , 𝑗 ∈ p𝑑, 𝑑Hq ∀𝑑 ∈ 𝒟! , 𝑝 ∈ 𝒫! , 𝑗 ∈ 𝒮! , 𝑟 ∈ ℛ, 𝑡 ∈ 𝒯                                               (36)
+#D=
+                                                                                                                 15
+
+
+4    EXPERIMENT DESIGN
+
+We make use of a metro rail network, Chicago Transit Authority’s (CTA) “L”, in Chicago, IL,
+USA to demonstrate the use and performance of the models. The network is simplified into six
+lines as shown in Figure 4 (Chicago Transit Authority, 2025). 10 Stop-to-stop travel times,
+headway, cycle time, and number of vehicles are inferred with the current schedules. Short-turning
+possibilities are identified from physical rail trackwork constraints, and express services from Red-
+Purple dual track section. We consider one hour of continuous peak-hour operation and adapt
+demand data from the activity-based demand model CT-RAMP (Chicago Metropolitan Agency
+for Planning, 2023) and agent-based simulation tool POLARIS (Auld et al., 2016). Vehicle
+capacity constraints in Eq.(23) are omitted due to overall undercapacity in the system (lack of
+resources is more on conductors than train cars).
+
+
+
+
+Figure 4. Simplified network of Chicago Transit Authority’s (CTA) “L” used in the experiment
+(Chicago Transit Authority, 2025)
+
+For the single-period single-route examples, we explore the following scenarios in our experiment
+of the Red-Purple Line, allowing transfers:
+    1. Baseline referencing existing Red Line and Purple Express patterns
+    2. Two patterns, two headway {5,7} choices per pattern
+    3. Three patterns, three headway {5,7,10} choices per pattern
+    4. Two patterns, seven headway {4,5,6,7,8,10,15} choices per pattern
+
+
+10
+  The peak-hour Purple Express and Red Line services are represented by one integrated line with express/local
+options. The Green Line branches are simplified to one line.
+                                                                                                         16
+
+
+The multi-period case studies consider two design periods 11 . Single-route case study follows
+previous four scenarios but limits the last two scenario design to include one full pattern and no
+transfers within each line. Multi-route scenario, on top of the previous red line design, also
+optimizes train assignment across lines, short-turning, and headway of other lines (two patterns,
+two headway choices per pattern, one full pattern, no transfers for each line).
+
+The optimization run was performed on a computer with Windows 11 operating system, Intel Xeon
+Silver 4214R 2.4GHz (12 cores), 96 GB RAM, and Gurobi 12 as the MILP solver. The parameter
+values are summarized in Table 2.
+
+Table 2. Input parameters of the models.
+ Notation     Single-Period Single-       Multi-Period Single-                     Multi-Period Multi-
+                     Route                       Route                                   Route
+ Sets and indices
+    𝒟!                           |𝒟! | = 43                                   |𝐷! |
+                                                                              = {33,27,28,16,22,43}
+       ℋ!                            |ℋ! | = 3, 4 𝑜𝑟 8                        |ℋ! | = 3
+       𝒫!                             |𝒫! | = 2 𝑜𝑟 3                          |𝒫! | = 2
+       ℛ                                                                         {blue, brown, green,
+                                            {red}
+                                                                                   orange, pink, red}
+        𝒯                 |𝒯| = 1                                        |𝒯| = 2
+ Parameters
+   𝐷&                      {1}                                             {6,9}
+   𝐸,'                 Sum = 18,401                   Sum = 244,624                  Sum = 741,152
+   𝑁-                                        40                                            140
+   𝑁.                        40                             540                           2040
+     +
+   𝑇1                                                                            {{5,7}, {5,7}, {10,15},
+                           {5,7}, {5,7,10} or {4,5,6,7,8,10,15}
+                                                                                {12,15}, {12,15}, {5,7}}
+       𝑇/                                                  3 min
+       𝛾/                                                   2.0
+       𝛾0                                                   1.5
+
+
+5      RESULTS AND DISCUSSION
+
+5.1      Single-Period Single-Route Example
+
+We first demonstrate the single-route model with the Chicago Red-Purple Line example. Table 3
+summarizes the results, showing a 0.61% reduction in objective over baseline. All solutions are
+solved to a 1e-4 solution gap efficiently. The two-pattern, two-headway case is solved in
+approximately 5 minutes, while the two more complex scenarios (around 3 and 3.5 million
+decision variables) are solved in less than 19 hours. This highlights the capability of the
+
+
+
+11
+     The two design periods are peak hours (6-9am and 4-7pm) and non-peak hours (9am-4pm and 7pm-1am).
+                                                                                                                                              17
+
+
+destination-labeled MCNF formulation to handle real-world pattern settings within a reasonable
+computational time.
+
+Table 3. Results of single-period single-route example.
+                             2 patterns,    2 patterns,                                           3 patterns,
+ Metric
+                            2 headways     7 headways                                             3 headways
+ Continuous Variables          843,316       2,267,046                                             3,284,082
+ Binary Variables               73,964        351,324                                               321,735
+ Constraints                  1,638,176      3,897,186                                             5,884,864
+ Opt. Time (s)                   328           62,212                                                67,481
+                      Percentage Change over Baseline
+ Objective (per hour)           0.00%          -0.61%                                               -0.61%
+ Avg. Riding Time (min)         0.00%          -0.06%                                               -0.06%
+ Avg. Wait Time (min)           0.00%          -2.21%                                               -2.21%
+ Number of Transfers            0.00%         -92.93%                                              -92.93%
+
+Across the three optimization scenarios, the two-pattern, two-headway model obtains the existing
+baseline solution. The two-pattern, seven-headway and three-pattern, three-headway models
+obtain the same solution12 with a 0.61% reduction in the objective function. This seemingly modest
+improvement translates to 37.89 passenger-hours of savings per hour, without additional
+operational costs. While the optimal solution maintains similar riding times, it achieves a 2.21%
+decrease in waiting time and eliminates most transfers.
+
+For the resulting service patterns illustrated in Figure 5, Pattern 1 remains unchanged in the optimal
+solution. Meanwhile, Pattern 2 is extended to cover the southern part of the city, offering lower
+combined headway jointly with Pattern 1. However, Pattern 2 now runs at a higher headway (10-
+minute) to utilize the same total number of trains.
+
+                                                                                                                            95
+                                                                                                                              th
+                                                                                   Fu                        Ro                 /D
+                   Li                         Ho                 W        Be                                                      an
+                                                                            lm       lle                       os
+                      nd           M            w                 ils                   rt o                     ev                    Ry
+                        en             ai           ar               on        on                                  el                    an
+                                          n            d                         t          n                           t
+
+     Pattern 1 (5-min)
+     Pattern 2 (7-min)
+
+                                (a) Solution for baseline and 2 patterns, 2 headways
+                                                                                                                            95
+                                                                                                                              th
+                                                                                                                                /D
+                                                                          Be         Fu                      Ro                   an
+                   Li                         Ho                 W                     lle                     os
+                      nd           M            w                 ils       lm                                                         Ry
+                                       ai           ar                           on       rt o                   ev                      an
+                        en                n            d             on                       n                    el
+                                                                                   t                                    t
+
+     Pattern 1 (5-min)
+     Pattern 2 (10-min)
+
+                         (b) Solution for 2 patterns, 7 headways and 3 patterns, 3 headways
+
+12
+     The third pattern is not used for the three-pattern case.
+                                                                                                                        18
+
+Figure 5. Service pattern solutions of single-period single-route examples
+
+5.2       Multi-Period Single-Route Case Study
+
+To demonstrate the framework’s capability in optimizing route patterns and frequencies for
+multiple periods, we expand the example to peak and non-peak hours.
+
+Table 4 shows the results across the four scenarios, where all solutions are solved to a 1e-4 solution
+gap. An objective reduction of 1.2% over baseline is shown for the 3-pattern, 3-headway case. The
+improvement mainly comes from the reduction in waiting times (a 9.2% decrease).
+
+For the computational performance, the two-pattern, two-headway case is solved in around 45
+minutes, 9 times the single-period case due to the solution combinations added by the two periods.
+The two more complex scenarios (now around 5.2 and 7.2 million decision variables) are solved
+in less than 9 hours.13
+
+Table 4. Results of multi-period single-route case study.
+                        2 patterns,    2 patterns,                               3 patterns,
+ Metric
+                        2 headways    7 headways                                 3 headways
+ Continuous Variables    1,686,632      4,534,092                                 6,568,164
+ Binary Variables         147,928        702,648                                   643,470
+ Constraints             3,276,351      9,658,335                                14,565,587
+ Opt. Time (s)              2,680         29,422                                    15,743
+                  Percentage Change over Baseline
+ Objective                 -1.20%        -0.44%                                     -1.23%
+ Avg. Riding Time
+                           -2.77%        +1.87%                                     +1.18%
+ (min)
+ Avg. Wait Time (min)     +3.19%         -8.16%                                     -9.22%
+ Number of Transfers      +2,299%         -100%                                     -100%
+
+The peak-hour service patterns in various scenarios are illustrated in Figure 6, where solid lines
+refer to all-stop service and dotted lines refer to express non-stop service. The differences lie
+mainly on the frequency provided to the Linden-Howard end and Roosevelt-95th/Dan Ryan end.
+While baseline provides 7-minute and 5-minute headways, the 3-pattern, 3-headway case provides
+10-minute and 5-minute headways. The other difference is the direct/express service for different
+O-D trips. The last two scenarios are constrained to provide a full pattern, so the additional patterns
+are used to provide express service and extra frequency.
+
+
+
+
+13
+     The optimization times are less than the single-period case due to the restricted one full pattern and no transfers.
+                                                                                                                                   19
+
+                                                                                                                 95
+                                                                                                                   th
+                                                                                     Fu           Ro                 /D
+       Li                       Ho                            W         Be                                             an
+                                                                          lm           lle          os
+          nd         M            w                            ils                        rt o        ev                    Ry
+            en           ai           ar                          on           on                       el                    an
+                            n            d                                       t            n              t
+
+      5-min
+      7-min
+
+                                                     (a) Solution for baseline
+                                                                                                                 95
+                                                                                                                   th
+                                                                                     Fu           Ro                 /D
+       Li                       Ho                            W         Be                                             an
+                                                                          lm           lle          os
+          nd         M            w                            ils                        rt o        ev                    Ry
+            en           ai           ar                          on           on                       el                    an
+                            n            d                                       t            n              t
+
+      5-min
+      7-min
+
+                                              (b) Solution for 2 patterns, 2 headways
+                                                                                                                 95
+                                                                                                                   th
+                                                                        Be           Fu           Ro                 /D
+       Li                       Ho                            W                        lle          os                 an
+          nd         M            w                            ils        lm                                                Ry
+                         ai           ar                                       on         rt o        ev
+            en              n            d                        on                          n         el                    an
+                                                                                 t                           t
+
+      6-min
+      8-min
+
+                                              (c) Solution for 2 patterns, 7 headways
+                                                                                                                 95
+                                                                                                                   th
+                                                                        Be         Fu             Ro                 /D
+        Li                       Ho                            W                     lle            os                 an
+           nd        M             w                            ils       lm                          ev                    Ry
+                          ai           ar                          on          on       rt o
+             en              n            d                                                 n           el                    an
+                                                                                 t                           t
+
+      10-min
+      10-min
+      10-min
+
+                                              (d) Solution for 3 patterns, 3 headways
+Figure 6. Peak-hour service pattern solutions of multiple-period single-route examples
+
+The case study demonstrates the value of the framework to optimize service pattern and headway
+across multiple time periods. This determines the optimal assignment of vehicles or drivers in
+different periods, considering the maintenance needs and demand fluctuation.
+
+5.3   Multi-Period Multi-Route Case Study
+
+On top of the previous single-route examples, we run the multi-period multi-route joint
+optimization model on the simplified multi-line Chicago “L” rail network. The results in Table 5
+demonstrate considerable improvements in overall system performance (5.76%) with the same
+number of trains. Despite the model size with over four million variables, the MILP solver obtains
+an optimal solution quickly in slightly over four hours.
+                                                                                                   20
+
+
+In the optimal solution, while most lines maintained their original patterns, the Green, Orange, and
+Pink Lines introduce two patterns each at peak hours, effectively offering smaller combined
+headways. Train redistribution is observed from the Blue, Brown, and Red lines to the Green,
+Orange, and Pink lines. This reallocation of resources allows for more frequent service on lines
+that benefit more.
+
+The optimal solution results in a 5.76% objective reduction, translating to approximately 1,149
+hours of travel time saved per hour of operations. This improvement is achieved through a
+reduction in waiting time (24.24%) with a slight increase of 0.02% in riding time. The average
+journey time per rider decreases by 4.17%, from 22.29 minutes to 21.36 minutes, indicating a
+considerable improvement in passenger experience without additional investment. This highlights
+the benefits of the joint optimization of patterns, headways, and fleet size across multiple lines and
+periods.
+
+
+Table 5. Results of multi-period multi-route case study.
+                    Metric                                 MILP Optimization
+ MILP        Continuous
+                                                                 3,683,594
+             Variables
+             Binary Variables                                     384,352
+             Constraints                                         3,064,319
+             Time (s)                                              15,085
+                    Metric                   Baseline              Optimal           % Change
+ Overall     Objective Function
+                                             299,039                281,811             -5.76%
+ Metrics     (h)
+             Average Objective
+                                               24.21                 22.81              -5.76%
+             per Rider (min)
+             Average Riding Time
+                                               18.44                 18.44              0.02%
+             per Rider (min)
+             Average Waiting
+                                               3.85                  2.91              -24.24%
+             Time per Rider (min)
+             Average Journey
+                                               22.29                 21.36              -4.17%
+             Time per Rider (min)
+                                               Baseline                        Optimal
+                     Metric
+ Line                                   Peak-Hour     Off-Peak          Peak-Hour   Off-Peak
+ Blue        Headway (min)                  5 min           7 min          7 min           7 min
+ Line        Number of Trains               40.1             28.6          28.6            28.6
+             Number of Patterns               1                1             1               1
+ Brown       Headway (min)                  5 min           7 min          7 min           7 min
+ Line        Number of Trains               18.8             13.4          13.4            13.4
+             Number of Patterns               1                1             1               1
+ Green       Headway (min)                 10 min          15 min       10, 15 min        15 min
+ Line        Number of Trains               14.8              9.8          24.6             9.8
+                                                                                                    21
+
+
+             Number of Patterns                1               1              2                1
+ Orange      Headway (min)                  12 min         15 min        12, 15 min        15 min
+ Line        Number of Trains                 6.3              5             9.5               5
+             Number of Patterns                1           15 min             2                1
+ Pink        Headway (min)                  12 min         15 min        12, 12 min        15 min
+ Line        Number of Trains                 6.8             5.5           13.6              5.5
+             Number of Patterns                1               1              2                1
+ Red         Headway (min)                 5, 7 min         7 min         5, 7 min          7 min
+ Line        Number of Trains                52.2            30.2           49.3             30.2
+             Number of Patterns                2               1              2                1
+
+
+
+6     CONCLUSION
+
+6.1   Summary
+
+This study develops a destination-labeled MCNF formulation for the joint optimization of transit
+service patterns, headways, and fleet sizes across multiple routes and periods. The model allows
+for flexible pattern options without relying on pre-defined candidate sets, and simultaneously
+considers multiple operational strategies such as route splitting, express/local services, short-
+turning, and deadheading. It also models bi-directional, multi-route, and multi-period operations
+and allows transfers across patterns in different directions.
+
+The models are demonstrated with a case study of metro lines in Chicago, IL, USA. MILP
+solutions for the large-scale problem are obtained efficiently. For the single-route example, the
+model achieves a 0.61% reduction in total weighted journey time without additional operational
+costs. This seemingly modest improvement translates to 37.89 hours of passenger time saved per
+hour of operation. In the multi-period multi-route scenario involving six lines, the joint
+optimization results in a more substantial 5.76% reduction in total weighted journey time,
+equivalent to approximately 1,149 hours saved per hour of operations. This is achieved primarily
+through a 24.24% decrease in waiting times, without additional operational cost.
+
+6.2   Applications and Implications
+
+The proposed MCNF formulation can be applied for transit planning and operations in different
+line-based modes, such as metro rail, light rail, and buses. The efficient joint optimization of
+patterns, headways, and fleet sizes across multiple routes provides transit agencies with a tool for
+comprehensive service design and resource allocation in city-scale networks. Different operational
+strategies can be considered for various routes simultaneously subject to fleet size and physical
+constraints.
+
+In the broader multimodal transit network design efforts (Ng et al., 2024), the pattern optimization
+in this study considers routes in a transit network and generates patterns for transit operators. These
+                                                                                                  22
+
+
+are inputs to the next-step frequency and shared autonomous vehicle fleet size setting (Pinto et al.,
+2020). This helps to create more efficient and integrated transportation systems, improving service
+quality amid limited transit budgets.
+
+6.3   Limitations and Future Research
+
+While the study presents significant advancements, there are several limitations and areas for
+future research:
+
+1. Computational requirements: The model's complexity increases rapidly with the number of
+   stops, patterns, and headway options. Current computation limitations make multi-period
+   solutions difficult with route flexibility and transfer options. Future work could compare and
+   accelerate the solutions with other programming and heuristic approaches in larger networks
+   and more granular headway choices.
+2. Inelastic demand: The current model assumes fixed demand. Incorporating elastic demand
+   would allow for a more realistic representation of how service improvements attract additional
+   ridership. This could be addressed through an iterative process between service optimization
+   and demand forecasting.
+3. Homogeneous train configuration: Different train lines may use various number of train cars
+   for capacity, cost, and operational consideration. Future study can optimize the number of train
+   cars as well subject to the operation scenario.
+
+In conclusion, this study presents an efficient tool for transit agencies to optimize their service
+patterns, headways, and fleet allocation. The demonstrated ability to achieve considerable
+efficiency gains without additional operational costs underscores the potential of this approach to
+improve transit service quality and resource utilization.
+
+
+REFERENCES
+Auld, J., Hope, M., Ley, H., Sokolov, V., Xu, B., Zhang, K., 2016. POLARIS: Agent-based
+       modeling framework development and implementation for integrated travel demand and
+       network and operations simulations. Transportation Research Part C: Emerging
+       Technologies 64, 101–116. https://doi.org/10.1016/j.trc.2015.07.017
+Baaj, M.H., Mahmassani, H.S., 1995. Hybrid route generation heuristic algorithm for the design
+       of transit networks. Transportation Research Part C: Emerging Technologies 3, 31–50.
+       https://doi.org/10.1016/0968-090X(94)00011-S
+Baaj, M.H., Mahmassani, H.S., 1991. An AI-based approach for transit route system planning
+       and design. Journal of Advanced Transportation 25, 187–209.
+       https://doi.org/10.1002/atr.5670250205
+Bertsimas, D., Sian Ng, Y., Yan, J., 2020. Joint Frequency-Setting and Pricing Optimization on
+       Multimodal Transit Networks at Scale. Transportation Science 54, 839–853.
+       https://doi.org/10.1287/trsc.2019.0959
+Cano, R., 2024. Bill to consolidate Bay Area transit agencies sputters. Here’s what happens next.
+       San Francisco Chronicle.
+Ceder, A., 1989. Optimal design of transit short-turn trips. Transportation Research Record 1221,
+       8–22.
+                                                                                               23
+
+
+Chen, J., Liu, Z., Wang, S., Chen, X., 2018. Continuum approximation modeling of transit
+        network design considering local route service and short-turn strategy. Transportation
+        Research Part E: Logistics and Transportation Review 119, 165–188.
+        https://doi.org/10.1016/j.tre.2018.10.001
+Chicago Metropolitan Agency for Planning, 2023. Activity-Based Model (ABM) Calibration and
+        Validation Report.
+Chicago Transit Authority, 2025. GTFS/Scheduled Service Data [WWW Document]. CTA. URL
+        https://www.transitchicago.com/developers/gtfs/ (accessed 2.1.21).
+Desaulniers, G., Hickman, M.D., 2007. Chapter 2 Public Transit, in: Barnhart, C., Laporte, G.
+        (Eds.), Handbooks in Operations Research and Management Science, Transportation.
+        Elsevier, pp. 69–127. https://doi.org/10.1016/S0927-0507(06)14002-5
+Durán-Micco, J., Vansteenwegen, P., 2022. A survey on the transit network design and
+        frequency setting problem. Public Transp 14, 155–190. https://doi.org/10.1007/s12469-
+        021-00284-y
+Farahani, R.Z., Miandoabchi, E., Szeto, W.Y., Rashidi, H., 2013. A review of urban
+        transportation network design problems. European Journal of Operational Research 229,
+        281–302. https://doi.org/10.1016/j.ejor.2013.01.001
+Feng, T., Lusby, R.M., Zhang, Y., Peng, Q., 2024. Integrating train service route design with
+        passenger flow allocation for an urban rail transit line. European Journal of Operational
+        Research 313, 146–170. https://doi.org/10.1016/j.ejor.2023.07.031
+Freishtat, S., 2024. Illinois lawmakers to propose merging Chicago area’s transit agencies, amid
+        CTA complaints and looming budget woes. Chicago Tribune.
+Furth, P.G., 1987. Short turning on transit routes. Transportation Research Record 1108, 42–52.
+Furth, P.G., 1986. Zonal Route Design for Transit Corridors. Transportation Science 20, 1–12.
+        https://doi.org/10.1287/trsc.20.1.1
+Gkiotsalitis, K., Wu, Z., Cats, O., 2019. A cost-minimization model for bus fleet allocation
+        featuring the tactical generation of short-turning and interlining options. Transportation
+        Research Part C: Emerging Technologies 98, 14–36.
+        https://doi.org/10.1016/j.trc.2018.11.007
+Ibarra-Rojas, O.J., Delgado, F., Giesen, R., Muñoz, J.C., 2015. Planning, operation, and control
+        of bus transport systems: A literature review. Transportation Research Part B:
+        Methodological 77, 38–75. https://doi.org/10.1016/j.trb.2015.03.002
+Jiang, Y., Rasmussen, T.K., Nielsen, O.A., 2022. Integrated Optimization of Transit Networks
+        with Schedule- and Frequency-Based Services Subject to the Bounded Stochastic User
+        Equilibrium. Transportation Science 56, 1452–1468.
+        https://doi.org/10.1287/trsc.2022.1148
+Leiva, C., Muñoz, J.C., Giesen, R., Larrain, H., 2010. Design of limited-stop services for an
+        urban bus corridor with capacity constraints. Transportation Research Part B:
+        Methodological 44, 1186–1201. https://doi.org/10.1016/j.trb.2010.01.003
+Li, Z., Zhao, J., Peng, Q., 2021. Train service design in an urban rail transit line incorporating
+        multiple service routes and multiple train compositions. Transportation Research Part C:
+        Emerging Technologies 123, 102959. https://doi.org/10.1016/j.trc.2020.102959
+Martínez, H., Mauttone, A., Urquhart, M.E., 2014. Frequency optimization in public
+        transportation systems: Formulation and metaheuristic approach. European Journal of
+        Operational Research 236, 27–36. https://doi.org/10.1016/j.ejor.2013.11.007
+                                                                                                  24
+
+
+Ng, M.T.M., Mahmassani, H.S., Verbas, Ö., Cokyasar, T., Engelhardt, R., 2024. Redesigning
+         large-scale multimodal transit networks with shared autonomous mobility services.
+         Transportation Research Part C: Emerging Technologies 104575.
+         https://doi.org/10.1016/j.trc.2024.104575
+Nguyen, S., Pallottino, S., 1989. Hyperpaths and shortest hyperpaths, in: Simeone, B. (Ed.),
+         Combinatorial Optimization. Springer, Berlin, Heidelberg, pp. 258–271.
+         https://doi.org/10.1007/BFb0083470
+Peftitsi, S., Jenelius, E., Cats, O., 2023. Evaluating skip-stop policy in urban rail transit systems
+         based on passenger cost. Journal of Public Transportation 25, 100064.
+         https://doi.org/10.1016/j.jpubtr.2023.100064
+Pinto, H.K.R.F., Hyland, M.F., Mahmassani, H.S., Verbas, I.Ö., 2020. Joint design of
+         multimodal transit networks and shared autonomous mobility fleets. Transportation
+         Research Part C: Emerging Technologies 113, 2–20.
+         https://doi.org/10.1016/j.trc.2019.06.010
+Schöbel, A., 2012. Line planning in public transportation: models and methods. OR Spectrum
+         34, 491–510. https://doi.org/10.1007/s00291-011-0251-6
+Spiess, H., Florian, M., 1989. Optimal strategies: A new assignment model for transit networks.
+         Transportation Research Part B: Methodological 23, 83–102.
+         https://doi.org/10.1016/0191-2615(89)90034-9
+Tahlyan, D., Said, M., Mahmassani, H., Stathopoulos, A., Walker, J., Shaheen, S., 2022. For
+         whom did telework not work during the Pandemic? understanding the factors impacting
+         telework satisfaction in the US using a multiple indicator multiple cause (MIMIC) model.
+         Transportation Research Part A: Policy and Practice 155, 387–402.
+         https://doi.org/10.1016/j.tra.2021.11.025
+Ulusoy, Y.Y., Chien, S.I.-J., Wei, C.-H., 2010. Optimal All-Stop, Short-Turn, and Express
+         Transit Services under Heterogeneous Demand. Transportation Research Record 2197,
+         8–18. https://doi.org/10.3141/2197-02
+Verbas, İ.Ö., Frei, C., Mahmassani, H.S., Chan, R., 2015. Stretching resources: sensitivity of
+         optimal bus frequency allocation to stop-level demand elasticities. Public Transp 7, 1–20.
+         https://doi.org/10.1007/s12469-013-0084-6
+Verbas, İ.Ö., Mahmassani, H.S., 2015a. Finding Least Cost Hyperpaths in Multimodal Transit
+         Networks: Methodology, Algorithm, and Large-Scale Application. Transportation
+         Research Record 2497, 95–105. https://doi.org/10.3141/2497-10
+Verbas, İ.Ö., Mahmassani, H.S., 2015b. Exploring trade-offs in frequency allocation in a transit
+         network using bus route patterns: Methodology and application to large-scale urban
+         systems. Transportation Research Part B: Methodological 81, 577–595.
+         https://doi.org/10.1016/j.trb.2015.06.018
+Verbas, İ.Ö., Mahmassani, H.S., 2013. Optimal Allocation of Service Frequencies over Transit
+         Network Routes and Time Periods: Formulation, Solution, and Implementation Using
+         Bus Route Patterns. Transportation Research Record 2334, 50–59.
+         https://doi.org/10.3141/2334-06
+Wang, D.Z.W., Nayan, A., Szeto, W.Y., 2018. Optimal bus service design with limited stop
+         services in a travel corridor. Transportation Research Part E: Logistics and Transportation
+         Review 111, 70–86. https://doi.org/10.1016/j.tre.2018.01.007
+Wilson, N.H., González, S.L., 1982. Methods for service design. Transportation Research
+         Record.
+                                                                                        25
+
+
+Yang, X., Ji, Y., Du, Y., Zhang, H.M., 2017. Bi-Level Model for Design of Transit Short-
+       Turning Service Considering Bus Crowding. Transportation Research Record 2649, 52–
+       60. https://doi.org/10.3141/2649-06
+Zhou, Y., Yang, H., Wang, Y., Yan, X., 2021. Integrated line configuration and frequency
+       determination with passenger path assignment in urban rail transit networks.
+       Transportation Research Part B: Methodological 145, 134–151.
+       https://doi.org/10.1016/j.trb.2021.01.002
+

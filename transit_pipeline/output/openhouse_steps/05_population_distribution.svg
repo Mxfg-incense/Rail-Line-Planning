@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="1050" viewBox="0 0 1400 1050">
+<rect width="100%" height="100%" fill="#f7f7f3"/>
+<text x="36" y="48" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#202020">Shanghai study area population distribution</text>
+<text x="36" y="82" font-family="Arial, sans-serif" font-size="17" fill="#404040">OpenHousePopulator-style heuristic: OSM buildings + house numbers + levels -> flats -> 500,000 residents</text>
+<text x="36" y="108" font-family="Arial, sans-serif" font-size="15" fill="#606060">BBox 118.49, 24.77, 118.7, 24.99; buildings=105; flats=412</text>
+<g transform="translate(0,20)">
+<circle cx="779.63" cy="367.42" r="5.10" fill="rgb(255,156,104)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=1173, flats=1, area=3529.22 m2</title></circle>
+<circle cx="641.84" cy="354.60" r="5.11" fill="rgb(255,155,104)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=1181, flats=1, area=1897.12 m2</title></circle>
+<circle cx="725.45" cy="456.95" r="5.20" fill="rgb(255,154,102)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=1238, flats=1, area=838.17 m2</title></circle>
+<circle cx="1258.52" cy="561.77" r="8.82" fill="rgb(255,81,39)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4728, flats=4, area=677.03 m2</title></circle>
+<circle cx="1235.36" cy="529.74" r="8.82" fill="rgb(255,81,38)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4731, flats=4, area=1627.05 m2</title></circle>
+<circle cx="732.81" cy="470.31" r="8.83" fill="rgb(255,81,38)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4735, flats=4, area=800.95 m2</title></circle>
+<circle cx="581.41" cy="370.12" r="8.83" fill="rgb(255,81,38)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4736, flats=4, area=3977.48 m2</title></circle>
+<circle cx="1254.99" cy="563.11" r="8.83" fill="rgb(255,81,38)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4738, flats=4, area=677.03 m2</title></circle>
+<circle cx="1242.80" cy="606.54" r="8.84" fill="rgb(255,81,38)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4748, flats=4, area=535.14 m2</title></circle>
+<circle cx="741.40" cy="468.76" r="8.84" fill="rgb(255,81,38)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4750, flats=4, area=568.69 m2</title></circle>
+<circle cx="1232.83" cy="616.10" r="8.84" fill="rgb(255,81,38)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4755, flats=4, area=628.47 m2</title></circle>
+<circle cx="1261.86" cy="522.71" r="8.84" fill="rgb(255,81,38)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4757, flats=4, area=741.21 m2</title></circle>
+<circle cx="732.39" cy="471.57" r="8.85" fill="rgb(255,80,38)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4768, flats=4, area=933.76 m2</title></circle>
+<circle cx="551.23" cy="362.49" r="8.85" fill="rgb(255,80,38)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4770, flats=4, area=45837.23 m2</title></circle>
+<circle cx="1243.71" cy="526.32" r="8.85" fill="rgb(255,80,38)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4770, flats=4, area=1167.45 m2</title></circle>
+<circle cx="1230.20" cy="616.88" r="8.86" fill="rgb(255,80,38)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4776, flats=4, area=550.84 m2</title></circle>
+<circle cx="737.39" cy="472.97" r="8.86" fill="rgb(255,80,38)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4778, flats=4, area=666.31 m2</title></circle>
+<circle cx="1226.03" cy="610.55" r="8.86" fill="rgb(255,80,38)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4778, flats=4, area=1128.81 m2</title></circle>
+<circle cx="721.08" cy="468.14" r="8.86" fill="rgb(255,80,38)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4780, flats=4, area=2833.32 m2</title></circle>
+<circle cx="736.25" cy="469.69" r="8.86" fill="rgb(255,80,38)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4781, flats=4, area=3169.6 m2</title></circle>
+<circle cx="1231.70" cy="610.39" r="8.87" fill="rgb(255,80,38)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4786, flats=4, area=561.48 m2</title></circle>
+<circle cx="673.80" cy="334.51" r="8.87" fill="rgb(255,80,38)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4786, flats=4, area=132.1 m2</title></circle>
+<circle cx="621.89" cy="389.79" r="8.87" fill="rgb(255,80,38)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4787, flats=4, area=3787.67 m2</title></circle>
+<circle cx="1239.04" cy="611.14" r="8.87" fill="rgb(255,80,38)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4788, flats=4, area=643.72 m2</title></circle>
+<circle cx="717.40" cy="456.22" r="8.87" fill="rgb(255,80,38)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4790, flats=4, area=2872.43 m2</title></circle>
+<circle cx="1239.45" cy="607.79" r="8.87" fill="rgb(255,80,38)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4790, flats=4, area=772.61 m2</title></circle>
+<circle cx="551.89" cy="358.19" r="8.87" fill="rgb(255,80,38)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4795, flats=4, area=8507.96 m2</title></circle>
+<circle cx="721.81" cy="456.09" r="8.88" fill="rgb(255,80,38)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4798, flats=4, area=2735.44 m2</title></circle>
+<circle cx="1241.78" cy="531.52" r="8.88" fill="rgb(255,80,38)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4802, flats=4, area=2149.99 m2</title></circle>
+<circle cx="1233.54" cy="612.91" r="8.88" fill="rgb(255,80,37)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4807, flats=4, area=597.16 m2</title></circle>
+<circle cx="1250.61" cy="526.27" r="8.89" fill="rgb(255,80,37)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4809, flats=4, area=944.49 m2</title></circle>
+<circle cx="1251.24" cy="528.43" r="8.89" fill="rgb(255,80,37)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4813, flats=4, area=2715.54 m2</title></circle>
+<circle cx="1234.31" cy="527.45" r="8.89" fill="rgb(255,80,37)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4814, flats=4, area=828.27 m2</title></circle>
+<circle cx="1233.16" cy="594.43" r="8.89" fill="rgb(255,80,37)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4815, flats=4, area=1314.45 m2</title></circle>
+<circle cx="724.17" cy="459.35" r="8.89" fill="rgb(255,80,37)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4816, flats=4, area=350.34 m2</title></circle>
+<circle cx="720.55" cy="458.83" r="8.89" fill="rgb(255,80,37)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4816, flats=4, area=2069.41 m2</title></circle>
+<circle cx="1239.96" cy="604.56" r="8.89" fill="rgb(255,80,37)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4816, flats=4, area=772.61 m2</title></circle>
+<circle cx="1256.24" cy="566.13" r="8.89" fill="rgb(255,80,37)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4819, flats=4, area=677.03 m2</title></circle>
+<circle cx="1227.79" cy="612.66" r="8.89" fill="rgb(255,80,37)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4821, flats=4, area=1320.63 m2</title></circle>
+<circle cx="1255.90" cy="542.82" r="8.90" fill="rgb(255,80,37)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4824, flats=4, area=2331.5 m2</title></circle>
+<circle cx="1227.11" cy="596.68" r="8.90" fill="rgb(255,80,37)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4824, flats=4, area=665.02 m2</title></circle>
+<circle cx="1251.80" cy="520.81" r="8.90" fill="rgb(255,80,37)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4825, flats=4, area=698.52 m2</title></circle>
+<circle cx="1225.17" cy="594.53" r="8.90" fill="rgb(255,80,37)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4827, flats=4, area=466.04 m2</title></circle>
+<circle cx="1230.77" cy="591.64" r="8.90" fill="rgb(255,79,37)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4834, flats=4, area=1314.45 m2</title></circle>
+<circle cx="1254.38" cy="522.23" r="8.91" fill="rgb(255,79,37)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4835, flats=4, area=773.63 m2</title></circle>
+<circle cx="1256.00" cy="558.04" r="8.91" fill="rgb(255,79,37)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4839, flats=4, area=666.39 m2</title></circle>
+<circle cx="1262.79" cy="545.85" r="8.91" fill="rgb(255,79,37)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4843, flats=4, area=1617.8 m2</title></circle>
+<circle cx="592.26" cy="374.85" r="8.91" fill="rgb(255,79,37)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4844, flats=4, area=873.22 m2</title></circle>
+<circle cx="1243.79" cy="523.84" r="8.91" fill="rgb(255,79,37)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4845, flats=4, area=663.76 m2</title></circle>
+<circle cx="1240.76" cy="524.86" r="8.91" fill="rgb(255,79,37)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4847, flats=4, area=662.93 m2</title></circle>
+<circle cx="1252.06" cy="561.65" r="8.92" fill="rgb(255,79,37)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4848, flats=4, area=677.03 m2</title></circle>
+<circle cx="673.19" cy="333.18" r="8.92" fill="rgb(255,79,37)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4848, flats=4, area=186.94 m2</title></circle>
+<circle cx="1232.22" cy="598.07" r="8.92" fill="rgb(255,79,37)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4849, flats=4, area=665.02 m2</title></circle>
+<circle cx="1264.41" cy="568.71" r="8.92" fill="rgb(255,79,37)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4850, flats=4, area=677.03 m2</title></circle>
+<circle cx="724.43" cy="460.68" r="8.92" fill="rgb(255,79,37)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4852, flats=4, area=782.66 m2</title></circle>
+<circle cx="606.87" cy="382.12" r="8.92" fill="rgb(255,79,37)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4853, flats=4, area=3632.79 m2</title></circle>
+<circle cx="1258.30" cy="525.36" r="8.92" fill="rgb(255,79,37)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4853, flats=4, area=2757.92 m2</title></circle>
+<circle cx="1255.92" cy="519.40" r="8.92" fill="rgb(255,79,37)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4853, flats=4, area=698.52 m2</title></circle>
+<circle cx="1243.94" cy="609.16" r="8.92" fill="rgb(255,79,37)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4853, flats=4, area=616.21 m2</title></circle>
+<circle cx="1258.51" cy="523.02" r="8.92" fill="rgb(255,79,37)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4854, flats=4, area=773.63 m2</title></circle>
+<circle cx="1252.52" cy="524.32" r="8.92" fill="rgb(255,79,37)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4855, flats=4, area=1175.57 m2</title></circle>
+<circle cx="1252.64" cy="559.13" r="8.92" fill="rgb(255,79,37)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4858, flats=4, area=666.39 m2</title></circle>
+<circle cx="1228.00" cy="593.55" r="8.92" fill="rgb(255,79,37)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4858, flats=4, area=555.09 m2</title></circle>
+<circle cx="674.53" cy="333.66" r="8.93" fill="rgb(255,79,37)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4861, flats=4, area=232.48 m2</title></circle>
+<circle cx="1246.74" cy="526.05" r="8.93" fill="rgb(255,79,37)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4864, flats=4, area=662.76 m2</title></circle>
+<circle cx="1228.85" cy="608.17" r="8.93" fill="rgb(255,79,37)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4866, flats=4, area=1031.23 m2</title></circle>
+<circle cx="738.38" cy="471.88" r="8.93" fill="rgb(255,79,37)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4868, flats=4, area=646.74 m2</title></circle>
+<circle cx="561.15" cy="404.77" r="8.93" fill="rgb(255,79,37)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4868, flats=4, area=19535.29 m2</title></circle>
+<circle cx="1229.41" cy="614.88" r="8.93" fill="rgb(255,79,37)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4868, flats=4, area=1089.41 m2</title></circle>
+<circle cx="1237.78" cy="525.97" r="8.93" fill="rgb(255,79,37)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4870, flats=4, area=591.53 m2</title></circle>
+<circle cx="654.61" cy="322.87" r="8.94" fill="rgb(255,79,36)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4878, flats=4, area=1500.64 m2</title></circle>
+<circle cx="727.46" cy="461.71" r="8.94" fill="rgb(255,79,36)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4879, flats=4, area=703.79 m2</title></circle>
+<circle cx="1258.71" cy="559.39" r="8.94" fill="rgb(255,79,36)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4880, flats=4, area=677.03 m2</title></circle>
+<circle cx="1235.46" cy="606.27" r="8.94" fill="rgb(255,79,36)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4881, flats=4, area=772.61 m2</title></circle>
+<circle cx="597.07" cy="377.16" r="8.94" fill="rgb(255,79,36)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4881, flats=4, area=1162.55 m2</title></circle>
+<circle cx="737.32" cy="468.17" r="8.94" fill="rgb(255,79,36)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4885, flats=4, area=1157.38 m2</title></circle>
+<circle cx="1235.34" cy="615.12" r="8.95" fill="rgb(255,79,36)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4888, flats=4, area=537.44 m2</title></circle>
+<circle cx="733.38" cy="473.19" r="8.95" fill="rgb(255,78,36)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4898, flats=4, area=2062.99 m2</title></circle>
+<circle cx="1239.40" cy="529.80" r="8.96" fill="rgb(255,78,36)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4899, flats=4, area=896.78 m2</title></circle>
+<circle cx="1230.18" cy="595.59" r="8.96" fill="rgb(255,78,36)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4899, flats=4, area=555.09 m2</title></circle>
+<circle cx="655.01" cy="326.39" r="8.96" fill="rgb(255,78,36)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4901, flats=4, area=1407.54 m2</title></circle>
+<circle cx="1263.45" cy="566.26" r="8.96" fill="rgb(255,78,36)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4907, flats=4, area=677.03 m2</title></circle>
+<circle cx="1241.37" cy="527.71" r="8.96" fill="rgb(255,78,36)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4909, flats=4, area=663.42 m2</title></circle>
+<circle cx="739.46" cy="465.02" r="8.96" fill="rgb(255,78,36)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4910, flats=4, area=5675.23 m2</title></circle>
+<circle cx="726.09" cy="459.77" r="8.97" fill="rgb(255,78,36)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4914, flats=4, area=317.59 m2</title></circle>
+<circle cx="1261.03" cy="569.89" r="8.97" fill="rgb(255,78,36)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4915, flats=4, area=677.03 m2</title></circle>
+<circle cx="1258.33" cy="568.34" r="8.97" fill="rgb(255,78,36)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4920, flats=4, area=677.03 m2</title></circle>
+<circle cx="1261.04" cy="564.23" r="8.97" fill="rgb(255,78,36)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4922, flats=4, area=677.03 m2</title></circle>
+<circle cx="1239.66" cy="613.50" r="8.98" fill="rgb(255,78,36)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4934, flats=4, area=616.21 m2</title></circle>
+<circle cx="736.33" cy="467.09" r="8.99" fill="rgb(255,78,36)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4939, flats=4, area=2546.03 m2</title></circle>
+<circle cx="1229.04" cy="599.35" r="8.99" fill="rgb(255,78,36)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4942, flats=4, area=665.02 m2</title></circle>
+<circle cx="1223.23" cy="592.20" r="8.99" fill="rgb(255,78,36)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4945, flats=4, area=466.04 m2</title></circle>
+<circle cx="655.71" cy="326.49" r="8.99" fill="rgb(255,78,36)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4948, flats=4, area=543.98 m2</title></circle>
+<circle cx="673.32" cy="333.92" r="8.99" fill="rgb(255,78,35)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4949, flats=4, area=132.13 m2</title></circle>
+<circle cx="581.34" cy="373.15" r="9.00" fill="rgb(255,78,35)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4957, flats=4, area=8100.32 m2</title></circle>
+<circle cx="645.34" cy="318.85" r="9.00" fill="rgb(255,77,35)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4959, flats=4, area=1888.36 m2</title></circle>
+<circle cx="1259.45" cy="520.01" r="9.00" fill="rgb(255,77,35)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4961, flats=4, area=741.21 m2</title></circle>
+<circle cx="1242.95" cy="611.62" r="9.01" fill="rgb(255,77,35)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4965, flats=4, area=833.8 m2</title></circle>
+<circle cx="725.75" cy="458.52" r="9.01" fill="rgb(255,77,35)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4971, flats=4, area=867.19 m2</title></circle>
+<circle cx="1258.68" cy="547.13" r="9.01" fill="rgb(255,77,35)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4971, flats=4, area=2120.82 m2</title></circle>
+<circle cx="1247.42" cy="523.30" r="9.02" fill="rgb(255,77,35)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=4986, flats=4, area=876.02 m2</title></circle>
+<circle cx="728.40" cy="460.70" r="9.05" fill="rgb(255,76,34)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=5025, flats=4, area=748.25 m2</title></circle>
+<circle cx="1226.17" cy="591.08" r="9.05" fill="rgb(255,76,34)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=5027, flats=4, area=665.02 m2</title></circle>
+<circle cx="723.35" cy="466.19" r="9.09" fill="rgb(255,76,34)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=5079, flats=4, area=1942.92 m2</title></circle>
+<circle cx="796.34" cy="436.25" r="9.90" fill="rgb(255,60,20)" fill-opacity="0.58" stroke="rgb(110,40,30)" stroke-opacity="0.18" stroke-width="0.35"><title>pop=6201, flats=5, area=482.82 m2</title></circle>
+</g>
+<rect x="32" y="942" width="310" height="72" fill="white" fill-opacity="0.82" stroke="#cccccc"/>
+<circle cx="58" cy="968" r="5" fill="rgb(255,210,150)" fill-opacity="0.7"/><text x="78" y="974" font-family="Arial, sans-serif" font-size="14" fill="#333">Lower estimated building population</text>
+<circle cx="58" cy="998" r="11" fill="rgb(255,60,20)" fill-opacity="0.7"/><text x="78" y="1004" font-family="Arial, sans-serif" font-size="14" fill="#333">Higher estimated building population</text>
+</svg>
