@@ -1,0 +1,109 @@
+A Mixed Integer Linear Program for the Rapid
+Transit Network Design Problem with Static
+Modal Competition
+Gabriel Gutiérrez-Jarpa1 , Gilbert Laporte2 ,
+Vladimir Marianov3 , and Luigi Moccia4
+
+1    School of Industrial Engineering, Pontificia Universidad Católica de Valparaíso,
+     Chile
+     gabriel.gutierrez@ucv.cl
+2    HEC Montréal, Canada
+     gilbert.laporte@cirrelt.ca
+3    Department of Electrical Engineering, Pontificia Universidad Católica de Chile,
+     Chile
+     marianov@ing.puc.cl
+4    Istituto di Calcolo e Reti ad Alte Prestazioni, Consiglio Nazionale delle
+     Ricerche, Italy
+     moccia@icar.cnr.it
+
+
+      Abstract
+In recent years, several models and algorithms have been put forward for the design of metro
+networks (see e.g. [1], [7], [2], and [6]). Here we extend the rapid transit network design problem
+(RTNDP) of [4] by introducing modal competition and by enriching its multi-objective framework.
+In that reference an origin-destination flow is considered as captured by rapid transit if some
+stations are sufficiently close to both the origin and the destination of the flow. We observe
+that by maximizing the captured traffic using this criterion results in improving access, i.e. the
+number of commuters who could benefit from the rapid transit network for their daily trips. This
+is indeed a relevant goal in urban transit, but on its own it does not adequately reflect modal
+choices. In this talk we consider a traffic flow as captured if the travel time (or equivalently the
+generalized cost) by rapid transit is less than by car, i.e. an “all or nothing” criterion. This feature
+has been neglected in most previous discrete mathematical programs because considering origin-
+destination flows results in models that are too large for realistic instances. As observed by [8],
+considering traffic flows requires a multi-commodity formulation, where each flow is considered as
+a distinct commodity. This was the approach taken by [5], but it only allowed the solution of very
+small instances. We introduce a methodology that overcomes this difficulty by exploiting a pre-
+assigned topological configuration. As explained by [1], a pre-assigned topological configuration
+is in itself a positive feature for planners since it incorporates their knowledge of the traffic flows
+in cities and corresponds to what is often done in practice. We note that a metro network is
+typically built incrementally starting from a simple layout. Very often planners identify a few
+major corridors that should be privileged for an initial metro configuration or for later extensions.
+Geographical constraints may also limit the number options. We remark that, despite the simple
+layouts, the high number of location choices for each layout renders the problem hard. The
+precise alignment of metro lines within these corridors can be optimized by using a methodology
+such as the one we propose. The basic topological configurations we consider are not limitative
+in the sense that our approach will work with any basic layout. We note, however, that simple
+layouts such as stars and triangles exist in several networks (e.g. Minsk and Prague). With time
+the basic networks evolve into more complex, but still common configurations. [10] find that
+metro networks converge to a shape characterized by a core from which quasi-one-dimensional
+branches grow and reach out to areas of the city further from it. We discuss relevant goals of
+rapid transit planning, and we propose a multi-objective model conducive to a post-optimization
+            © Gabriel Gutiérrez-Jarpa, Gilbert Laporte, Vladimir Marianov, and Luigi Moccia;
+            licensed under Creative Commons License CC-BY
+15th Workshop on Algorithmic Approaches for Transportation Modelling, Optimization, and Systems (ATMOS’15).
+Editors: Giuseppe F. Italiano and Marie Schmidt; pp. 95–96
+                    OpenAccess Series in Informatics
+                    Schloss Dagstuhl – Leibniz-Zentrum für Informatik, Dagstuhl Publishing, Germany
+96   A Mixed Integer Linear Program for the Rapid Transit Network Design Problem
+
+
+     analysis for effectiveness, efficiency, and equity concerns. The multi-objective framework works
+     with two alternative measure of effectiveness under a budget constraint, and a post-optimization
+     phase is suggested to assess efficiency and equity trade-offs, an issue rarely considered in transit
+     planning (see for example [3] for a review of equity in location problems, and [9] for a discussion
+     of equity in urban transit). We show that our approach can be applied to realistic situations and
+     we illustrate it on data from Concepción, Chile.
+
+     1998 ACM Subject Classification Decision support
+
+     Keywords and phrases metro network design, multi-objective optimization, modal competition
+
+     Digital Object Identifier 10.4230/OASIcs.ATMOS.2015.95
+
+     Category Short Paper
+
+     Acknowledgements. Gabriel Gutiérrez-Jarpa was supported by FONDECYT project No.
+     1130878 and Becas Chile. Gilbert Laporte was supported by the Canadian Natural Sciences
+     and Engineering Research Council under grant 39682-10. Vladimir Marianov was partially
+     supported by the Complex Engineering Systems institute, through grants ICM-MIDEPLAN
+     P-05-004-F and CONICYT FB016. Luigi Moccia was partially supported by the CNR (Italy)
+     under STM-2014 and STM-2015 grants. These supports are gratefully acknowledged.
+
+           References
+      1   G. Bruno and G. Laporte. An interactive decision support system for the design of rapid
+          public transit networks. INFOR, 40(2):111–118, 2002.
+      2   D. Canca, A. De-Los-Santos, G. Laporte, and J. A. Mesa. A general rapid network design,
+          line planning and fleet investment integrated model. Annals of Operations Research, In
+          Press:1–18, 2014.
+      3   H. A. Eiselt and G. Laporte. Objectives in location problems. In Z. Drezner, editor, Facility
+          Location: A Survey of Applications and Methods, Springer Series in Operations Research
+          and Financial Engineering, chapter 8, pages 151–180. Springer-Verlag, New York, 1995.
+      4   G. Gutiérrez-Jarpa, C. Obreque, G. Laporte, and V. Marianov. Rapid transit network
+          design for optimal cost and origin-destination demand capture. Computers & Operations
+          Research, 40(12):3000–3009, 2013.
+      5   G. Laporte, A. Marín, J. A. Mesa, and F. Perea. Designing robust rapid transit networks
+          with alternative routes. Journal of Advanced Transportation, 45(1):54–65, 2011.
+      6   G. Laporte and J. A. Mesa. The design of rapid transit networks. In G. Laporte, S. Nickel,
+          and F. Saldanha da Gama, editors, Location Science, pages 581–594. Springer, Berlin,
+          Heidelberg, 2015.
+      7   G. Laporte, J. A. Mesa, F. A. Ortega, and I. Sevillano. Maximizing trip coverage in the
+          location of a single rapid transit alignment. Annals of Operations Research, 136(1):49–63,
+          2005.
+      8   Á. Marín and R. García-Ródenas. Location of infrastructure in urban railway networks.
+          Computers & Operations Research, 36(5):1461–1477, 5 2009.
+      9   A. Perugia, J.-F. Cordeau, G. Laporte, and L. Moccia. Designing a home-to-work bus ser-
+          vice in a metropolitan area. Transportation Research Part B: Methodological, 45(10):1710–
+          1726, 2011.
+     10   C. Roth, S. M. Kang, M. Batty, and M. Barthelemy. A long-time limit for world subway
+          networks. Journal of the Royal Society Interface, 9(75):2540–2550, 2012.
+

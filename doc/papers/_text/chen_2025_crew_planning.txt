@@ -1,0 +1,1247 @@
+                                                                                                                                                                                    1
+
+
+
+
+                                                       Unified Crew Planning and Replanning
+                                                      Optimization in Multi-Line Metro Systems
+                                                        Considering Workforce Heterogeneity
+                                                                                                        Qihang Chen
+
+
+
+                                            Abstract—Metro crew planning is a key component of smart               within a relatively short time frame. This flexibility offers
+                                         city development as it directly impacts the operational efficiency        significant opportunities for implementing cross-line opera-
+                                         and service reliability of public transportation. With the rapid
+arXiv:2509.14251v1 [cs.AI] 11 Sep 2025
+
+
+
+
+                                                                                                                   tions [9], [10]. Such operations enable global optimization by
+                                         expansion of metro networks, effective multi-line scheduling and
+                                         emergency management have become essential for large-scale                considering the diverse demands and workforce resources of
+                                         seamless operations. However, current research focuses primarily          different lines[11], thereby providing strong practical value. In
+                                         on individual metro lines, with insufficient attention on cross-line      single-line scenarios, researchers often simplify crew charac-
+                                         coordination and rapid replanning during disruptions. Here, a             teristics by assuming homogeneity [12], [3], [7], [5]. However,
+                                         unified optimization framework is presented for multi-line metro          in multi-line settings, crew heterogeneity becomes a critical
+                                         crew planning and replanning with heterogeneous workforce.
+                                         Specifically, a hierarchical time-space network model is proposed         factor due to the varying technical requirements across line,
+                                         to represent the unified crew action space, and computationally           such as differences in train models and signaling systems that
+                                         efficient constraints and formulations are derived for the crew’s         demand specific operational qualifications [13]. Beyond the
+                                         heterogeneous qualifications and preferences. Solution algorithms         heterogeneous qualification demands, the expanded planning
+                                         based on column generation and shortest path adjustment                   space in multi-line systems necessitates incorporating crew
+                                         are further developed, utilizing the proposed network model.
+                                         Experiments with real data from Shanghai and Beijing Metro                preferences to achieve more considerate crew allocation [14].
+                                         demonstrate that the proposed methods outperform benchmark                   Metro systems are highly susceptible to disruptions resulting
+                                         heuristics in both cost reduction and task completion, and achieve        from factors such as technical malfunctions [15] or unforeseen
+                                         notable efficiency gains by incorporating cross-line operations,          passenger surges [16], making effective disruption manage-
+                                         particularly for urgent tasks during disruptions. This work high-         ment a critical aspect of their operation [17]. Existing research
+                                         lights the role of global optimization and cross-line coordination
+                                         in multi-line metro system operations, providing insights into            on metro disruption management has primarily focused on
+                                         the efficient and reliable functioning of public transportation in        rescheduling strategies of train timetables [18], [19] and rolling
+                                         smart cities.                                                             stock circulation [20], while comparatively little attention
+                                           Index Terms—Crew planning, crew replanning, multi-line                  has been given to the specific characteristics of metro crew
+                                         metro system, disruption management, workforce heterogeneity.             replanning problems. Specifically, the high-frequency nature
+                                                                                                                   of metro operations results in shorter disruption management
+                                                                                                                   horizons, demanding more precise time control and greater
+                                                                                                                   flexibility in real-time model adjustments. Current studies in
+                                                                 I. I NTRODUCTION                                  railway systems often treat crew planning and replanning as
+                                         Metro systems are vital to urban transportation, offering high            separate problems, relying on distinct models and assumptions
+                                         efficiency and large capacity to meet growing mobility de-                [21]. However, this disjointed approach undermines model
+                                         mands. Within the context of metro operations, labor costs                compatibility, thereby increasing the potential transition costs
+                                         account for a significant share of expenses [1]. Consequently,            of switching between planning and replanning models, par-
+                                         metro crew planning plays a crucial factor in achieving                   ticularly in scenarios requiring rapid adjustments. Therefore,
+                                         smooth, cost-effective operations. As metro systems continue              a unified approach that seamlessly integrates crew planning
+                                         to expand rapidly, the need for optimized crew planning                   and replanning is of significant importance for enhancing the
+                                         approaches has become increasingly critical to realize efficient          efficiency of metro disruption recovery. Moreover, considering
+                                         and intelligent metro operations that support the broader goals           multi-line crew replanning can further improve the effective-
+                                         of smart city development [2].                                            ness of disruption recovery by enabling more efficient crew
+                                                                                                                   allocation. For instance, when a disruption occurs on one
+                                            Existing research on metro crew planning primarily focuses
+                                                                                                                   metro line, the multi-line optimization approach could rapidly
+                                         on single-line operations [3], [4], [5], [6], [7], [8]. However,
+                                                                                                                   redeploy available crew members from other lines to minimize
+                                         current metro systems have evolved into complex multi-line
+                                                                                                                   the overall adverse impacts.
+                                         networks with efficient transfer routes. Unlike railway and
+                                                                                                                      In summary, existing literature on metro crew planning lacks
+                                         airline systems, where switching routes can take many hours or
+                                                                                                                   attention to the special characteristics of multi-line scenarios
+                                         even days, metro crew members can transition between lines
+                                                                                                                   and the adjustability of replanning strategies. To address these
+                                           Qihang Chen is with the School of Information Science and Technology,   two gaps, this work proposes a unified crew planning and
+                                         Fudan University, Shanghai 200433, China.                                 replanning optimization framework in multi-line metro sys-
+                                                                                                                                     2
+
+
+
+tems, with particular attention on workforce heterogeneity. A        [29] and network flow problem [23]. The time-space network
+unified optimization framework is presented which employs a          model has been exploited and tailored for crew scheduling
+tailored hierarchical time-space network (HTSN) to model the         in many studies[30], [8], [3], [8] owing to its flexibility
+multi-line action space of both crew planning and replanning,        and efficiency in modeling. Various algorithms have been
+formulates both problems as integer programming with derived         proposed for scheduling optimization, such as heuristics[31],
+constraints, and presents respective algorithms for problem          [12], metaheuristics[30], [32] and large-scale programming
+solving. Specifically, the main contributions of this paper are      techniques including column generation[28], [23], [4], [6], [5]
+summarized as follows:                                               and branch-and-price-and-cut[33]. The crew rostering problem
+   • A novel time-space network model, HTSN, is proposed             requires determining the most economical set of rosters that
+      to represent the entire multi-line planning space, incorpo-    encompass given duties and satisfy certain regulations[27].
+      rating cross-line operations at both interday and intraday     In this subproblem, several factors involving the rostering
+      scales. The tailored hierarchical structure allows for re-     quality are often taken into account, for instance, robustness of
+      stricted subnetwork construction, which flexibly converts      generated rosters [34], fairness of working conditions [35] and
+      the model into the replanning space, enabling unified crew     balancing of workload [24]. To reach global optimality, a few
+      management for both normal operations and disruption           studies have also developed integrated planning approaches to
+      scenarios.                                                     optimize crew scheduling and rostering simultaneously[31],
+   • Computationally efficient constraints are derived to en-        [36], [3], [7]. Time-space network has also been considered
+      sure the valid pairing of diverse qualifications and duty      for modeling the integrated problem. Zhou et al.[3] used a mul-
+      lists, addressing the unique challenges posed by multi-line    tilayer time-space network formulation along with duty time
+      scenarios with heterogeneous crew. Based on these con-         window design to model metro crew planning with flexible
+      straints, integer programming formulations are presented       duty interavls, and Feng et al.[7] proposed a three-dimensional
+      for the crew planning and replanning problems, taking          time-space-state network that dynamically updates behavior
+      into consideration their distinct operational constraints.     states for metro crew members in the generated rosters.
+   • Based on the HTSN model, a two-stage column genera-
+      tion (TSCG) method and a fast path adjustment heursitic        B. Cross-Line Operations and Workforce Heterogeneity
+      (FPAH) method are designed to solve the crew plan-             In multi-line transportation systems, many cross-line coordina-
+      ning and replanning problems, with a focus on solution         tion strategies have been studied, such as the design of cross-
+      quality and computational speed, respectively. Numerical       line express trains for timetabling [37] and service replanning
+      experiments are conducted using real data from Shang-          [38], the optimization of cross-line train routing schemes for
+      hai Metro and Beijing Metro. Compared with heuristic           travel fairess enhancement [10], etc. In the context of crew
+      benchmarks, the proposed TSCG and FPAH demonstate              planning, Pang et al.[26] incorporated cross-line deadhead
+      superior performance in terms of both operational cost         choices to railway crew scheduling to alleviate workforce
+      control and train task completion. The efficiency gains        shortage. Zhao et al.[32] adopted a cooperation mode between
+      from introducing cross-line operations are also validated,     different crew depots that allows for cross-line duty scheduling
+      particularly in the completion rate of urgent tasks during     for high-speed railway crew units. With the increasing com-
+      disruptions.                                                   plexity of transportation systems, issues associated with het-
+   The remainder of this study is organized as follows. Section      erogeneous workforce management have also emerged[13]. To
+II briefly reviews the related literature and compares this work     address the diverse individual preferences, Quesnel et al.[39]
+with relevant studies. Section III provides detailed problem         focused on preferred legs and offperiods to enhance airline
+statements and relevant settings. In Section IV, the hierarchical    rostering solution quality, and Zhou et al.[24] included the
+time-space network model, integer programming formulations           preferred flights and vacations in the optimization objectivefor
+and the respective solutions are illustrated in detail. In Section   improving the crew’s satisfaction rate. In terms of hetero-
+V, the computational results of numerical experiments and            geneous working qualifications, Pang et al.[26] constructed
+corresponding analysis are presented. Finally, the conclusion        different crew pools for each occupation’s available crew
+of this study is given in Section VI.                                members, and Wen et al.[40] modeled cabin crews individually
+                                                                     instead of team modelling to handle heterogenous manpower.
+                  II. L ITERATURE R EVIEW                            C. Disruption Management and Crew Replanning
+A. Crew Scheduling, Rostering and Integrated Planning
+                                                                     The real-time operations of metro and rail systems are un-
+The crew planning problem aims at allocating specified train         avoidably subject to unexpected disruptions [21]. Disruption
+service tasks to crew members while satisfying several op-           management can be examined from pre-disruptive and post-
+erational rules, which involves two consecutive stages: crew         disruptive perspectives[17] and involves key approaches like
+scheduling and crew rostering. The crew scheduling problem           timetable adjustment, rolling stock rescheduling and crew
+involves identifying the least costly set of duties that cover       replanning [41]. The crew replanning problem aimes at finding
+train tasks within the timetable while adhering to specified         a new feasible crew roster given the updated timetable, updated
+rules[27]. Many mathematical models have been proposed               rolling stock circulation and the current crew roster [21]. Many
+for crew scheduling, such as the set covering problem [28],          studies use set covering models to cover as many updated tasks
+                                                                                                                                                                             3
+
+
+
+                                                                         TABLE I
+                                                        S YSTEMATIC COMPARISON OF RELATED STUDIES .
+
+           Reference               Problem type       Transportation mode        System scope        Workforce type       Mathematical model         Solution method
+       Huisman(2007)[22]               CRP                   Railway                    M                 Homo                    SCP                     CG
+    Janacek et al.(2017)[23]            CS                   Railway                    S                 Homo                    NFP                     CG
+     Zhou et al.(2021)[24]              CR                   Airline                    M                 Hetero                  Other                   MH
+      Zhou et al.(2021)[3]              CP                    Metro                     S                 Homo                    NFP                     LR
+    Breugem et al.(2022)[25]           CRP                    Rail                      M                 Homo                     IP                     CG
+      Zhou et al.(2022)[5]              CP                    Metro                     S                 Homo                    MIP                    CG, H
+      Pang et al.(2023)[26]             CS                   Railway                    M                 Hetero                   IP                     MH
+      Feng et al.(2023)[7]              CP                    Metro                     S                 Homo                    NFP                  ADMM, LR
+           This study                 CP, CRP                 Metro                     M                 Hetero                   IP                    CG, H
+     Notes: CS: crew scheduling; CR: crew rostering; CP: crew planning; CRP: crew replanning; S: single line; M: multiple lines; Homo: homogeneous; Hetero: heterogeneous;
+     SCP: set covering problem; MIP: mixed integer programming; IP: integer programming; NFP: network flow problem; Other: non-classic mathematical model; H: heuristics;
+     CG: column generation; LR: Lagrangian relaxation; MH: meta-heuristics; ADMM: alternating direction method of multipliers.
+
+
+
+as possible [22], [42], [43], [44]. Rezanova and Ryan [42] and                                              III. P ROBLEM F ORMULATION
+Potthoff et al. [43] include the option of canceling tasks with                        The basic elements in the studied crew planning and replan-
+large canceling penalties for feasible rescheduling results. To                        ning problems are first described. Next, the formulation of
+enable real-time replanning, Sato and Fukumura[44] consider                            workforce heterogeneity and cross-line operations are illus-
+only the duties affected by the disruption to save computational                       trated. The respective optimization objectives and operational
+time. It is noted that current research on crew replanning is                          rules are further described.
+predominantly focused on railways and airlines, with limited
+studies addressing metro systems.                                                      A. Basic Settings
+                                                                                       The basic elements in the studied crew planning and replan-
+                                                                                       ning problems are described as follows:
+                                                                                          (i) Planning Horizon and Granularity: Different from air-
+D. Comparison with Related Studies                                                     lines or railways, the planning horizon of metro systems is
+                                                                                       typically set on a daily basis, and a high level of temporal
+For a systematic comparison, the detailed characteristics of                           planning granularity is required due to the frequent short-
+related studies are summarized in Table I. Notably, this study                         distance travel demands. In this study, the planning horizon
+is the first attempt to investigate operations in multi-line                           is set to several consecutive working days, denoted as D =
+metro systems, and to address crew planning and replanning                             {d1 , d2 , ..., dnd }. Following previous works[8], [7], [3], [5],
+within a unified framework. The proposed approach incor-                               this work discretizes the daily time horizon into basic time
+porates heterogeneous preferences and qualifications, aligning                         units, with each time unit represent one minute. Specifically,
+partially with Zhou et al.[24] and Pan et al.[4], while adapt-                         let [Tb , Te ] denote the discretized time horizon of Te − Tb + 1
+ing their formulation techniques to metro-specific scenarios.                          minutes within each day.
+The replanning model shares similar objectives with related                               (ii) Line, Depot and Transfer Station: This work considers a
+studies[22], [25], yet introduces significant adjustments to suit                      metro system with multiple double-track lines, denoted as L =
+metro disruption management. Specifically, this work employs                           {l1 , l2 , ..., lnl }. Within each metro line, depots are the stations
+shorter replanning horizons and imposes stricter continuity                            that serve as the origin and destination for trains tasks, as well
+constraints to accommodate the high-frequency nature of                                as locations where crew members sign in, sign out, take breaks
+metro operations.                                                                      and have meals. Two terminal stations at both ends of a metro
+                                                                                       line are set as depots, denoted as Ol = {ola , olb } for line l ∈ L.
+   The proposed hierarchical time-space network draws on                               For two intersecting lines l1 and l2 , denote the transfer station
+common design principles observed in [3], [5], [7], but                                as fl1 ,l2 .
+emphasizes different aspects. Feng et al. [7] underlined the                              (iii) Train Service Task: A train service task refers to
+additional state dimension to model exact state transitions of                         the process in which a crew member, serving as a qualified
+crew members, while Zhou et al. [5] focused on the multi-                              operator, facilitates the operation of a train traveling from one
+layer structure to distinguish various duty types and rostering                        terminal station to another. Train service tasks are generated
+schemes. The proposed network design most closely aligns                               according to the train timetables, and could be cancelled due
+with [3] in terms of state and arc representations. However,                           to insufficient qualified workforce or real-time disruptions.
+to address the challenges posed by multiple metro lines and                            Specifically, let K denote the set of all train service tasks. For
+disruption recovery, this work extends the model in [3] by                             each task k ∈ K, a quintuple (ok ,tk , o′k ,tk′ , λk ) is specified rep-
+introducing additional vertex and arc types tailored to these                          resenting the departure station, departure time, arrival station,
+scenarios, as detailed in Section S.I in the supplementary                             arrival time and cancelling penalty of task k, respectively.
+material. Furthermore, this work organizes the network into                               (iv) Duty and Duty List: A duty refers to the daily work-
+a novel hierarchical structure to facilitate efficient restricted                      ing arrangement assigned to a crew member, encompassing
+subnetwork construction during disruptions.                                            activities such as signing in, completing tasks and taking
+                                                                                                                                                                   4
+
+
+
+          Qualification Heterogeneity     Preference Heterogeneity
+                                                                     Crew Members
+
+                                   Crew Pools                          Crew Member 1
+
+
+
+         Crew                                                                                                                     Day 1
+                                    Crew Pool 1                         Crew Member 2                                                     cross-line shifting
+
+
+                                                                        Crew Member 3
+       URT Crew
+                                    Crew Pool 2
+                                                                                                                                  Day 2
+                                                                       Crew Member 4
+
+                                                                                                                                  (a)
+
+                                                                       Crew Member 6
+                                    Crew Pool 3
+                                                                                                         cross-line deadheading
+                                                                       Crew Member 7
+
+                                                                                                                                  Day 3
+                                        …                                 …                                                       (b)
+
+Fig. 1. Formulation of qualification heterogeneity and preference hetero-               Fig. 2. Illustration of metro crew cross-line operations: (a) interday cross-
+geneity among metro crew members.                                                       line shifting and (b) intraday cross-line deadheading.
+
+
+
+breaks within a specific time frame. To determine the duty                              are more flexible and are therefore incorporated into the op-
+time frames, this work adopts the sliding time window design                            timization objective. To account for this, preference violation
+proposed by Zhou et al. [3], which partitions the daily time                            penalties are introduced by quantifying the extent to which
+horizon into potential duty frames using a fixed-length window                          a duty list deviates from a crew member’s preferences. This
+H and a sliding interval h. Specifically, let U = {u1 , u2 , ..., unu }                 study focuses on crew preferences related to sign-in and sign-
+denote the set of all possible duty frames within each day,                             out depots, a common preference type in the literature [39],
+where each u spans [au , au +H]. Each crew member is assigned                           [24]. Specifically, each crew member r has a set of prefered
+to a single duty frame per day, and the sequence of these                               depots, denoted as Or . Additionally, λo is defined as the
+daily duties over the planning horizon forms one duty list,                             penalty cost incurred when a crew member is assigned to sign
+representing the planning outcome for the individual. The duty                          in or out at an unpreferred depot, providing a straightforward
+lists for all crew members collectively constitute the roster,                          method for quantifying preference violations.
+which serves as the final output of the crew planning process.
+                                                                                        C. Cross-Line Operations
+B. Formulation of Workforce Heterogeneity                                               This work introduces cross-line operations for crew members
+This study considers a heterogeneous crew of nr members,                                qualified on multiple lines, focusing on both interday and intra-
+denoted as R = {r1 , r2 , ..., rnr }, each characterized by distinct                    day scales. Interday cross-line operations allow crew members
+attributes. To capture workforce heterogeneity, this work ap-                           to switch working lines between different days within a
+proachs it from two key dimensions: qualification heterogene-                           planning horizon. For example, a crew member qualified on
+ity and preference heterogeneity. Qualification heterogeneity                           lines l1 and l3 might work on line l1 on the first day and switch
+refers to the variation in the operating skills of crew members,                        to line l3 the following day, as shown in Fig. 2 (a). Intraday
+which determines their ability to perform tasks on specific                             cross-line operations enable crew members to deadhead to
+metro lines. Preference heterogeneity, on the other hand, en-                           other lines to address urgent needs within a single working day.
+compasses the individual inclinations of crew members, such                             For instance, if line l3 experiences increased demand during
+as preferences for tasks on particular metro lines, and choices                         the day, a crew member qualified on both l1 and l3 could
+regarding sign-in and sign-out depots. This work employs                                deadhead to line l3 , work there for a few hours, and then return
+distinct strategies to mathematically model these two aspects                           to line l1 once the demand is addressed, as illustrated in Fig. 2
+of workforce heterogeneity.                                                             (b). Since cross-line express trains [38] are not considered in
+   Due to explicit requirements, qualification heterogeneity is                         this study, it is assumed that intraday cross-line deadheading is
+modeled as hard constraints in the optimization framework.                              implemented via existing metro train services. Let tkd1 ,k2 denote
+Following the approach of Pang et al. [26], this work first                             the time cost of a deadhead task via task k1 and k2 , then we
+defines the qualification set Q = {q1 , q2 , ..., qnq }, representing                   have tkd1 ,k2 = tk′ 2 − tk1 .
+all possible combinations of metro lines. Mathematically, we
+have                                                                                    D. Objective and Operational Rules
+   Q = {L̃|L̃ ⊆ L, L̃ ̸= φ }. The whole crew is then divided into                       For the crew planning problem, this work quantifies crew labor
+nq crew pools, denoted as P = {Pq1 , Pq2 , ..., Pqnq }, as illustrated                  input, task cancellation penalties, and preference violation
+in Fig. 1. Duty lists requiring specific line assignments should                        penalties as distinct cost terms, and set the overall cost
+only be matched to crew members with the necessary qualifi-                             minimization as the optimization objective. To represent labor
+cations.                                                                                input, let cw and cr be the costs per time unit for performing
+   In contrast to qualification heterogeneity, crew preferences                         train service tasks and taking non-working actions, respec-
+                                                                                                                                                                                                                         5
+
+
+
+
+                                                Crew Planning                                                                                              Crew Replanning
+                           Crew Data                                      Planning Operational Rules                               Rescheduled Timetable Data
+                                                                                                                                                                                       Original Roster
+
+                           Crew Pools                                       Train Timetable Data                                     Replanning Rules
+
+
+
+                                                Hierarchical Time-Space Network Construction                                            Hierarchical Time-space Network Revision
+
+
+                                                                                                              Disruption                                 Fast Path Readjustment Heuristic
+                                          Two-Stage Column Generation
+                                                   No               Yes                                                              Determine Replanning Crew                    Sort Crew Heuristically
+                                                                                            Construct Cost
+                                                        Terminate?                             Matrix
+                                                                                                                                   Construct Restricted Subnetwork        Select Crew Member
+            Construct Initial
+                                   Solve RLMP                             Solve RIP
+               Solution                                                                                                                                                           No
+                                                                                           Solve Assignment                                                                                     Yes
+                                                         Solve PP                              Problem                             Obtain Constrained Shortest Path           Terminate?                   Form Roster
+
+
+
+
+                                                  Planned Roster                                                                                               Replanned Roster
+
+
+
+
+Fig. 3.   Complete pipeline of the unified crew planning and replanning optimization framework.
+
+
+
+tively. To ensure the model’s practicality, this work adopts the                                                                                 IV. M ETHODOLOGY
+following operational rules for feasible crew planning.                                                         The hierarchical time-space network (HTSN) model, the inte-
+   • Day-off rule: Crew members must take at least nd f days                                                    ger formulations for crew planning and replanning problems,
+     off for rest during a single planning horizon.                                                             as well as the respective solution algorithms are described.
+   • Sign-in and sign-out rule: Crew members must begin each                                                    Fig. 3 illustrates the entire pipeline of the unified optimization
+     working day with a sign-in task and conclude with a sign-                                                  framework.
+     out task, taking tsi and tso time units, respectively.
+   • Train service rule: Each train service task should be                                                      A. Hierarchical Time-Space Network
+     performed by at most one crew member.                                                                      This work proposes a hierarchical time-space network (HTSN)
+   • Working time rule: The daily working time, refering to                                                     model, which is designed to represent the entire potential
+     the period from the first sign-in time unit to the last sign-                                              action space for crew duty rosters while satisfying several op-
+     out time unit, must fall within [tmin ,tmax ].                                                             erational rules. The proposed HTSN model draws on common
+   • Rest break rule: Crew members must take at least trt time                                                  design principles with related studies [3], [5], [7] and empha-
+     units off for rest between performing two consecutive                                                      sizes distinct aspects. Specifically, vertices in HTSN represent
+     train service tasks.                                                                                       crew members’ different states during planning, and directed
+   • Meal break rule: Crew members must be allotted tml time                                                    arcs represent several kinds of actions that crew members
+     units for a meal break within their duty u, during the time                                                can take, such as signing in, performing train service tasks,
+     period [au + tmb , au + tme ], on each working day.                                                        taking meals, etc. To enhance structural adaptability, HTSN
+   • Qualification rule: Crew members must perform train ser-                                                   is designed as a four-tier hierarchical structure, comprising
+     vice tasks on metro lines that match their qualifications.                                                 the line block, duty layer, daily subnetwork, and hierarchical
+   • Deadhead rule: Crew members must be assigned no more                                                       network from the bottom to the top, as depicted in Fig. 4.
+     than nt f deadhead tasks within one planning horizon.                                                          A line block represents the search space for the crew to
+   Compared with crew planning, the crew replanning problem                                                     take actions on a specific metro line within a duty frame on
+                                                                                                                                                                      d,u,l
+focuses on addressing new task demands while avoiding large-                                                    a given day, as illustrated in Fig. 4 (d). Let Vblock       denote the
+scale changes to the original roster[21], thus introducing                                                      line blcok for line l within duty frame u on day d, where each
+                                                                                                                                    d,u,l    d,u,l
+additional constraints. To account for the fact that many crew                                                  state vertice vt,o        ∈ Vblock represents that a crew member is
+members are already on duty when real-time replanning is                                                        located at depot p at time t. Withing each line block, train arcs
+implemented, and they expect to work with continuity in                                                         vtd,u,l
+                                                                                                                  k ,ok
+                                                                                                                        → vtd,u,l
+                                                                                                                             ′ ,o′ are constructed according to the train timetable,
+                                                                                                                           k   k
+the same period as from the initial planning[45], [25], the                                                     each followed by one a rest arc vtd,u,l     d,u,l
+                                                                                                                                                   ′ ,o′ → vt ′ +t ,o′ to satisfy the
+                                                                                                                                                                          k   k             k         rt    k
+following rules should be additionally satisfied for the crew                                                                              d,u,l    d,u,l
+replanning problem.                                                                                             rest break rule Meal arcs vt,o   → vt+t ml ,o
+                                                                                                                                                              are added adhering to
+                                                                                                                                                                   d,u,l    d,u,l
+                                                                                                                the meal break rule, and necessary idle arcs vt,o        → vt+t ′ ,o are
+   • Replanned duty rule: Crew members should be assigned                                                       inserted between certain unconnected state vertices to ensure
+     duties with time frames consistent with their original ones                                                time-space connectivity.
+     during replanning.                                                                                            A duty layer is the multi-line search space for for one duty
+   • Replanned task rule: Crew members should be assigned
+                                                                                                                frame on a given day, consisting of nl line blocks horizontally
+     tasks that align seamlessly with the original ongoing tasks                                                aligned along the temporal dimension, as illustrated in Fig.
+     in terms of both time and location during replanning.                                                      4 (c). Let V d,u denote the duty layer for duty u in day d.
+  All the notations mentioned for problem formulation are                                                       Considering the qualification heterogeneity, a filter vertex vd,u     ft
+summarized in Table S.I in the supplementary material.                                                          is added for each duty layer as the logistic control unit for
+                                                                                                                                              6
+
+
+
+checking valid qualifications, and fiter arcs vd,u          d,u,l
+                                                 f t → vau +tsi ,o are      geneous qualification matching. Here the qualification rule is
+inserted to connect the filter vertex to state vertices on qualified        formulated with a bipartite graph structure. Specifically, let
+metro lines, ensuring that crew members could only sign in at               crew members and duty lists form two vertex groups, and
+qualified depots. Meanwhile, intraday cross-line operations are             let arcs represent compatibility between a crew member’s
+allowed by inserting deadhead arcs vtd,u,l    1
+                                          k ,ok
+                                                → vtd,u,l
+                                                     ′ ,o′
+                                                          2
+                                                              between       qualifications and a duty list’s requirements. The satisfaction
+                                             1   1      k2   k2
+line blocks, where k1 and k2 are a pair of train services tasks             of qualification rule is then transformed into finding a perfect
+on l1 and l2 with shortest extra waiting time..                             matching on the bipartite graph. To guarantee the existence
+    A daily subnetwork, as depicted in Fig. 4 (b), represents the           of a perfect matching, the Hall’s condition in the classic
+entire daily planning space consists of nu independent duty                 Hall’s theorem[46] is commonly adopted. The original Hall’s
+layers, one start layer and one end layer, denoted as Vsubnet     d    =    condition, however, imposes O(2nr ) constraints which could
+         d,u       d    d                       d        d                  result in computational infeasibility when the crew size is
+   u∈U Vlayer ∪ Vst ∪ Ved . A start vertex vst,t ∈ Vst indicates that
+S
+                                                                            large. To address this issue, this study proposes a mathe-
+a member starts working at time t in day d. and sign-in arcs
+                                                                            matically equivalent constraint leveraging the feature of the
+vdst,au → vd,u
+             f t are constructed between start vertices and filter
+                                          d,u,l                             constructed graph. Given network G, let Γ be the set of all
+vertices. Similarly, sign-out arcs vt,o         → vded,t+tso are inserted   viable network paths. For each path γ ∈ Γ, let decision variable
+between state vertices and end vertices, where t + tso should               xγ ∈ {0, 1} represent whether path γ is selected, and parameters
+fall into [au + tmin , au + tmax ] in accordance with the working           mqγ ∈ {0, 1} to represent whether the line requirements of path
+time rule.                                                                  γ equal qualification q. Next, let E(q) = {q′ |q ⊆ q′ , q′ ∈ Q} be
+    The entire hierarchical network representation begins with              the superset group of qualification q, and E    = {E(q)|q ∈ Q}.
+a source vertex and ends with a sink vertex, representing the               Finally, for any subset Ẽ ⊆ E, let S(Ẽ) = E∈Ẽ E denote the
+                                                                                                                         S
+start and end of a planning horizon, respectively, as illustrated           superset extended group for Ẽ, and S = {S(Ẽ)|Ẽ ⊆ E, Ẽ ̸= φ }.
+in Fig. 4 (a). Along with theS source and sink vertices, we have            In turn, one proposition is presented as follows.
+the network vertex set V = d∈D Vsubnet   d      ∪{vsc , vsk }. The source
+and sink vertices are connected with the start and end vertices,            Proposition: There exists a perfect matching between the
+respectively, using start arcs vsc → vdst,t and end arcs vded,t → vsk .     selected paths and crew members if and only if the follow-
+An off-work arc vsc → vsk is added for non-working member                   ing constraint for each S ∈ S is satisfied: ∑γ∈Γ ∑q∈S mqγ xγ ≤
+during planning. Each pair of daily subnetworks are connected               ∑q∈S Pq .
+                            ′
+by shift arcs vded,t → vdst,t ′ . Flexible shift arcs, combined with
+filter arcs, facilitate interday cross-line operations by enabling             Based on this proposition, the qualification rule can be
+crew members to switch lines across different days.                         satisfied with O(2nq ) constraints. Since in general we have
+    Traversing an arc in the network means that a certain                   nq ≪ nr , this formulation is acceptable for model solving
+action has been taken, resulting in a corresponding cost and                in terms of constraint complexity. A rigorous proof for the
+a spatio-temporal transition for the crew member. A path                    proposition is provided in Section S.II in the supplementary
+from the source vertex to the sink vertex then reveals all the              material.
+actions that a crew member takes as well as the time-space
+trajectory during an entire planning horizon. Consequently,                 2) Integer Programming for Crew Planning:
+such a network path corresponds to a duty list for one crew
+member, as described in Section III-A.                                      With the matching-based constraints, the integer programming
+    The notations of the vertices and arcs in HTSN are summa-               formulation for crew planning is presented. For each path γ ∈
+rized in Tables S.II and S.III in the supplementary material.               Γ, let Aγ denote the set of traversed arcs. The labor costs
+                                                                            then consist of the arc costs c(u, v), where u → v ∈ Aγ . For the
+B. Integer Programming Formulation                                          preference violation penalties, let decision variables yrγ ∈ {0, 1}
+                                                                            denote whether path γ is assigned to crew member r, and let Oγ
+Utilizing paths in HTSN, this work formulates both the crew
+                                                                            denote the set of depots for each sign-in or sign-out along path
+planning and replanning as integer programming problems. To
+                                                                            γ. To formulate constraints, let nsiγ and ndh
+                                                                                                                       γ denote the number
+address the unique requirement of heterogeneous qualifications
+                                                                            of sign-in arcs and deadhead arcs traversed in this path, and
+in multi-line scenarios, this work first proposes a type of
+                                                                            nml,d
+                                                                              γ    denote the number of meal arcs traversed in the day d.
+constraints based on perfect matching on bipartite graph to
+                                                                            For each train service task k, let κγk ∈ {0, 1} denote whether
+reduce the programming scale and complexity. The integer
+                                                                            it is covered by path γ. The integer programming problem is
+programming formulations for crew planning and replan-
+                                                                            formulated as follows:
+ning are further presented. To satisfy the replanning rules,
+a restricted subnetwork construction technique is designed,
+demonstrating the high flexibility and adaptability of the
+proposed hierarchical network model.
+                                                                                P : Minimize ∑        ∑ c(u, v)xγ + ∑ λk
+                                                                                               γ∈Γ u→v∈Aγ              k∈K
+1) Perfect Matching for Qualification Heterogeneity:                                            + ∑ ∑ ∑ yrγ δ (o ∈
+                                                                                                                 / Or )λo                  (1)
+                                                                                                 r∈R γ∈Γ o∈Oγ
+Given the hierarchical network, duty list candidates can be
+generated by searching feasible paths. Selecting duty lists from                    subject to  ∑∑     mqγ xγ ≤ ∑   Pq ,     ∀S ∈ S        (2)
+candidates then requires additional consideration of hetero-                                   γ∈Γ q∈S          q∈S
+                                                                                                                                                                                                                                                                                                                                                 7
+
+
+
+
+                                                                                                                                      Time
+                                                                                          ...                       ...         ...
+
+                                                                                                                                                                                ...                ...         ...
+                                                                                                                                                                                                                            Time
+                                                                                                                                                                                                                                                                                                                            start vertex
+                                                                                                                                                                                                                                                                                                           Time
+                                                                                    ...                                                                                                                                                                                  ...                      ...
+                                                                                                                                                                                                                                                                                            ...
+
+                                                                              ...
+                                                                                                                                                                          ...                                                                                                                                              state vertex
+                                                                      ...                                                                                           ...
+                                                                                                                                                                                                                                                                   ...
+                                                                      ...                                                                                   ...
+
+
+                                                                                                        ...
+                                                                                                                                                            ...
+                                                                                                                                                                                                                                                     ...
+                                                                                                                                                                                                                                                             ...
+                                                                                                                                                                                                                                                                                                                           source vertex
+                                                                                                                                                                                            ...
+                                                                                                                                                                                                                     ...                             ...
+
+
+                                                                                                                                                                                                                                                                                      ...
+                                                          ...               ...                   ...
+
+                                                                                                                                                    ...           ...                 ...                                                                                                                                  end vertex
+                                                                                                                                                                                                                                         ...               ...                  ...
+
+
+                                                                                                                                                                                                                                                                                                                           filter vertex
+
+                                                                                                                                                                                                                                                                                                                           sink vertex
+                                                                                                                                                          (a)
+                                                                                                                                             Time
+                                                                                                                                                                                                                                                                                                              Time
+                                                      ...                                   ...               ...         ...
+                                                                                                                                                                                                                                                                                                                                 start arc
+
+                                                                                                                                                                                                                                                                                                                                 end arc
+                                             ...
+                                                                                                                                                                                                                                         ...                                   ...
+
+
+                                 ...                                                                                                                                                                                                                                                                                         off-work arc
+                           ...
+
+                     ...
+                                                                                                                                                                                                                      ...                                  ...
+                                                                                                                                                                                                                                                                                                                                 shift arc
+                                                                                                                                                                                                                                   ...
+                                                                              ...
+                                                                                                                                                                                                         ...                                   ...
+                                                                                                                                                                                                                                                                                                                                sign-in arc
+                                   ...
+
+                                                                                                                                                                                                                                                                                                                             sign-out arc
+               ...                     ...          ...         ...
+                                                                                                                                                                                                                            (c)                                                                                                  filter arc
+                                                   (b)
+                                                                                                                                                                                                                                                                   Time                                                     deadhead arc
+                                                                                                                                                                                                                                                                                                                                 train arc
+                                                                                                                                                                                                                                                                                                                                 meal arc
+                                                                      ...                                                                                  ...                                            ...                                                                                                                    rest arc
+                                                                                                                                                                                                                                                                                                                                 idle arc
+
+                                                                                                                                         (d)
+
+
+Fig. 4. Illustration of the hierarchical time-space network (HTSN) model: (a) overall network structure, (b) daily subnetworks, (c) duty layers, and (d) line
+blocks.
+
+
+
+         ∑ κγk xγ ≤ 1, ∀k ∈ K                                                                                                                                             (3)                     paths that traversed working arcs during day d¯ in the original
+         γ∈Γ                                                                                                                                                                                      roster, and rγ be the assigned crew member for each γ ∈ Γ̄.
+         ∑ yrγ = xγ , ∀γ ∈ Γ                                                                                                                                              (4)                     Thanks to the high modeling accuracy of the hierarchical
+         r∈R                                                                                                                                                                                      network, it is straightforward to obtain the selected duty uγ in
+         ∑ yrγ = 1, ∀r ∈ R                                                                                                                                                (5)                     day d¯ and the traversing arc v′γ → vγ at time t¯ given path γ ∈ Γ̄.
+         γ∈Γ                                                                                                                                                                                      To ensure a valid connection with the previously established
+                                                                                                                                                                                                                                                       ¯
+         mqγ yrγ ≤ δ (q ⊆ qr ), ∀γ ∈ Γ, r ∈ R, q ∈ Q                                                                                                                      (6)                                                          ¯             d,u
+                                                                                                                                                                                                  trajectory, a virtual sign-in arc vdst,tvγ −tsi → v f t γ is constructed
+         nsiγ ≤ nd − nd f , ∀γ ∈ Γ                                                                                                                                        (7)                     and the corresponding filter arcs v f t γ → vtvγ ,oγ γ are inserted
+                                                                                                                                                                                                                                                                                                                   ¯
+                                                                                                                                                                                                                                                                                                                  d,u    ¯ ,l
+                                                                                                                                                                                                                                                                                                                        d,u
+
+         ndh
+          γ ≤ nt f , ∀γ ∈ Γ                                                                                                                                               (8)                                                                               ¯
+                                                                                                                                                                                                                                                           d,u
+                                                                                                                                                                                                  into duty layer Vlayerγ to readjust the time-space network. The
+         nml,d
+          γ      = 1, ∀γ ∈ Γ, ∀d ∈ D                                                                                                                                      (9)                     restricted subnetwork tailored for path γ as Gγ = (V γ , Aγ ) is
+                                                                                                                                                                                                                                      ¯
+                                                                                                                                                                                                                                     d,u
+         xγ ∈ {0, 1}, ∀γ ∈ Γ                                                                                                                                                                      then constructed, where V γ = Vlayerγ ∪Ved d¯ ∪ {v , v , vd¯
+                                                                                                                                                                        (10)                                                                        sc sk st,tvγ −tsi },
+         yrγ ∈ {0, 1}, ∀γ ∈ Γ, ∀r ∈ R                                                                                                                                   (11)                      A = {u → v|u, v ∈ V , u → v ∈ A}. After constructing a re-
+                                                                                                                                                                                                    γ                     γ
+
+                                                                                                                                                                                                  stricted subnetwork for each crew member, we can now search
+The objective function (1) minimizes the total cost including                                                                                                                                     for valid network paths from source to sink to generate the
+the labor costs, preference violation penalties and train service                                                                                                                                 replanned roster while maintaining spatiotemporal continuity
+canceling penalties, where δ (·) is the Kronecker function that                                                                                                                                   with the original plan.
+returns a boolean value. Constraints (2)-(3), (7)-(9) satisfy the
+qualification rule, train service rule, day-off rule, deadhead rule                                                                                                                               4) Integer Programming for Crew Replanning:
+and meal break rule, respectively. Constraints (4)-(6) guarentee
+that each selected path is associated with one qualified crew                                                                                                                                     After constructing restricted subnetwork Gγ for each γ ∈ Γ̄,
+member and every member is assigned.                                                                                                                                                              let Ωγ denote the set of all viable network paths in Gγ . Let K̄
+                                                                                                                                                                                                  denote the replanned task set given the new timetable, and let
+3) Restricted Subnetwork Construction:
+                                                                                                                                                                                                  ϑk and λ̄k be the required number of crew members for con-
+For the crew replanning problem, the planning search space                                                                                                                                        ducting task k and the corresponding new canceling penalty,
+has to be adjusted to accommodate dynamic changes and                                                                                                                                             respectively. The replanning problem is then formulated as
+meet additional rules described in Section III-D. This work                                                                                                                                       follows:
+introduces the restricted subnetwork construction technique,
+illustrated in Fig. 5, which satisfies the replanning duty and
+task rules solely by modifying the proposed hierarchical time-                                                                                                                                           RP : Minimize ∑                                                               ∑            ∑        c(u, v)xω + ∑ ϑk λ̄k
+                                                                                                                                                                                                                                                                   γ∈Γ̄ ω∈Ωγ u→v∈Aω                                       k∈K̄
+space network.
+   Specifically, let d¯ and t¯ to be the replanning day and re-                                                                                                                                                                                                    +∑                       ∑           ∑ xω δ (o ∈/ Orγ )λo                  (12)
+planning start time when disruption occurs. Let Γ̄ be the set of                                                                                                                                                                                                               γ∈Γ̄ ω∈Ωγ o∈Oω
+                                                                                                                                              8
+
+
+
+  subject to ∑      ∑ γ ∑ mqω xω ≤ ∑ Pq , ∀S ∈ S                      (13)     Algorithm 1: Two-Stage Column Generation (TSCG)
+             γ∈Γ̄ ω∈Ω q∈S         q∈S
+                                                                                Input : network G, crew R
+                       k
+                ∑    κω xω ≤ ϑk , ∀k ∈ K̄                             (14)      Output: minimum cost c∗ , optimal roster {r : γr∗ |r ∈ R}
+                 S
+             ω∈ Ωγ                                                              /* Network flow optimization                           */
+                γ∈Γ̄
+                                                                              1 Construct initial path set Γ̃ with G using Algorithm
+             mqω xω ≤ δ (q ⊆ qrγ ),
+                                                  [
+                                        ∀ω ∈             Ωγ , q ∈ Q   (15)       S.2 ;
+                                                  γ∈Γ̄                        2 while True do
+                  ¯¯
+             nml,
+              γ
+                 d,t
+                     + nml           γ
+                        ω = 1, ∀ω ∈ Ω , γ ∈ Γ̄                        (16)    3    Obtain dual varaibles µS , νk by solving RLMP
+                                                                                     with Γ̃ using solver;
+               ∑ xω = 1, ∀γ ∈ Γ̄                                      (17)
+                                                                              4    Obtain shortest path γ and reduced cost σ by
+             ω∈Ωγ
+                                      [                                              solving PP with G, µS , νk using Algorithm S.3;
+             xω ∈ {0, 1}, ∀ω ∈               Ωγ                       (18)
+                                                                              5    if σ ≥ 0 then
+                                      γ∈Γ̄
+                                                                              6         break;
+Compared with the original function (1), the replanning objec-                7     Γ̃ ← Γ̃ ∪ {γ} ;
+tive (12) changes the term of service canceling penalties to in-
+                                                                              8 Obtain objective value c∗1 and path set Γ∗ by solving
+corporate the specific demands of replanned tasks. Constraints
+                                                                                 RIP with Γ̃ using solver;
+(14) relaxes the original train service rule by allowing multiple
+                                                                                /* Assignment optimization                           */
+crew members to operate pressing tasks during disruption.                                 ∗
+                                                                              9 for γ ∈ Γ do
+The original constraints (7)-(8) for day-off and deadhead rules
+                                                                             10     for r ∈ R do
+are removed, but the meal break rule still preserves through
+                                ¯ t¯                                         11         Calculate crγ according to Eq. (33) ;
+constraints (16), where nml,γ
+                               d,
+                                     denotes the number of meals
+already taken in the original plan before t¯ in day t¯ . Unique              12 Obtain objective value c∗2 and optimal roster
+path selection is imposed for the heterogeneous crew member                      {r : γr∗ |r ∈ R} by solving P2 with Γ∗ , crγ using solver;
+with constraints (17).                                                           ∗      ∗
+                                                                             13 c ← c1 + c2 ;
+                                                                                              ∗
+   This work proposes a two-stage column generation (TSCG)
+method to solve the crew planning problem P. For solving
+problem RP, this work designs a fast path adjustment heuristic
+                                                                                Column generation is adopted here to handle the excessive
+(FPAH) on the basis of HTSN restricted subnetwork construc-
+                                                                             number of variables. As illustrated in Fig. 3, after construct-
+tion. The details of the solution methods are detailed in the
+                                                                             ing an initial feasible solution, column generation begins an
+Methods section.
+                                                                             iterative procedure between the relaxed linear master prob-
+                                                                             lem (RLMP) and the pricing problem (PP). This procedure
+C. Two-Stage Column Generation
+                                                                             continues until the PP fails to identify a variable that can be
+This work proposes a two-stage column generation method                      added to improve the solution quality. Finally, the RLMP is
+to solve the crew planning problem P. The complexity of                      converted into the restricted integer problem (RIP) with the
+solving problem P primarily arises from the enoumous amount                  current set of variables to obtain the optimal integer solution.
+of potential path candidates in Γ and the coupling relationship                 The tailored pulse algorithm for generating constraint short-
+between decision variables xγ and yrγ . To address the first chal-           est paths, the initial solution construction, RLMP, PP and RIP
+lenge, column generation is leveraged, a commonly adopted                    are next introduced as follows:
+technique for problems where enumerating all variables is                       Since multiple constraints are involved in problem P1 ,
+computationally infeasible[47], [48]. For the second challenge,              the task of finding paths with minimum cost naturally be-
+a model decomposition strategy is applied, decoupling prob-                  comes a constrained shortest path problem[49]. The pulse
+lem P into a network flow problem P1 and an assignment                       algorithm[50], [51] is one widely used labeling method for
+problem P2 . P1 and P2 are solved sequentially in a two-stage                finding constrained shortest paths based on the idea of propa-
+approach, utilizing the techinique of column generation.                     gating labels recursively through a network. This work utilizes
+   The procedure of the two-stage column generation method                   the pulse algorithm to generate valid paths, and design tailored
+is illustrated in Algorithm 1.                                               pruning strategies and traversal method to improve searching
+1) Network Flow Optimization                                                 efficiency. Details of the pulse algorithm are illustrated in
+                                                                             Section S.III-A in the supplementary material.
+Problem P1 is first introduced, which can be viewed as a                        Before solving RLMP, an initial path set is first generated,
+variant of the minimum-cost network flow problem aiming to                   denoted as Γ̃ ⊆ Γ, which constitutes one feasible solution to
+search for the optimal group of valid paths. Focusing on the                 problem P1 . To this end, the pulse algorithm is leveraged to
+path-based decision variables xγ and the associated constraints,             search for the constrained shortest path for each crew member,
+problem P1 is written as follows:                                            building an initial path set Γ̃ with size nr . During the shortest
+                                                                             path search for different crew members, certain types of arc
+         P1 : Minimize ∑       ∑ c(u, v)xγ + ∑ λk                     (19)   costs of the time-space network should be adjusted to meet the
+                         γ∈Γ u→v∈Aγ                       k∈K
+                                                                             operational rules. Details of the initial path set construction
+             subject to constraints (2), (3), (7) − (10)                     algorithm are illustrated in Section S.III-B.
+                                                                                                                                             9
+
+
+
+  With the generated initial subset Γ̃, the problem RLMP is                     After the termination condition is met, the RLMP problem
+written as follows:                                                          is converted to the integer programming version RIP by
+                                                                             modifying constraints (23) to boolean limits. The problem can
+  RLMP : Minimize ∑                ∑ c(u, v)xγ +     λk ∑             (20)
+                                                                             be then solved utilizing integer programming solvers. Based
+                      γ∈Γ̃ u→v∈Aγ                k∈K
+                                                                             on the integer solution, the optimal group of paths are selected,
+           subject to     ∑∑    mqγ xγ ≤      Pq , ∀S ∈ S
+                                                 ∑                    (21)   denoted as Γ∗ .
+                      γ∈Γ̃ q∈S            q∈S
+                                                                             2) Assignment Optimization
+                          ∑κγk xγ ≤ 1, ∀k ∈ K                         (22)
+                      γ∈Γ̃                                                   The second stage optimization focuses on minimizing the
+                          xγ ≥ 0, ∀γ ∈ Γ̃                             (23)   preference penalties with the selected path set Γ∗ . Since the
+                                                                             existance of a perfect matching between the selected paths and
+Note that constraints (23) are modified to non-negative bounds               crew is guaranteed by satisfying constraints (2) in problem
+for linear relaxation. The reduced cost for each decision                    P1 , problem P2 can be formalized as a standard assignment
+variable is next calculated. Let µS and νk as the dual variables             problem. Let crγ represent the preference penalty for crew
+associated with constraints (21) and (22), respectively. The                 member r to implement path γ:
+reduced cost σγ for decision variable xγ is then calculated as                       (
+follows:                                                                         r    +∞,                   if ∑q∈Q mqγ δ (q ⊆ qr ) < 1
+                                                                               cγ =                                                     (33)
+                                                                                      ∑o∈Oγ δ (o ∈/ Or )λo ,       otherwise
+         σγ =     ∑ c(u, v) − ∑ ∑ mqγ µS − ∑ κγk νk                   (24)
+                 u→v∈Aγ                S∈S q∈S               k∈K             Problem P2 is then presented as follows:
+Mathematically, if the reduced costs σγ for all γ ∈ Γ \ Γ̃                        P2 : Minimize ∑ ∑ crγ yrγ                              (34)
+are non-negative, the optimality of the linearized P1 is met.                                    r∈R γ∈Γ∗
+Otherwise, the vairiable xγ with the minimum negative reduced                         subject to  ∑   yrγ = 1, ∀γ ∈ Γ∗                   (35)
+cost can be selected for inclusion in Γ̃ , as it offers the greatest                             r∈R
+potential to improve the objective function.                                                      ∑    yrγ = 1, ∀r ∈ R                   (36)
+   The pricing problem aims at searching for the valid path                                      γ∈Γ∗
+with minimum reduced cost. To incorporate the dual variable                                      yrγ ∈ {0, 1}, ∀r ∈ R, ∀γ ∈ Γ∗           (37)
+terms, let νk denote the costs of the corresponding train arcs
+                                                                             Constraints (35)-(36) are the agent and task constraints for a
+in A, and include µγq as extra cost on qualification selection.
+                                                                             typical assignment problem.
+Then, the pricing problem is described based on the constraint
+                                                                               Combining the resulting objective value of P1 and P2 , the
+shortest path formulation. Let zu,v ∈ {0, 1} denote the decision
+                                                                             optimized total cost for problem P is obtained. The final
+variable indicating whether the arc u → v is selected in the
+                                                                             roster is generated utilizing the optimal path set Γ∗ and the
+shortest path. The problem PP is then formulated as follows:
+                                                                             assignment results.
+  PP : Minimize
+           q∈Q
+                        ∑ c(u, v)zu,v − ∑ δ (q ∈ S)µS                 (25)
+                                                                             D. Fast Path Adjustment Heuristic
+                    u→v∈A                      S∈S
+       subject to         ∑         zvsc ,u = 1                       (26)   In the context of real-time replanning problems, where rapid
+                    {u|vsc →u∈A}                                             decision-making is a critical factor [21], this work opts for
+                          ∑         zu,vsk = 1                        (27)   heuristic algorithms over solvers and exact methods as they
+                    {u|u→vsk ∈A}                                             can efficiently provide near-optimal solutions within a shorter
+                          ∑        zu,v =        ∑          zv,u′ ,          solving time. For solving problem RP, this work designs
+                    {u|u→v∈A}               {u′ |v→u′ ∈A}                    a network path adjustment heuristic on the basis of the
+                                             ∀v ∈ V \ {vsc , vsk }    (28)   hierarchical network and restricted subnetwork construction.
+                     si                                                         Inspired by [52], [3], this work adopts a greedy strategy to
+                    n ≤ n d − nd f                                    (29)   address the challenge of varying duty frames and work lines
+                     dh
+                    n     ≤ nt f                                      (30)   among crew members during replanning. The core idea is to
+                    nml,d
+                            = 1, ∀d ∈ D                               (31)   prioritize assigning tasks to the crew member with the highest
+                                                                             capacity to handle tasks available at the replanning moment,
+                    zu,v ∈ {0, 1}, ∀u → v ∈ A                         (32)
+                                                                             enabling the cost-minimizing path search to be conducted first.
+The objective function (25) is minimized over all qualifi-                   Specifically, the crew memberswho are actively working at
+cations, based on which the arc costs are revised. Con-                      the replanning start time t¯ are first sorted in descending order
+straints (26)-(28) are the typical flow conservation constraints.            of their remaining working hours for the replanning day d.¯
+Problem PP can be solved utilizing the pulse algorithm, as                   Next, crew members who are not on duty at time t¯ but are
+described in Algorithm S.1 in the supplementary material.                    scheduled to sign in later in day d¯ are sorted by their sign-in
+The resulting objective value for PP represents the minimum                  time in ascending order and place them after the crew members
+reduced cost based on the current Γ̃. If the value is non-                   sorted in the first step. Finally, following the sorted order,
+negative, then the termination condition for column generation               the constrained shortest path ω ∗ is obtained using the pulsing
+                                                                                                                             ∗
+is met. Otherwise, the resulting shortest path is added to Γ̃ for            algorithm on the restricted subnetwork Gγr constructed for
+RLMP.                                                                        each crew member r to determine their new roster.
+                                                                                                                                                                                                                 10
+
+
+
+                                                        end vertex         source vertex       virtual start arc     virtual sign-in arc   shift arc    train arc         deadhead arc         rest arc
+                                   start vertex
+
+                                   state vertex         filter vertex      sink vertex         virtual end arc         sign-out arc        filter arc   meal arc           idle arc
+
+
+                                                                                                      Time                                                                                                Time
+
+                                                                                         ...                                                                                                   ...
+
+
+
+
+                                                                           ...                                                                                                           ...
+
+
+
+
+                                                                     ...                                                                                                        ...
+
+
+                                                  ...                                                                                                               ...
+
+
+                                                  ...                                                                                                               ...
+
+
+
+
+                                         (a)                                                                                                             (b)
+
+Fig. 5. Illustration of the restricted subnetwork construction technique, which adjusts the planning space for rapid replanning: (a) the original network path
+in HTSN on day d,¯ and (b) the replanned network path in the restricted subnetwork on day d.¯
+
+
+
+   The procedure of the fast path adjustment heuristic is                                                          numerical experiments. Consistent with the normal metro op-
+illustrated in Algorithm 2.                                                                                        erating hours, this work considers train service tasks scheduled
+                                                                                                                   between 5:00 and 24:00 for each day. The duration of train
+ Algorithm 2: Fast Path Adjustment Heuristic (FPAH)                                                                service tasks in each line is estimated as the average of
+  Input : network G, original roster {r : γr∗ |r ∈ R},                                                             the first and last train operating times in the timetable. To
+              replanning settings d,¯ t¯, K̄                                                                       simulate potential discrepancies between actual train departure
+  Output: replanned roster T = {r : ωr∗ |r ∈ R},                                                                   times and the scheduled timetable during real-time operations,
+              minimum cost c∗                                                                                      random temporal perturbations are introduced when generating
+1 Revise the train arcs in G with new task set K̄ ;
+                                                                                                                   train service tasks. Specifically, for each task k, a random
+                                             ∗
+2 Determine the replanned path set Γ̄ ⊆ {γr |r ∈ R} and
+                                                                                                                   integer between -1 and 1 is added to both the departure time
+   uγ ,tvγ for each γ ∈ Γ̄ ;                                                                                       tk and the arrival time tk′ .
+3 Initialize empty arrays A, A1 , A2 and empty roster T ;                                                             In terms of algorithm comparison, due to the path-specific
+   ∗
+4 c ← 0;                                                                                                           constraints in problem P and non-convex penalty terms in
+         ∗
+5 for γr ∈ Γ̄ do                                                                                                   the objective, it is challenging to apply Lagrange relaxation
+6      if auγ ∗ < t¯ then Append r to A1 ;                                                                         or other exact methods for problem solving. Furthermore,
+             r
+7      else Append r to A2 ;                                                                                       the stringent temporal precision required in metro planning
+                                                                                                                   renders railway and airline crew planning algorithms unsuit-
+8  Sort A1 descendingly by auγ ∗ + H − max(t¯,tvγ ) ;                                                              able for direct adaptation and comparison. As a result, two
+                                  r
+ 9 Sort A2 ascendingly by au ∗ ;                                                                                   heuristic algorithms commonly used in single-line metro crew
+                               γr
+10 A ← concat(A1 , A2 ) ;                                                                                          planning are selected and extended to multi-line versions to
+11 for r ∈ A do                                                                                                    serve as benchmarks. Specifically, the following two heuristic
+                                          ∗
+12     Construct restricted subnetwork Gγr ;                                                                       algorithms are considered:
+13
+                                ∗
+       Obtain shortest path ωr and objective value c∗r                                                                Leg Generation Heuristic: A leg refers to a list of con-
+                ∗
+        with Gγr using Algorithm S.1 ;                                                                             secutive tasks or actions performed by the same driver within
+14     Revise train arc costs in G based on ωr∗ using                                                              one duty. Similar to [3], the presented leg generation heuristic
+        Eq.(S.5) ;                                                                                                 (LGH) follows a time-sequential strategy to construct legs
+15     Append {r : ωr∗ } to T ;                                                                                    for each crew member, prioritizing the inclusion of as many
+16     c∗ ← c∗ + c∗r ;                                                                                             tasks as possible while ensuring compliance with the working
+                                                                                                                   time rule. Specifically, for each crew member requiring leg
+                                                                                                                   assignment, the working days are first ranked based on the
+                                                                                                                   remaining number of tasks, and select the day with the highest
+                  V. N UMERICAL E XPERIMENTS                                                                       task count for leg construction. Within the qualified task
+                                                                                                                   set for this crew member, a leg comprising the maximum
+A. Data and Benchmarks                                                                                             number of consecutive tasks that also satisfies the operational
+The model and algorithms are validated using real-life                                                             rules is assigned as the duty for this working day. LGH can
+timetable data from the two largest metro systems globally                                                         identify solutions within a very short time without the need
+in terms of system length and annual ridership [53]: the                                                           for additional model construction. The procedure for LGH is
+Shanghai Metro and the Beijing Metro. The timetable data                                                           illustrated in Algorithm S.4 in the supplementary material.
+is sourced from the official metro websites of the three afore-                                                       Sequential Path Heuristic: The sequential path heuristic
+mentioned cities [54], and follows the information published                                                       (SPH) searches for the constrained shortest path for each crew
+as of December 12, 2024. For computational convenience,                                                            member sequentially, a strategy similarly applied in [52], [5].
+five representative high-traffic main lines are selected from                                                      For each crew member, the algorithm adopts a greedy strategy
+each metro system as the focus of this study. Fig. 6 shows                                                         for working line selection given the qualified line set. To
+the topology of the two metro networks considered in the                                                           handle path compatibility among different crew members, the
+                                                                                                                                                                   11
+
+
+
+                                                                                                        TABLE II
+                                                                                     PARAMETER S ETTINGS FOR N UMERICAL E XPERMIENTS
+
+                                                                                         Parameter               Value             Parameter             Value
+                                                                                              H, h             540, 120             tmin ,tmax          530, 540
+                                                                                            trt , tml            10, 45              tmb ,tme           120, 420
+                                                                                       tt f , nd f , nt f       5, 1, 10              tsi , tso          20, 20
+                                                                                             λk , λo         4(tk − tk′ ), 50         cw , cr            1, 0.2
+
+
+                                                                                                5
+                                                                                              10
+                                                                                       5.2                                                                  LGH
+                                  (a)                                                    5                                                                  SPH
+                                                                                                                                                            TSCG
+                                                                                       4.8
+
+                                                                                       4.6
+
+                                                                                       4.4
+
+                                                                                       4.2
+
+                                                                                                    640     660   680    700      720   740       760     780
+
+
+                                                                                                                            (a)
+
+
+
+
+                                   (b)
+
+
+Fig. 6. The network topology of the studied multi-line metro systems: (a)
+Shanghai Metro and (b) Beijing Metro.
+                                                                                                                            (b)
+
+heuristic follows the arc cost revision method expressed in                 Fig. 7.    Crew planning performance comparison of TSCG and heuristic
+                                                                            benchmarks in terms of (a) objective value and (b) task coverage ratio using
+Eq.(S.5). Note that this heuristic is implemented on the basis              real data from the Shanghai Metro, with nl = 3. Error bars represent the
+of the constructed hierarchical time-space network model.                   standard deviation of the data.
+The procedure for SPH is illustrated in Algorithm S.5 in the
+supplementary material.
+   All numerical experiments are implemented in Python, and                 hai test cases, TSCG achieves up to an 11.21% reduction
+the subproblems RLMP, RIP and P2 are solved using the                       in total operational cost and a 3.14% improvement in task
+Gurobi solver[55]. The computer processor is an Intel(R)                    coverage ratio compared to the LGH. When compared with
+Xeon(R) Gold 5118 CPU, 2.30 GHZ, with 64.0 GB RAM.                          SPH, which also leverages HTSN model, TSCG offers a
+                                                                            modest improvement of less than 2% in task coverage but
+B. Crew Planning Performance Analysis                                       achieves a 5% to 6% reduction in total cost, as depicted in
+                                                                            Figure 7. This improvement is attributed to the advantages
+The performance of crew planning is tested on a three-
+                                                                            of column generation in solving multi-commodity network
+day planning horizon, utilizing timetable data from Monday
+                                                                            flow problems, enabling the identification of more efficient
+to Wednsday. Taking understaffing into account, this work
+                                                                            and compact crew action sequences. Comparing the two
+sets up multiple crew sizes nr in different test cases. For
+                                                                            heuristic algorithms, while LGH generates feasible solutions
+heterogeneous crew generation, qualifications are assigned
+                                                                            in a remarkably short time, the solution quality significantly
+randomly following a uniform distribution. Specifically, this
+                                                                            lags behind SPH. This highlights the considerable advantage
+work assigns 40% of the crew to be qualified for two randomly
+                                                                            of using HTSN and shortest-path-based optimization in crew
+selected lines, while the remaining 60% members are restricted
+                                                                            planning tasks. Figure 8 illustrates the performance variations
+to one random metro line. The preferred depots Or for each
+                                                                            under train departure time disturbances. It can be observed
+crew member are set to two randomly selected depots from
+                                                                            that the TSCG exhibits minimal fluctuations in both metrics,
+those located along the qualified lines. The remaining param-
+                                                                            demonstrating resilience to operational pertubations.
+eter settings are summarized in Table II. The optimization
+objective Ob j, representing the total operational cost, is set
+                                                                            C. Crew Replanning Performance Analysis
+as the first performance metric. Considering the occurrence of
+understaffing cases, the task coverage ratio Cvg is selected,               To evaluate the performance of the proposed crew replan-
+defined as the percentage of successfully performed train                   ning method, this work first designs a disruption scenario
+service tasks from the timetable, as the second performance                 to simulate the changes in task demands during replanning.
+metric. To ensure statistical validity, each test instance is               This work focuses on passenger surges, a common type of
+simulated 20 times, and the average results are recorded.                   metro disruption. Specifically, this work considers passneger
+   Tables III and IV display the experimental results for                   surges in Shanghai Metro that occur on Line 1 during peak
+Shanghai Metro and Beijing Metro. It can be observed that                   hours. The replanning day is set as the second day of a three-
+the proposed TSCG method outperforms the two heuristic                      day planning horizon. Both morning and evening peak traffic
+algorithms across both evaluated metrics. Among the Shang-                  surges are simulated, and the replanning processes are initiated
+                                                                                                                                                  12
+
+
+
+                                                                 TABLE III
+                                     C REW P LANNING P ERFORMANCE A NALYSIS U SING S HANGHAI M ETRO DATA
+
+                                                 LGH                                      SPH                            TSCG
+             nl     nk       nr        Ob j       Cvg           Time(s)      Ob j         Cvg      Time(s)      Ob j      Cvg     Time(s)
+             3    3,800     680     492,577.9    94.71%           0.11    472,523.1      95.86%   1,774.34   446,093.1   96.80%   2,370.36
+             3    3,800     760     463,292.5    98.88%           0.14    452,445.8       99%     2,031.24   428,326.5    100%    2,858.20
+             4    5,126     880     622,780.4    95.21%           0.16    594,447.6      96.62%   2,499.49   557,109.4   97.59%   4,510.43
+             4    5,126     960     595,866.3    98.44%           0.16    573,509.5      99.14%   2,663.46   543,404.0    100%    5,154.21
+             5    6,174    1,060    751,636.7    94.90%           0.14    709,208.4      97.06%   2,660.17   667,370.8   97.88%   8,485.04
+             5    6,174    1,140    725,568.2    97.56%           0.14    693,029.8      98.70%   2,789.05   652,705.7    100%    8,969.84
+
+
+                                                                 TABLE IV
+                                      C REW P LANNING P ERFORMANCE A NALYSIS U SING B EIJING M ETRO DATA
+
+                                                LGH                                      SPH                             TSCG
+            nl     nk       nr        Ob j        Cvg           Time(s)     Ob j          Cvg     Time(s)      Ob j       Cvg     Time(s)
+             3    4,638    700     526,862.3    90.68%           0.12     462,675.4     96.37%    2,010.32   438,690.3   96.84%    3,521.31
+             3    4,638    780     498,151.3    95.18%           0.12     450,678.4     98.67%    2,172.58   426,545.2    100%     4,013.17
+             4    6,062    960      690,352     92.77%           0.15     621,451.8     97.17%    2,814.02   589,447.7   97.66%     5,323.5
+             4    6,062   1,040    664,515.2    96.01%           0.18     611,383.2     98.63%     2,970.2   578,056.5    100%     4,841.22
+             5    7,180   1,180    813,596.6    94.22%           0.15     742,988.9     97.64%    3,105.91   709,998.7   98.22%   10,959.74
+             5    7,181   1,260    791,196.3    96.61%           0.16     734,107.9     98.77%    3,272.07    699,657     100%    17,369.46
+
+
+
+                                                                                       Tables V and VI illustrate the replanning results in response
+                                                                                    to morning and evening passenger surges, respectively. The
+                                                                                    proposed FPAH method demonstates effective performance in
+                                                                                    terms of both operational cost control and task completion. In
+                                                                                    the cases of morning passenger surges, FPAH reduces total
+                                                                                    costs by more than 25% compared to LGH-R, while also
+                                                                                    improving the overall task coverage rate by approximately
+                                                                                    15%. Notably, FPAH excels in the completion of urgent tasks,
+                                                                                    showing an increase of over 30% compared to LGH-R. For
+                    (a)                                   (b)                       evening surge scenarios, FPAH decreases total costs by 6%
+                                                                                    to 10% compared to LGH-R. Although the overall coverage
+Fig. 8.    Box-plot comparison of TSCG and heuristic benchmarks’ crew
+planning performance in terms of (a) objective value and (b) task coverage
+                                                                                    rate improvement is less than 2% over LGH-R, FPAH still
+ratio using data from the Shanghai Metro, with nl = 3 and nr = 640.                 enhances the completion rate of emergency tasks by 10% to
+                                                                                    15%. The primary advantage of FPAH over LGH-R lies in
+                                                                                    its ability to conduct a global path search on the restricted
+at 6:30 and 16:30, i.e., t¯ = 90 and t¯ = 690, respectively. To                     subnetwork, thereby optimizing crew task allocation between
+reflect timetable adjustments that accommodate the increased                        emergency routes and other routes, particularly in scenarios
+demand, the train departure intervals are shortened to 2 min-                       with extended replanning periods. In the cases with morning
+utes in the 1 to 3 hours after the start of crew replanning on                      surges, the inefficiencies observed with LGH-R indicate that
+Line 1. The canceling penalty multiplier is also tripled for                        the greedy approach to selecting urgent tasks could markedly
+these replanned urgent tasks to prioritize the satisfaction of                      compromise subsequent scheduling, resulting in diminished
+urgent demands induced by the disruption.                                           overall efficiency. In contrast, in the evening surge scenarios,
+                                                                                    where replanning initiates later, the reduced subsequent replan-
+   Due to the requirements of spatiotemporal continuity in
+                                                                                    ning search space means that employing a greedy approach
+metro crew replanning, existing railway replanning models
+                                                                                    could yield overall task completion rates comparable to those
+cannot be directly applied. For comparison, the leg generation
+                                                                                    of FPAH. These findings underscore the superiority of network
+heuristic is extended for the replanning scenario, termed LGH-
+                                                                                    flow path searching methodologies when addressing large-
+R. Specifically, LGH-R incorporates a greedy prioritization of
+                                                                                    scale, heterogeneous task planning problems.
+urgent tasks during the leg generation process, as detailed in
+Algorithm S.6 in the supplementary material. Additionally,                             The ablation studies highlight the critical role of cross-
+ablation studies are conducted by introducing no-deadhead                           line operations in multi-line crew replanning, particularly in
+constraints into the FPAH method, termed FPAH-N, to analyze                         improving the completion rates of urgent tasks. Compared to
+the impact of cross-line operations on replanning performance.                      FPAH, FPAH-N exhibits a decrease in Cvgu by approximately
+To provide a more comprehensive assessment, an additional                           10% in morning scenarios and over 20% in evening scenarios.
+metric, Cvgu , is introduced to measure the completion rate of                      While the overall task coverage ratio remains comparable
+urgent train service tasks during the replanning phase.                             between FPAH and FPAH-N, the heightened canceling penalty
+                                                                                                                                                     13
+
+
+
+                                                              TABLE V
+                  C REW R EPLANNING P ERFORMANCE A NALYSIS WITH M ORNING T RAFFIC S URGES IN S HANGHAI M ETRO (t¯ = 90)
+
+                                       LGH-R                                    FPAH                                       FPAH-N
+   nl     n¯k     n¯r      Ob j       Cvg / Cvgu    Time(s)      Ob j         Cvg / Cvgu       Time(s)        Ob j        Cvg / Cvgu       Time(s)
+    3    1,262   436    202,649.7   87.1% / 68.9%     0.04    184,982.8     89.7% / 80.9%       197.59     190,367.5    89.3% / 70.7%       149.98
+    3    1,262   468    194,572.6   89.1% / 75.5%     0.04    171,727.9     92.4% / 93.1%       190.11     173,833.6    92.5% / 84.6%       151.05
+    4    1,685   559    242,993.2   88.5% / 71.0%     0.07    218,818.1     91.8% / 87.1%       247.45     223,317.6    91.5% / 79.9%       207.33
+    4    1,685   602    238,638.7   90.0% / 76.5%     0.07    210,435.9     94.0% / 92.8%       260.22     213,187.8    93.7% / 85.7%       212.11
+    5    2,022   673     284,264    88.7% / 75.2%     0.05    257,007.3     91.9% / 92.8%        271.8     264,631.6     91.9% / 79%        258.55
+    5    2,022   714    281,068.1   90.2% / 74.8%     0.07    249,063.9     94.0% / 94.3%        293.5     255,204.1    93.8% / 82.8%       261.72
+
+
+                                                              TABLE VI
+                  C REW R EPLANNING P ERFORMANCE A NALYSIS WITH E VENING T RAFFIC S URGES IN S HANGHAI M ETRO (t¯ = 690)
+
+                                      LGH-R                                    FPAH                                       FPAH-N
+    nl    n¯k    n¯r      Ob j       Cvg / Cvgu     Time(s)     Ob j         Cvg / Cvgu       Time(s)        Ob j        Cvg / Cvgu       Time(s)
+     3   505     256      93,237    78.2% / 89.8%    0.02      80,431.3    83.6% / 98.1%       35.48       96,829.8     82% / 64.8%         33.7
+     3   505     271     89,049.6   81.6% / 90.1%    0.02      74,675.6    87.6% / 99.6%       39.12       88,657.5    87.4% / 70.8%       32.53
+     4   657     318    116,146.1   78.5% / 82.9%    0.02      98,059.8    84.1% / 96.2%       47.81      114,387.8    83.3% / 64.2%       42.37
+     4   657     346    109,580.6    83.5% / 84%     0.02      88,889.6    89.9% / 99.2%       51.09      104,382.4     89% / 70.1%        40.84
+     5   764     373    133,202.5    80.4% / 77%     0.02     113,945.3     85% / 92.3%         55.9      126,826.1    84.7% / 66.8%       47.58
+     5   764     401    125,015.2   84.6% / 81.4%    0.03     104,617.3    89.7% / 96.5%       58.96      119,072.5     89% / 69.9%        52.08
+
+
+
+for urgent tasks leads to higher operational costs for FPAH-N.
+In the evening passenger surge cases, as depicted in Figure
+9, the operational cost of FPAH-N increases by over 10%
+compared to FPAH and even exceeds that of LGH-R by
+approximately 1%. Such results highlight the efficiency gains
+enabled by incorporating cross-line operations into multi-line
+crew replanning, with particularly pronounced improvements
+                                                                                                              (a)
+in urgent task completion rates.
+   In terms of execution time, FPAH operates within one
+minute for evening replanning scenarios and keeps compu-
+tation time under five minutes for morning replanning cases,
+thereby satisfying the potential demands for real-time compu-
+tation.
+                                                                                                              (b)
+D. Optimality Analysis
+The TSCG algorithm employs a two-stage approach to solve
+problem P after model decomposition, which may introduce
+potential optimality losses. To assess this, this work compares
+the results obtained using TSCG with those from a direct one-
+step approach using the Gurobi solver after determining the
+candidate set Γ̃. Table VII presents a detailed comparison of                                                 (c)
+the two methods, including solution quality and computational
+time after fixing Γ̃. As shown in the table, for planning                 Fig. 9. Crew replanning performance comparison of FPAH, FPAH-N and
+scenarios with three or four lines, the task coverage ratio               heuristic benchmark in terms of (a) objective value, (b) overall task coverage
+                                                                          and (c) urgent task coverage during evening passenger surges in the Shanghai
+obtained by TSCG is nearly identical to that of Gurobi,                   Metro, with nl = 3. Error bars represent the standard deviation of the data.
+with the total cost differing by less than 0.2%, indicating
+minimal performance loss. For test cases with five lines, the
+computational cost of one-step solving with Gurobi becomes
+excessively high compared with TSCG, and the computational
+RAM required exceeds the capacity of the computer hardware.
+   These gaps arise because, compared with solving the de-                ning scale increases, the rapid growth of nr substantially raises
+composed subproblems RIP and P2 , the number of decision                  the computational complexity of the solver. These results
+variables in the one-step approach increases from O(|Γ̃|)                 demonstrate that the proposed TSCG algorithm can efficiently
+to O(|Γ̃| · nr ), and the number of constraints grows from                provide solutions with acceptable optimality losses, especially
+O(|Γ̃| + nk ) to O(|Γ̃| · nq · nr + nk ). Consequently, as the plan-      for large-scale planning problems.
+                                                                                                                                                       14
+
+
+
+                                                              TABLE VII
+                          O PTIMALITY A NALYSIS C OMPARING TSCG AND O NE -S TEP S OLUTION U SING G UROBI S OLVER
+
+                                                     TSCG                             Gurobi                      Comparison
+                  nl      nk      nr       Ob j       Cvg     Time(s)       Ob j         Cvg       Time(s)     Gapob j     Gapcvg
+                   3     3,800    640    461,541.6    94.7%    68.86     461,057.5      94.7%      197.19        0.1%        0%
+                   3     3,800    680    446,093.1    96.8%    88.36     445,216.5      96.8%      290.82        0.2%        0%
+                   4     5,126    880    557,109.4   97.59%   141.43     557,076.4     97.59%       685.4       0.01%        0%
+                   4     5,126    920    548,940.6   99.15%   151.28     548,875.9     99.15%      768.15       0.01%        0%
+                   5     6,174   1,100   658,993.8   99.16%   293.95         \             \       >2,000          \          \
+
+
+
+                         VI. D ISCUSSION                                                               R EFERENCES
+A unified crew planning and replanning optimization frame-               [1] D. Lin, W. Broere, and J. Cui, “Metro systems and urban development:
+work is proposed to address the special challenges in multi-                 Impacts and implications,” Tunnelling and underground space technol-
+                                                                             ogy, vol. 125, p. 104509, 2022.
+line metro crew operations. The framework introduces a novel             [2] B. N. Silva, M. Khan, and K. Han, “Towards sustainable smart cities:
+time-space network model, HTSN, which employs a tailored                     A review of trends, architectures, components, and open challenges in
+hierarchical structure to provide a unified representation of                smart cities,” Sustainable cities and society, vol. 38, pp. 697–713, 2018.
+                                                                         [3] J. Zhou, X. Xu, J. Long, and J. Ding, “Integrated optimization approach
+crew planning and replanning action spaces. To address the                   to metro crew scheduling and rostering,” Transportation Research Part
+heterogeneous qualifications and preferences of crew members                 C: Emerging Technologies, vol. 123, p. 102975, 2021.
+in multi-line scenarios, A set of computationally efficient              [4] H. Pan, Z. Liu, L. Yang, Z. Liang, Q. Wu, and S. Li, “A column
+                                                                             generation-based approach for integrated vehicle and crew scheduling
+constraints are derived, upon which integer programming                      on a single metro line with the fully automatic operation system by
+formulations are presented for both planning and replanning.                 partial supervision,” Transportation Research Part E: Logistics and
+Two efficient methods, TSCG and FPAH, are further designed                   Transportation Review, vol. 152, p. 102406, 2021.
+                                                                         [5] J. Zhou, X. Xu, J. Long, and J. Ding, “Metro crew planning with day-off
+leveraging constrained shortest paths in HTSN for problem                    pattern, duty type, and rostering scheme considerations,” Transportation
+solving.                                                                     Research Part C: Emerging Technologies, vol. 143, p. 103832, 2022.
+   Utilizing real-world data from Shanghai Metro and Bei-                [6] H. Jin, S. Chen, X. Ran, G. Liu, and S. Liu, “Column generation-
+                                                                             based optimum crew scheduling incorporating network representation
+jing Metro, it is demonstrated that the proposed TSCG and                    for urban rail transit systems,” Computers & Industrial Engineering,
+FPAH outperform other heuristic benchmarks by comparative                    vol. 169, p. 108155, 2022.
+numerical experiments. The empirical results highlight that              [7] T. Feng, R. M. Lusby, Y. Zhang, Q. Peng, P. Shang, and S. Tao,
+                                                                             “An admm-based dual decomposition mechanism for integrating crew
+effectively designed time-space network structure significantly              scheduling and rostering in an urban rail transit line,” Transportation
+contribute to identifying more efficient and compact crew                    Research Part C: Emerging Technologies, vol. 149, p. 104081, 2023.
+action sequences, particularly in large-scale planning and               [8] F. Xue, X. Zhang, P. Hu, X. Ma, and C. Chen, “Metro crew planning
+                                                                             with heterogeneous duty paths and period-cycle pattern considerations,”
+replanning scenarios. Results also show that the introduction                Computers & Industrial Engineering, vol. 182, p. 109354, 2023.
+of cross-line operations significantly enhances overall perfor-              [Online]. Available: https://www.sciencedirect.com/science/article/pii/
+mance, especially in completing urgent tasks. By emphasizing                 S0360835223003789
+                                                                         [9] G. Qing, “Research on train operation diagram compilation of urban
+global optimization and multi-line coordination, this work                   rail transit cross-line operation,” in Advances in Smart Vehicular Tech-
+demonstrates their key contribution to improving operational                 nology, Transportation, Communication and Applications: Proceeding
+efficiency and enhancing resilience to disruptions in metro sys-             of the Second International Conference on Smart Vehicular Technology,
+                                                                             Transportation, Communication and Applications, October 25-28, 2018
+tems. These strategies are fundamental for the functioning and               Mount Emei, China, Part 1 2. Springer, 2019, pp. 148–155.
+emergency management of smart cities, enabling responsive               [10] L. Sun, H. Lu, Y. Xu, D. Kong, and J. Shao, “Fairness-oriented train
+and adaptive transportation systems in urban environments.                   service design for urban rail transit cross-line operation,” Physica A:
+                                                                             Statistical Mechanics and its Applications, vol. 606, p. 128124, 2022.
+   Looking ahead, the framework can be further refined in               [11] N. Yong, S. Ni, S. Shen, and X. Ji, “A study of fluctuations in subway
+two key areas. First, the current model simplifies workforce                 traffic from the control properties of networks,” Physica A: Statistical
+heterogeneity, considering only qualifications per metro line                Mechanics and its Applications, vol. 550, p. 124517, 2020.
+                                                                        [12] F. Zhou and R. Xu, “Study on model and algorithm for urban rail transit
+and depot preferences. Diverse crew attributes can be incor-                 crew scheduling system,” in 2010 International Conference On Com-
+porated for a more realistic representation. Second, cross-line              puter Design and Applications, vol. 5, 2010, Conference Proceedings,
+strategies across different metro operational stages will be                 pp. V5–213–V5–216.
+explored, such as express train scheduling [38] and timetabling         [13] L. Xie, T. Zhang, J. Huang, C. Li, and H. Wang, “Hierarchical staffing
+                                                                             study at urban rail stations,” in 2022 4th International Conference on
+[37]. Incorporating these strategies have the potential to further           Frontiers Technology of Information and Computer (ICFTIC). IEEE,
+optimize multi-line crew planning and contribute to the global               2022, pp. 1038–1044.
+optimization of intelligent metro system operations.                    [14] S. Jütte, D. Müller, and U. W. Thonemann, “Optimizing railway crew
+                                                                             schedules with fairness preferences,” Journal of Scheduling, vol. 20, pp.
+                                                                             43–55, 2017.
+                                                                        [15] Y. Deng, L. Song, J. Zhou, N. Xu, G. Ni, and L. Wang, “Analysis of
+                       A CKNOWLEDGEMENTS                                     failures and influence factors of critical infrastructures: a case of metro,”
+                                                                             Advances in Civil Engineering, vol. 2020, no. 1, p. 2301276, 2020.
+The author greatly appreciates the constructive comments and            [16] N. Huan, E. Yao, and B. Li, “Early warning mechanism for the surge
+                                                                             of passengers in metro systems based on automated fare collection data:
+help from Dingding Han, Wei Yang and Huiyu Zhi at Fudan                      case study of guangzhou, china,” Transportation research record, vol.
+University.                                                                  2673, no. 4, pp. 917–929, 2019.
+                                                                                                                                                             15
+
+
+
+[17] L. Wang, J. G. Jin, L. Sun, and D.-H. Lee, “Urban rail transit disruption        of passenger transfers and travel time,” Transportation Research Part C:
+     management: Research progress and future directions,” Frontiers of               Emerging Technologies, vol. 115, p. 102629, 2020.
+     Engineering Management, vol. 11, no. 1, pp. 79–91, 2024.                    [39] F. Quesnel, G. Desaulniers, and F. Soumis, “Improving air crew ros-
+[18] Z. Hou, H. Dong, S. Gao, G. Nicholson, L. Chen, and C. Roberts,                  tering by considering crew preferences in the crew pairing problem,”
+     “Energy-saving metro train timetable rescheduling model considering              Transportation Science, vol. 54, no. 1, pp. 97–114, 2020.
+     ato profiles and dynamic passenger flow,” IEEE Transactions on Intel-       [40] X. Wen, S.-H. Chung, P. Ji, and J.-B. Sheu, “Individual scheduling
+     ligent Transportation Systems, vol. 20, no. 7, pp. 2774–2785, 2019.              approach for multi-class airline cabin crew with manpower requirement
+[19] Q. Zhu, Y. Bai, L. Yang, Y. Chen, and D. Yan, “Collaborative opti-               heterogeneity,” Transportation Research Part E: Logistics and Trans-
+     mization of rescue operation and timetable rescheduling under metro              portation Review, vol. 163, p. 102763, 2022.
+     train failure,” Transportmetrica B: Transport Dynamics, vol. 11, no. 1,     [41] S. Zhang, H. K. Lo, K. F. Ng, and G. Chen, “Metro system disruption
+     p. 2203847, 2023.                                                                management and substitute bus service: a systematic review and future
+[20] B. Su, T. Tang, S. Su, Z. Wang, and X. Wang, “Integrated rescheduling of         directions,” Transport Reviews, vol. 41, no. 2, pp. 230–251, 2021.
+     train timetables and rolling stock circulation for metro line disturbance   [42] N. J. Rezanova and D. M. Ryan, “The train driver recovery problem—a
+     management: a q-learning-based approach,” Engineering Optimization,              set partitioning based model and solution method,” Computers & Oper-
+     vol. 56, no. 7, pp. 997–1020, 2024.                                              ations Research, vol. 37, no. 5, pp. 845–856, 2010.
+[21] V. Cacchiani, D. Huisman, M. Kidd, L. Kroon, P. Toth, L. Veelenturf,        [43] D. Potthoff, Railway crew rescheduling: Novel approaches and exten-
+     and J. Wagenaar, “An overview of recovery models and algorithms                  sions, 2010, no. EPS-2010-210-LIS.
+     for real-time railway rescheduling,” Transportation Research Part B:        [44] K. Sato and N. Fukumura, “Real-time freight train driver rescheduling
+     Methodological, vol. 63, pp. 15–37, 2014.                                        during disruption,” IEICE transactions on fundamentals of electronics,
+[22] D. Huisman, “A column generation approach for the rail crew re-                  communications and computer sciences, vol. 94, no. 6, pp. 1222–1229,
+     scheduling problem,” European Journal of Operational Research, vol.              2011.
+     180, no. 1, pp. 163–173, 2007.                                              [45] F. Malucelli and E. Tresoldi, “Delay and disruption management in local
+[23] J. Janacek, M. Kohani, M. Koniorczyk, and P. Marton, “Optimization of            public transportation via real-time vehicle and crew re-scheduling: a case
+     periodic crew schedules with application of column generation method,”           study,” Public Transport, vol. 11, no. 1, pp. 1–25, 2019.
+     Transportation Research Part C: Emerging Technologies, vol. 83, pp.         [46] P. J. Cameron, Combinatorics: topics, techniques, algorithms. Cam-
+     165–178, 2017. [Online]. Available: https://www.sciencedirect.com/               bridge University Press, 1994.
+     science/article/pii/S0968090X17301894                                       [47] C. Barnhart, E. L. Johnson, G. L. Nemhauser, M. W. Savelsbergh, and
+[24] S. Z. Zhou, Z. H. Zhan, Z. G. Chen, S. Kwong, and J. Zhang, “A                   P. H. Vance, “Branch-and-price: Column generation for solving huge
+     multi-objective ant colony system algorithm for airline crew rostering           integer programs,” Operations research, vol. 46, no. 3, pp. 316–329,
+     problem with fairness and satisfaction,” IEEE Transactions on Intelligent        1998.
+     Transportation Systems, vol. 22, no. 11, pp. 6784–6798, 2021.               [48] G. Desaulniers, J. Desrosiers, and M. M. Solomon, Column generation.
+[25] T. Breugem, B. Van Rossum, T. Dollevoet, and D. Huisman, “A column               Springer Science & Business Media, 2006, vol. 5.
+     generation approach for the integrated crew re-planning problem,”           [49] J. E. Beasley and N. Christofides, “An algorithm for the resource
+     Omega, vol. 107, p. 102555, 2022.                                                constrained shortest path problem,” Networks, vol. 19, no. 4, pp. 379–
+[26] S. Pang and M.-C. Chen, “Optimize railway crew scheduling                        394, 1989.
+     by using modified bacterial foraging algorithm,” Computers &                [50] L. Lozano and A. L. Medaglia, “On an exact method for the constrained
+     Industrial Engineering, vol. 180, p. 109218, 2023. [Online]. Available:          shortest path problem,” Computers & Operations Research, vol. 40,
+     https://www.sciencedirect.com/science/article/pii/S0360835223002425              no. 1, pp. 378–384, 2013.
+[27] R. Freling, R. M. Lentink, and A. P. Wagelmans, “A decision support         [51] L. Lozano, D. Duque, and A. L. Medaglia, “An exact algorithm
+     system for crew planning in passenger transportation using a flexible            for the elementary shortest path problem with resource constraints,”
+     branch-and-price algorithm,” Annals of Operations Research, vol. 127,            Transportation Science, vol. 50, no. 1, pp. 348–357, 2016.
+     pp. 203–222, 2004.                                                          [52] A. Caprara, M. Fischetti, P. Toth, D. Vigo, and P. L. Guida, “Algorithms
+[28] E. Abbink, M. Fischetti, L. Kroon, G. Timmer, and M. Vromans, “Rein-             for railway crew management,” Mathematical programming, vol. 79, pp.
+     venting crew scheduling at netherlands railways,” Interfaces, vol. 35,           125–141, 1997.
+     no. 5, pp. 393–401, 2005.                                                   [53] https://en.wikipedia.org/wiki/List_of_metro_systems.
+[29] A. F. Han and E. C. Li, “A constraint programming-based approach to         [54] https://service.shmetro.com, https://www.bjsubway.com, https://www.
+     the crew scheduling problem of the taipei mass rapid transit system,”            mtr.bj.cn.
+     Annals of Operations Research, vol. 223, pp. 173–193, 2014.                 [55] L. Gurobi Optimization, “Gurobi optimizer reference manual,” 2021.
+[30] M. Fuentes, L. Cadarso, and A. Marin, “A hybrid model for crew
+     scheduling in rail rapid transit networks,” Transportation Research Part
+     B: Methodological, vol. 125, pp. 248–265, 2019. [Online]. Available:
+     https://www.sciencedirect.com/science/article/pii/S0191261518303205
+[31] A. T. Ernst, H. Jiang, M. Krishnamoorthy, H. Nott, and D. Sier, “An
+     integrated optimization model for train crew management,” Annals of
+     Operations Research, vol. 108, no. 1-4, pp. 211–224, 2001.                                           Qihang Chen received the B.S. degree in intelli-
+[32] C. Zhao, J. Chen, X. Zhang, and Z. Cui, “Solution of multi-crew depots                               gent science and technology from Fudan University,
+     railway crew scheduling problems: the chinese high-speed railway case,”                              Shanghai, China, where he is currently pursuing the
+     Sustainability, vol. 14, no. 1, p. 491, 2022.                                                        Ph.D. degree with the School of Information Science
+[33] D.-Y. Lin and M.-R. Tsai, “Integrated crew scheduling and roster                                     and Technology.
+     problem for trainmasters of passenger railway transportation,” IEEE                                     His research interests include network science,
+     Access, vol. 7, pp. 27 362–27 375, 2019.                                                             discrete optimization, and their applications in in-
+[34] R. Lusby, A. Dohn, T. M. Range, and J. Larsen, “A column generation-                                 telligent transportation systems.
+     based heuristic for rostering with work patterns,” Journal of the Oper-
+     ational Research Society, vol. 63, no. 2, pp. 261–277, 2012.
+[35] T. Nishi, T. Sugiyama, and M. Inuiguchi, “Two-level decomposition
+     algorithm for crew rostering problems with fair working condition,”
+     European Journal of Operational Research, vol. 237, no. 2, pp. 465–473,
+     2014.
+[36] N. Souai and J. Teghem, “Genetic algorithm based approach for the
+     integrated airline crew-pairing and rostering problem,” European Journal
+     of Operational Research, vol. 199, no. 3, pp. 674–683, 2009.
+[37] R. Zhang, M. Yang, M. Ye, X. Fu, and E. Chen, “An integrated approach
+     of timetable and train ratio optimisation based on event-driven model
+     with express/local mode,” Transportmetrica A: Transport Science, p.
+     2362356, 2024.
+[38] A. Yang, B. Wang, J. Huang, and C. Li, “Service replanning in urban
+     rail transit networks: Cross-line express trains for reducing the number
+

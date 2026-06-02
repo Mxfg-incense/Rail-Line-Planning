@@ -1,0 +1,1058 @@
+     Stochastic approaches for solving Rapid Transit
+      Network Design models with random demand
+                     Gemayqzel Bouza1                 Angel Marı́n2
+     1
+      University of Havana, Facultad de Matemática y Computación
+               San Lázaro y L, Vedado. C. Habana, Cuba
+     email: gema@matcom.uh.cu 2 Polytechnic University of Madrid,
+                    E. T. S. Ingenieros Aeronáuticos,
+            Plaza Cardenal Cisneros, 3; 28040 Madrid, Spain
+                       email: angel.marin@upm.es
+
+
+                                         Abstract
+         We address rapid transit network design problems characterized by uncertainty
+     in the input data. Network design has a determinant impact on the future effective-
+     ness of the system. Design decisions are made with a great degree of uncertainty
+     about the conditions under which the system will be required to operate. The de-
+     mand is one of the main parameters which determines design decisions. We present
+     two uncertainty rapid transit network model approaches to study the impact that
+     the estimation of the future demand will have in the design of new rapid transit
+     networks. Considering that the new topology is oriented to define public lines, to
+     cover the demand by public transportation, a bounded budget and the modal com-
+     petition between the old transportation system and the new rapid transit network
+     will be included. Computational experiments are developed for these uncertainty
+     approaches studying different network size problems under the main parameters of
+     the model.
+
+Keywords: rapid transit networks design, stochastic programming, fixed resource ap-
+proach, joint probability constraints approach.
+AMS subject classification: 90B06, 90C10, 90C35
+
+
+
+                                             1
+1    Introduction
+Transportation networks design is highly dependent on the future use of the system. One
+of the more important factors is the demand. The demand is increased as consequence
+of the development around urban areas, and as consequence of it, the traffic increases
+between the center and the surrounding areas. The result of this phenomenon is traf-
+fic congestion, which leads to build new rapid transit systems to cover trips by public
+transportation.
+We design a new rapid transit network, which maximizes the number of travelers using it,
+such that the travel time on the new network is lower than the travel time in the existing
+network, i.e. the number of users using the new rapid transit network would be as high
+as possible.
+Design decisions are considered at strategic level, but they must include the demand
+and its behavior in relation with mode choosing. The Rapid Transit Network Design
+(RTND) tries to maximize the demand coverage by the new network subject to design
+and budget constraints, but considering the user decisions to evaluate the network design
+alternatives. These decisions must consider two topology alternatives, the old and the
+new (to be constructed) network. The comparison of these alternatives is carried out by
+users choosing both travel path and mode.
+One of the first papers in RTND are[Bruno et al(1998)], [Bruno et al(2002)]. In the first
+one the user travel cost is minimized, while in the other one the coverage of the demand by
+public network is maximized. [Garcı́a and Marı́n(2001)], and [Garcı́a and Marı́n(2002)],
+study the mode interchange location and parking network design problems using a Bilevel
+Programming model. They address the multimodal traffic assignment problem with com-
+bined modes at lower level.
+[Laporte et al(2007)], extend the previous models by incorporating the station location
+problem, the alternative of several lines and defining the model using the maximum cover-
+age of the public demand as an objective function and the budget constraints as side con-
+straints. [Marı́n(2007)], studies the inclusion in the previous models of free but bounded
+number of lines, and the origin-destination of the lines is chosen in the rapid transit
+network design model. [Escudero and Muñoz(2009)] extend the RTND model to allow
+circular lines.
+The network to design depends on the number of trips. The estimation of the future
+demand is based on the current mobility patterns for which a new infrastructure does not
+yet exist. Therefore, data obtained by samples or analytical models are uncertain. The
+model will include some uncertain coefficients, those related with the number of users. In
+this paper we are interested in solving the problem of designing an optimal RTN where
+the amount of users between every o/d pair is a random variable. This model will be
+
+                                            2
+called rapid transit network design under uncertainty (RTNDU).
+Problems with uncertain coefficients can be solved by stochastic programming techniques.
+Solutions approaches to stochastic programming have been studied in [Rockafellar and Wets(1991)]
+and [Kall and Mayer(2005)]. A difficulty in these approaches is to find a proper balance
+between the terms of the objective function. One must achieve a tradeoff between the
+mean and variance of the solution, and deviations from feasibility under all scenarios.
+Textbooks on stochastic programming are [Birge and Louveaux(1997)], [Prékopa(1995)]
+and [Kall and Stein(1994)], the last of which is the one that is most easily accessible. The
+first two give more technical insight and are more comprehensive. A research survey on
+various aspects of stochastic programming is given in [Ruszczynski and Shapiro(2003)].
+Stochastic programming problems are optimization problems in which uncertainty about
+parameters is modeled as probability distributions over these parameters. Then, the
+optimization takes the randomness into account by either optimizing the expected value
+of an objective function or by requiring stochastic constraints to be satisfied with high
+probability. The latter is called Chance Constrained Programming. In the former, the
+objective function may, besides the expectation of the costs, also contain some deviation
+measure and it is called Fixed Recourse Programming.
+The probability space is often modeled as a finite set of scenarios. Then, in principle,
+a linear optimization problem with stochastic input data, chance constraints and some
+stochastic objective function is a linear program itself. But the size of the original program
+is multiplied by the number of scenarios.
+In the Fixed Recourse model, the time is modeled discretely by means of stages, corre-
+sponding to the available information. Each step decisions can be made after observing
+the realizations of the random problem parameters. The difference between those deci-
+sions lies in the cost: Early decisions, i.e., decisions under little information are cheaper
+than later, informed decisions. If all uncertainty is dissolved at the same moment, this
+is captured by a recourse model with two stages: present and future, and such models
+are known as two-stage stochastic programming models. The objective is to minimize the
+total expected cost.
+The second main class of stochastic programming problems consists of probabilistic or
+chance-constrained problems, which model random constraints by requiring that they
+should be satisfied with some prescribed reliability. Clearly, such models are alternatives
+in the above RTN context.
+A new research area is the computational complexity and polynomial time approximation
+of probabilistic constraint stochastic programming problems. Here, there are a lot of
+research opportunities. For large scale-networks most methods are in some sense sampling
+based. The basic idea, formalized in the Sample Average Approximation method, see
+[Kleywegt et al(2001)], is to substitute the original, vast set of scenarios by a small set
+
+                                           3
+of samples drawn according to the present probability distribution. By means of the
+theory of limited deviations it is often possible to show that the probability increases
+exponentially with the sample size, that the results calculated with respect to the sample
+set are an approximation of the desired stochastic optimum. We have analyzed such
+rapid convergence for stochastic RTND problems. But we also point out that the rapid
+convergence is of no useless if the sample size is too small. In fact, for large-scale networks
+the minimum size for reasonable samples may already lie beyond practical tractability.
+In this paper, the RTNDU model is formulated by first time, using Fixed Resource Ap-
+proach and Chance Constrained Programming. For the second case, a disaggregated
+chance constraint approach is specifically defined. The numerical tests using the above
+approaches are compared for different networks with 4 and 9 nodes. In the computational
+tests different scenario set sizes and different random generation rules are used.
+The paper is organized as follows. In the next section we will present the RTND model.
+Then, in Section 3, the stochastic solution approaches will be discussed: their advan-
+tages and disadvantages. Finally the last part, RTND models are solved by the different
+approaches in order to illustrate their computational behavior and compare their success.
+
+
+2     Rapid transit network design model
+In this section we are going to define the transit network design model. First we will
+establish the goals and the particularities of the model in the deterministic case and then
+we will present the stochastic version.
+
+2.1    Deterministic model
+In a traffic network, users move from a certain origin to a certain destination according to
+an optimality criterion. Grouping these demands, we can assume that there are gw , w =
+(o, d) users moving from centroid origin o to centroid destination d, shortly denoted as
+o/d-pair. Let us consider W , set of o/d-pairs, we want to design a rapid transit network
+(RTN) such that the following criteria are fulfilled:
+
+    • The demand using RTN is maximized as first objective, but also
+
+    • minimizing the cost of the network design, and the routing costs, so the users choose
+      the shortest path on a network composed by the RTN and the current network.
+
+In our deterministic model for RTND the demand mobility patterns in a metropolitan
+area are assumed to be known. This implies that the number of potential passengers from
+
+                                              4
+each origin to each destination is given. We also assume that the locations of the potential
+stations are given. There already exists a different current mode of transportation (for
+example, private cars or an alternative public transportation is already operating in the
+area) competing with the RTN. When deciding which mode each demand is allocated to,
+the comparison between the generalized costs of the travelers is used. The aim of the
+model is to design a network, i.e. to decide at which nodes to locate the stations and how
+to connect them covering as many trips as possible. Since resources are limited we also
+impose a budget constraint on construction costs.
+Rapid transit network design (RTND) model is defined by the following data:
+
+  1. For key stations, the set of potential locations is N = {1, . . . , I}. ¿From that, the set
+     E of feasible (bidirectional) edges linking the key stations N is defined. Therefore,
+     we have a potential network (N, E) from which the optimum rapid transit network
+     is selected. Let us denote by N (i) = {j : ∃a ∈ E, a = (i, j)} the set of nodes
+     adjacent to node i.
+
+  2. The node set is composed by centroids (Nc ) and stations at RTN (Nr ), the node set
+     is then N = Nc ∪ Nr . The edges represent: alignments in RTN (Ar ), dummy links
+     between origin centroids and any station (Ao ), dummy links between stations and
+     every destination centroid (Ad ), and fictitious links between any origin-destination
+     pair (Af ). The arc set is then A = Ar ∪ Af ∪ Ao ∪ Ad .
+
+  3. Each feasible edge (i, j) has an associated length dij . The length of the edges usually
+     correspond to the Euclidean distance between pairs of nodes (i, j) if the system is
+     underground and street distance if it is at ground. However, forbidden regions will
+     increase the distance and d can also be interpreted as the generalized cost of using
+     the arc (i, j).
+
+  4. The demand is given by the matrix G = [Gi,j ] where Gi,j ∈ R+ is the number of
+     users of pair w = (oi , dj ), i.e. Gi,j = g(oi ,dj ) = gw .
+
+  5. Let clij and cli be the costs of constructing an edge (alignment) (i, j) of line l and a
+     node (station) i of line l. The upper budget bound is cmax .
+
+  6. The generalized cost satisfying the demand of pair w through the current network
+     is uw
+         cur . By the triangular inequality, at the optimum this demand will use the arc
+     connecting its o/d pair in Af . So, we can assume that uwcur does not depend on the
+     value of the demand, hence it is independent of scenario.
+
+The variables are:
+
+                                              5
+      - hl = 1, if line l has at least a link, hl = 0, otherwise.
+      - yil = 1, if line l is located using node i, yil = 0, otherwise.
+      - xlij = 1, if line l is located using edge i, j, xlij = 0, otherwise.
+                                                                                             w
+      - fijw = 1, if demand w uses edge (i, j) in the current network, fijw = 0, otherwise. fcur
+                                                                                         w
+        denotes the use of the fictitious arc (o, d) = w ∈ Af by the demand w (i.e. fcur    =1
+        if and only if demand gw uses the current network).
+RTND model is defined as the maximization of the public trip covering (equivalently to
+minimize the number of travelers using the current network), minimizing the location and
+routing costs. Hence we are dealing with a multiobjective model. As usual, we minimize
+a positive, linear combination of them:
+
+                                               3(1 − η)        (1 − η)
+                             z = ηzcur +                zloc +         zroute ,
+                                                   4              4
+where
+                                                        X
+                                                                    w
+                                              zcur =            gw fcur ,
+                                                         w
+                                                                                        
+                                      X             X                        X
+                             zloc =                            cij xlij +          ci yil 
+                                      l∈L       (i,j)∈Ar ,i<j                i∈Nr
+
+and                                                                                           
+                                   X               X
+                                                                   dij fijw + uw    w 
+                                                                           
+                        zroute =                                              cur fcur .
+                                   w∈W       (i,j)∈Ar ∪Ad ∪Ao
+
+The public trip covering is the main component of the objective function, but the location
+cost must be minimized to avoid the construction of inoperative parts of network, and
+minimizing the demand routing cost, so the users choose the shortest path. The weight
+between the first main term and the second and third secondary terms η may be around
+.9, because the main goal is to minimize the amount of demand using the private network.
+The designer of the network has the following budget constraints:
+
+                                                  zloc ≤ cmax ,                                    (1)
+Line location constraints are included in order to ensure that the links are not located if
+their origin and destination nodes are not previously located, and to change the undirected
+link location variables to directed ones.
+
+                                                         6
+                                xlij ≤ yil , ∀(i, j) ∈ Ar , i < j, ∀l ∈ L,                       (2)
+                                xlij    ≤    yjl , ∀(i, j) ∈ Ar , i < j, ∀l ∈ L,                 (3)
+                                xlij    =    xlji , ∀(i, j) ∈ Ar , i < j, ∀l ∈ L,                (4)
+We have to guarantee that the lines follow a path, without cycles.
+            X              X
+                  xlij +          xlji ≤ 2, ∀i ∈ Nr , ∀l ∈ L,                                    (5)
+          j∈Nr (i), i<j          j∈Nr (i), i<j
+                                       X
+                                                   xlij ≤ |B| − 1, ∀l ∈ L, ∀B ⊂ Nr , |B| ≥ 2.    (6)
+                                  (i,j)∈B i<j
+
+Now it should hold that hl = 1 if there is at least a node associated to line l and that no
+extra stations are located
+                                             X
+                                                        xlij ≤ M hl , ∀l ∈ L,                    (7)
+                                           j∈Ar , i<j
+                                             X
+                                                        xlij ≥ hl , ∀l ∈ L,                      (8)
+                                           j∈Ar , i<j
+                                             X                     X
+                                  hl +                  xlij =           yil , ∀l ∈ L.           (9)
+                                           j∈Ar , i<j             i∈Nr
+
+Here M ≥ |A2r | .
+With respect to the users from the o/d pair w, they will use a certain path on the RTN
+or use the current network according to the following constraints
+                                                          
+                     X                  X                  −1, if i = o, w = (o, d),
+                              w
+                             fki −               fijw   =   1, if i = d w = (o, d),             (10)
+                                                            0,           otherwise,
+                                                          
+                   k∈N (i)             j∈N (i)
+                                                          X
+                                                 fijw   ≤   xlij , ∀(i, j) ∈ Ar ,               (11)
+                                                           l∈L
+                                                           X
+                                            w
+                                           fo(w)j ≤              yjl , ∀j ∈ Nr ,                (12)
+                                                           l∈L
+                                                           X
+                                             w
+                                            fid(w) ≤             yil , ∀i ∈ Nr ,                (13)
+                                                           l∈L
+                              X
+                                           dij fijw ≤ uw         w
+                                                       cur (1 − fcur ), ∀w ∈ W.                 (14)
+                          i,j∈Ar ∪Ad ∪Ao
+
+
+                                                            7
+Equation (10) is the multi-commodity flow conservation at each node. Equation (11)
+guarantees that for each O/D pair, demand is routed on a link only if this edge has been
+constructed in the RTN. Equations (12, 13) guarantee that for each O/D pair, demand is
+routed from a centroid to a station, or from a station to a centroid only if the station has
+been constructed in the RTN. Equation (14) is used together with the objective function
+to obtain that, for each o/d pair users traveling from o to d use the best path between
+                                                                         w
+the shortest way on the RTN and the current network. Indeed, if fcur        = 0, then there
+                                                          w
+is a path Cw on the RTN shorter than or equal to ucur . As the distance is minimized,
+at the solution, Cw coincides with the shortest path on the RTN. On the other hand if
+  w               w
+fcur = 1, then fi,j = 0, for all arc (i, j) ∈ Ar ∪ Ad ∪ Ao . So, users traveling from o to d
+are going to use the current network. If there was a shortest path on the RTN (Cw ), then
+this solution is not optimal, because a smaller value of the objective function is possible
+         w             w
+taking fcur = 0 and fi,j = 1 if and only if (i, j) ∈ Cw .
+This means that the RTND model is:
+                                             3(1−η)
+                                       w
+                                                    zloc + (1−η)
+                                 P
+                         min η   w gw fcur +                     zroute
+                                                4            4                         (15)
+                                 s.t. Constraints (1)-(14).
+
+Remark 1 We want to point out that given xlij , yil the values of hl and fijw are fixed.
+
+2.2    RTND with uncertain demands
+Now we will present the rapid transit network design with uncertain demands(RTNDU).
+It is the case of model (15) where G is a random matrix with finite many possible values.
+Different values of the matrix G will lead us to a different scenario. We will denote by
+R the set of scenarios. As a consequence of the characteristics of gw , R is a finite set
+and R ⊂ N. Scenario r ∈ R appears with probability pr . The demand matrix Gr = [gwr ]
+denotes the demand of the o/d pair w at scenario r.
+In general, many scenarios may appear and its analysis may be complicated. The set R can
+be reduced if we cluster the possible demands. Roughly speaking, we group the matrices of
+demand Gr into a maximum of R1 clusters (C1 , . . . , CR1 ) according to a minimal distance
+criterion. Now the problem P will have R1 scenarios, and scenario ri will appear with
+probability equal to the r:Gr ∈Cr pr and demand equal to the centroid of cluster Cri .
+                                    i
+With these remarks, we can assume |R| is not too big with respect to the number of o/d
+pairs.
+We can expect that different scenarios will have different optimal solutions. That is
+why it is important to have a criterion that would determine which network is better,
+because what is good for a certain scenario, could be bad for the other. Of course, this
+
+                                              8
+comparative criterion should take into account the characteristics of the scenarios and
+their probabilities. An option is the stochastic approach. Let us present the solution of
+RTNDU from this viewpoint.
+
+
+3    Deterministic approaches to RTNDU
+In this part we are going to present two deterministic models for solving RTNDU.
+In the first case, we consider the equivalent formulation of RTNDU
+
+                            min ηzcur + 3(1−η)
+                                           4
+                                               zloc + (1−η)
+                                                         4
+                                                            zroute
+                                 s.t. Constraints   (1)-(14)
+                                                     w
+                                           P
+                                     zcur = w gw fcur   .
+
+The Fix Resource Approach (FRA),see [Kall and Mayer(2005)] lead us to the classical
+approach where the random variable is substituted by its expected value:
+                                                 w
+                                                   + 3 1−η zloc (1−η)
+                                  P
+                  (F RA)    min η w∈W E(gw )fcur                      zroute
+                                                        4         4                  (16)
+                                s.t. Constraints (1)-(14).
+For the second approach, we analyze the following model
+                                            3(1−η)
+                                      w
+                                                   zloc + (1−η)
+                                P
+                        min η    w∈W zcur +    4            4
+                                                                zroute
+                                    s.t. Constraints (1)-(14)
+                                         w     w
+                                    gw fcur ≤ zcur for all w.
+
+and solve it by the Joint Probability Constraints Approach (JPCA), where constraint
+    w      w
+gw fcur ≤ zcur is substituted by
+
+                                w      w
+                         P (gw fcur − zcur ≤ 0) ≥ p, for all w ∈ W.                  (17)
+In order to linearize the model, we recall the percentile definition
+
+Definition 3.1 Given a random variable y, α(p) is the percentile of order p if α(p) =
+inf{α : P (y ≤ α) ≥ p}.
+                               w
+Now we take into account that fcur can attain the following values:
+          w                       w                  w
+    - If fcur = 0 we have P (−zcur  ≤ 0) ≥w p. As zcur is not random a variable, it holds
+                  w      w           1, if zcur ≥ 0,
+      that P (gw fcur − zcur ≤ 0) =
+                                      0, otherwise.
+
+                                               9
+            w                    w      w                   w                     w
+      - If fcur = 1 then P (gw fcur − zcur  ≤ 0) = P (gw − zcur ≤ 0) = P (gw ≤ zcur ) ≥
+                                                  w      w           w
+        p, but(recall Definition 3.1) this means zcur ≥ α (p) where α (p) is the order p
+        percentile of the random variable gw .
+
+So,
+                        w      w               w
+                 P (gw fcur − zcur ≤ 0) ≥ p ⇔ zcur        w
+                                                   ≥ αpw fcur , for all w ∈ W.
+                                                    w
+P wthe particular structure of the model (i.e. zcur only appears in one constraint and
+Using
+  w zcur is minimized), we obtain that at the solution the equality holds. Hence, we have
+the following result
+
+Proposition 1 The model corresponding to the Joint Probability Constraints Approach
+can be linearized as
+                                          w
+                  (JPCA) min η w∈W αpw fcur  + 3 1−η zloc + (1−η)
+                               P
+                                                                  zroute
+                                                  4           4                (18)
+                            s.t. Constraints (1)-(14).
+
+Remark 2 This model provides upper bounds to the best RTND optimal solution.
+
+A third approach is obtained if we consider
+
+                          min ηzcur + 3(1−η)
+                                          4
+                                              zloc + (1−η)
+                                                       4
+                                                           zroute
+                                 P Constraints
+                               s.t.                (1)-(14)
+                                              w
+                                         g  f
+                                    w∈W w cur     ≤ zcur .
+                                                    w
+                                      P
+JPCA lead us to substitute constraint w∈W gw fcur      ≤ zcur by
+                               X
+                                        w
+                            P(      gw fcur − zcur ≤ 0) ≥ p.                        (19)
+                                    w∈W
+
+This constraint can be linearized if we use the following system
+
+                          X
+                               gw fww ≤ zcur + M (1 − δr ), ∀r ∈ R                  (20)
+                         w∈W
+                           X
+                                  δr pr ≥ p.                                        (21)
+                            r∈R
+
+                                                                        w w
+                                                                 P
+where δr is a binary variable r ∈  R and M is an upper bound  of   w∈W gr fcur for all r,
+                                 w
+                  P
+for instance M = w∈W maxr {gr }.
+So, the model corresponding to Joint Probability approach for aggregated constraints is
+
+                                               10
+                             min ηzcur + 3 1−η
+                                            4
+                                               zloc + (1−η)
+                                                        4
+                                                            zroute
+                                s.t. Constraints (1)-(14),
+                         P      w w                                                       (22)
+                          w∈W r fcur P
+                              g       ≤ zcur + M (1 − δr ), ∀r ∈ R
+                                       r∈R δr pr ≥ p.
+
+Note that FRA and JPCA approaches lead to solve a MIP problem of the same dimen-
+sion of the original RTNDU model. This means that the dimension of the model will not
+increase as in general stochastic models. However the whole random variable is concen-
+trated at one point. In the case of model (22), we use more information, but the model
+is larger.
+
+
+4     Computational tests
+In this section, we are going to illustrate the behavior of the solution approaches. We solve
+the MIP models (16) and (18) with CPLEX in the context of GAMS 22.2. The solutions,
+denoted by NF RA and NJP CA respectively, will be compared taking into account the value
+of the objective function at the scenarios. Let us define the involved parameters.
+
+4.1    Parameters and experiment design
+We assume that ci = cli , cij = clij for all l = 1, . . . , L. These costs and the distance
+between the nodes of the network are depicted in the graphs, where the number at node
+i represents the value of ci and the ordered pair at arc (i, j), the values (cij , dij ).
+Let RTNDr be the RTND model with demand equal to the demand at scenario r. That
+is,
+                                      X                3(1 − η)        (1 − η)
+              RTNDr      min zr = η            w
+                                          gwr fcur +            zloc +         zroute ,
+                                      w
+                                                           4              4
+                                  s.t. Constraints (1)-(14).
+We denote by Nr = (xlij , yil )r the network corresponding to the optimal solution of RTNDr .
+Taking into account Remark 1, we can compute zr (Nr ), the (optimal) value of the objective
+function using only Nr . We will compare zr (NF RA ) and zr (NJP CA ) with zr (Nr ), because
+values closed to zr (Nr ) means that the network is a good solution for scenario r.
+Define ξ(N ) ∈ R|R| as ξr = zr (Nzr)−z  r (Nr )
+                                      (Nr )
+                                                , r ∈ R, we can say that N is a good network if
+ξ(N ) ≈ 0. So, ξ(N ) denotes the values of a random variable which attains ξr (N ) with
+
+
+                                               11
+probability pr . Using this fact, we can say that ξ ≈ 0 if the expected value is smaller than
+the desired tolerance ε1 , that is
+                                                          X
+                       Expected value criterion E(ξ) =        pr ξr ≤ ε1
+                                                           r∈R
+
+or if ξ is smaller than the desired tolerance ε with large probability (larger than p̃):
+
+                         Probability criterion: Pξ = P ({r : ξ ≤ ε}) ≥ p̃
+
+Although we will present both criteria, as small values of the E(ξ) can mean large values
+of ξr if the standard deviation is large, we will prefer networks with larger probability Pξ .
+As already remarked, the quality of the solution may depend on the number of scenarios
+and the standard deviation on the involved random variables. So, we will consider 4 cases
+corresponding to the combinations of two possible number of scenarios and two different
+standard deviation of the distribution function which generate the demand. In order
+to determine the best approach for a certain combination from a statistical viewpoint,
+we generate 40 RTNDU models. Then we calculate the sample values ξi (N ) for the
+networks computed by the approaches and test if the previous two criteria can be assumed
+statistically.
+Using the media test, see [Mood and Graybill(1974)], we will determine if E(ξ) ≤ ε1 can
+be accepted with probability .95. That is if
+                                       √
+                                          40(ξ − ε1 )
+                                                      ≤ 1.684                            (23)
+                                               S
+                             qP
+                                            2
+               P
+                i ξi              i (ξi −ξ)
+where ξ = 40 and S =                 39
+                                              . An approach will be good with respect to this
+criterium if the hypothesis is accepted. We take ε = 0.001
+An analogous analysis will be done with Pξ ≥ p̃: we accept that the approach is good if
+                                        √     x − p̃
+                                         40 p         > −1.68                              (24)
+                                             x(1 − x)
+           total of cases where P ≥p̃
+                            ξ
+where x =            40
+                               . Here p̃ = .5
+For the experiment, we will take |R| = 3 or |R| = 30 as the two possible number of
+scenarios. The probability of scenario r for R = 3, will be p1 = .25, p2 = .5 and p3 = .25.
+In the 30 scenarios case, we assume pr = .025 if r ≤ 10 or r ≥ 21 and pr = .05 otherwise.
+It is reported in [Swan(2002)], that the demands distribute according to a gamma law if
+the expected value is small and to a normal distribution with expected value and variance
+
+                                                 12
+equals to µ, otherwise. As the only available information is that the demand lies in a
+certain interval, we will focus our analysis in the case where the demand is generated by
+the uniform distribution function in (a, b). However, at the end of this section, we will
+present some RTNDU problems where the demand gwr is generated by the normal law.
+We generate Gr = gwr ∈ R|W | , the demand matrix at scenario r, by means of distribution
+functions whose standard deviation (SD) is (relatively) small and (relatively) large and
+depend on a (fixed) matrix G0 ∈ R|W | .
+We use the following uniform distribution functions:
+
+                    unif 0, 2[Gw ]0
+                                      
+                                                      (uniform rule, low SD)        (25)
+                                     0
+                                       
+                  unif 0, 200[Gw ]                    (uniform rule, high SD)       (26)
+Once the matrices are computed Gr , ∀r ∈ R, the expected value and the percentile needed
+for FRA and JPCA approaches are the mean
+                                      n     value and the percentileoin the sample. That
+           PR       r                    r∗
+                                                 P
+is E(gw ) = r=1 pr gw and [αw ]p = min gw s.a.          r <g r∗ pr ≥ p .
+                                                   r∈R gw   w
+We begin with a small test network.
+
+4.2    4 nodes RTNDU network
+In this part, we will study the RTNDU model corresponding to the following 4 nodes
+network, see Figure 1.
+
+                                           3
+                                           2
+
+                       ,0.5)    (2.1,0.6)
+                                                            (3,1
+                                                                .1)
+                  (1.7
+             2                                                           3
+                                                  (3.12,1.56)
+             1                                                           4
+                  (2.7                                             .1)
+                      ,0.7                                      ,1
+                            )                              (2.6
+                                            3
+                                           2.2
+
+
+                                 Figure 1: 4 nodes network
+
+
+
+                                                 13
+               o1 o2 o3 o4 d1 d2 d3 d4                      d1 d2 d3 d4
+           1    0 2.1 1.6 2   0 1.7 .9 2.1             o1    0 1.6 0.8 2
+           2   1.7 0 1.5 2.1 2.1 0 1 1.3               o2   1.5 0 0.9 1.2
+           3    .9 1    0  2 1.6 1.5 0 1.4             o3    2 1.4 0 1.3
+           4   2.1 1.3 1.4 0  2 2.1 2 0                o4   1.9 2 1.9 0
+
+         Table 1: Distance between the centroids and the nodes of the network
+
+The distances between nodes and centroids are in Table 1.
+The maximal budget allowance cmax = 10. The auxiliary matrix for computing the
+demand is
+                                                     
+                                      0 9 26 19
+                                   11 0 14 26 
+                             G0 = 
+                                   30 19 0 30 
+                                                      
+
+                                     21 9 11 0
+We will begin with an example and then we will present our statistical study.
+
+4.2.1   An example
+Let us present one example for the 3 scenarios case with demands Gr , r = 1. . . . 3,
+generated by rule (25), equal to
+                                                                     
+                  −     3.9 39 35.3                − 10.3 19      3.2
+               0.2      − 27.3 41     G2 =  15.3 − 10.2 8.6 
+                                                                       
+        G1 =  34.4 33.4 −                     44.1 30.2 − 24.22 
+                                   8.8 
+                  7.7 0.3 4.1      −              1.91 6.76 1.93   −
+                                                      
+                                    − 12.9 12.9 11.6
+                                  16.5 − 21.9 1.3 
+                           G3 =  19.6 20.7 −
+                                                       
+                                                    1 
+                                    18 12.5 6.5     −
+The optimal networks for scenario r = 1, 2, 3 are depicted in Figure 2.
+The network computed by FRA, NF RA , coincided with N2 and N3 , the optimal networks
+for scenario 2 and 3, while the JPCA approach, for percentile p = .8, calculated N1 , the
+optimal network for the first scenario. We observed that for FRA: ξ1 = 0.08, ξ2 = ξ3 = 0
+and for JPCA: ξ1 = 0, ξ2 = 0.146, ξ3 = 0.19 With respect to the first comparison
+criterion, we obtained that the expected value of ξ is clearly smaller for NF RA . FRA
+
+                                           14
+                                                         3
+                   3
+
+
+                                                  1                  4
+           1                   4
+
+
+                                                         2
+                   2
+                                              N2 = N3 optimal network at Sce-
+        N1 optimal network at Scenario 1
+                                              nario 2 and 3
+
+                       Figure 2: Optimal networks for each scenario
+
+is also the best option with respect to the probability criterion, because P ({ξ(NF RA ) ≤
+ε}) ≥ P ({ξ(NJP CA ) ≤ ε}) for all ε.
+The value of the objective function at NJP CA provides upper bounds of zr (Nr ) for some
+scenarios r ∈ R1 ⊂ R. Of course the set R1 depends on the value of the percentile. For
+instance, in the previous example, when model (18) is solved for p = .05i, i = 1, . . . , 20,
+we observe that for p ≤ .75, network N2 was the computed solution and the value of
+the objective function is 56.2, while for p > .75, NJP CA = N1 and the evaluation of the
+objective function 90.5. As the value of the objective function for the three scenarios is
+90.5, 56,2, 63.8, respectively, it holds that:
+                                        
+                                           {2, 3} p ≥ .75
+                                  R1 =
+                                             {1} otherwise.
+In order to take a relative large percentile which bounds a relative large set, we choose
+p=.8 for our numerical experiments .
+We also considered model (22). However it computed solutions with large values of zcur .
+As the dimensions of the model are larger than the other two proposal, we will discard it.
+
+4.2.2   Statistical study of the criteria to validate the RTNDU approaches (4
+        nodes)
+We begin analyzing 40 examples corresponding to 3 scenarios and demand generated by
+rules (25) and (26). Figures 3 and 4 show the values of E(ξ) and Pξ for FRA and JPCA
+approaches, respectively.
+E(ξ) is very small for both approaches, but for FRA, it is smaller in most of the non
+
+
+                                             15
+            Expected value of ξ.                   Probability of {r : ξ ≤ ε}.
+       Figure 3: 4 nodes RTNDU with 3 scenarios and demand generated by (25)
+
+                 Approaches FRA JPCA                  Approaches FRA JPCA
+                  Rule (25)  0.96   1.02               Rule (25)  7.17   0.61
+                  Rule (26) 1.0285 0.9448              Rule (26) 6.1993 0.9129
+                              √                                    √
+                        (a)    40 x−0.01
+                                    S
+                                                             (b)       40 √ x−p̃
+                                                                            x(1−x)
+
+             Table 2: Statistical tests for 4 nodes RTNDU with 3 scenarios
+                               √
+coincident cases. Moreover, 40(x−0.01)
+                                   S
+                                         is smaller than 1.68 in all cases, see Table 2(a).
+So, from a statistical viewpoint, the hypothesis E(ξ) ≤ 0.01 with probability .95, can be
+accepted for both approaches.
+For the probability criterion, we observe a similar result: NF RA was better than NJP CA
+in most of the non-coincident√cases and we can accept that Pξ ≥ .5 with probability .95
+for FRA and JPCA because 40 √ x−p̃ is larger than -1.68 for all cases, see Table 2(b).
+                                    x(1−x)
+
+
+
+
+In the 30 scenarios instances, the solutions found are mainly networks 1 − 3 − 4 and
+1 − 3 − 2, see Figure 2. Moreover NF RA and NJP CA coincided in many cases as it is shown
+
+
+                                             16
+           Expected value of ξ.                       Probability of {r : ξ ≤ ε}.
+      Figure 4: 4 nodes RTNDU with 3 scenarios and demand generated by (26)
+
+                Approaches FRA JPCA                     Approaches FRA JPCA
+                 Rule (25) 1.2779 1.3606                 Rule (25) 4.7434 0.9487
+                 Rule (26) 1.1698 1.4926                 Rule (26) 3.6515 0.9467
+                                √
+                                    40(x−0.01)
+                                                                 √
+                     Value of           S
+                                                                     40 √ x−p̃
+                                                                          x(1−x)
+
+     Table 3: Result of the statistical tests for 4 nodes RTNDU with 30 scenarios
+
+in Figures 5 and 6. In fact only in 9 cases the networks computed by the approaches were
+different.
+
+
+If the demand is generated by the low SD (rule (25)) JPCA have a better behavior for
+both comparison criteria in 3 of the 4 cases where NF RA 6= NJP CA . In the high SD
+case (demand generated by rule (26)), NJP CA was better in all the non-coincident cases.
+However both approaches behave good because the values of E(ξ) are small, in fact smaller
+than .8, and Pξ ≤ .4 only in 7 cases. Again, see Table 3, we can accept that E(ξ) ≤ 0.001
+and Pξ ≥ .5.
+
+
+
+                                                 17
+         Expected value of ξ.                    Probability of {r : ξ ≤ ε}.
+      Figure 5: 4 nodes RTNDU with 30 scenarios and demand generated by (25)
+
+4.3    9 nodes network
+In this section we present a RTNDU model corresponding to a 9 nodes network. It is a
+median size example, so the results are more similar to what can happen in applications.
+First we present the involved parameters. In Figure 7, the values of ci , ci,j and dij can
+be found. Here cmax = 15. The auxiliary matrix for computing the origin-destination
+demands G0 and the cost uw  cur for each demand pair w ∈ W are given by the following
+matrices:
+                                                                
+                             0 9 26 19 13 12 4 6 4
+                           11 0 14 26 7 18 3 7 9 
+                                                                
+                           30 19 0 30 24 8 3 9 11 
+                                                                
+                           21 9 11 0 22 16 21 18 16 
+                                                                
+                    G0 =  14 14 8 9 0 20 12 18 9  ;
+                                                                 
+                           26 1 22 24 13 0 11 28 21 
+                                                                
+                           7 5 6 19 15 13 0 16 14 
+                                                                
+                           5 9 11 16 17 25 17 0 21 
+                             6 8 10 18 11 20 14 20 0
+
+
+
+                                           18
+   Expected value of ξ.                                   Probability of {r : ξ ≤ ε}.
+Figure 6: 4 nodes RTNDU with 30 scenarios and demand generated by (26)
+                    3             3                   1.3
+                        (3,1.1)            (2.1,0.9)
+                    2             4                    7
+
+        (1.7,0.5)   (2.1,0.6)
+                                                                       (1.6,1.2)
+                                                           (2.4,0.7)
+
+    2                                                                  1.3                      2.5
+                                                                                    (2.8,1.3)
+    1                             (2.6,1.1)
+                                                                         6                       9
+                                                      (2.8,0.8)
+
+
+        (2.7,0.7)                                     (1.9,0.5)        (1.9,0.9)
+
+
+
+
+                             3          (1.7,0.5)
+                                                     5                              8
+                            2.2                     2.5                            2.5
+
+                                  Figure 7: 9 nodes network.
+
+                                                                         
+                     0             1.6        0.8 2 1.6 2.5 4 3.6 4.6
+                   2               0         0.9 1.2 1.5 2.5 3.2 3.5 4.5 
+                                                                         
+                   1.5            1.4         0 1.3 0.9 2 3.3 2.9 3.9 
+                                                                         
+                   1.9             2         1.9 0 1.8 2      2 3.8 4.1 
+            w
+                                                                         
+                   3
+           ucur =                 1.5         2   2    0 1.5 3    2   3 .
+                   2.1            2.7        2.2 1 19 1.5 0 2.5 3 2.5 
+                                                                         
+                   3.9            3.9        3.9 2     3 2.5 0 2.5 2.5 
+                                                                         
+                   5              3.5         4   4    2  3 2.5 0 2.5 
+                    4.6            4.5         4 3.5 3 2.5 2.5 2.5 0
+                 Approaches FRA JPCA                      Approaches  FRA    JPCA
+                  Rule 25   0.9182 0.7439                  Rule 25   10.2051 6.1993
+                  Rule 26   0.6589 0.6551                  Rule 26   2.7603    ∞
+                                  √
+                                      40(x−0.01)
+                                                                   √
+                       Value of           S
+                                                                    40 √ x−p̃
+                                                                          x(1−x)
+
+        Table 4: Result of the statistical tests for 9 nodes RTNDU with 3 scenarios
+
+4.3.1    Statistical study of the criteria to validate the RTNDU approaches (9
+         nodes)
+Again we consider 40 examples for each combination of number of scenarios and distri-
+bution functions for generating the demand.
+For the case of 3 scenarios, Figures 8 and 9 respectively, show the values of E(ξ) and
+Pξ for FRA and JPCA approaches. We observe that if the demand is generated by (25)
+in the non-coincident cases, E(ξ) was smaller and Pξ , larger for NF RA in most cases. A
+similar analysis shows that JPCA is better if the demand is generated by (26). However
+we can accept the goodness of both approaches because inequalities (23) and (24) are
+fulfilled, see Table 4.
+
+
+
+
+                  Expected value of ξ.                  Probability of {r : ξ ≤ ε}.
+        Figure 8: 9 nodes RTNDU with 3 scenarios and demand generated by (25)
+
+
+
+                                                   20
+                   Expected value of ξ.                   Probability of {r : ξ ≤ ε}.
+       Figure 9: 9 nodes RTNDU with 3 scenarios and demand generated by (26)
+
+In the 30 scenarios case, independently of the generation of the demand, NF RA = NJP CA
+at each instance, see Figures 10 and 11. Moreover, we can accept that Pξ ≥ .5, because
+for all the examples Pξ ≥ .5. However from a statistical viewpoint E(ξ) > .01 because as
+                  √               
+                    40(ξ − ε1 )    2.2437 if the demand is generated by (25)
+           1.68 <               =                                             ,
+                       S           2.6632 if the demand is generated by (26)
+inequality (23) fails. Nevertheless E(ξ) is not too large because in all cases it is smaller
+than 0.1.
+
+4.4    Solutions changing the budget
+Another sensible parameter is the maximal allowance budget, cmax . In this part we
+will present an illustrative example that shows that the NF RA and NJCA are highly
+dependent on this value. If the maximal budget allowance is close to 0 (for instance
+cmax < min{ci , cij }), the solution of RTND model is to build no network     P all the
+                                                                      P and hence
+demand will use the private network. On the other hand, for cmax > i∈Nr ci + i∈Ar cij ,
+constraint zloc ≤ cmax is superfluous. So, the same network is optimal for all cmax and
+all the demand will use the public network. This result was observed numerically in
+[Laporte et al(2011)].
+
+                                            21
+                   Expected value of ξ.                  Probability of {r : ξ ≤ ε}.
+     Figure 10: 9 nodes RTNDU with 30 scenarios and demand generated by (25)
+
+In the stochastic model something similar happens. If cmax → 0 (again is enough to take
+cmax < min{ci , cij }) theP
+                          solution ofPRTNDUr by FRA and JPCA is to build no network.
+Similarly for all cmax > i∈Nr ci + i∈Ar cij , the two approaches and the models RTNDU
+computed the same solution. So, we can conclude that for cmax large or small enough,
+ξ = 0.
+We will consider the 4 nodes RTNDU model. In this case, we observed that for cmax < 5
+or cmax > 25, the same network is feasible for all scenario and all approaches. So, we will
+compute NF RA y NJP CA for cmax = 5 + i/2, i = 21, . . . 20. In the case of 3 scenarios and
+demand generated by rule (26), Figure 12 shows the values of the E(ξ) and Pξ versus cmax .
+As can be seen, both approaches computed good solutions, because the values of E(ξ) are
+small and Pξ ≥ .4 in most of the cases. However, FRA computed better solutions in the
+non-coincident cases.
+In the 9 nodes case, we observe differences between the optimal networks of the scenarios,
+NF RA and NJP CA for cmax ∈ [14.5, 16], see Figure 13. In the non-coincident cases FRA
+approach computed the better solution because for all r ∈ R, it coincide with Nr the
+optimal solution of scenario r.
+As we have seen the stochastic approaches compute the same solution in most cases
+and FRA is better in the non coincident examples. From a statistical viewpoint both
+
+
+                                            22
+                    Expected value of ξ.                     Probability of {r : ξ ≤ ε}.
+      Figure 11: 9 nodes RTNDU with 30 scenarios and demand generated by (26)
+
+approaches are good, we can accept tha E(ξ) is small and that Pξ is large enough.
+
+4.5    Some experiments for demand generated according to a nor-
+       mal law
+In this part we will present some examples of RTNDU where the expected value of the
+demand is large. As reported in [Swan(2002)], in this cases the demand follows a normal
+distribution with expected value and variance equal to µ. We use µ = a2 [Gw ]0 , for
+a = 100, 400, 10000 in order to obtain a large variance distribution           of gw . Although
+                                                                R − √µ x2
+[gw ]r must be non negative, [gw ]r ≤ 0 with probability −∞ e 2 dx, but as µ is a large
+value, this probability is small. For instance, if µ ≥ 9 the probability is smaller than
+0.0014. Nevertheless, we generate [Gw ]r by the distribution function max(normal(a2 ∗
+[Gw ]0 , a2 ∗ [Gw ]0 ), 0), where normal(µ, σ 2 ) is the normal distribution with expected value
+and variance equal to µ and σ 2 respectively.
+We considered 40 examples for each value of a for the RTNDU model of 4 and 9 nodes.
+We observed that, fixed the dimension, in all cases the same network is optimal for all
+criteria and for all scenario, see Figure 14.
+This fact means that although the variance is large, as it is equal to the mean value, the
+
+
+                                              23
+              Expected value of ξ vs. cmax .        Probability of {r : ξ ≤ ε} vs. cmax .
+     Figure 12: 4 nodes RTNDU, 3 scenarios and demand generated by rule (25).
+
+standard deviation is small and the generated values are very similar. So, we can not
+expect difference for the scenarios and hence similar solutions can be expected.
+
+
+5    Conclusions
+In this work we have presented two approaches for solving RTND problems with randomly
+generated demands, namely FRA and JPCA approaches. In both cases, their application
+to a RTNDU model corresponds to solve a RTND model with fixed demands: the expected
+value of the demand for FRA and percentiles for JPCA. However, in the last case we only
+have a bound of the value of the objective function that can be too large.
+From a numerical point of view, we observe coincidences between the networks computed
+by the approaches. In fact, if the demand is generated by the normal law, the networks
+computed by the approaches coincided with the optimal solution for all scenarios.
+For uniform generated demand, the solution of RTNDU model computed by FRA was
+better than JPCA in most of the non-coincident cases. Moreover, by means of statistical
+tests, we could accept that for the solutions computed by the approaches, Pξ is large. As
+only in one case (9 nodes networks with 30 scenarios and demands generated by the low
+SD. law) E(ξ) < 0.01 was rejected, we can say that FRA and JPCA behave well from
+
+                                           24
+              Expected value of ξ vs. cmax .         Probability of {r : ξ ≤ ε} vs. cmax .
+     Figure 13: 9 nodes RTNDU, 3 scenarios and demand generated by rule (25).
+
+a statistical point of view. As FRA is more natural, computed better solutions and it is
+easier to calculate the expected value of a sample than the percentiles, we recommend
+this approach over JPCA.
+Practical applications can be solved as follows, we collect a sample of demands and apply
+the approaches using the corresponding sample values. We expect that the solutions will
+be relative good options in most RTNDU cases.
+The solution of RTNDU can change depending on parameters such as maximal budget
+and costs of construction of lines and stations. This is a topic for further research.
+
+
+References
+[Birge and Louveaux(1997)] Birge J, Louveaux F (1997) Introduction to Stochastic pro-
+     gramming. Springer Series in operations Research, Springer Verlag, Berlin-Heidelberg
+
+[Bruno et al(1998)] Bruno G, Ghiani G, Improta G (1998) A multi-modal approach to the
+    location of a rapid transit line. European Journal of Operational Research 104(1):321–
+    332
+
+
+
+                                           25
+                                                        2     4            7
+
+
+
+                        3
+                                                   1                6          9
+                 1           4
+
+
+                        2                               3     5            8
+                     4 nodes case.                          9 nodes case
+             Figure 14: Optimal networks for normal distributed demands
+
+[Bruno et al(2002)] Bruno G, Gendreau M, Laporte G (2002) A heuristic for the location
+    of a rapid transit line. Computers & Operations Research 29(1):1–12
+
+[Escudero and Muñoz(2009)] Escudero L, Muñoz M (2009) An approach for solving a
+    modification of the extended rapid transit network problem. TOP 17(2):320–334
+
+[Garcı́a and Marı́n(2001)] Garcı́a R, Marı́n A (2001) Mathematical Methods on Opti-
+    mization in Transportation Systems, Ed. M. Pursula and J. Niittymäki, Kluwer Aca-
+    demic Pub., chap Multimodal Interchange Design Methodology, pp 49–79
+
+[Garcı́a and Marı́n(2002)] Garcı́a R, Marı́n A (2002) Parking capacity and pricing in
+    park’n ride trips: A continuous equilibrium network design problem. Annals of Op-
+    erations Research 116(1-4):153–178
+
+[Kall and Mayer(2005)] Kall P, Mayer J (2005) Stochastic linear programming: Models,
+     Theory and Computation. Kluwer Academic Publishers, New York
+
+[Kall and Stein(1994)] Kall P, Stein W (1994) Stochastic programming. John Wiley and
+     Sons, Chichester
+
+[Kleywegt et al(2001)] Kleywegt AJ, Shapiro A, Homem-De-Mello T (2001) The sample
+     average approximation method for stochastic discrete optimization. SIAM Journal of
+     Optimization 12(2):479–502
+
+
+
+                                          26
+[Laporte et al(2007)] Laporte G, Marı́n A, Mesa JA, FA Ortega (2007) Algorithmic Meth-
+    ods for Railway Optimization, Lectures Notes in Computer Science, Springer Berlin /
+    Heidelberg, chap An Integrated Methodology for the Rapid Transit Network Design
+    Problem, pp 187–199
+
+[Laporte et al(2011)] Laporte G, Marı́n A, Mesa JA, Perea F (2011) Designing robust
+    rapid transit networks with alternative routes. Journal of Advanced Transportation
+    45(1):54–65
+
+[Marı́n(2007)] Marı́n A (2007) An extension to rapid transit network design problem.
+    Top, Springer Verlag 15(2):231–241
+
+[Mood and Graybill(1974)] Mood A, Graybill F (1974) Introduction to the Theory of
+    Statistics. McGraw-Hill
+
+[Prékopa(1995)] Prékopa A (1995) Stochastic programming. Kluwer Academic Publish-
+      ers, Dordrecht
+
+[Rockafellar and Wets(1991)] Rockafellar R, Wets R (1991) Scenarios and policy in opti-
+    mization under uncertainty. Mathematics of Operations Research 16(1):119–147
+
+[Ruszczynski and Shapiro(2003)] Ruszczynski A, Shapiro A (eds) (2003) Stochastic Pro-
+    gramming. Handbook in Operations Research and Management Science, vol 10, El-
+    sevier
+
+[Swan(2002)] Swan WM (2002) Airline demand distributions: passenger revenue man-
+    agement and spill. Transportation Research Part E 38(3-4):253–263
+
+
+
+
+                                          27
+

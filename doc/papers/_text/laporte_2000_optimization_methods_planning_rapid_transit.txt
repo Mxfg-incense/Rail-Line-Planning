@@ -1,0 +1,467 @@
+ Optimization methods for the planning of rapid transit
+ systems
+
+
+                         Gilbert Laporte a,*, Juan A. Mesa b, Francisco A. Ortega c
+
+
+
+
+                                                    de Montreal, C.P. 6128, Succursale Centre-ville, Montreal, Quebec, Canada H3C 3J7
+a Centre de recherche sur les transports, Universite
+            b
+             Departamento de Matem  atica Aplicada II, Escuela Superior de Ingenieros, Universidad de Sevilla, Sevilla, Spain
+     c
+         Departamento de Matematica Aplicada I, Escuela Tecnica Superior de Arquitectura, Universidad de Sevilla, Sevilla, Spain
+
+
+
+
+Abstract
+
+   A central question when planning rapid transit systems is the determination of alignments and stations. Operational
+research methods can help solve these problems and they are also useful for the assessment of the network charac-
+teristics. This survey article reviews the main available methods.
+
+Keywords: Rapid transit systems; Alignments; Stations; Location
+
+
+
+
+1. Introduction                                                          nized that standard network design tools are often
+                                                                         inadequate for entirely solving such complex
+    A central question when planning rapid transit                       problems (see, e.g., Magnanti and Wong, 1984),
+systems is the determination of alignments and                           but they can play a useful role at a technical level.
+stations. Yet surprisingly little is known about the                        The planning process usually starts with an
+analytical tools available for this process. A recent                    analysis of the city structure, including the identi-
+investigation by Gendreau et al. (1995) indicates                        ®cation of the major business, shopping, industri-
+that rapid transit planning is a complex decision                        al, recreational and tourist areas, universities,
+making process involving multiple objectives and                         hospitals and other important buildings, airports,
+constraints, uncertainties, non-quanti®able factors,                     railway stations, bus depots, major arteries, exist-
+large capital expenditures and long term commit-                         ing transit systems, etc. Origin±destination (O/D)
+ments. The process is shared by several players                          ¯ows are then analyzed and broad corridors for
+such as planners, engineers, users, environmental-                       the location of alignments are targeted. Several
+ists and other interest groups. It is widely recog-                      scenarios are then developed, and evaluated in
+                                                                         terms of technical feasibility, cost, coverage and
+                                                                         utilization, eciency, impact on land use, real-es-
+  *
+    Corresponding author. Tel.: +1 514 343 6143; fax: +1 514
+                                                                         tate and retail trade (Bay, 1985; Wulkan and
+343 7121.                                                                Henry, 1985), trac and parking (Schabas, 1988),
+    E-mail address: gilbert@crt.umontreal.ca (Gilbert Laporte).          environment (Blackledge and Humphreys, 1984),
+safety (Siegel, 1980; Straus, 1980; Perrin and Benz,   (see, e.g., Ahuja et al., 1995), but even the simplest
+1990), etc. This process usually takes place over a    models belonging to this category are hard to
+long period and involves the participation of a        handle by means of analytical methods when the
+variety of players. Several iterations may be re-      size of the network becomes large. In the context
+quired as some scenarios are modi®ed or new ones       of rapid transit planning, the problem is com-
+are introduced. A restricted set of promising so-      pounded by the multiciplicity of constraints and
+lutions are then ®ne tuned and a ®nal decision is      objectives, some of which are dicult to state
+made. Interesting applications of this process are     clearly or to measure adequately. We are aware of
+provided in Blackledge and Humphreys (1984),           no analytical method capable of solving the rapid
+Lundstr om et al. (1981), Page and Demesky            transit network design problem in its entirety. All
+(1985), Perrin and Benz (1990), and Schabas            known methods apply to a single line location.
+(1988).                                                Therefore, the global problem could be tackled
+   Analytical methods are routinely used at sev-       piecemeal by locating one alignment at a time,
+eral stages of the planning process. Engineering       although techniques do exist to evaluate the e-
+techniques are applied to help assess the technical    ciency of a complex network.
+feasibility and construction cost of some potential        In contexts such as transit line location, ana-
+alignments. Sophisticated simulation tools, like       lytical methods should be used to procedure sev-
+EMME/2 (INRO Consultants, 1998), can help              eral alternative solutions rather than only one. Our
+derive trac ¯ows under various system con®gu-         preference goes for methods that can generate a
+rations. Discrete choice models can now be em-         family of good solutions with respect to the
+ployed for demand forecasting as a function of a       problem's main criteria. These solutions should
+system's attributes and pricing structure. A recent    then be quanti®ed with respect to other criteria not
+overview by Bierlaire (1998) proposes a model          explicitly considered during the generation phase,
+classi®cation under four headings: the decision        and decision makers should choose from among
+maker's characteristics, the transportation alter-     the proposed solutions.
+natives, their attributes, and the decision rules.         The objective of a rapid transit system is to
+Operational research methods, several of which         transport a large number of people eciently and
+have only been developed in recent years, can help     eectively (see, e.g., Blackledge and Humphreys,
+in three major areas at the planning stage: the        1984; Bonz, 1983; Fukuyama, 1983; Quqing,
+generation of interesting alignments, the location     1984). If only one alignment is to be located, this
+of stations, and the assessment of network char-       usually translates into maximizing the population
+acteristics. Our focus in this study is strategic or   covered by the line. If an entire network is to be
+long term planning. We therefore exclude opera-        designed, overall network eciency also has to be
+tional aspects such as train scheduling and fare       taken into account, as we discuss in Section 4.
+setting.                                               Even in the case of a single alignment, the popu-
+   Our paper is organized along these lines. In        lation maximization objective is not so easy to
+Section 2, we examine some modeling issues as-         measure. Some authors (see, e.g., Chapleau et al.,
+sociated with the design of rapid transit networks.    1986; Wirasinghe and Vandebona, 1987) interpret
+In Sections 3 and 4, algorithms for alignment and      it as the number of people living within a certain
+station location are described. The more global        distance of the line. A way to measure this is to use
+issue of network assessment is addressed in Sec-       a series of embedded corridors along the line. The
+tion 5.                                                problem with this approach is that people living
+                                                       close to the line, but relatively far from a station,
+                                                       are less likely to use the system. The population
+2. Modeling issues                                     covered by stations is a more adequate measure of
+                                                       demand. To operationalize this measure, Dufourd
+  The problem of generating a good transit net-        et al. (1996) and Bruno et al. (1998a, b) use
+work can be viewed as a network design problem         concentric shapes (contour lines) around each
+                                                                                                                      3
+
+
+potential station, with decreasing weights hi for            bene®cial to the development of the Tyne and
+people leaving within d walking units from the               Wear area in England. Alsaadi (1983) cites urban
+station (these authors use h0  1:0, h1  1:0,               development as one of the primary motives behind
+h2  0:5, h3  0:25, hd  0 for d P 4). Walking              the construction of the Baghdad metro. However,
+distances can be approximated by an `p metric,               other authors like Straus (1980) stress that while
+where usually 1 6 p 6 2. The case p  1 corre-               rapid transit may help support urban renewal
+sponds to the Manhattan distance, while the case             programs, it can never be a substitute for inte-
+p  2 correspond to the Euclidean distance. If a             grated planning. There are also some studies that
+Manhattan metric is used to describe walking                 show that the urban growth resulting from the
+distances, the contour lines will be diamond                 presence of rapid transit can in some cases be
+shaped. If a Euclidean metric is used, they will be          minor. Such seems to be the case of the BART in
+circular. Thus, if P x; y is the population associ-         the Bay Area (see, e.g., Fajans et al., 1978; Knight
+ated with coordinate point x; y, the cover of a             and Trygg, 1977).
+station located at s is de®ned as                                 Several external criteria must be taken into ac-
+        X      X                                             count when locating an alignment. Some of them
+C s                   hd P x; y;              1          related with engineering or environmental issues
+          d   x;y:D x;y;sd
+                                                             are dicult to take into account within the
+where D x; y; s is the walking distance between           framework of a generic optimization algorithm.
+ x; y and s. The cover C P  of a fullP alignment P        This is not to say that they should be ignored, but
+ s1 ; . . . ; sn  is therefore C P   ni1 C si . Other   it is probably preferable to quantify them once a
+authors (e.g., Gleason, 1975; Current et al., 1985)          potential alignment has been generated. Require-
+and a number of transit planners (Hadler and                 ments on inter-station spacing must be treated as
+Majumder, 1981; Lutin and Benz, 1992) use simi-              hard constraints. It is common to impose a mini-
+lar population coverage measures.                            mum spacing `min between any two stations, and a
+    This way of de®ning the cover of an alignment            maximum spacing `max between two consecutive
+may not fully capture its ridership. For example, a          stations. As a rule, both these values lie between
+person living close to a station on a North±South            0.5 and 2 km. Inner city stations are normally less
+alignment, but traveling on the East±West axis is            spaced out than suburban stations (see Bruno et al.,
+unlikely to patronize the system. A better way to            1998a, b). The lower bound ensures that trains will
+measure ridership would be to consider all O/D               not have to stop frequently. The upper limit means
+pairs associated with the stations of an alignment           that transit users will not have to walk too far to
+P (Huber and Church, 1985). While this measure is            the closest station and it also acts indirectly as an
+more precise than C P , it requires a substantial           upper bound on total construction costs.
+amount of data and it is dicult to handle within                 The most frequent version of the rapid transit
+an optimization algorithm. Moreover, some re-                alignment problem is to locate an alignment P 
+searchers (e.g., Wulkan and Henry, 1985) argue                s1 ; . . . ; sn  in a given area (or in a restricted cor-
+that population relocations invariably occur once            ridor), in order to maximize population coverage
+the line is built. Therefore, using observed O/D             (as measured by C P , for example), under station
+patterns at the planning stage may not yield in-             interspacing constraints. The number n of stations
+creased accuracy. For this reason, a measure such            is usually given or constrained to take a value
+as C P  is probably the best and simplest way to            within a small interval, and some stations of the
+measure the coverage of an alignment.                        alignment may be ®xed a priori.
+    Some authors do not consider population cov-
+erage as the main objective in transit planning.
+Rather, they view the construction of a rapid                3. Locating an alignment
+transit system as a catalyst for urban development.
+For example, Howard (1978) describes how                        One of the ®rst analytical approaches to the
+the construction of a light rail system has been             location of rapid transit alignments is contained in
+DicesareÕs (1970) Ph.D. thesis in which the author          variables: xij  1 if and only if edge vi ; vj  belongs
+models the problem as that of determining a least           to the solution; yi  1 if and only if vertex vi be-
+cost path between an origin and a destination,              longs to the solution; zi  1 if and only if vertex vi
+under a variety of constraints. A simple solution           is indirectly covered; zij  1 if and only if vertex vi
+methodology for this problem is suggested by                is assigned to vertex vj . If the objective is cost
+Church and Cliord (1979): (1) superimpose a grid           minimization, it can be written as
+onto the study area; (2) assign a score to each cell                       X
+for each of the criteria considered by the user; (3)        minimize           cij xij :                          2
+                                                                                   vi ;vj 2E
+aggregate the various scores into a single objective
+to be minimized; (4) solve the resulting problem            If total cost is a constraint, then
+using a shortest path algorithm. One major                   X
+drawback with this approach is that a cost mini-                  cij 6 k:                                       3
+mization algorithm is likely to produce a minimal            vi ;vj 2E
+
+alignment between a given origin and a given                Similarly, a coverage objective can be expressed as
+destination without consideration for population                         X
+coverage. If the shortest path algorithm is used to         maximize        wi zi                            4
+maximize a coverage objective, then the alignment                                  vi 2V
+
+produced will likely criss-cross the entire region.         and the corresponding constraints are
+Current et al. (1985) have improved upon this               X
+rather crude methodology by incorporating in the               wi zi P k                                         5
+model the population covered by the alignment               vi 2V
+
+and the connection cost associated with the un-             and
+covered population. This yields a covering path                     X
+model or a median shortest path model, depending            zi 6           yj      vi 2 V :                     6
+on whether one maximizes population coverage                        j2Si
+
+subject to constraints on the alignment, or whether         Constraints (6) ensure that vertex vi is covered
+one minimizes a combination of the alignment                only if some vertex vj is on the solution. If k  w,
+length and of the cost of reaching it. Another              then all the demand of the network is covered. If
+model belonging to the same class was recently              k < w, we talk of indirect cover. In such a case, one
+suggested by Bruno et al. (1998a, b). Instead of            may wish to minimize the sum of distances be-
+maximizing population coverage, the authors                 tween the path and the demand points not on it:
+work with O/D demands.                                                   X
+    All the above models can be viewed as path-             minimize        wj dji zji                         7
+location problems in networks (see Mesa and                                       vi ;vj 2V
+
+Boey, 1996 and Labbe et al., 1998), and can be            or impose a constraint on this sum of distances:
+formulated using the notation proposed in the                X
+latter reference. Let G  V ; E be an undirected                wj dji zji 6 k:                           8
+                                                            vi ;vj 2V
+network where V  fv1 ; . . . ; vn g is a set of vertices
+and E is a set of edges. Let cij denote the cost (or        When using (7) or (8), one must introduce the
+length) of edge vi ; vj , and let dij be the length of a   following technical constraints:
+shortest chain between vi and vj . For S  V , de®ne        X
+d S  f vi ; vj  2 E; i 2 S; j 62 Sg. A non-negative          zij  yi  1 vi 2 V                   9
+demand P   wi is associated with every vertex vi 2 V .       j6i
+
+Let w  vi 2V wi be the total demand. In covering           and
+problems, for a given r P 0, de®ne Si  fvj 2
+                                                            zij 6 yi            vi ; vj 2 V                    10
+V : dij 6 rg as the set of vertices that can cover vi .
+Given a non-negative constant k, we can de®ne               which force each vertex vi to be on the path or to
+several problem classes, using the following binary         be assigned to another vertex vj . Whichever set of
+constraints an objectives is used, constraints must       the city of Milan and easily produced an alignment
+be imposed to ensure that the solution is a path:         covering the main population centres.
+ X                   X                                       There have been fewer studies on the simulta-
+             xij            yi ÿ 1;               11    neous location of several alignments. One notable
+vi ;vj 2E           vi 2V                                exception is the work of Wirasinghe et al. (1977)
+                                                          who analyze the design of a star shaped con®gu-
+   X                                                      ration in the context where passengers ®rst use
+                xij P yk  yh ÿ 1
+vi ;vj 2d S
+                                                          feeder buses to the closest station. The aim of this
+                                                          work is to determine, using analytical formulas,
+S  V ; vk 2 S; vh 62 S; 2 6 jSj 6 n ÿ 1;         12    the ideal number of branches in the star and the
+                                                          location of stations. It is based partly on previous
+    X
+                    6 2yi       vi 2 V :          13    results by Vuchic and Newell (1968).
+vi ;vj 2d fvi g
+
+
+The diculty in all these models is to introduce          4. Locating stations
+constraints to properly control inter-station spac-
+ing which is crucial in most practical situations.            The methods outlined in Section 3 simulta-
+Such restrictions are best handled through heu-           neously locate an alignment and a set of stations.
+ristics.                                                  However, once the alignment has been determined,
+    In recent years, two heuristics have been pro-        it often pays to ®ne tune the location of stations by
+posed for the single alignment location problem           means of an optimization algorithm. At this stage,
+under a population coverage objective and station         since the alignment is known, it is prossible to
+inter-spacing constraints. The ®rst, by Dufourd et        determine more accurately the catchment area of
+al. (1996), uses tabu search, a metaheuristic that        each station and therefore the total ridership of the
+iteratively explores the solution space by allowing       alignment.
+intermediate deteriorating solutions (for a recent            A well-known study in this area is the article by
+overview of this method, see Glover and Laguna            Vuchic and Newell (1968) who seek to determine
+(1997)). The method starts from an initial solution       the location of stations in an idealized star shaped
+generated as a random walk in the plane. At each          system where people commute to a single point.
+iteration, it moves one or several stations to            The analysis takes into account passenger distri-
+neighbouring locations while preserving feasibility.      bution along the line, access speed, dynamic
+The second heuristic, by Bruno et al. (1998a, b)          characteristic of the train, standing time of the
+gradually extends a partial alignment by locating         train in stations, and intermodal transfer time at
+one location at a time while ensuring that the            stations. The objective is to minimize overall
+candidate station can feasibly be linked with the         transportation time to the ®nal destination. Using
+partial alignment. An improvement phase extracts          simultaneous dierence equations, the authors
+several partial alignments from a known feasible          show that for a uniform population distribution
+solution and extends them at both ends using the          along the line, station spacings increase in the di-
+same rules as for the construction phase. Overall         rection of passenger cumulation.
+this algorithm works better than that of Dufourd              Laporte et al. (1998) disregard transportation
+et al. (1996). It is much faster and is far less likely   time on the train and seek to maximize the
+to become trapped in a local optimum. A good              catchment area of a single already located line, by
+solution can be produced even from a poor start-          appropriately locating stations on it, subject to
+ing alignment. Tests on randomly generated in-            inter-station constraints. They ®rst discretize the
+stances show that the Bruno et al. algorithm              alignment, but the level of accuracy can be quite
+consistenly generates optimal or near-optimal so-         high. For example, a discretization step of 0.1 km
+lutions within insigni®cant computing times. Tests        is quite realistic. Then, as explained in Section 2,
+were also carried out using population data from          concentric iso-distance curves can be built around
+each station. If the catchment areas Ai and Aj of        research is rooted in the work of Musso and
+two adjacent station locations i and j overlap, then     Vuchic (1988) who devised a set of measures to
+an equidistance dividor can be drawn to determine        quantify various aspects of a metro network
+which station the inhabitants of Ai \ Aj will pa-        G  V ; E. These include some simple indices
+tronize. The next step is to actually determine the      such as the number of stations, the total length of
+size of population living between any two consec-        the network, the number of lines, the number of
+utive iso-distance curves in the catchment area of       multiple stations, and more sophisticated measures
+each station. Practically this can be quite dicult      such as the number of minimal cycles (not em-
+since population data are usually associated with        bedding any other cycle), a network complexity
+census tracts and these do not coincide with iso-        indicator b  jEj=jV j, a connectivity indicator equal
+distance curves. However, precise population             to the ratio between jEj and the maximum number
+counts can be obtained by means of triangulation         of edges that could potentially exist in G, and a
+methods (O'Rourke, 1994) and computational               directness of service measure equal to the propor-
+geometry techniques (Laporte et al., 1998). Alter-       tion of O/D trips that can be made without
+natively, geographic information systems software        transfers.
+(Schweiger, 1992) can prove useful if analytical             Laporte et al. (1994) have introduced two other
+formulae for the iso-distance curves can be incor-       measures. The ®rst is the passenger-network eec-
+porated within such systems and if graphical rep-        tiveness de®ned as follows. For each path P be-
+resentations of them are available. In practice,         tween vi and vj on the network, G  V ; E, ®rst
+determining the population cover of each potential       de®ne the total passenger cost as
+station may be sucient. More accurate estimates                         X
+of ridership (as opposed to total population) can        hij P                    tij  r P tf  s P  ÿ r P  ÿ 1ts ;
+also be derived by applying an attraction model                         vi ;vj 2P
+               uzar and Willumsen, 1990). Once the
+(see, e.g., Ort                                                                                                             14
+potential ridership of each potential station has
+been estimated, the actual choice of station loca-       where tij is the travel time between vi and vj , r P 
+tions can be obtained exactly as the solution of a       and s P  are, respectively, the number of transfers
+shortest path problem on a directed graph                and edges on the path, tf is the transfer time and ts
+G  V ; A, where V is the set of potential loca-        is the stopping time. Then the total passenger cost
+tions and A is a set of arcs between the vertices of     is
+V . An arc i; j is only de®ned if it is feasible, in         X
+                                                         h       hij ;                                    15
+terms of inter-spacing restrictions, to locate i and j       vi ;vj 2
+consecutively on the alignment. The cost associ-              Vi<j
+
+
+ated with i; j is M ÿ cij , where cij is the expected   where hij  minP fhij P g. The passenger-network
+population (or ridership) in area associated with        eectiveness index is then
+the segment i; j, and M is a large constant satis-           ,
+fying M P max i;j2A fcij g. The computational fea-               X
+sibility of this approach is demonstrated in             kh          tij :                            16
+                                                                        vi ;vj 2E
+Laporte et al. (1998), using data from the city of
+Sevilla.                                                     The second measure is passenger-plane eec-
+                                                         tiveness, i.e., an index comparing passenger travel
+                                                         cost using the transit network with the cost that
+5. Assessing transit networks                            would be incurred if travel was made in the plane.
+                                                         Consider an `p norm describing walking distances.
+    As mentioned, we are not aware of any algo-          Given the matrices H  hij  and Mp  mijp ,
+rithm capable of producing a full transit network.       where mijp is the travel time between vi and vj
+However, analytical tools exist to assess the qual-      computed with an `p norm, then the passenger-
+ity of a potential or real-life network. This line of    plane eectiveness measure is
+lp  kH ÿ Mp k=jV j;                              17        measures. In grid cities, the modi®ed grid
+                                                             (Fig. 1(e)) and half-grid (Fig. 1(f)) con®gurations
+where, given an r  s matrix A  aij , the Fro-             are best in terms in of passenger-network eec-
+benius norm kAk is de®ned as                                 tiveness, but are inferior to grid con®gurations
+                   !1=2                                      (Fig. 1(d)) with respect to passenger-plane eec-
+        XX                                                   tiveness (see Table 1). Star designs (Fig. 1(a)) are
+kAk          a2ij      :                    18
+         i1 j1
+                                                             the least ecient.
+                                                                It should be noted that the networks of Lon-
+    The conclusion of this study is that in circular         don, Moscow, Tokyo JR, Madrid and Hamburg
+cities, the cartwheel (Fig. 1(b)) and triangle               belong to the cartwheel category, although they
+(Fig. 1(c)) designs yield the best (smallest)                are rather more complex than the drawing of
+
+
+
+
+                                      Fig. 1. Six basic network con®gurations.
+Table 1
+Comparison of some basic con®gurations for circular and grid cities
+Con®guration                             Circular cities                                     Grid cities
+                                         Star        Circle      Cartwheel    Trianglea      Grid          Modi®ed   Half-grid
+                                                                                                           grid
+Passenger network eectiveness index     34.17       32.56       25.91        18.47          29.90         27.63     26.26
+Passenger-plane eectiveness index        0.88        0.80        0.53         0.59           0.94          1.02      1.43
+ p  1:5
+
+
+
+Fig. 1. The cities of Prague, Frankfurt, Kiev and                     is used to re¯ect mode choice, where c is a pa-
+St.Petersburg exhibit triangular or quasi-triangu-                    rameter, and tij , tij0 are shortest travel times be-
+lar con®gurations. Montreal, Chicago and                              tween vi and vj , using public transit and all the
+Toronto have modi®ed grid systems.                                    other transportation modes, respectively. Using
+   This analysis only applies to the topological                      suitable values for a; b and l, the authors have
+con®guration of the network and assumes that all                      conducted numerical experiments on a number of
+O/D pairs are equally likely. In a second study,                      idealized networks. These tests essentially con®rm
+Laporte et al. (1997) have studied passenger/                         the conclusions of the previous study presented in
+network eectiveness and passenger/plane eec-                        Laporte et al. (1994).
+tiveness of some con®gurations by dropping the
+uniformity assumption and by introducing mode
+competition. In particular, they make use of a                        6. Conclusion
+deterrence function (Ort  uzar and Willumsen,
+1990) to adjust downward the expected travel                             The use of operational research methods in the
+demand between O/D pairs that are further                             area of rapid transit systems planning is still rela-
+apart. More speci®cally, consider two points vi                       tively new. This can be explained partly by the
+and vj located on the network in two zones (a                         intrinsic diculty of the underlying network de-
+circular inner center Z1 and an outer annulus Z2 ),                   sign problem, and partly by the complexity of the
+and their respective catchment areas Ai and Aj .                      decision process itself. There are more available
+The number of trips nij between vi and vj is                          analytical tools now than there were ten years ago
+computed as                                                           and this trend is likely to continue in the near fu-
+nij  bij fij gij ;                                        19        ture. Powerful local search methods are now ca-
+                                                                      pable of producing good quality alignments, exact
+where bij takes one of three values b1 ; b2 or b3 , with              methods exist for ®ne tuning station location and
+b1  b2  b3  1, according to whether vi and vj                      measures have been proposed to assess the overall
+are both in the same zone (Z1 or Z2 ) or in dierent                  quality of a rapid transit con®guration. In the area
+zones (one in Z1 , one in Z2 ). The second factor, fij ,              of algorithmic research, the next step will probably
+is a `friction coecient' representing the total de-                  be the design of highly interconnected networks,
+mand between vi and vj . It is a deterrence function                  and a better integration of travel demand func-
+of the travel time x between a point p  Ai and                       tions within the network generation process. There
+point q  Aj , of the form                                            is now a need for decision support systems con-
+                                                                      taining algorithmic and geographic information
+fij x  ax eÿbx a; b > 0                                 20        features, and capable of generating within a short
+                                                                      time several good quality scenarios, with a list of
+        uzar and Willumsen, 1990). Finally, a logit
+(see Ort
+                                                                      quanti®ed attributes. The ultimate choice will al-
+function of the form
+                                                                      ways rest with the decisions makers, but we believe
+                      0      ÿ1
+                                                                      better decisions can be made if the alternatives to
+qij  1  eÿl sij ÿsij                                   21        choose from are superior.
+Acknowledgements                                                         of Electrical Engineering, Carnegie-Mellon University,
+                                                                         Pittsburgh, PA.
+                                                                      Dufourd, H., Gendreau, M., Laporte, G., 1996. Locating a
+   This research was in part supported by the                            transit line using tabu search. Location Science 4, 1±19.
+Canadian Natural Sciences and Engineering Re-                         Fajans, M.H., Dyett, M.V., Dornbusch, D.M., 1978. Study of
+search Council under grant OGP0039682 and by                             developments patterns ± BART impact program, land use,
+Ministerio de Educaci
+                     on y Ciencia, Spain, under                          and urban development project. John Blayney Associates,
+                                                                         David M. Dornbusch and Co., Metropolitan Transporta-
+grant CICYT PB-95-1237-C03-01. This support is
+                                                                         tion Commission, Berkeley.
+gratefully acknowledged.                                              Fukuyama, M., 1983. Optimal station location for a two hierarchy
+                                                                         transit system. In: Proceedings of the Eighth International
+                                                                         Symposium on Transport and Trac Theory, pp. 264±291.
+References                                                            Gendreau, M., Laporte, G., Mesa, J.A., 1995. Locating rapid
+                                                                         transit lines. Journal of Advanced Transportation 29, 145±
+Ahuja, R.K., Magnanti, T.L., Orlin, J.B., Reddy, M.R., 1995.             162.
+   Applications of network optimization. In: Ball, M.O.,              Gleason, J.M., 1975. A set covering approach to bus stop
+   Magnanti, T.L., Monma, C.L., Nemhauser, G.L. (Eds.),                  location. Omega 3, 605±608.
+   Network Models, Handbooks in Operations Research and               Glover, F., Laguna, M., 1997. Tabu Search, Kluwer, Boston.
+   Management Science 7. North-Holland, Amsterdam, pp. 1±             Hadler, D.K., Majumder, A., 1981. A method for selecting
+   83.                                                                   optimum number of stations for a rapid transit system by
+Alsaadi, J.M., 1983. The Baghdad metro 1983. Advanced                    network approach: An application in Calcutta tube rail. In:
+   Tunnelling Technology and Subsurface Use 3, 149±156.                  Jaiswal, N.K. (Ed.), Scienti®c Management of Transporta-
+Bay, P.N., 1985. Determining cost-eectiveness of transit                tion Systems, North-Holland, Amsterdam, pp. 97±108.
+   systems. Transportation Research Board State-of-the-Art            Howard, D.F., 1978. Tyne and Wear metro. Transport Man-
+   Report 2 - Light Rail Transit System Design for Cost-                 agement 11, 9±12.
+   Eectiveness, pp. 9±12.                                            Huber, D., Church, R.L., 1985. Transmission corridor location
+Bierlaire, M., 1998. Discrete choice models. In: Labbe, M.,             modelling. Journal of Transportation Engineering 111, 114±
+   Laporte, M.G., Tanczos, K., Toint, P. (Eds.), Operations              130.
+   Research and Decision Aid Methodologies in Trac and               INRO Consultants, 1998. EMME/2 Users' Manual, Release 9,
+   Transportation Management, NATO ASI Series F: Com-                    Montreal.
+   puter and Systems Sciences, Springer, Berlin, 166, pp. 203±        Knight, R.L., Trygg, L.L., 1977. Land use impacts of rapid
+   227.                                                                  transit: Implications if recent experience. De Leuw, Cather
+Blackledge, D.A., Humphreys, E.M.H., 1984. The West Mid-                 and Company, San Francisco.
+   land rapid transit study. In: Proceedings of the Planning and      Labbe, M., Laporte, G., Rodrõguez-Martõn, 1998. Path, tree and
+   Transport Research and Computation, Sussex, pp. 71±84.                cycle location. In: Crainic, T.G., Laporte, G. (Eds.), Fleet
+Bonz, M., 1983. Insertion et realisation de l'infrastructure des        Management and Logistics, Kluwer, Boston, pp. 187±204.
+   metros legers dans le tissu urbain. 45e Congres International   Laporte, G., Mesa, J.A., Ortega, F.A., 1994. Assessing topo-
+   de l'UITP, Rio de Janeiro.                                            logical con®gurations for rapid transit networks. Studies in
+Bruno, G., Gendreau, M., Laporte, G., 1998. A heuristic for the          Locational Analysis 7, 105±121.
+   location of a rapid transit line. Publication CRT-98-55,           Laporte, G., Mesa, J.A., Ortega, F.A., 1997. Assessing the
+   Centre for Research on Transportation, Montreal.                      eciency of rapid transit con®gurations. TOP 5, 95±104.
+Bruno, G., Ghiani, G., Improta, G., 1998b. A multi-modal              Laporte, G., Mesa, J.A., Ortega, F.A., 1998. Locating Stations
+   approach to the location of a rapid transit line. European            on Rapid Transit Lines, Publication CRT-98-22. Centre for
+   Journal of Operational Research 104, 321±332.                         Research on Transportation, Montreal.
+Chapleau, R., Lavigueur, P., Baass, K., 1986. A posteriori            Lundstrom, L., J    o, E., Kaitila, K., 1981. The metro system
+                                                                                        arvi
+   impact analysis of a subway extension in Montreal. Publica-           in Helsinki central city area project. In: Proceedings of the
+   tion 503, Centre for Research on Transportation, Montreal.            International Symposium Subsurface Space, Stockholm, pp.
+Church, R.L., Cliord, T.J., 1979. Discussion of environmental           147±154.
+   optimization of power lines, by Economides and Shari®.             Lutin, J.M., Benz, G.P., 1992. Key issues in light rail transit
+   Journal of the Environmental Engineering Division, ACSE               station planning and design. Transportation Research
+   105, 438±439.                                                         Record 1361, 117±124.
+Current, J.R., ReVelle, C.S., Cohon, J., 1985. The maximum            Magnanti, T.L., Wong, R.T., 1984. Network design and
+   covering/shortest path problems: A multiobjective network             transportation planning: Models and algorithms. Transpor-
+   design and routing formulation. European Journal of                   tation Science 18, 1±55.
+   Operational Research 21, 189±199.                                  Mesa, J.A., Boey, T.B., 1996. A review of extensive facility
+Dicesare, F., 1970. A systems analysis approach to urban                 location in networks. European Journal of Operational
+   transit guideway location. Ph.D. dissertation, Department             Research 95, 592±603.
+Musso, A., Vuchic, V.R., 1988. Characteristics of metro           Siegel, S.T., 1980. Major obstacles to eective L.R.T. surface
+   networks and methodology for their evaluation. Transpor-          operations. In A Report on Light Rail Transit: Surface
+   tation Research Record 1162, 22±33.                               Operations. Transportation Research Board, pp. 20±25.
+O'Rourke, J., 1994. Computational Geometry in C. Cambridge        Straus, P., 1980. Issues relating to eective L.R.T. surface
+   University Press, Cambridge.                                      operations. In A Report on Light Rail Transit: Surface
+   uzar, J.D., Willumsen, L.G., 1990. Modelling Transport,
+Ort                                                                 Operations. Transportation Research Board, pp. 7±15.
+   Wiley, New York.                                               Vuchic, V.R., Newell, G.F., 1968. Rapid transit interstation
+Page, J.H., Demesky, M.J., 1985. Planning development with           spacing for minimum travel time. Transportation Science 2,
+   transit projects. Journal of Transportation Engineering 111,      303±339.
+   665±678.                                                       Wirasinghe, S.C., Hurdle, V.F., Newell, G.F., 1977. Optimal
+Perrin, S.E., Benz, G.P., 1990. Evaluating a large number of         parameters for a coordinated rail and bus transit system.
+   stations and alignment alternatives. Transportation Re-           Transportation Science 11, 359±374.
+   search Record 1226, 229±240.                                   Wirasinghe, S.C., Vandebona, U., 1987. Some aspects of the
+Quqing, G., 1984. Metro planning and construction in China.          location of subway stations and routes. Presented at the
+   Advanced Tunnelling Technology and Subsurface Use 4,              Fourth International Symposium on Locational Decisions,
+   67±69.                                                            Namur, Belgium.
+Schabas, M., 1988. Quantitive analysis of rapid transit align-    Wulkan, A., Henry, L., 1985. Evaluation of light rail transit for
+   ment alternatives. Transportation Quarterly 42, 403±416.          Austin, Texas. Transportation Research Board State-of-the-
+Schweiger, C.L., 1992. Current use of geographic information         Art Report 2 - Light Rail Transit Design for Cost-
+   systems in transit planning. Transportation Research Re-          Eectiveness, pp. 82±90.
+   cords 1349, 93±106.
+

@@ -1,0 +1,1598 @@
+                                                Line planning under crowding: A cut-and-column
+                                                              generation approach
+                                                             Yahan Lu,a, b Rolf N. van Lieshout,c Layla Martin,c, d Lixing Yanga
+                                                                a
+                                                                  School of Systems Science, Beijing Jiaotong University, Beijing, 100044, China;
+arXiv:2501.13819v1 [math.OC] 23 Jan 2025
+
+
+
+
+                                                               b
+                                                               Department of Transport & Planning, Delft University of Technology, Netherlands;
+                                            c
+                                              Department of Operations, Planning, Accounting, and Control, School of Industrial Engineering, Eindhoven University of
+                                                                                      Technology, Eindhoven, Netherlands;
+                                                        d
+                                                          Eindhoven AI Systems Institute, Eindhoven University of Technology, Eindhoven, Netherlands
+
+
+                                                Problem definition: To mitigate excessive crowding in public transit networks, network expansion is often
+                                                not feasible due to financial and time constraints. Instead, operators are required to make use of existing
+                                                infrastructure more efficiently. In this regard, this paper considers the problem of determining lines and
+                                                frequencies in a public transit system, factoring in the impact of crowding. Methodology: We introduce
+                                                a novel formulation to address the line planning problem under crowding and propose a mixed-integer
+                                                second-order cone programming (MI-SOCP) reformulation. Three variants of the cut-and-column generation
+                                                algorithm with tailored acceleration techniques find near-system-optimal solutions by dynamically generating
+                                                passenger routes and adding linear cutting planes to deal with the non-linearity introduced by the crowding
+                                                terms. We find integral solutions using a diving heuristic. In practice, passengers may deviate from system-
+                                                optimal routes. We, thus, evaluate line plans by computing a user-equilibrium routing based on Wardrop’s
+                                                first principle. Results and implications: We experimentally evaluate the performance of the proposed
+                                                approaches on both an artificial network and the Beijing metro network. The results demonstrate that our
+                                                algorithm effectively scales to large-scale instances involving hundreds of stations and candidate lines, and
+                                                nearly 57,000 origin-destination pairs. We find that considering crowding while developing line plans can
+                                                significantly reduce crowding, at only a minor expense to the travel time passengers experience. This holds
+                                                both for system-optimal passenger routing and user-optimal passenger routing, which only differ slightly.
+
+                                                Key words : Line planning, mixed-integer second-order cone programming, outer approximation, cutting
+                                                  planes, column generation, crowding effects
+
+
+
+
+                                           1.     Introduction
+                                           Public transit passengers not only value fast and direct connections but also comfortable travel.
+                                           Particularly, passengers prefer not to travel along highly crowded trajectories. However, due to the
+                                           quickly growing population in metropolitan areas – the UN expects 70% of the world’s population
+                                           of then 9.7 billion to live in metropolitan areas by 2050 (United Nations 2019) – public transit
+                                           becomes increasingly crowded. High set-up costs and times make it impossible to adapt to this
+                                           growth simply by extending and densifying the network. Public transit operators can, however, work
+                                           towards utilizing the given rail network better by optimizing their planning. Especially changes to
+                                           the line concept, the set of lines that are operated and their frequencies, can potentially alleviate
+
+                                                                                                       1
+                                     Lu et al.: Line planning under crowding: A cut-and-column generation approach
+2
+
+crowding, as these directly influence the routes taken by passengers. Therefore, in this paper, we
+focus on incorporating crowding considerations within the line planning decision, i.e., within a
+given network, deciding which lines to operate at which frequencies while considering passengers’
+travel time and crowding costs.
+    In real-world public transit networks such as the Beijing metro, with hundreds of stations and
+direct rails, determining the line concept is a challenging problem since passengers often transfer
+between different lines. This requires explicitly modeling transfers between lines and all possible
+routes that a passenger could take. Considering crowding in line planning further exacerbates
+complexity since it introduces interactions between passengers: The more passengers use the same
+train, the more severe the passengers perceive crowding. This poses a significant challenge in
+modeling crowding since the perceived travel time, which is defined as the sum of travel time and
+crowding penalty, is no longer linear. Additionally, passengers might not travel in a centrally-
+optimal fashion through the network of public transit lines but rather find their own route.
+    To tackle these challenges, we develop a novel line planning model based on the change-and-
+go network introduced in Schöbel and Scholl (2005) to trace the routes passengers take through
+the network. We model the impact of crowding on a passenger’s perceived travel time as a linear
+function of the utilization of a train, resulting in a crowding term that is quadratic in the number
+of passengers, and inversely proportional to the frequency of that particular train. Through a
+convex reformulation based on second-order cone constraints, we obtain a computationally tractable
+mathematical model. We further observe that incorporating crowding effects into line planning
+generates several routes with similar perceived travel times. This results in small gaps between
+the system-optimal and user-optimal line plans, indicating that integrating user-optimal routing
+in line planning offers limited benefits. Therefore, we omit passengers’ selfish route choices during
+the line planning optimization process but evaluate their impact ex-post.
+    To solve the proposed line planning model at scale, we initially relax the cone constraints and
+start with a small subset of passengers’ routes. Next, linear cuts (rows) are added if the cone con-
+straints are violated, while routes (columns) are added if we find any negative reduced-cost routes
+through a pricing problem. Regarding the dynamic addition order of rows and columns, we de-
+velop two additional procedures: one that adds columns before rows and another that always adds
+columns and rows in each iteration. We obtain integral solutions using a tailored diving heuristic,
+which iteratively fixes lines with the highest frequency. Additionally, we develop acceleration tech-
+niques: We employ Farkas duals to deal with the infeasibility of the restricted master problem and
+remove non-tight cutting planes and columns with positive reduced costs where necessary.
+    We test our approach using real-life instances from the entire Beijing metro network, one of
+the largest and most crowded systems in the world, consisting of 534 candidate lines and 56,916
+Lu et al.: Line planning under crowding: A cut-and-column generation approach
+                                                                                                    3
+
+origin-destination (OD) pairs. To create smaller instances, we extract the central subnetwork, which
+includes 168 candidate lines and 23,374 OD pairs. Additionally, we evaluate our approach on the
+most common benchmark in the line planning literature, the 5 × 5-grid network (e.g., Friedrich et al.
+2017b, Schiewe, Schiewe, and Schmidt 2019, Schiewe and Schöbel 2020), where we generate a line
+pool with 128 lines. For the instances based on the grid network, the best procedure of our algorithm
+achieves an average optimality gap of less than 1.8% compared to the optimal solutions obtained
+by GUROBI, while reducing the average computational time by more than 98.6%. When solving
+the instance for the Beijing metro entire network without crowding effects, we are able to obtain
+the solution within 2.2 hours using the proposed algorithm. We solve instances on both the Beijing
+subnetwork and the entire network under crowding, obtaining higher-quality solutions that reduce
+passengers’ perceived travel times compared to the existing line plan used in real-world operations.
+  Extensive computational studies provide valuable insights into the benefits of incorporating
+crowding effects in line planning. In particular, the results show that incorporating crowding effects
+in line planning considerably reduces crowding, even when the crowding factor is small. Moreover,
+by incorporating crowding effects into line planning, passengers’ perceived travel time is reduced
+with only minor increases in travel time. Lastly, we show that the system-optimal routing only
+deviates slightly from the user-equilibrium, implying that the impact of ignoring passengers’ selfish
+route choices during the optimization is limited.
+  To summarize, our contributions are four-fold:
+  1. We introduce the line planning problem under crowding, which models crowding using a
+quadratic penalty term.
+  2. Through a convex reformulation, we obtain a computationally tractable mixed-integer second-
+order cone program (MI-SOCP), which we solve using a cut-and-column generation framework.
+  3. We demonstrate that our algorithm obtains near-optimal solutions in a short computation
+time compared to GUROBI and is able to solve real-life instances.
+  4. From a practical standpoint, extensive numerical studies provide various managerial insights
+into line planning problems.
+  The remainder of this paper is organized as follows. In Section 2, we review the literature related
+to this study. Section 3 formally introduces the line planning problem under crowding and presents
+the mathematical formulation. Subsequently, we present our solution approach, discussing the
+reformulation, the cut-generation method, and the cut-and-column generation algorithm in Section
+4. Section 5 proposes a model to evaluate the user equilibrium given the line plan. In Section 6,
+we discuss the numerical results, including those based on the grid network and the Beijing metro
+system. Lastly, Section 7 concludes this paper.
+                                         Lu et al.: Line planning under crowding: A cut-and-column generation approach
+4
+
+2.     Literature review
+This paper merges two streams of literature on public transit systems: line planning that considers
+passenger routing and the effects of crowding on the public transit system. Section 2.1 reviews
+line planning and describes how passenger routing can be integrated. We refer to Schöbel (2012)
+and Schmidt and Schöbel (2024) for a broader overview of the line planning literature. Section 2.2
+describes how existing literature models the effects of crowding within the planning phases of public
+transit.
+
+2.1.    Line planning with passenger routing
+The     well-studied   line   planning    problem      usually     selects    several    lines    from     a   given
+line pool (Gattermann, Harbering, and Schöbel 2017). Early contributions in line plan-
+ning models exclusively focus on physical infrastructure and operational aspects (e.g.,
+Goossens, Van Hoesel, and Kroon 2004, 2006). The goal is to find a line concept that serves all
+customers and minimizes operating costs for public transit companies.
+    More recent models have shifted towards a stronger focus on the passengers’ preferences and
+objectives. Most of the related literature focuses on line planning with system-optimal routes,
+in parts integrated with other decisions such as network design (Canca et al. 2019), timetabling
+(Van Lieshout, Bouman, and Huisman 2020), or the integration of timetabling and vehicle schedul-
+ing (Schöbel 2017). In these problems, the operator chooses lines that optimize their objective
+(e.g., profit, costs, service level) by assigning passengers to routes. This stream of literature can be
+divided into two substreams. The first substream maximizes the number of passengers traveling
+without transfers. Those who must make transfers to reach their destinations are often overlooked.
+For example, the first model in Bertsimas, Ng, and Yan (2021) takes passengers with direct routes
+into account and maximizes the total demand that can be served by the line plan, where capacity
+limitations are disregarded. In this model, passenger preferences are limited to either choosing a
+direct route or forgoing being served.
+    The second substream minimizes the total travel time of passengers, taking routes with transfers
+into account. Operating costs usually translate to budget constraints, while capacity limitations
+are either discarded or formulated as hard constraints. Tracking passengers’ travel time on each
+available route, Schöbel and Scholl (2005) propose the change-and-go network (CGN). This net-
+work representation allows for characterizing passenger transfer behavior precisely and formulating
+passengers’ travel time as a function of both in-vehicle time and transfer penalties. For exam-
+ple, Friedrich et al. (2017b) present a line planning model incorporating hard capacity constraints,
+wherein passenger assignment is integrated into cost-optimal line planning. This model ensures
+that the average length of the considered routes does not exceed a specified percentage increase
+Lu et al.: Line planning under crowding: A cut-and-column generation approach
+                                                                                                    5
+
+compared to the shortest route. The authors test this model on the 5 × 5-grid network with up
+to 275 lines in the line pool. As an alternative to modeling based on the CGN, Yao, Nie, and Fu
+(2024) propose a two-phase solution approach for the railway line planning problem with passen-
+ger routing using a direct-connection network. In this model, the capacity of lines and trains is
+ignored and the requirement to serve all passengers is relaxed. The line planning model proposed
+in Bertsimas, Ng, and Yan (2021) uses yet another modeling alternative, which considers routes
+with at most one transfer. In this model, the travel time for routes with a transfer is constrained by
+an exogenous threshold. Routes are all pre-computed outside the optimization process. Moreover,
+this model discards capacity limitations and aims to maximize the number of demands served by
+the transit network.
+  Beyond the aforementioned approach of pre-computing passengers’ routes outside of the opti-
+mization framework, Borndörfer, Grötschel, and Pfetsch (2007) use a column generation algorithm
+to dynamically generate passenger routes in the physical network within the optimization process.
+They develop a mixed-integer model aimed at minimizing the sum of passengers’ travel costs and
+operators’ costs. However, this model excludes transfer penalties and overlooks capacity limitations
+on lines.
+  More recently, the line planning literature moved away from assigning passengers to routes and
+rather explicitly models passenger route choice using discrete choice models and Nash equilibria
+(Schmidt 2012, Hartleb et al. 2023). For example, Goerigk and Schmidt (2017) propose a bi-level
+model based on the CGN for the line planning problem that incorporates user-optimal route choices.
+In this model, passenger routes are generated prior to optimization, and capacity limitations are
+explicitly formulated as hard constraints. The travel time of passengers is formulated as a func-
+tion associated with in-vehicle travel time and transfer penalties. The authors develop a genetic
+algorithm to solve large-scale instances. Schiewe, Schiewe, and Schmidt (2019) interpret line plan-
+ning as a game in which passengers are players striving to minimize their individual objective
+functions, which comprise travel time, transfer penalties, and a share of the overall solution cost,
+while accounting for hard capacity constraints. Both methods face numerical difficulties due to the
+interaction terms’ bi-level nature and non-convexity.
+  While the line planning literature has moved towards more detailed modeling of passenger pref-
+erences by either minimizing or constraining the overall travel time or transfers, passengers are
+not only sensitive to physical aspects of their journey but also travel comfort, such as crowding.
+We thus integrate the effects of crowding on the perceived travel time of passengers in the line
+planning problem and model the impact of crowding as soft-capacity constraints. In addition, cur-
+rent algorithms addressing line planning problems exhibit limitations in scalability. Consequently,
+we develop a cut-and-column generation approach designed to solve real-life instances involving
+                                      Lu et al.: Line planning under crowding: A cut-and-column generation approach
+6
+
+hundreds of stations, hundreds of candidate lines in the line pool, and tens of thousands of OD
+pairs.
+
+2.2.     Crowding effects in public transit planning
+More passengers on the same train reduces travel comfort. This has not been considered in the con-
+text of line planning and is usually modeled using hard capacity constraints in other public transit
+decisions, such as timetabling (e.g., Cacchiani, Qi, and Yang 2020, Yin et al. 2021, Lu et al. 2022,
+2023), vehicle scheduling (e.g., Xia, Ma, and Sharif Azadeh 2024, Chai et al. 2024), and charging
+(e.g., De Vos, Van Lieshout, and Dollevoet 2024).
+    The literature that precisely models the effects of crowding on passengers’ travel discomfort in
+public transit planning process is quite limited. Jiang, Rasmussen, and Nielsen (2022) formulate
+a mixed integer nonlinear programming (MINLP) model for the timetabling problem in a transit
+network offering both schedule- and frequency-based services. This model incorporates different
+in-vehicle travel times for passengers, whether seated or standing, using a piecewise linear function.
+Luan and Corman (2022) present a MINLP formulation to reschedule trains and reroute passen-
+gers, incorporating crowding effects into system-optimal passenger movements. They assume that
+crowding effects do not come into play if every passenger has a seat but increase stepwise otherwise.
+These effects are modeled as a piecewise constant function within the formulation.
+    The freight transport literature considers crowding more frequently. More vehicles on the same
+road increase the travel time (e.g., Daganzo 1997, Franceschetti et al. 2018), drivers reroute ac-
+cordingly, and thus road network planners include crowding. Similarly, network design and location
+decisions in centrally planned logistics systems benefit from considering crowding if demand is
+stochastic (e.g. Bayram, Yıldız, and Farham 2023, Kınay, Gzara, and Alumur 2023). For exam-
+ple, Basciftci and Van Hentenryck (2023) consider the crowding effects on hub location decisions,
+factoring in strict capacity limitations. The authors employ the Kleinrock function to model each
+hub as an M/M/1 queue under steady-state conditions, thereby formulating the crowding effects
+as a nonlinear cost function.
+    We add to this literature stream by considering crowding in a decision-making problem that
+previously ignored these effects. We propose a novel crowding effect function and develop an efficient
+cutting-plane method to address the computational challenges arising from the quadratic crowding
+terms. Additionally, we design three procedures within the cut-and-column generation approach to
+efficiently handle the quadratic crowding terms when dealing with an enormous number of columns
+simultaneously.
+Lu et al.: Line planning under crowding: A cut-and-column generation approach
+                                                                                                                 7
+
+3.    Problem statement
+In this paper, we consider the line planning problem under crowding (LPP-C). We first present
+the underlying public transit network (PTN) and then introduce the corresponding change-and-go
+network (CGN) in line with Schöbel and Scholl (2005). We subsequently explain the LPP-C in
+greater detail. Lastly, we formulate the problem as a mathematical model with a nonlinear objective
+function.
+
+Network
+A PTN is a graph G = (S, E) with a set of vertices S representing stations and a set of edges E
+representing tracks between two stations. A line is a simple path in G, and all potential lines are
+given by the line pool L. This line pool is a subset of all simple paths. Each station should be
+served by at least one line; if multiple lines pass a station i ∈ S, this station is a possible transfer
+location.
+  To track passengers changing between lines and account for the inconvenience associated with
+transfers, we cast the PTN into a CGN. A CGN is a graph G = (N , A), where N refers to the set
+of nodes in the CGN. The node set N comprises the set of station nodes S and the set of travel
+nodes N t . We generate a node in the CGN for each station-line (s, l) tuple such that s ∈ l allows
+us to track passengers transferring between lines explicitly. An example of a four-station PTN and
+its corresponding CGN with four station nodes and six transfer nodes is given in Figure ??. The
+set A contains travel arcs At and transfer arcs Ac . Each travel arc a ∈ At incurs a perceived cost
+comprising the travel time and a crowding penalty. The latter negatively correlates with frequency
+and positively depends on the utilization. In contrast, transfer arcs only incur a fixed cost ca for
+making a transfer.
+
+The line planning problem under crowding
+As    in    most    line   planning      models,     we     assume     the      line   pool is   defined a   priori
+(Van Lieshout, Bouman, and Huisman 2020). From the line pool L including a set of candidate
+lines connecting stations in a public transit system, the operator determines which lines to operate
+at what frequency. The operator aims to minimize passengers’ perceived travel times by operating
+lines subject to a budget constraint B such that all demand is served.
+  Once the lines have been established, passengers join the system and travel from origin to
+destination. We thus aggregate interchangeable passengers with the same origin and destination.
+We denote the passenger demand by the set P ⊆ S × S, which includes the passengers’ origin and
+destination, and use np for the positive passenger demand of p ∈ P . Every passenger is assigned
+to a route, which is a directed path in the CGN that starts from the station node corresponding
+to the passengers’ origin, passes through various nodes and arcs, and arrives at the station node
+                                        Lu et al.: Line planning under crowding: A cut-and-column generation approach
+8
+
+                                                     Line 1
+
+                                        A              C             D
+
+                                                B          Line 2
+
+                                                     (a) PTN
+           A- Line 1                                                C- Line 1                 D - Line 1
+
+
+
+              A                                                          C                        D
+
+                                            B
+                                                                                                Travel arc
+                                                                                                Transfer arc
+
+           A- Line 2                    B - Line 2                   C - Line 2
+
+                                                     (b) CGN
+Figure 1     An illustrative PTN and CGN.
+
+
+corresponding to the destination. Along this route, passengers can transfer between different lines.
+We incorporate crowding effects into line planning, minimizing a perceived travel time function of
+passengers comprising travel time and crowding penalty.
+
+Mathematical formulation
+To formulate the LPP-C, we first introduce a mathematical model with a nonlinear objective
+function. We introduce the parameter L(e) to represent the set of lines passing through edge e ∈ E
+in the PTN. Let R, Ra , Rp , Rpa denote the set of possible routes for all OD pairs, the set of routes
+passing arc a ∈ A, the set of possible routes for OD pair p ∈ P , and the set of routes for OD pair p
+which pass arc a. Let dℓ and eℓ denote the operational costs and set-up costs of line ℓ, respectively.
+Let ℓ(a) represent the line ℓ to which arc a belongs. We define the parameter γa > 0 to represent the
+crowding factor, which depends on the capacity of the vehicle that operates on ℓ(a). The budget is
+denoted as B, and the minimum and maximum frequency of line ℓ are denoted as fℓmin and fℓmax ,
+respectively. Four types of decision variables represent the line plan and the passenger flows:
+    (i) yℓ : Continuous variables representing the frequency of line ℓ ∈ L,
+    (ii) wℓ : Binary variables indicating whether line ℓ ∈ L is operated in the solution or not,
+    (iii) xa : Continuous decision variables representing the total number of passengers using arc
+a ∈ A,
+    (iv) zr : Continuous decision variables indicating the number of passengers that choose route
+r ∈ R.
+Lu et al.: Line planning under crowding: A cut-and-column generation approach
+                                                                                                      9
+
+  Then, the LPP-C can be formulated as follows:
+              X                  X          γa x2a
+      min           ca xa +                                                                        (1a)
+              a∈A             a∈A:yℓ(a)>0
+                                            yℓ(a)
+             X
+      s.t.         (dℓ yℓ + eℓ wℓ ) ≤ B                                                            (1b)
+             ℓ∈L
+                         X
+                                 wℓ ≥ 1                ∀e ∈ E,                                     (1c)
+                        ℓ∈L(e)
+
+                         fℓmin wℓ ≤ yℓ ≤ fℓmax wℓ      ∀ ℓ ∈ L,                                    (1d)
+                                    X
+                               xa =      zr            ∀a ∈ A,                                     (1e)
+                                       r∈Ra
+                          X
+                                 zr ≤ np wℓ(a)         ∀a ∈ A, p ∈ P ,                             (1f)
+                            p
+                         r∈Ra
+                          X
+                                 zr = np               ∀p ∈ P ,                                    (1g)
+                          r∈Rp
+
+                                 wℓ ∈ {0, 1}           ∀ ℓ ∈ L,                                    (1h)
+
+                                 xa ≥ 0                ∀a ∈ A,                                      (1i)
+
+                                 yℓ ≥ 0                ∀ ℓ ∈ L,                                     (1j)
+
+                                 zr ≥ 0                ∀r ∈ R.                                     (1k)
+
+The objective function (1a) minimizes the total perceived travel times of passengers. Constraint
+(1b) ensures that the operational and set-up costs of the operated lines remain within the budget.
+Constraints (1c) ensure that every edge in the PTN has at least one line passing through it.
+Constraints (1d) link variables yℓ and wℓ , enforcing that operated lines have a frequency between
+fℓmin and fℓmax and 0 otherwise. Constraints (1e) link the arc flows to the route variables, making sure
+that the flow through an arc equals the flow over all routes passing through this arc. Constraints
+(1f) restrict passengers to use arcs that belong to operated lines ℓ, i.e., for all ℓ with wℓ = 1.
+Constraints (1g) ensure that all passengers are routed. Constraints (1h) – (1k) define the domains
+of the decision variables.
+
+4.    Solution methodologies
+Formulation (1) cannot be used to solve realistic instances using standard commercial solvers
+because (i) the set over which we sum in the crowding penalty term in the objective function
+depends on the values of the decision variables and (ii) the number of routes for every OD pair may
+be enormous. To deal with (i), Section 4.1 reformulates the problem as a mixed-integer second-
+order cone program (MI-SOCP). Section 4.2 describes how this MI-SOCP can be solved using a
+cutting-plane approach. To handle (ii), Section 4.3 shows how routes can be generated dynamically
+using column generation. Section 4.4 introduces three variants of the proposed cut-and-column
+                                                Lu et al.: Line planning under crowding: A cut-and-column generation approach
+10
+
+generation approach, which integrates the two algorithms described above. Lastly, Section 4.5
+presents the diving heuristic to obtain integral solutions.
+
+4.1.     Reformulation as a mixed-integer second-order cone program
+To reformulate the problem as an MI-SOCP, we introduce auxiliary decision variables Θa for all
+a ∈ A that serve as the crowding penalty incurred on arc a in the objective function. To ensure
+that these variables take the right value, we add a set of rotated second-order cone constraints. In
+the reformulation, we no longer need constraints (1f) to couple decision variables z and w. This
+results in the following formulation:
+              X               X
+       min          ca xa +         Θa                                                                                 (2a)
+              a∈A             a∈A
+              X
+       s.t.         (dℓ yℓ + eℓ wℓ ) ≤ B                                                                               (2b)
+              ℓ∈L
+                          Θa yℓ(a) ≥ γa x2a               ∀a ∈ A,                                                       (2c)
+                          X
+                               wℓ ≥ 1                     ∀e ∈ E,                                                      (2d)
+                         ℓ∈L(e)
+
+                          fℓmin wℓ ≤ yℓ ≤ fℓmax wℓ        ∀ ℓ ∈ L,                                                      (2e)
+                                     X
+                                xa =      zr              ∀a ∈ A,                                                       (2f)
+                                         r∈Ra
+                           X
+                                  zr = np                 ∀p ∈ P ,                                                     (2g)
+                           r∈Rp
+
+                                  wℓ ∈ {0, 1}             ∀ ℓ ∈ L,                                                     (2h)
+
+                                  xa ≥ 0                  ∀a ∈ A,                                                       (2i)
+
+                                    yℓ ≥ 0                ∀ ℓ ∈ L,                                                      (2j)
+
+                                  zr ≥ 0                  ∀r ∈ R,                                                      (2k)
+
+                                Θa ≥ 0                    ∀a ∈ A.                                                       (2l)
+
+     Constraints (2c) are the most important constraints in Formulation (2). If yℓ(a) = 0, these con-
+straints force xa = 0 and if yℓ(a) > 0, they ensure that Θa ≥ γa x2a /yℓ(a) . These constraints are
+nonlinear, but, together with the conditions that yℓ(a) ≥ 0 and Θa ≥ 0 for all a, describe a rotated
+second-order cone, which is convex. The remaining constraints follow from the original formulation
+(1).
+
+4.2.     Cutting planes for SOCP constraints
+Mixed-integer second-order cone programs can be solved directly by most contemporary commercial
+solvers. As a faster alternative, the rotated second-order cone constraints can be handled using
+cutting planes that also integrate well with column generation. In this method, the cone constraints
+Lu et al.: Line planning under crowding: A cut-and-column generation approach
+                                                                                                         11
+
+are relaxed, yielding a linear formulation, and tangent cuts are added on-the-fly when violations
+of the constraints are detected, as formalized in the following proposition:
+
+  Proposition 1 (Cut Generation). Given a point (Θ̂, x̂, ŷ) where ŷa > 0 for some a ∈ A, the
+following cut is valid:
+     Θa     2x̂a        x̂2
+         ≥        xa − 2 a yℓ(a) .                                                                       (3)
+      γa   ŷℓ(a)     ŷℓ(a)
+  Proof.     We will show that this cut does not eliminate any feasible solutions of Formulation (2).
+We omit indices for brevity. Let (Θ, x, y) denote a feasible solution. If y = 0, it must be that
+Θ = x = 0, and (3) is satisfied. If y > 0, constraint (2c) becomes Θ/γ ≥ f (x, y), where f (x, y) = x2 /y.
+Since f (x, y) is convex, given the point (x̂, ŷ), it holds that
+
+                             f (x, y) ≥ f (x̂, ŷ) + fx (x̂, ŷ)(x − x̂) + fy (x̂, ŷ)(y − ŷ),
+
+where f· denotes the subgradient. Therefore, we have
+    Θ               x̂2 2x̂         x̂2
+       ≥ f (x, y) ≥     + (x − x̂) − 2 (y − ŷ)
+     γ               ŷ  ŷ         ŷ
+                    2x̂    x̂2
+                  ≥ x − 2 y,
+                     ŷ    ŷ
+which corresponds to (3). 
+  Our algorithm checks for constraint violation and adds these linear cuts when necessary. In case
+yl = 0 for some violated constraint, we replace yl by yl + ε for some small ε before computing the
+cut.
+
+4.3.    Column generation
+The other challenge of solving Formulation (2) lies in the enormous set of routes Rp for each OD
+pair p ∈ P when the network is large, which results in a huge number of variables. However, the
+challenge can be handled efficiently using the column generation algorithm.
+
+  4.3.1.     Iterative process of the column generation algorithm Our column generation
+algorithm proceeds iteratively as follows. First, we begin with a restricted set of routes R ⊂ R
+and the corresponding subset of variables. We solve the restricted master problem (RMP), which is
+Formulation (2) on R where we additionally relax the integer condition on w and remove constraints
+(2c) to obtain an optimal primal and dual solution to the RMP. Then, to see if the solution is also
+optimal with respect to the full set of routes R, we solve the pricing problem (PP) by searching
+for the route r ∈ R with the smallest reduced cost given the current dual variables. For any given
+route r for OD pair p, the reduced cost ψrp can be expressed as ψrp = −λp +
+                                                                               P
+                                                                                   ϑa , where ϑa is
+                                                                                                  a∈Ar
+the dual of constraints (2f), and λp is the dual of constraints (2g). For each p ∈ P , we can find the
+route r ∗ that minimizes the reduced cost by solving a shortest-path problem on a directed acyclic
+graph. If ψrp∗ < 0, adding r ∗ to R can improve the current solution. If ψrp∗ ≥ 0 for all p ∈ P , the
+current solution is optimal.
+                                      Lu et al.: Line planning under crowding: A cut-and-column generation approach
+12
+
+  4.3.2.     Initialization and dealing with infeasibility To initialize the column generation
+algorithm, we include the shortest route in the CGN for each OD pair in R. Given the restricted
+number of routes in R, the RMP may become infeasible. This issue would also arise in the process
+of finding integral solutions due to the possible absence of routes for certain OD pairs in the line
+plan with all integral frequencies. The infeasibility arises from constraints (2g) not being satisfied
+and the associated dual problem being unbounded. During column generation, utilizing Farkas
+pricing enables the restoration of the feasibility of the RMP (Kowalczyk and Leus 2018). To be
+more precise, we retrieve the Farkas duals of the constraints (2f) and (2g), use them to solve the
+pricing problem, add routes to the RMP, and solve the RMP again. We repeat these procedures
+until we have shown that the RMP is feasible.
+
+4.4.     An overview of the algorithm
+We investigate three variants of the cut-and-column generation approach:
+     (i) First-Cut-Then-Price (FCTP). After solving the RMP, this method first identifies and adds
+violated cuts, and only calls the pricing problem if no cuts are added.
+     (ii) First-Price-Then-Cut (FPTC). Conversely, this method always calls the pricing problem
+after solving the RMP, and only adds cuts if there are no negative reduced cost columns.
+     (iii) Always-Price-And-Cut (APAC). The final method always calls both the pricing and the
+cutting procedure after solving the RMP.
+     To limit the size of the models, we apply both cut and column management. In every proposed
+variant, each time the cut generation method is called, we identify the tight cuts, save them for the
+next iteration, and eliminate the slack ones so as to further speed up the computation. Additionally,
+after each pricing procedure, we compute the average number of routes with respect to all OD
+pairs. If this measure exceeds a predetermined threshold (denoted as ∆1 ), we remove routes whose
+reduced costs exceed a positive threshold value ∆2 .
+     Termination options for this heuristic involve solving the RMP to optimality or stopping the
+column generation process before the optimal solution of the RMP is reached to avoid the tail-
+off effect. Here, we terminate the column generation process if the relative improvement in the
+objective value of the RMP over the last I iterations falls below ǫ. These parameters dynamically
+adapt during the solution process.
+
+4.5.     Diving heuristic
+To obtain integral solutions, we utilize the diving heuristic to perform a heuristic search in the
+branch-and-bound tree. The diving heuristic iteratively executes a column generation phase and
+a fixing phase until it yields an integral solution. Specifically, after a column generation phase, we
+round up the fractional line variable wℓ whose corresponding frequency variable yℓ is the largest.
+Lu et al.: Line planning under crowding: A cut-and-column generation approach
+                                                                                                     13
+
+Thereafter, we check whether the remaining budget is sufficient to operate another line at its
+minimum frequency. If the budget is sufficient, we continue the search by solving the RMP again.
+If not, the diving heuristic terminates.
+  Since we use an early stopping criterion to solve the RMP, it is possible that there are still
+negative reduced cost routes that can improve the objective, whilst keeping the line variables fixed.
+Therefore, after terminating the diving heuristic, we reoptimize the RMP and resolve the pricing
+problem until no negative reduced cost routes can be found.
+
+5.    Evaluating the user equilibrium
+Given a line plan, we are interested in evaluating the user equilibrium considering the crowding
+effects. The user equilibrium principle of Wardrop states that each passenger strives to minimize
+their individual perceived travel times and will collectively reach an equilibrium state where no
+passenger has an incentive to change their chosen route. Given a solution y∗ , let A∗ denote the
+                             ∗
+set of all arcs a such that yl(a) > 0, and define the function da (xa ) := ca + yγa xa for the perceived
+                                                                                       l(a)
+
+travel cost on each arc a ∈ A∗ . To formally define the equilibrium conditions, let the continuous
+variable τ p represent the travel costs in the equilibrium state of each OD pair p ∈ P and let the
+continuous variable hr represent the travel cost of each route r in R. A routing z is an equilibrium
+if (x, τ ) exist such that the following conditions are satisfied (Wardrop 1952):
+       X
+            zr = np                                               ∀p ∈ P ,
+      r∈Rp
+                    X
+             xa =          zr                                              ∀a ∈ A∗ ,
+                    r∈Ra
+                    X
+             hr =         da (xa )                                          ∀r ∈ R,
+                    a∈r
+       zr > 0 ⇒ hr = τ p                                           ∀p ∈ P , r ∈ Rp ,
+       zr = 0 ⇒ hr ≥ τ p                                           ∀p ∈ P , r ∈ Rp .
+
+These conditions are non-linear and, therefore, hard to solve directly. However, as shown in Propo-
+sition 18.11 in Roughgarden (2007), we can find an equilibrium routing by solving the following
+optimization problem:
+           X Z xa
+    min            da (s)ds                                                                        (4a)
+              a∈A∗     0
+                      X
+      s.t.    xa =              zr ∀a ∈ A∗ ,                                                       (4b)
+                     r∈Ra
+               X
+                     zr = np ∀p ∈ P ,                                                              (4c)
+              r∈Rp
+
+              xa ≥ 0               ∀a ∈ A∗ ,                                                       (4d)
+              zr ≥ 0               ∀r ∈ R.                                                         (4e)
+                                        Lu et al.: Line planning under crowding: A cut-and-column generation approach
+14
+
+For any continuous and non-decreasing function da (xa ), the objective function is both continuously
+differentiable and convex. For our case, the integral evaluates to:
+                                                   !
+       X Z xa              X Z xa            γa
+               da (s)ds =             ca + ∗ s ds
+      a∈A∗ 0              a∈A∗ 0
+                                            yℓ(a)
+                               "                # xa
+                           X             γa 2
+                        =       ca s + ∗ s
+                          a∈A∗
+                                       2yℓ(a)
+                           X            X γa 0
+                        =      ca xa +         ∗
+                                                    x2a .                                                        (5)
+                          a∈A∗         a∈A∗
+                                            2y ℓ(a)
+
+Therefore, for a given line plan, we can find its corresponding user equilibrium by solving a convex
+quadratic problem. Note that since the objective function and constraint functions are convex, the
+user equilibrium is unique. For cases where the route set R is very large, it can again be solved
+using column generation, using the same approach as outlined in Section 4.3.
+
+6.      Numerical experiments
+We now turn to computational experiments conducted on three networks using artificial and real-
+life operational data, respectively. The algorithm is implemented in Java, and all experiments are
+performed on a personal computer equipped with a 12th Gen Intel Core i7-12700H CPU (2.30
+GHz), 64 GB of RAM, 16 cores, and GUROBI 9.5.1.
+     When analyzing the solutions to the instances, we aim to answer questions such as:
+     (i) How much does incorporating passenger routing help in reducing perceived travel times?
+When using GUROBI as a benchmark solution method, how many routes are appropriate to include
+in the optimization process?
+     (ii) How much do our three variants of the developed cut-and-column generation algorithm
+help in improving the solution efficiency in both artificial and real-life networks? What are the
+characteristics of the most applicable scenarios for each variant?
+     (iii) What are the characteristics of high-quality line plans when minimizing passengers’ perceived
+travel times under crowding? What are the benefits of optimizing line plans compared to the
+existing ones used in current practical operations?
+     (iv) What are the benefits of incorporating crowding effects into line planning to enhance pas-
+sengers’ travel experience, particularly in reducing crowding?
+     (v) What are the characteristics of deviations between system-optimal and user-equilibrium
+routing when minimizing passengers’ perceived travel times under crowding?
+     Before analyzing the results of our numerical experiments, we first provide details of the in-
+stances used in our study in Section 6.1. In Section 6.2, we address the first question regarding the
+effectiveness of including passenger routing and partially discuss the second question on the solu-
+tion efficiency of the cut-and-column generation algorithm. Section 6.3 focuses on the remaining
+Lu et al.: Line planning under crowding: A cut-and-column generation approach
+                                                                                                     15
+
+three questions, exploring the benefits of optimizing line plans, the characteristics of high-quality
+solutions, the benefits of incorporating crowding effects, and deviations between system-optimal
+and user-equilibrium routing. In Section 6.3, we also demonstrate that our methodologies gener-
+ate more effective line plans relative to the existing line plan employed in real-world operations,
+leading to smaller passengers’ perceived travel times within the network. Lastly, in Section 6.4, we
+demonstrate the scalability of our algorithm on the entire Beijing metro network, providing further
+insights into the second question on large-scale problem-solving capability.
+
+6.1.       Experimental design
+To demonstrate the effectiveness of the proposed formulations and algorithms, we present the
+results of numerical experiments utilizing artificial instances with the grid network and real-world
+case studies based on the Beijing metro network. Table 1 summarizes the characteristics of the
+instances.
+
+                                     Table 1      Characteristics of the instances.
+  Instance                  Network              Candidate lines (#) OD pairs (#) Demand (#)
+     A                 5 × 5-grid network               128                   567       2,547
+                     Beijing metro central
+       B                                                168                23,374     446,649
+               sub-network with 8 existing lines
+       C         Beijing metro entire network           534                56,916     776,401
+
+
+
+  First, we focus on a 5 × 5-grid network detailed in Friedrich et al. (2017a) and
+Schiewe, Jäger, and Schöbel (2024) to analyze the benefits of incorporating passenger routing into
+the line planning problem and the effectiveness of our algorithm. As Figure 2 shows, this network
+comprises 25 nodes and 40 edges, and serves 2,547 passengers in 567 OD pairs. Travel times on each
+edge are 6 minutes and dwell times at stations are 1 minute. We construct a line pool consisting
+of 128 lines. The operational costs dℓ for line ℓ is equal to 8Nℓ where Nℓ is the number of edges
+traversed by line ℓ. Additionally, the set-up costs eℓ are positively proportional to dℓ , and are given
+by eℓ = 1.5 × dℓ . We obtain a baseline budget B by solving the cost-minimal line planning problem
+with strict capacities. In the experiments, we vary the actual budget B to 100% and 120% of this
+value. The transfer penalty is set at 5 minutes. Based on a large number of pre-experiments with
+B set at B, we observe that the maximum frequency of operated lines in optimal solutions consis-
+tently remains no greater than 5, regardless of variations in the crowding factor. This observation
+supports the conclusion that higher frequency values are unnecessary in this context. Therefore,
+in all experiments based on the grid network, the upper bound for frequency (denoted as fℓmax for
+all ℓ ∈ L) is set to 5 trains per hour.
+                                          Lu et al.: Line planning under crowding: A cut-and-column generation approach
+16
+
+
+                                 1           2           3           4            5
+
+                                 6           7           8           9           10
+
+                                11          12          13          14           15
+
+                                16          17          18          19           20
+
+                                21          22          23          24           25
+Figure 2     5 × 5-grid network used in the computational study.
+
+
+     Thereafter, we perform experiments on the Beijing metro central sub-network to explore the
+benefits of the optimized line plans obtained by the algorithm over the line plan used in prac-
+tical operations. Lastly, we turn to the entire Beijing metro network to showcase the capa-
+bility of the proposed cut-and-column generation algorithm to solve large-scale problems. For
+these instances based on the Beijing metro sub-network and entire network, we set the maxi-
+mum frequency to 40 trains per hour, as proposed by operational managers of the Beijing metro
+(Beijing Municipal Government Press Office 2023).
+     The Beijing metro central sub-network includes lines 1, 2, 4, 5, 6, 8, 10, and 13 which cover the
+downtown area, as illustrated in Figure 3(a). For this sub-network, we focus on OD pairs where
+both the origin and destination lie within it. The Beijing metro sub-network and the entire network
+are of particular interest due to the large number of route choices available to commuters and the
+high utilization of the booming urban populations. In the Beijing metro network on April 2016,
+there are 277 stations (55 of which are transfer stations), and 19 existing lines, as shown in Figure
+3(b). To build a line pool of the Beijing metro sub-network and the entire network, we first select
+the terminal stations of all the existing lines, and then select a subset of all stations including
+all the transfer stations, making sure that there is at least one route between any two of these
+terminal stations. After picking the stations use the shortest-path algorithm to find the paths with
+the shortest travel time between any two terminal stations, with each shortest path being a line. In
+this generating process, we still follow the restriction of established tracks, i.e., we can only set up
+lines if tracks already exist. For the line pool within the entire Beijing metro network, we further
+remove the dominated lines. The line pools obtained by the above method consists of 168 and 534
+lines within the sub-network and the entire network, respectively. The transfer penalty is set as
+15 minutes. The operational costs dℓ for line ℓ are equal to Nℓ where Nℓ is the number of stations
+traversed by line ℓ. The set-up costs eℓ are again proportional to dℓ , according to a factor that we
+vary in the experiments. We calculate the costs of the existing line plan used in real-life operations
+and set it as the baseline budget B.
+Lu et al.: Line planning under crowding: A cut-and-column generation approach
+                                                                                                                                                                                                                                                               17
+
+                                                                                                                                Line 5 !.,-,,*
+
+
+                                                                       Line 8 !+,-,,*
+                                                                                                                                                                                                               Line 1
+                                                                                                                                               Line 13 !++-/0*
+                                                                                                              HY                                                                                               Line 2
+                                                                                                                                         LSQ                                                                   Line 4
+                                                                                                                                                                                                               Line 5
+                                                                                                                                                                                                               Line 6
+                                         Line 4 !.,-,,*                                                                                                                                                        Line 8
+                                                                                                                                                                                                              Line 10
+                                                                                                                                                                                                              Line 13
+
+                                                                                   HDHZ                             BTC                          SYJ
+
+                                               Line 10 !.,-,,*                            ZCL                                            HXXJN
+
+                                                                                                                                                                                                                  Transfer stations
+
+                                                                                                                   GLDJ                                                                                           Other stations
+                                                                                                                                          DZM                                                                 Line Name !"#$%&$'()*
+                                                                                            XZM
+                                                                                                        PAL                     NLGX
+                                            Line 6 !+,-,,*                                                                                CYM                  HJL
+                                                                                            CGZ
+                                                                                                                                   DS
+
+                                                                                                               XD
+                       Line 1 !.,-,,*
+                                                                    GZF             MQD      FXM                                   DD      JGM            GM
+
+
+                                                                                                       XWM                       CWM
+
+                                                                                          Line 2 !.,-,,*
+                                                                                                               CSK
+
+
+
+
+                                                                                                               BJNZ
+
+                                                                                                               JMX
+
+                                                                                                                                         SJZ
+
+
+
+
+                                               (a) Existing line plan in the Beijing metro central sub-network
+
+                                          Line CP !"#$%&
+
+
+
+
+                                                                                                                                   Line 5 !%/#//&
+                                                                                                                                                                                                              Line 15 !0$#//&
+                                                                                                ZXZ
+                                                                        Line 8 !$/#//&
+
+                                                                                                                                                     Line 13 !$$#51&                                                     Line 1       Line 14 East
+                                                                                                                   HY
+                                                                                                                                                                                                                         Line 2         Line 15
+                                                                                                                                                LSQ
+                                                                                                                                                                                            Line Air !2#//&              Line 4       Line 14 West
+                                                                                                                                                                                                                         Line 5         Line DX
+                                                                             XY            XEQ                                                                                                                           Line 6         Line CP
+                                         Line 4 !%/#//&                                                                                                                                                                  Line 7         Line FS
+                                                                                                                                                                      WJ
+                                                                                                                                                                                                                         Line 8         Line YZ
+                                                                                                                        ALPK                    DTLD         WJX
+                                                                                                                                                                                                                         Line 9         Line BT
+                                                                                                                                                                                                                        Line 10         Line Air
+                                                                                    HDHZ                                  BTC                          SYJ
+                                                                                                                                                HXXJN
+                                                                                                                                                                                                                        Line 13
+                                                Line 10 !%/#//&                             ZCL
+
+                                                                                                                                                                      SYQ                                                 Transfer stations
+                                                                                                                        GLDJ                                                                                              Other stations
+                                                                                                                                        YHG      DZM
+                                                                                                                                                                                                                        Line Name !'()*+),-.&
+                                                                             GJT                XZM                                            BXQ
+                                                                                   BSQ                        PAL                  NLGX
+                                           Line 6 !$/#//&                                                                                        CYM                  HJL        JTL
+                                                              CSS                               CGZ
+                                                                                                                                         DS
+
+                                                                                    JSB                             XD
+                     Line 1 !%/#//&
+                                                                       GZF              MQD      FXM                                     DD       JGM            GM        DWL         SH    SHD
+
+                                                                                    BJXZ
+                                                                                                                                                                                                                                                   Line BT !$/#//&
+                                                                                                          XWM                          CWM
+
+                                                                                                Line 2 !%/&                                                                      JLS
+                                                                       LLQ
+                                                                                                                    CSK                 CQK
+
+
+                                                                 QLZ
+                                                                                                                                               PHY
+                  Line 14 East !0$#//&                                        XJ
+                                                                                    Line 14 West !1#/2&
+                                                                                                                    BJNZ                                       SLH
+                                                                                                                                                                                                              Line 7 !04#//&
+                                                                                                                    JMX
+
+                                                                                                                                               SJZ
+                                                                                                                    GYXQ
+
+
+
+                                                                       GGZ
+Line FS !0/#14&
+                                                             Line 9 !03#/$&
+                                                                                                                                                                                                 Line YZ !3#//&
+
+
+
+
+                                                                                                      Line DX !$/#//&
+
+
+                                                     (b) Existing line plan in the entire Beijing metro network
+Figure 3               Real-life metro networks used in the computational study.
+                                                                      Lu et al.: Line planning under crowding: A cut-and-column generation approach
+18
+
+     We select a working day to process the passenger demand, using OD data derived from the
+historically detected Automated Fare Collection system. On this day, the entire Beijing metro
+network accommodated a total of 5,989,805 passengers. During the busiest hour, between 7:00 a.m.
+and 8:00 a.m., 776,401 passengers traveled, experiencing severe crowding. The network comprises
+56,916 OD pairs. Within the sub-network, there are 23,374 OD pairs and a passenger demand of
+446,649. The running time on each section between two adjacent stations in this case study is set
+to the real value in real-world operations.
+     For the cut-and-column generation methods, we use the following parameters based on prelim-
+inary experiments. We use ∆1 = 5 and ∆2 = 10, i.e. if the average number of routes for each OD
+pair exceeds 5, we remove columns whose reduced costs exceed 10. In the first iteration of the
+column generation process, we terminate the process if the improvement within 20 consecutive
+iterations (I = 20) is not higher than 0.01% (ǫ = 0.01%). Subsequently, the values of I and ǫ are
+dynamically adjusted: I is decreased by 1, and ǫ is increased by 0.05% in each successive iteration,
+with a minimum value of I set to 1.
+
+6.2.     Algorithmic performance
+We compare the performance of the proposed three procedures of the cut-and-column generation
+algorithm with GUROBI. To do so, we conduct two experiments using instances based on the grid
+network. In the first experiment, we use GUROBI to solve Formulation (2) to optimality with
+varying numbers of routes for each OD pair, establishing a suitable benchmark for the algorithm.
+In the second set, we solve Formulation (2) using three variants of the cut-and-column generation
+approach and compare the optimal solutions obtained from GUROBI.
+
+                                                                ·104
+
+                                                          7.2
+                            Passengers’ perceived times
+
+
+
+
+                                                           7
+
+                                                          6.8
+
+                                                          6.6
+
+                                                          6.4
+
+
+                                                                  2      4   6     8   10 12 14                  16
+                                                                       Number of routes in the PTN
+Figure 4    Comparison of passengers’ perceived travel times among various numbers of routes.
+Lu et al.: Line planning under crowding: A cut-and-column generation approach
+                                                                                                                    19
+
+  For the first experiment, we set a crowding factor of 0.05 and a budget of B. We systematically
+increase the number of PTN routes from two to 15 for this set of experiments, solving all instances
+to optimality using GUROBI. The results are presented in Figure ??. We observe that if the number
+of routes is small, increasing the number of routes yields substantial reductions in passengers’
+perceived travel times. As the number of available routes increases, the marginal benefits taper off.
+These findings suggest that incorporating sufficient passengers’ routes into line planning is necessary
+to model the routing adequately. Consequently, for subsequent experiments, we use GUROBI to
+solve the model with up to 15 PTN routes per OD pair, serving as a benchmark for the algorithm.
+  Next, Table 2 and Figure 5 provide a detailed performance comparison of the three variants of
+the cut-and-column generation algorithm (FCTP, FPTC, and APAC) against GUROBI. The table
+summarizes the objective values of the best feasible solutions produced by each algorithm, along
+with their computational times. It also includes the objective value achieved after 240 seconds of
+computation, the optimal objective value, and the corresponding computational time for GUROBI.
+The figure illustrates the average relative differences in objective values and computational time
+between the cut-and-column generation approach and GUROBI. Since we use the optimal solutions
+obtained by GUROBI as the benchmark, the relative gaps are true optimality gaps.
+
+ Table 2     Comparison between three variants of the cut-and-column generation algorithm and GUROBI based
+                                               on the 5 × 5-grid network.
+    Instance                 FCTP                  FPTC                  APAC              GUROBI (15 PTN routes)
+Budget Crowding                                                                          Objective Objective Time
+                      Objective Time (s)     Objective Time (s)     Objective Time (s)
+ (%)      factor                                                                          (240 s)   (final) (final, s)
+ 100       0.01        52,182           76    52,862      130        52,862      70       52,969    52,147     13,677
+ 100       0.02        55,295           76    55,902      131        55,902      60       55,520    55,116      9,245
+ 100       0.03        58,721           83    58,942      150        58,941      60       59,201    57,866      8,873
+ 100       0.04        61,780           97    61,980      155        61,890      53       62,082    60,445      8,196
+ 100       0.05        63,790          104    65,012      152        65,012      66       63,904    62,958      2,738
+ 100       0.06        66,792          111    68,046      186        68,038      69       66,288    65,465      8,601
+ 100       0.07        69,524          132    71,062      211        71,062      64       70,698    67,965      5,934
+ 100       0.08        72,381          130    74,084      210        74,082      81       73,566    70,463      4,684
+ 120       0.01        51,207           68    52,351      133        52,351      85       52,464    51,091      9,190
+ 120       0.02        53,839           80    54,820      129        54,820      63       54,725    53,399     11,273
+ 120       0.03        56,472           81    57,289      127        57,289      55       56,813    55,550     12,325
+ 120       0.04        59,093           93    59,758      137        59,757      55       59,902    57,602     11,474
+ 120       0.05        60,951           96    62,224      162        62,224      55       60,990    59,641      9,906
+ 120       0.06        63,214          108    64,688      162        64,688      68       63,077    61,590      9,533
+ 120       0.07        65,607          116    67,150      200        66,070      69       65,161    63,540     14,120
+ 120       0.08        66,950          129    69,405      194        68,409      70       67,242    65,495      7,840
+
+    Note: Abbreviation: s = seconds.
+
+
+
+  The results show that despite the relatively small size of these instances, GUROBI has a hard
+time finding optimal solutions, requiring multiple hours of computation time. The three variants
+of the cut-and-column generation approach find high-quality solutions in a matter of minutes, but
+with gaps up to about 5%. FCTP achieves the smallest average optimality gap of 1.77%, along with
+                                              Lu et al.: Line planning under crowding: A cut-and-column generation approach
+20
+
+a narrower median and interquartile range compared to FPTC and APAC. Moreover, in 13 out of 16
+instances, FCTP achieves better performance within at most 132 seconds of computation compared
+to GUROBI after 240 seconds. Based on these results and considering the strategic planning nature
+of our problem, we select FCTP as the solution method for further experimentation.
+
+
+
+
+                                                               Reduction in computational time (% )
+                                                                                                      100
+            6
+                                                                                                      99
+            5
+                                                                                                      98
+            4
+ Gap (% )
+
+
+
+
+            3                                                                                         97
+
+            2                                                                                         96
+
+            1
+                                                                                                      95
+            0
+                   FCTP           FPTC            APAC                                                      FCTP          FPTC        APAC
+      (a) Gap relative to GUROBI optimal solutions                                                           (b) Computational time
+Figure 5           Performance comparison of the three procedures versus GUROBI.
+
+
+
+6.3.            Managerial insights
+This section evaluates the benefits of integrating crowding effects into the line planning decision and
+offers insights into optimized line plans across various crowding factors. The insights are derived
+by various experiments on the 5 × 5-grid network and the Beijing metro central sub-network. All
+models are solved using the FCTP variant of the cut-column generation algorithm. Our insights
+quantify the benefits of incorporating crowding effects into the line planning problem on reducing
+the crowding (Insight 1), on decreasing passengers’ perceived travel times (Insight 2), and on the
+structure of resulting line plans (Insight 3). In addition, our insights also quantify the benefits of
+integrating user-optimal routing in line planning (Insight 4).
+     Insight 1. Incorporating crowding effects in line planning reduces crowding, even when the
+crowding factor is small.
+     We derive this insight through experiments on the Beijing metro central sub-network, focusing
+on two aspects. First, we optimize line plans by solving Formulation (2) under varying crowding
+factors, considering line set-up costs of 30 and 40 with corresponding budget adjustments, to show
+the effectiveness of incorporating crowding effects in reducing crowding. Second, we compare the
+optimized line plans with the existing line plan used in real-life operations, highlighting the benefits
+of our approach in mitigating crowding compared to the practical benchmark.
+Lu et al.: Line planning under crowding: A cut-and-column generation approach
+                                                                                                                                                           21
+
+           Figure 6 presents the cumulative distribution of crowding levels under optimized line plans with
+various crowding factors and different set-up costs. Regardless of the set-up costs, we can observe
+that as the crowding factor increases, the distribution shifts to the left, indicating that crowding
+is decreasing. For a crowding factor of 0.001, a significant portion of the arcs has a crowding level
+above 80%. For the higher crowding factors, there are virtually no arcs with such high crowding
+levels. This suggests that a larger proportion of the network operates at lower crowding levels
+under higher crowding factors, improving overall passenger experience. Furthermore, comparing
+Figures 6(a) and (b), higher set-up costs not only reduce maximum crowing levels, but also compress
+the distribution towards lower crowding levels.
+
+
+                            1                                                                                  1
+ Cumulative distribution
+
+
+
+
+                                                                                    Cumulative distribution
+                           0.8                                                                                0.8
+
+                           0.6                                                                                0.6
+
+                           0.4                                                                                0.4
+
+                           0.2                          Crowding factor = 0.001                               0.2                     Crowding factor = 0.001
+                                                        Crowding factor = 0.003                                                       Crowding factor = 0.003
+                            0                           Crowding factor = 0.015                                0                      Crowding factor = 0.015
+
+                                 0     20   40 60 80 100 120 140 160                                                0   20   40 60 80 100 120 140 160
+                                              Crowding level (%)                                                               Crowding level (%)
+                                       (a) Construction cost = 30                                                       (b) Construction cost = 40
+Figure 6                             Cumulative distribution of crowding levels under the optimized line plans with different crowding factors
+                                     for the Beijing metro sub-network.
+
+
+
+           Next, Figure 7 compares the existing line plan on the Beijing metros sub-network with optimized
+line plans. The relative reductions in average perceived travel time (APTT) is calculated as the
+relative differences between the results of the optimized and existing line plans. We observe that
+the optimized line plan reduces passengers’ perceived travel time by 4.6% to 7.5%. Additionally, the
+results indicate that higher crowding factors correlate with greater reductions in the perceived travel
+time. Increasing set-up costs eℓ from 30 to 40 generally leads to further reductions in passengers’
+perceived travel time, although the differences become marginal at higher crowding factors. For
+instance, at a crowding factor of 0.010, the reductions of APTT are 4.6% (eℓ = 30) and 7.4%
+(eℓ = 40), respectively.
+           Insight 2. By incorporating crowding effects into line planning, passengers’ perceived travel
+time is reduced. However, this comes at the expense of an increase in the travel time.
+                                                                                                     Lu et al.: Line planning under crowding: A cut-and-column generation approach
+22
+
+
+                                                                                                      Installation costs eℓ = 30
+
+
+
+
+                                                               Relative reduction in APTT (%)
+                                                                                                8
+                                                                                                      Installation costs eℓ = 40
+
+
+                                                                                                7
+
+
+                                                                                                6
+
+
+                                                                                                5
+
+
+                                                                                                4
+                                                                                                    0.008    0.010 0.012                                       0.015
+                                                                                                              Crowding factor
+Figure 7                                   Relative reductions in average perceived travel time (APTT) under optimized line plans with different
+                                           crowding factors, compared to the existing real-life line plan, for instances on the Beijing metro sub-
+                                           network.
+
+
+                                      16
+     Relative reduction in APTT (%)
+
+
+
+
+                                                                                                                        Relative increase in ATT (%)
+
+
+
+
+                                      14                                                                                                               8
+                                      12
+                                      10                                                                                                               6
+
+                                      8
+                                                                                                                                                       4
+                                      6
+                                      4
+                                                                                                                                                       2
+                                      2
+                                       0                                                                                                                0
+                                      0.008         0.010    0.012                                          0.015                                      0.008   0.010    0.012        0.015
+                                                        Crowding factor                                                                                            Crowding factor
+                                                       (a) APTT                                                                                                    (b) ATT
+Figure 8                                   Relative differences in average perceived travel time (APTT) and average travel time (ATT) across
+                                           various crowding factors compared to the benchmark without crowding effects under optimized line
+                                           plans.
+
+
+     This insight is drawn from experiments on the Beijing metro central sub-network, using a bench-
+mark that inputs the optimized line plan under crowding effects into Formulation (1) with γa set
+to zero. For each benchmark, the perceived travel costs are recalculated by fixing the optimized
+line plan under crowding and applying the corresponding crowding factor values to γa . Thus, each
+Lu et al.: Line planning under crowding: A cut-and-column generation approach
+                                                                                                    23
+
+point in Figure 8 compares the perceived travel costs of passengers with and without crowding
+effects under the same line plan.
+  Figure 8 presents the reduction in average perceived travel time (APTT) and the increase in
+average travel time (ATT). Three key observations emerge from these results. First, incorporating
+crowding effects reduces APTT, with reductions ranging from 12.3% to 15.3% under the presented
+crowding factor settings. This indicates that accounting for crowding effects in line planning en-
+hances resource utilization, minimizing passengers’ perceived travel time. Second, the incorporation
+of crowding effects increases ATT, as more passengers make transfers to search for routes with the
+smallest perceived travel costs, with increases ranging from 6.8% to 8.9%. Third, as the crowding
+factor increases, APTT decreases and ATT increases. However, the reduction in APTT is always
+greater than the increase in ATT, highlighting the overall benefit of considering crowding effects
+in line planning.
+  Insight 3. Incorporating crowding effects results in structurally different line plans with fewer
+lines and higher frequencies.
+  In Figure 9, we present the optimal line plans for the 5 × 5-grid network corresponding to the
+budget set at the baseline budget B, highlighting both the operated lines and their frequencies.
+Without considering crowding effects, eleven lines are operated and all lines operate at the minimum
+frequency (i.e., 1). However, incorporating crowding penalties tends to reduce the number of lines
+while increasing their frequencies. For example, with a crowding factor of 0.01, eleven lines are
+operated, of which seven have frequencies greater than 1, and the maximum frequency used is 2.20.
+At a crowding factor of 0.20, only eight lines are built, only one of which has a frequency of 1, and
+the maximum frequency used increases to 5.
+  Furthermore, Figure 10 illustrates the optimized line plans for the Beijing metro sub-network
+under different crowding factors, with set-up costs set at 30. We observe that the optimized line
+plan contains 9 operated lines with a minimum headway frequency of 11.73 when the crowding
+factor is 0.008. As the crowding factor increases to 0.015, the line plan is reduced to 8 lines, with a
+minimum headway frequency of 13.55. A similar trend is observed for the optimized line plans with
+set-up costs set to 20, shown in Figure 13 in Appendix A. These findings lead us to the conclusion
+that incorporating crowding effects in line planning results in fewer lines with higher frequencies.
+  Insight 4. The system-optimal routing only deviates slightly from the user-equilibrium.
+  Since passengers do not always resort to the recommended route through a network but instead
+minimize their perceived travel time, we also compare it to the user equilibrium. To do so, we
+first determine an optimized line plan y by solving Formulation (2), with the budget set to B,
+and re-evaluate passengers’ perceived travel time using the cut-and-column generation algorithm.
+Next, we solve Formulation (4) using the same algorithm, utilizing the established line plan.
+                                                                          Lu et al.: Line planning under crowding: A cut-and-column generation approach
+24
+
+                     Line 2 (1.00)        Line 33 (1.00)    Line 49 (1.00)                                     Line 2 (1.00)        Line 33 (1.83)       Line 49 (1.00)
+
+     Line 1 (1.00)       0           1            2          3            4       Line 3 (1.00)    Line 1 (1.00)    0          1          2          3            4
+
+                                                                                                   Line 9 (2.20)
+     Line 16 (1.00)      5           6            7          8            9       Line 52 (1.00)   Line 14 (1.45)   5          6          7          8            9
+
+
+
+     Line 12 (1.00)     10           11           12        13           14                        Line 12 (1.00)   10         11         12         13          14       Line 25 (1.15)
+                                                                                   Line X ( X )
+
+                                                                                   Line index
+     Line 8 (1.00)      15           16           17        18           19       (Frequency)                       15         16         17         18          19       Line 37 (1.43)
+                                                                                                   Line 5 (1.09)
+
+                                                                                              X
+
+     Line 4 (1.00)      20           21           22        23           24       Line 17 (1.00)                    20         21         22         23          24       Line 17 (1.17)
+
+
+                             (a) Crowding factor = 0                                                                (b) Crowding factor = 0.01
+
+                Line 2 (1.11)              Line 33 (3.12)        Line 49 (1.25)                               Line 2 (1.22)         Line 33 (3.64)       Line 49 (1.19)
+
+     Line 1 (1.39)       0           1            2         3             4                        Line 1 (1.00)    0          1          2          3            4
+
+     Line 9 (3.82)
+
+     Line 14 (1.75)      5           6            7         8             9                        Line 14 (2.13)   5          6          7          8            9
+
+
+
+                        10           11          12         13           14       Line 25 (1.76)                    10         11         12         13          14       Line 9 (5.00)
+
+
+
+     Line 8 (1.27)      15           16          17         18           19                        Line 8 (1.53)    15         16         17         18          19
+
+
+
+                        20           21          22         23           24       Line 17 (1.40)                    20         21         22         23          24       Line 17 (2.16)
+
+
+                         (c) Crowding factor = 0.10                                                                 (d) Crowding factor = 0.20
+Figure 9              Optimized line plans for instances on the grid network with increasing values of the crowding factor.
+
+
+     In Figure 11, we present the resulting relative differences between the UE and SO objective
+values, which are calculated by the optimal objective value of the UE model minus that of the SO
+model, and divide that of the SO model. From the results in Figure 11, a few observations stand
+out. First, we can observe that the user equilibria closely approximate the system optimum with
+respect to varying crowding factors in the instances based on the grid network. For example, the
+maximum value of the relative differences between the UE and SO objective values is below 0.07%
+among all instances. A second observation is the divergence between UE and SO in the Beijing
+sub-network is a little more pronounced, with a maximum of 0.64%. As such, we conclude that
+integrating user-optimal routing in line planning offers limited benefits.
+
+6.4.        Real-life case study based on the Beijing metro entire network
+We now assess the scalability of our algorithm through experiments on the entire Beijing metro
+network by varying the crowding factor from 0 to 0.008. The set-up costs eℓ are set to 40. Based
+on the conclusions in Section 6.2, we use the FCTP variant of the cut-and-column generation
+algorithm. For the first column generation iteration, ǫ is started at 1% and I at 5. Then, with I
+having a minimum value of 1, ǫ is raised by 0.2% and I is decreased by 1 in each iteration.
+Lu et al.: Line planning under crowding: A cut-and-column generation approach
+                                                                                                                                25
+
+                                                                                                 Line 1
+                                                                      Line 5 !,.-,1*             Line 2
+                                                                                                 Line 4
+                                   Line 8 !+,-.,*
+                                                                                                 Line 5
+                                                                                                 Line 6
+                                       Line 13 !/2-4.*                                           Line 8
+                                                                                                Line 10
+              Line 4 !,+-+0*                                                                    Line 13
+                                                                                                Line 31
+
+
+
+                    Line 10 !,,-3/*
+                                                           Line 31                               Transfer stations
+                                                            !++-0/*                              Other stations
+                                                                                                   Line Name
+                                                                                                   !"#$%&$'()*
+                  Line 6 !/1-2/*
+
+
+ Line 1 !,.-//*
+
+
+
+                                                Line 2 !,+-,.*
+                                                                                       N&56$# of built lines: 9
+                                                                                       Minimum frequency among all lines: 11.73
+                                                                                       Maximum frequency among all lines: 39.56
+                                                                                       Maximum frequency among all sections: 46.66
+
+
+
+                                                         (a) Crowding factor = 0.008
+
+
+                                                                                                Line 1
+                                                                      Line 5 !/2-1/*            Line 2
+                                                                                                Line 4
+                                   Line ! !+,-..*
+                                                                                                Line 5
+                                                                                                Line 6
+                                       Line 13 !51-11*                                          Line !
+                                                                                                Line 10
+              Line 4 !//-11*                                                                    Line 13
+
+
+
+
+                     Line 10 !/,-41*
+                                                                                                 Transfer stations
+                                                                                                 5    
+
+                                                                                                   Line      
+                                                                                                   !"#$%&$'()*
+                  Line 6 !,0-34*
+
+
+ Line 1 !/0-.+*
+
+
+
+                                                Line 2 !/0-/,*
+                                                                                       7&67$# of built lines: %
+
+                                                                                       Minimum frequency among all lines: 13.55
+                                                                                       Maximum frequency among all lines: 40.00
+                                                                                       Maximum frequency among all sections: 40.00
+
+
+
+                                                         (b) Crowding factor = 0.015
+Figure 10         The optimal line plans for the Beijing metro sub-network with set-up costs set at 30.
+                                                                               Lu et al.: Line planning under crowding: A cut-and-column generation approach
+26
+
+ Relative difference between SO and UE (%)
+
+
+
+
+                                                                                                Relative difference between SO and UE (%)
+                                             0.07                                                                                           0.65
+
+                                             0.06
+                                                                                                                                            0.60
+                                             0.05
+                                                                                                                                            0.55
+                                             0.04
+
+                                             0.03                                                                                           0.50
+
+                                             0.02
+                                                                                                                                            0.45
+                                             0.01
+                                                                                                                                            0.40
+                                               0
+                                               0.01 0.02 0.03 0.04 0.05 0.06 0.07 0.08                                                        0.008     0.010    0.012             0.015
+                                                            Crowding factor                                                                                 Crowding factor
+                                                    (a) Grid network (budget B)                                                              (b) Beijing metro sub-network (eℓ = 40)
+Figure 11                                           Relative differences between UE and SO among various crowding penalties.
+
+
+                                             Table 3    Computational times of the algorithm for instances on the entire Beijing metro network.
+Crowding factor Computational time (h) Iterations (#) Average RMP time (s) Average PP time (s)
+              0                    2.2             53                 10.8               132.5
+          0.001                   13.3             57                737.3                98.7
+          0.003                   33.7             71              1,597.4               106.0
+          0.005                   65.1             76              2,980.7               102.2
+          0.008                  108.4             78              4,895.3               107.1
+                                      Notes: Computational time includes both network generation and CPU time. Abbreviations: h = hours; s = seconds.
+
+
+                 Table 3 reports the results, including the total computational time, the number of iterations, the
+average time for solving the restricted master problem (RMP), and the average time for solving
+the pricing problem (PP). The instance with a crowding factor of 0, representing the line planning
+problem without crowding effects, is solved in 2.2 hours using our proposed cut-and-column gen-
+eration algorithm. As the crowding factor increases, the computational time for solving the RMP
+rises significantly. For example, when the crowding factor increases from 0 to 0.001, the average
+computational time per RMP increases from 10.8 to 737.3 seconds. Similarly, when the crowding
+factor rises from 0.003 to 0.008, this time increases from 1,597.4 to 4,895.3 seconds. This growth
+is attributed to the increased computational challenge of solving the rotated second-order cone
+constraints (2c) by iteratively adding cutting planes. In contrast, the average computational time
+per PP does not exhibit a linear relationship with the incorporation of crowding effects.
+                 Figure 12 shows the cumulative distribution of crowding levels under different crowding factors
+for the Beijing metro entire network. We can observe that as the crowding factor increases from
+Lu et al.: Line planning under crowding: A cut-and-column generation approach
+                                                                                                                                    27
+
+
+     Cumulative distribution    1
+
+                               0.8
+
+                               0.6
+
+                               0.4
+                                                                                                       Crowding factor = 0.001
+                               0.2                                                                     Crowding factor = 0.003
+                                                                                                       Crowding factor = 0.005
+                                0                                                                      Crowding factor = 0.008
+
+
+                                                                             0
+                                                                             0
+                                                                             0
+                                                                             0
+                                                                             0
+                                                                             0
+                                                                             0
+                                                                             0
+                                                                             0
+                                                                             0
+                                                                             0
+                                                                             0
+                                                                             0
+                                                                             0
+                                                                             0
+                                10
+                                       20
+                                            30
+                                                 40
+                                                      50
+                                                           60
+                                                                70
+                                                                     80
+                                                                           90
+                                 0
+
+
+
+
+                                                                          10
+                                                                          11
+                                                                          12
+                                                                          13
+                                                                          14
+                                                                          15
+                                                                          16
+                                                                          17
+                                                                          18
+                                                                          19
+                                                                          20
+                                                                          21
+                                                                          22
+                                                                          23
+                                                                          24
+                                                                          Crowding level (%)
+Figure 12                            Cumulative distribution of crowding levels under the optimized line plans under different crowding
+                                     factors for the Beijing metro entire network.
+
+
+0.001 to 0.003, the cumulative distribution shifts to the left. This observation aligns with Insight
+1, which suggests that incorporating crowding effects into line planning reduces crowding. This
+reduction enhances passenger comfort and improves the efficiency of the metro system. These
+findings highlight the importance of incorporating crowding effects in line planning for large-scale
+networks like the Beijing metro. However, for larger crowding factors (0.005 and 0.008), the problem
+becomes increasingly complex, and the diving heuristic has a harder time finding good solutions,
+resulting in solutions with more crowding. This shows that practitioners should carefully select the
+crowding factor.
+
+7.                             Conclusion
+This paper addressed a line planning problem under crowding, extending traditional line plan-
+ning by explicitly incorporating crowding effects into passengers’ routing decisions. The problem
+is formulated as a mixed-integer nonlinear programming model. To obtain its computationally
+tractable form, we propose an MI-SOCP reformulation with second-order cone constraints. To solve
+the MI-SOCP, we develop a cut-and-column generation methodology. Specifically, a cut genera-
+tion procedure is designed to dynamically generate linear cutting planes to address the rotated
+second-order cone constraints on-the-fly, while a column generation procedure is implemented to
+iteratively identify effective passenger routing. Within this framework, we propose three variants
+of the cut-and-column generation approach.
+  Extensive computational experiments yield multiple takeaways. First, the cut-and-column gen-
+eration algorithm delivers high-quality solutions with an average optimality gap ranging from 1.8%
+                                               Lu et al.: Line planning under crowding: A cut-and-column generation approach
+28
+
+to 3.5% on the 5 × 5 grid network within reasonable computation times. The proposed methodol-
+ogy scales effectively to large-scale, real-world problems involving over 200 stations, 530 candidate
+lines, and 56,000 OD pairs, producing optimized line plans that outperform the one currently used
+in practical operations. Additionally, our proposed methodology provides strong practical bene-
+fits, achieving significant reductions in passengers’ perceived travel times while reducing crowding
+within the network. At a time when increasingly crowded public transit systems need high-quality
+services, these benefits offer solid support and valuable tools for practitioners to optimize resource
+planning effectively.
+
+Acknowledgments
+This work was supported by the National Natural Science Foundation of China (Grant No.
+72288101).
+
+References
+Basciftci B, Van Hentenryck P, 2023 Capturing travel mode adoption in designing on-demand multimodal transit systems.
+     Transportation Science 57(2):351–375.
+Bayram V, Yıldız B, Farham MS, 2023 Hub network design problem with capacity, congestion, and stochastic demand consid-
+     erations. Transportation Science 57(5):1276–1295.
+Beijing Municipal Government Press Office, 2023 New technology breaks bottlenecks: Frequency on the beijing metro is expected
+     to decrease to 1 minute and 30 seconds. URL https://www.peopleapp.com/rmharticle/30002598532, accessed: 2024-07-01.
+Bertsimas D, Ng YS, Yan J, 2021 Data-driven transit network design at scale. Operations Research 69(4):1118–1133.
+Borndörfer R, Grötschel M, Pfetsch ME, 2007 A column-generation approach to line planning in public transport. Transportation
+     Science 41(1):123–132.
+Cacchiani V, Qi J, Yang L, 2020 Robust optimization models for integrated train stop planning and timetabling with passenger
+     demand uncertainty. Transportation Research Part B: Methodological 136:1–29.
+Canca D, De-Los-Santos A, Laporte G, Mesa JA, 2019 Integrated railway rapid transit network design and line planning problem
+     with maximum profit. Transportation Research Part E: Logistics and Transportation Review 127:1–30.
+Chai S, Yin J, D’Ariano A, Liu R, Yang L, Tang T, 2024 A branch-and-cut algorithm for scheduling train platoons in urban
+     rail networks. Transportation Research Part B: Methodological 181:102891.
+Daganzo CF, 1997 Fundamentals of Transportation and Traffic Operations (Emerald Publishing).
+De Vos MH, Van Lieshout RN, Dollevoet T, 2024 Electric vehicle scheduling in public transit with capacitated charging stations.
+     Transportation Science 58(2):279–294.
+Franceschetti A, Honhon D, Laporte G, Van Woensel T, 2018 A shortest-path algorithm for the departure time and speed
+     optimization problem. Transportation Science 52(4):756–768.
+Friedrich M, Hartl M, Schiewe A, Schöbel A, 2017a Angebotsplanung im öffentlichen verkehr-planerische und algorithmische
+     lösungen. Heureka’17 9.
+Friedrich M, Hartl M, Schiewe A, Schöbel A, 2017b Integrating passengers’ assignment in cost-optimal line planning. 17th
+     Workshop on Algorithmic Approaches for Transportation Modelling, Optimization, and Systems (ATMOS 2017), volume 59
+     of Open Access Series in Informatics (OASIcs), 5:1–5:16 (Dagstuhl, Germany: Schloss Dagstuhl – Leibniz-Zentrum für
+     Informatik).
+Gattermann P, Harbering J, Schöbel A, 2017 Line pool generation. Public Transport 9:7–32.
+Goerigk M, Schmidt M, 2017 Line planning with user-optimal route choice. European Journal of Operational Research
+     259(2):424–436.
+Goossens JW, Van Hoesel S, Kroon L, 2004 A branch-and-cut approach for solving railway line-planning problems. Transporta-
+     tion Science 38(3):379–393.
+Goossens JW, Van Hoesel S, Kroon L, 2006 On solving multi-type railway line planning problems. European Journal of Oper-
+     ational Research 168(2):403–424.
+Hartleb J, Schmidt M, Huisman D, Friedrich M, 2023 Modeling and solving line planning with mode choice. Transportation
+     Science 57(2):336–350.
+Jiang Y, Rasmussen TK, Nielsen OA, 2022 Integrated optimization of transit networks with schedule- and frequency-based
+     services subject to the bounded stochastic user equilibrium. Transportation Science 56(6):1452–1468.
+Kınay OB, Gzara F, Alumur SA, 2023 Charging station location and sizing for electric vehicles under congestion. Transportation
+     Science 57(6):1433–1451.
+Kowalczyk D, Leus R, 2018 A branch-and-price algorithm for parallel machine scheduling using zdds and generic branching.
+     INFORMS Journal on Computing 30(4):768–782.
+Lu Y, Yang L, Yang H, Zhou H, Gao Z, 2023 Robust collaborative passenger flow control on a congested metro line: A joint
+     optimization with train timetabling. Transportation Research Part B: Methodological 168:27–55.
+Lu et al.: Line planning under crowding: A cut-and-column generation approach
+                                                                                                                                29
+
+Lu Y, Yang L, Yang K, Gao Z, Zhou H, Meng F, Qi J, 2022 A distributionally robust optimization method for passenger flow
+    control strategy and train scheduling on an urban rail transit line. Engineering 12:202–220.
+Luan X, Corman F, 2022 Passenger-oriented traffic control for rail networks: An optimization model considering crowding
+    effects on passenger choices and train operations. Transportation Research Part B: Methodological 158:239–272.
+Roughgarden T, 2007 Routing games. Nisan N, Roughgarden T, Tardos E, Vazirani VV, eds., Algorithmic game theory, chap-
+    ter 18, 459–484 (Cambridge University Press).
+Schiewe A, Schiewe P, Schmidt M, 2019 The line planning routing game. European Journal of Operational Research 274(2):560–
+    573.
+Schiewe P, Jäger S, Schöbel A, 2024 Lintim - integrated optimization in public transportation. https://www.lintim.net/, open
+    source.
+Schiewe P, Schöbel A, 2020 Periodic timetabling with integrated routing: Toward applicable approaches. Transportation Science
+    54(6):1714–1731.
+Schmidt M, 2012 Line planning with equilibrium routing. Ph.D. thesis, Institute for Numerical and Applied Mathematics,
+    University of Gottingen.
+Schmidt M, Schöbel A, 2024 Planning and optimizing transit lines. URL https://arxiv.org/abs/2405.10074.
+Schöbel A, 2012 Line planning in public transportation: models and methods. OR Spectrum 34:491–510.
+Schöbel A, 2017 An eigenmodel for iterative line planning, timetabling and vehicle scheduling in public transportation. Trans-
+    portation Research Part C: Emerging Technologies 74:348–365.
+Schöbel A, Scholl S, 2005 Line planning with minimal transfers. Proceeding of 5th Workshop on Algorithmic Methods and
+    Models for Optimization of Railways (Germany).
+United Nations, 2019 Shifting Demographics: A Visual Guide. https://www.un.org/en/un75/shifting-demographics, [Ac-
+    cessed March 28, 2023].
+Van Lieshout RN, Bouman PC, Huisman D, 2020 Determining and evaluating alternative line plans in out-of-control situations.
+    Transportation Science 54(3):740–761.
+Wardrop JG, 1952 Some theoretical aspects of road traffic research. Proceedings of the Institute of Civil Engineers Part II(1):325–
+    378.
+Xia D, Ma J, Sharif Azadeh S, 2024 Integrated timetabling, vehicle scheduling, and dynamic capacity allocation of modular
+    autonomous vehicles under demand uncertainty. URL https://arxiv.org/abs/2410.16409 .
+Yao Z, Nie L, Fu H, 2024 Railway line planning with passenger routing: Direct-service network representations and a two-phase
+    solution approach. Transportation Research Part B: Methodological 186:102989.
+Yin J, D’Ariano A, Wang Y, Yang L, Tang T, 2021 Timetable coordination in a rail transit network with time-dependent
+    passenger demand. European Journal of Operational Research 295(1):183–202.
+                                                               Lu et al.: Line planning under crowding: A cut-and-column generation approach
+30
+
+Appendix A:                 Optimized line plans for the Beijing metro central sub-network
+This section presents the optimized line plans for the Beijing metro central sub-network, with set-up costs
+set to 20, as shown in Figure 13.
+
+
+                                                                               Line 5 !.+,4-*              Line 1
+                                                             Line 30 !.3,20*
+                                                                                                           Line 2
+                                         Line   !+,-+*                                 Line 32 !..,/-*     Line 4
+                                                                                                           Line 5
+                                                                                                           Line 6
+                                           Line 13 !13,35*
+                                                                                                           Line
+                                                                                                           Line 10
+                  Line 4 !.3,43*
+                                                                                                           Line 13
+                                                                                                           Line 30
+                                                                                                           Line 31
+                                                                                                           Line 32
+                         Line 10 !.0,1+*
+                                                                  Line 31                                    Transfer stations
+                                                                   !4,1+*                                         
+
+                                                                                                               Line Name
+                                                                                                              !"#$%&$'()*
+                      Line 6 !10,++*
+
+     Line 1 !.-,/0*
+
+
+
+
+                                                     Line 2 !.1,2-*
+                                                                                                    N&67$# of   
+                                                                                                    Minimum frequency among all lines: 7.57
+                                                                                                    Maximum frequency among all lines: 29.77
+                                                                                                    Maximum frequency among all sections: 38.04
+
+
+
+                                                               (a) Crowding factor = 0.008
+
+                                                                                                            Line 1
+                                                                               Line 5 !/.-/.*               Line 2
+                                                                                                            Line 4
+                                           Line 8 !+,-.+*
+                                                                                                            Line 5
+                                                                                                            Line 6
+                                             Line 13 !34-44*                                                Line 8
+                                                                                                           Line 10
+                      Line 4 !/+-01*                                                                       Line 13
+                                                                                                           Line 31
+
+
+
+                           Line 10 !/,-.2*
+                                                                   Line 31                                  Transfer stations
+                                                                   !++-23*                                    "#$& '"(")*+'
+
+                                                                                                              Line Name
+                                                                                                              !"#$%&$'()*
+                        Line 6 !,.-+2*
+
+       Line 1 !/.-,0*
+
+
+
+
+                                                      Line 2 !//-10*
+                                                                                                   N&56$# of built lines: 9
+                                                                                                   Minimum frequency among all lines: 11.94
+                                                                                                   Maximum frequency among all lines: 40.00
+                                                                                                   Maximum frequency among all sections: 49.13
+
+
+
+
+                                                               (b) Crowding factor = 0.015
+Figure 13       The optimal line plans for the Beijing metro sub-network with set-up costs set at 20.
+

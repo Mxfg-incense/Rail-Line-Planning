@@ -1,0 +1,181 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{ynt/global//global/global/global}
+    \entry{laporte2005tripcoverage}{article}{}{}
+      \name{author}{4}{}{%
+        {{hash=1d6e9fe0f2d8b8a132ebe0ace7645d51}{%
+           family={Laporte},
+           familyi={L\bibinitperiod},
+           given={Gilbert},
+           giveni={G\bibinitperiod}}}%
+        {{hash=34f40413896fa6cf017995e47d09c99f}{%
+           family={Mesa},
+           familyi={M\bibinitperiod},
+           given={Juan\bibnamedelima A.},
+           giveni={J\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=82dddc0741eb57053f4a6b494fcaec6d}{%
+           family={Ortega},
+           familyi={O\bibinitperiod},
+           given={Francisco\bibnamedelima A.},
+           giveni={F\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=d8984c39dee215dea097351e8cb29478}{%
+           family={Sevillano},
+           familyi={S\bibinitperiod},
+           given={Ignacio},
+           giveni={I\bibinitperiod}}}%
+      }
+      \strng{namehash}{2460da35e2f00ec903b976c3f6643939}
+      \strng{fullhash}{a38acb7fb900a1a34045e12cd2c433dd}
+      \strng{fullhashraw}{a38acb7fb900a1a34045e12cd2c433dd}
+      \strng{bibnamehash}{a38acb7fb900a1a34045e12cd2c433dd}
+      \strng{authorbibnamehash}{a38acb7fb900a1a34045e12cd2c433dd}
+      \strng{authornamehash}{2460da35e2f00ec903b976c3f6643939}
+      \strng{authorfullhash}{a38acb7fb900a1a34045e12cd2c433dd}
+      \strng{authorfullhashraw}{a38acb7fb900a1a34045e12cd2c433dd}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Annals of Operations Research}
+      \field{number}{1}
+      \field{title}{Maximizing Trip Coverage in the Location of a Single Rapid Transit Alignment}
+      \field{volume}{136}
+      \field{year}{2005}
+      \field{pages}{49\bibrangedash 63}
+      \range{pages}{15}
+      \verb{doi}
+      \verb 10.1007/s10479-005-2038-0
+      \endverb
+    \endentry
+    \entry{chai2019urbanrail}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=9e4a2270a836c3f89029c5431755b1d0}{%
+           family={Chai},
+           familyi={C\bibinitperiod},
+           given={Shushan},
+           giveni={S\bibinitperiod}}}%
+        {{hash=796dc3b7c9855dc94b4f69829de4cb35}{%
+           family={Liang},
+           familyi={L\bibinitperiod},
+           given={Qinghuai},
+           giveni={Q\bibinitperiod}}}%
+        {{hash=dd7f8f9e35362ac2642cec25ab6c8095}{%
+           family={Zhong},
+           familyi={Z\bibinitperiod},
+           given={Simin},
+           giveni={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{53d7a24db04165270e370796c3055d5f}
+      \strng{fullhash}{b5e7b56274207e97b8040e06108f5c1a}
+      \strng{fullhashraw}{b5e7b56274207e97b8040e06108f5c1a}
+      \strng{bibnamehash}{b5e7b56274207e97b8040e06108f5c1a}
+      \strng{authorbibnamehash}{b5e7b56274207e97b8040e06108f5c1a}
+      \strng{authornamehash}{53d7a24db04165270e370796c3055d5f}
+      \strng{authorfullhash}{b5e7b56274207e97b8040e06108f5c1a}
+      \strng{authorfullhashraw}{b5e7b56274207e97b8040e06108f5c1a}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Sustainability}
+      \field{number}{21}
+      \field{title}{Design of Urban Rail Transit Network Constrained by Urban Road Network, Trips and Land-Use Characteristics}
+      \field{volume}{11}
+      \field{year}{2019}
+      \field{pages}{6128}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.3390/su11216128
+      \endverb
+    \endentry
+    \entry{ahmed2020gisga}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=e125bba9d92255bd9d90de8cad7b9a81}{%
+           family={Ahmed},
+           familyi={A\bibinitperiod},
+           given={Chro},
+           giveni={C\bibinitperiod}}}%
+        {{hash=5d155740dec1a0e61050342562fe5593}{%
+           family={Nur},
+           familyi={N\bibinitperiod},
+           given={Khalid},
+           giveni={K\bibinitperiod}}}%
+        {{hash=e665cc94d1b76ace58e2bbeefd3fddea}{%
+           family={Ochieng},
+           familyi={O\bibinitperiod},
+           given={Washington},
+           giveni={W\bibinitperiod}}}%
+      }
+      \strng{namehash}{82d63b929c6d0302958294735451e4a0}
+      \strng{fullhash}{8813ae198dfade62674f86ea52badfb2}
+      \strng{fullhashraw}{8813ae198dfade62674f86ea52badfb2}
+      \strng{bibnamehash}{8813ae198dfade62674f86ea52badfb2}
+      \strng{authorbibnamehash}{8813ae198dfade62674f86ea52badfb2}
+      \strng{authornamehash}{82d63b929c6d0302958294735451e4a0}
+      \strng{authorfullhash}{8813ae198dfade62674f86ea52badfb2}
+      \strng{authorfullhashraw}{8813ae198dfade62674f86ea52badfb2}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Rail Transport Planning \& Management}
+      \field{title}{{GIS} and Genetic Algorithm Based Integrated Optimization for Rail Transit System Planning}
+      \field{volume}{16}
+      \field{year}{2020}
+      \field{pages}{100222}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1016/j.jrtpm.2020.100222
+      \endverb
+    \endentry
+    \entry{owais2026tndp}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=48a1e38ed63a73d782e8e3f42cec0591}{%
+           family={Owais},
+           familyi={O\bibinitperiod},
+           given={Mahmoud},
+           giveni={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{48a1e38ed63a73d782e8e3f42cec0591}
+      \strng{fullhash}{48a1e38ed63a73d782e8e3f42cec0591}
+      \strng{fullhashraw}{48a1e38ed63a73d782e8e3f42cec0591}
+      \strng{bibnamehash}{48a1e38ed63a73d782e8e3f42cec0591}
+      \strng{authorbibnamehash}{48a1e38ed63a73d782e8e3f42cec0591}
+      \strng{authornamehash}{48a1e38ed63a73d782e8e3f42cec0591}
+      \strng{authorfullhash}{48a1e38ed63a73d782e8e3f42cec0591}
+      \strng{authorfullhashraw}{48a1e38ed63a73d782e8e3f42cec0591}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Innovative Infrastructure Solutions}
+      \field{number}{3}
+      \field{title}{Transit network design problem: a half century of methodological research}
+      \field{volume}{11}
+      \field{year}{2026}
+      \verb{doi}
+      \verb 10.1007/s41062-025-02356-5
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

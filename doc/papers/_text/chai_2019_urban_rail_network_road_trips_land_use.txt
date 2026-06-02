@@ -1,0 +1,2166 @@
+           sustainability
+
+Article
+Design of Urban Rail Transit Network Constrained by
+Urban Road Network, Trips and
+Land-Use Characteristics
+Shushan Chai * , Qinghuai Liang and Simin Zhong
+ School of Civil Engineering, Beijing Jiaotong University, Beijing 100044, China; qhliang@bjtu.edu.cn (Q.L.);
+ 16121224@bjtu.edu.cn (S.Z.)
+ * Correspondence: sschai@bjtu.edu.cn
+                                                                                                        
+ Received: 1 September 2019; Accepted: 1 November 2019; Published: 3 November 2019                      
+
+
+ Abstract: In the process of urban rail transit network design, the urban road network, urban trips and
+ land use are the key factors to be considered. At present, the subjective and qualitative methods are
+ usually used in most practices. In this paper, a quantitative model is developed to ensure the matching
+ between the factors and the urban rail transit network. In the model, a basic network, which is used
+ to define the roads that candidate lines will pass through, is firstly constructed based on the locations
+ of large traffic volume and main passenger flow corridors. Two matching indexes are proposed: one
+ indicates the matching degree between the network and the trip demand, which is calculated by the
+ deviation value between two gravity centers of the stations’ importance distribution in network and
+ the traffic zones’ trip intensity; the other one describes the matching degree between the network and
+ the land use, which is calculated by the deviation value between the fractal dimensions of stations’
+ importance distribution and the traffic zones’ land-use intensity. The model takes the maximum traffic
+ turnover per unit length of network and the minimum average volume of transfer passengers between
+ lines as objectives. To solve the NP-hard problem in which the variables increase exponentially with
+ the increase of network size, a neighborhood search algorithm is developed based on simulated
+ annealing method. A real case study is carried out to show that the model and algorithm are effective.
+
+ Keywords: urban rail transit; network design; urban characteristics; neighborhood search
+
+
+
+
+1. Introduction
+      As the backbone of an urban transit system, urban rail transit plays an important role in urban
+development. A reasonable urban rail transit network can not only ensure the efficiency of urban
+passenger transport but also promote the sustainable development of a city. The network design,
+which will determine the structure and the overall layout of the network, is the most important stage
+in urban rail transit planning. How to meet the urban development characteristics in this stage is an
+important question.
+      Urban rail transit network design can be affected by many factors, such as urban space, structure
+and layout, passenger demand, society and economy, environmental impact, and policy, etc., and
+it is complicated to quantify the factors simultaneously, so subjective and qualitative methods are
+usually used in most practices of network design. With the development of computer technology
+and the application of mathematical methods, nowadays planners and researchers are gradually
+employing quantitative models in transit network design. Among them, a symmetrical urban spatial
+structure model was proposed by Fielbaum et al. [1]. Based on the city model, four transit network
+structures (direct lines, feeder-trunk, hub and spoke, and exclusive lines) were calculated by Fielbaum
+et al. [2] to identify the applicability to the urban structure. But the network designed by this method
+
+
+Sustainability 2019, 11, 6128; doi:10.3390/su11216128                         www.mdpi.com/journal/sustainability
+Sustainability 2019, 11, 6128                                                                         2 of 23
+
+
+
+is too idealized and theorized to determine specific passenger corridors, line alignments, and station
+locations for a real city. In view of the environmental impact, a multi-objective model, which takes the
+minimum off-gas emissions and the minimum travel time as objectives, was formulated by Zhang [3].
+With the model, the network with environment-friendly characteristics can be obtained. In view
+of the risk management policy, some risk-averse strategies (minimization of the maximum regret,
+value-at-risk measures) were introduced to the rail transit network design problem by Cadarso [4].
+For each strategy, an optimization model with the objective of minimum risk impact was established.
+But the models considered the effects of each strategy separately rather than synthetically. For the
+quantitative methods of rail transit network design, mathematical programming is most commonly
+used. During the optimization process, the planning objectives determined by construction and service
+requirements include maximizing the benefits of operators [5–8], users [9] or both [10–13]. For research
+projects, the rail transit design can be classified as the design of a new rail transit network and the
+expansion of an existing rail transit network [14].
+      Among the influencing factors, the urban characteristics of road network, trips and land use are
+the most relevant, basic and important factors with the urban rail transit network, which should be
+given priority consideration. On one hand, as a kind of mass and punctual transit, urban rail transit
+can greatly improve the travel convenience for passengers and change the mode sharing of urban
+trips [14,15]. On the other hand, land use value along the lines and around the stations can be greatly
+improved with the impact of urban rail transit, which can effectively guide the rapid development
+of the city [16,17]. Therefore, in this paper, a quantitative model, which takes into account the urban
+characteristics simultaneously and is applicable to real cities is developed while the cities were generally
+regarded as connected graphs in most previous research.
+      In the model, a generation method of a basic network, which takes into account the matching
+between the generated network and the urban road network, is proposed. Two matching indexes are
+introduced to the constraints: one indicates the matching degree between the network and the urban
+trips, the other indicates the matching degree between the network and the land use. The model takes
+the maximum transport efficiency of the network and the maximum travel convenience for passengers
+as objectives, which stands in the perspective of both managers and users. Due to the high complexity,
+solving this type of model has been proved to be an NP-hard problem [6,9,18], which means that as the
+network size increases, the variables increases exponentially. So a neighborhood search algorithm for a
+real-size network is developed based on a simulated annealing method in the paper.
+      The structure of this paper is organized as follows. Section 2 presents the determination of the
+matching indexes between the urban rail transit network and the urban characteristics. Section 3
+presents the multi-objective network design model, followed by the solving algorithm in Section 4.
+Section 5 presents the real-world case calculation and analysis. Section 6 presents the conclusions.
+
+2. Determination of Matching Indexes
+     In the quantitative model, the urban road network, trips and land use are the key factors to be
+considered. The basic network, which connects the locations of large traffic volume and covers the
+passenger flow corridors, will be determined to ensure the matching between the rail transit network
+and the urban road network. Two indexes will be proposed to evaluate quantitatively the matching
+degrees between the rail transit network and the urban trips, and similarly between the rail transit
+network and the land use.
+     The determined basic network, the calculated matching indexes, the given candidate stations,
+the passenger demand, etc. are all used as inputs of the model. While generating the network, the
+matching degrees will be constrained in a suitable range, and the line alignments will be bounded in
+the basic network. It should be noted that only some of the candidate stations will be selected as the
+actual stations according to the principle of optimization. After iterations, a network that meets the
+constraints and has the optimal objective will be obtained.
+Sustainability 2019, 11, 6128                                                                        3 of 23
+
+
+
+2.1. Structural Importance of Stations
+
+2.1.1. Evaluation Indexes
+     The structural importance of a station refers to the importance of its position in the topological
+network. In this paper, the urban rail transit network is regarded as a complex network, and the
+degree centrality, the closeness centrality and the betweenness centrality [19,20] of the nodes in
+the complex network are used to describe the structural importance of the stations from different
+dimensions, respectively.
+     The degree centrality DCi of station i reflects the direct relevance between the station i and other
+stations. The larger the value, the closer the relationship between the station and other stations in
+the network. Assuming that DCt , DCm and DCe are the index values of transfer station, intermediate
+station and terminal station respectively, they satisfy DCt > DCm > DCe . In the undirected graph
+network, DCi is calculated by Equation (1):
+
+                                                          ki
+                                                 DCi =                                                  (1)
+                                                         n−1
+where ki is the degree value of station i, which is defined as the number of edges connected to the
+station i. n is the number of stations in the network.
+     The closeness centrality CCi of a station i reflects the convenience of arriving at the station i from
+other stations. The larger the closeness centrality value, the greater the extent to which the station i
+resides in the center of the network, and the shorter the average distance from other stations to the
+station i. CCi is calculated by Equation (2):
+
+                                                         n−1
+                                                 CCi =   n
+                                                                                                        (2)
+                                                         P
+                                                           dij
+                                                         j=1
+
+where dij is the length of shortest path between station i and station j.
+      In the urban rail transit network, the station i with high betweenness centrality BCi plays a key
+role in the transit of passenger flow, which reflects the bridging function in the connection between
+other stations. The larger the index, the more the number of travel paths passing through the station.
+BCi is calculated by Equation (3):
+
+                                                       2       X ni
+                                                                     st
+                                         BCi =                                                          (3)
+                                                 (n − 1)(n − 2) s,t gst
+
+where gst is the number of shortest paths that have the same and the shortest length between stations s
+and t, nist is the number of paths included in gst and passing through the station i.
+     In order to coordinate the multi-dimensional importance of station i in the network topology, a
+comprehensive importance evaluation index Ii is proposed, as shown in Equation (4):
+
+                                         Ii = w1 DCi + w2 CCi + w3 BCi                                  (4)
+
+where Ii is the comprehensive importance degree of station i in the network structure, w1 , w2 , and w3
+are the weights of the structural indexes from different dimensions.
+     With the index Ii , the importance of station i in the topological network can be evaluated
+comprehensively, reflecting the status of the station in the network structure. In the following section,
+Ii will be used to calculate the structural characteristics of an urban rail transit network. For the
+convenience of expression, the importance of the stations mentioned below refers to the comprehensive
+structural importance in the network.
+Sustainability 2019, 11, 6128                                                                                             4 of 23
+Sustainability 2019, 11, x FOR PEER REVIEW                                                                                4 of 23
+
+       Gravity
+2.1.2.The          Center
+            position         of Distribution
+                        status  of a station reflected by its structural importance in the network is the result
+        connection
+of theThe               form of
+            position status     ofthe   network
+                                    a station       structure
+                                               reflected             its position.
+                                                                 at structural
+                                                             by its                   Therefore,inthe
+                                                                                   importance      thestructural
+                                                                                                         network is form
+                                                                                                                       the of the
+                                                                                                                           result
+network     can  be  characterized      by  the  distribution     of  the stations    with different
+of the connection form of the network structure at its position. Therefore, the structural form of theimportance.
+      If the
+network       importance
+            can               degree by
+                 be characterized       of athe
+                                              station            of theasstations
+                                                        is regarded
+                                                 distribution               its ‘gravity’,  the moreimportance.
+                                                                                      with different    important the station
+      If more
+is, the          ‘gravity’ itdegree
+         the importance         has inof the  network.
+                                           a station       In this paper,
+                                                                        as itsfollowing
+                                                        is regarded             ‘gravity’, the  calculation
+                                                                                            the more   importantprinciple  of the
+                                                                                                                     the station
+gravity    center   in   physics,    the  concept     of  gravity     center   of   stations’ importance
+is, the more ‘gravity’ it has in the network. In this paper, following the calculation principle of the       in  a  network    is
+proposed.
+gravity       An in
+          center   urban    rail transit
+                      physics,            network
+                                 the concept          is usually
+                                                of gravity    centerregarded      as aimportance
+                                                                       of stations’    planar network.     If the stations
+                                                                                                   in a network             with
+                                                                                                                    is proposed.
+different   importance       are  assigned    to certain    values    and  locations,    the distribution
+An urban rail transit network is usually regarded as a planar network. If the stations with different        of stations  can  be
+expressed     in  the  form    of scatter   in the   network.     The   equilibrium      gravity  point
+importance are assigned to certain values and locations, the distribution of stations can be expressed in of the  scatter  in the
+planar
+the  formtopological
+            of scatter innetwork     is the gravity
+                            the network.               center ofgravity
+                                             The equilibrium        the stations’
+                                                                             point importance
+                                                                                     of the scatterdistribution,
+                                                                                                    in the planaras    shown in
+                                                                                                                     topological
+Figure   1.  In Figure    1,
+network is the gravity center G A , G of  and    G
+                                       B the stations’
+                                                   C  are   the ‘gravity’    of  station  A, B and   C,  respectively,
+                                                          importance distribution, as shown in Figure 1. In Figure       and the1,
+point
+G       O S isGthe
+  A , GB and
+                    gravity center. The calculation method of the coordinates of O is shown in
+               C are the ‘gravity’ of station A, B and C, respectively, and the point OSS is the gravity
+        The(5)–(6):
+Equations
+center.      calculation method of the coordinates of OS is shown in Equations (5)–(6):
+                                                                 n
+
+                                                                PxxIi Ii
+                                                                  n
+                                                                        i i
+                                                               ii=1n 1
+                                                         xx11 =                                                             (5)
+                                                                                                                             (5)
+                                                                  PIiI
+                                                                      n
+                                                                 i 1
+                                                                          i
+                                                                  i=1
+                                                                 n
+
+                                                                Pn yyIi Ii
+                                                                        i i
+                                                          y  ii=1 1                                                       (6)
+                                                         y11 = nn                                                            (6)
+                                                                  PI i
+                                                                 i 1
+                                                                      Ii
+                                                                  i=1
+where (x( x11,,yy1) isisthe
+where                         coordinatepair
+                         thecoordinate     pairof
+                                                ofthe
+                                                   thegravitygravitycenter       ofstations’
+                                                                          centerof            importance,n nis the
+                                                                                    stations’importance,        is the number
+                                                                                                                    number of
+                 1
+stations in urban
+of stations    in urban  railrail
+                              transit network,
+                                  transit       (xi , (yxi i), is
+                                          network,             yi )theiscoordinate   pair pair
+                                                                         the coordinate   of station i.
+                                                                                               of station i.
+
+
+
+
+                           Figure 1. The gravity center of stations’ importance distribution.
+
+     The gravity
+     The            centerreflects
+          gravitycenter              themphasis
+                           reflectsthe   emphasis    railrail
+                                                  of of   transit development
+                                                              transit  development  on urban
+                                                                                       on urbanspatial location.
+                                                                                                   spatial       The
+                                                                                                            location.
+location of the gravity  center will  change  with the  development      of rail transit, and  the focus
+The location of the gravity center will change with the development of rail transit, and the focus area   area of the
+center          the importance
+       reflectsreflects
+of the center                             of thearea
+                                  of the urban
+                        the importance           urban     certain
+                                                      to aarea        certainThe
+                                                                to aextent.        index
+                                                                              extent.  Thewill  be used
+                                                                                            index   willtobecalculate
+                                                                                                             used to
+the matching   degree   between   the  network  and   the  urban  trips.
+calculate the matching degree between the network and the urban trips.
+
+2.1.3.          Dimension
+        Fractal Dimension
+2.1.3. Fractal
+       Fractal theory
+      Fractal  theory originated
+                        originated in in the late 1960s
+                                         the late         and was
+                                                  1960s and         founded by
+                                                               was founded     by Mandelbrot,
+                                                                                  Mandelbrot, B    [21]. The
+                                                                                                 B [21]. The theory
+                                                                                                              theory
+was originally used to describe highly irregular graphics. Fractal dimension is the most important
+was   originally  used   to describe    highly  irregular   graphics.  Fractal  dimension   is the most   important
+parameter of
+parameter       fractal theory.
+             of fractal           It is
+                         theory. It  is used
+                                        used to
+                                              to describe      dimension of
+                                                           the dimension
+                                                 describe the                  complex irregular
+                                                                            of complex             graphics, which
+                                                                                        irregular graphics,    which
+is the
+is      measure of
+   the measure    of spatial
+                     spatial scale
+                              scale and
+                                      and overall
+                                           overall complexity
+                                                    complexity of    the graphics.
+                                                                  of the            In 1991,
+                                                                         graphics. In         L. Benguigui
+                                                                                       1991, L.  Benguigui and     M.
+                                                                                                              and M.
+Daoud    [22] inspected    the railway    system   in the suburb   of Paris and  found  that  the
+Daoud [22] inspected the railway system in the suburb of Paris and found that the railway network railway   network
+showed aa branched
+showed                   fractal structure.
+            branched fractal                  After that,
+                                 structure. After    that, the fractal theory
+                                                           the fractal         was gradually
+                                                                       theory was  gradually applied        the field
+                                                                                                         in the
+                                                                                                applied in      field
+of transportation.
+of  transportation.
+Sustainability 2019, 11, 6128                                                                                          5 of 23
+
+
+
+     In   fact, there
+      Sustainability        are
+                     2019, 11,    fractal
+                               x FOR       features in a certain space–time range between the city5 of
+                                     PEER REVIEW                                                                  and
+                                                                                                                    23 the
+transportation network systems, and their fractal geometry properties reflect the self-similar
+             In fact, there are fractal features in a certain space–time range between the city and the
+characteristics of the systems. In this paper, the city is regarded as a circular area, and the radius is
+      transportation network systems, and their fractal geometry properties reflect the self-similar
+centered around the urban center. Figure 2 shows the urban rail transit lines in the city with radius r,
+      characteristics of the systems. In this paper, the city is regarded as a circular area, and the radius is
+        the point
+wherecentered          O represents
+                   around                the urban
+                             the urban center.        center.
+                                                 Figure       Thethe
+                                                        2 shows    sum  of the
+                                                                     urban       transit linesimportance
+                                                                            rail structural                 degrees
+                                                                                               in the city with radiusof all
+            (r) within
+       r , Iwhere
+stations                    the radius
+                     the point           r is calculated
+                                  O represents  the urban by  Equation
+                                                          center.       (7):of the structural importance degrees of
+                                                                  The sum
+       all stations I ( r ) within the radius r is calculated by Equation (7):
+                                                                      nr
+                                                                      X
+                                                        I (r) =n           Ii (r)                                         (7)
+                                                       I (r )  i=I i1(r )
+                                                                  r
+
+                                                                                                                 (7)
+                                                                i 1
+
+        Ii (r) is
+wherewhere      I i (rthe
+                       ) isstructural
+                            the structural importancedegree
+                                                      degree of
+                                        importance              station ii within
+                                                             of station    withinthe   radiusr r,
+                                                                                  theradius    , nnr r is thenumber
+                                                                                                       isthe  number of
+stations   within within
+      of stations       the radius   r.
+                               the radius   r.
+
+
+
+
+                                 Figure2.
+                                Figure      Urbanrail
+                                        2. Urban  railtransit
+                                                       transit lines
+                                                               linesininthe
+                                                                         thecity
+                                                                              citywith
+                                                                                   withradius r .r.
+                                                                                         radius
+
+          According
+      According     to the
+                to the     fractal
+                       fractal          I (r)I (and
+                                   theory,
+                                theory,         r ) and  r satisfy
+                                                     r satisfy     the following
+                                                               the following     relationship:
+                                                                              relationship:
+                                                         I (r )  r DSD                                          (8)
+                                                           I (r) ∝ r S                                                    (8)
+       where DS is the fractal dimension of the stations’ importance distribution.
+where DS The     cityfractal
+            is the            dimension
+                       is divided          of the
+                                  into several     stations’
+                                                circles by theimportance    distribution.
+                                                               radii with different  lengths, and the stations with
+     The   city importance
+      different  is divided are     several in
+                               intoscattered  circles  by the
+                                                the circles. Soradii        different lengths,
+                                                                      with dimensions
+                                                                the fractal                     and the
+                                                                                        corresponding   to stations
+                                                                                                           different with
+            can be obtained.
+      radiiimportance
+different                   are scattered in the circles. So the fractal dimensions corresponding to different
+radii can be     fractal dimensions corresponding to different radii can reflect the change of rail transit
+            Theobtained.
+      supply   capacity
+     The fractal dimensions        urban center to atoperipheral
+                           from an corresponding                   area. In
+                                                        different radii  canfact, the urban
+                                                                              reflect       development
+                                                                                      the change           is biased
+                                                                                                  of rail transit supply
+      towards the central area, so the supply capacity of the central area is usually larger than that of the
+capacity from an urban center to a peripheral area. In fact, the urban development is biased towards
+      peripheral area. The index will be used to calculate the matching degree between the network and
+the central area, so the supply capacity of the central area is usually larger than that of the peripheral
+      the urban land use.
+area. The index will be used to calculate the matching degree between the network and the urban
+land use.
+      2.2. Matching with Urban Characteristics
+
+2.2. Matching  with
+     2.2.1. Urban   Urban
+                  Road    Characteristics
+                       Network
+          Usually, urban rail transit lines are laid along the roads, and only in special cases can be
+2.2.1. Urban Road Network
+       constructed through land blocks. Therefore, it is necessary to limit the roads, so as to determine the
+     range andurban
+     Usually,        rail transit
+                direction         lines are laid
+                          of the searchable       along
+                                             sections        roads, andthe
+                                                         the generating
+                                                       when               only in special
+                                                                            network.      cases
+                                                                                      In this   cannot
+                                                                                                    beonly
+                                                                                              way,       constructed
+                                                                                                             the
+     planner’s
+through        subjective
+         land blocks.       and groundless
+                         Therefore,           decision can
+                                      it is necessary        be avoided
+                                                        to limit          withso
+                                                                  the roads,    mathematical   model,
+                                                                                  as to determine   the but also and
+                                                                                                          range
+     reasonable
+direction of the route boundaries
+                 searchable              be grasped.
+                                    can when
+                               sections                We refer
+                                                 generating   thetonetwork.
+                                                                    the topological
+                                                                             In thisnetwork
+                                                                                      way, notused     limit
+                                                                                                   to the
+                                                                                                only         the
+                                                                                                           planner’s
+     search range  and  the search direction  as the ‘basic network’.
+subjective and groundless decision can be avoided with mathematical model, but also reasonable route
+boundaries can be grasped. We refer to the topological network used to limit the search range and the
+search direction as the ‘basic network’.
+Sustainability 2019, 11, 6128                                                                           6 of 23
+Sustainability 2019, 11, x FOR PEER REVIEW                                                              6 of 23
+
+      The locations of large traffic volume and passenger flow corridors are the main factors affecting
+      The locations of large traffic volume and passenger flow corridors are the main factors affecting
+the line alignments and network structure. Among the factors, the locations with large traffic volume
+the line alignments and network structure. Among the factors, the locations with large traffic volume
+are the main source of production and attraction of passenger flow, including transportation hubs and
+are the main source of production and attraction of passenger flow, including transportation hubs
+centers of a district. The transportation hubs include a bus transfer hub, bus terminal, railway station
+and centers of a district. The transportation hubs include a bus transfer hub, bus terminal, railway
+and airport, etc. The centers of a district include commercial and cultural sites, large enterprises, large
+station and airport, etc. The centers of a district include commercial and cultural sites, large
+residential areas and tourist attractions, etc. So the basic network should be established by connecting
+enterprises, large residential areas and tourist attractions, etc. So the basic network should be
+the main locations of large traffic volume and covering the main passenger flow corridors. Before
+established by connecting the main locations of large traffic volume and covering the main passenger
+establishing the basic network, the main passenger corridors are determined by a ‘cobweb assignment’
+flow corridors. Before establishing the basic network, the main passenger corridors are determined
+method, and the steps are as follows:
+by a ‘cobweb assignment’ method, and the steps are as follows:
+      Step 1: Generate OD (origin-destination) desire lines between traffic zones according to the
+      Step 1: Generate OD (origin-destination) desire lines between traffic zones according to the
+predicted passenger demand.
+predicted passenger demand.
+      Step 2: Eliminate the inter-zone desire lines while the desire lines between adjacent zones are
+      Step 2: Eliminate the inter-zone desire lines while the desire lines between adjacent zones are
+retained. The network formed by the retained desire lines is called ‘virtual cobweb’.
+retained. The network formed by the retained desire lines is called ‘virtual cobweb’.
+      Step 3: Passenger assignment is carried out on the ‘virtual cobweb’ with all-or-nothing method.
+      Step 3: Passenger assignment is carried out on the ‘virtual cobweb’ with all-or-nothing method.
+      Step 4: Judging the main passenger flow corridors according to the scale of passenger
+      Step 4: Judging the main passenger flow corridors according to the scale of passenger flow
+flow accumulation.
+accumulation.
+      Usually, most of the research on actual transit network designs are based on the premise that the
+      Usually, most of the research on actual transit network designs are based on the premise that
+basic network is known because of lacking effective determination method. Therefore, the determining
+the basic network is known because of lacking effective determination method. Therefore, the
+process of the basic network proposed in this paper is as follows:
+determining process of the basic network proposed in this paper is as follows:
+      Step 1: Selection of trunk roads that meet the conditions for rail transit construction.
+      Step 1: Selection of trunk roads that meet the conditions for rail transit construction.
+      According to the urban traffic road network in the area requiring rail transit construction, the
+      According to the urban traffic road network in the area requiring rail transit construction, the
+trunk roads along the passenger corridors and connecting the locations with large traffic volume
+trunk roads along the passenger corridors and connecting the locations with large traffic volume are
+are selected.
+selected.
+      Step 2: Selection of other roads that can connect the locations of large traffic volume.
+      Step 2: Selection of other roads that can connect the locations of large traffic volume.
+      If the selected trunk roads cannot connect all the necessary locations of large traffic volume, other
+      If the selected trunk roads cannot connect all the necessary locations of large traffic volume,
+roads around the locations that meet the construction conditions and land-use requirements should
+other roads around the locations that meet the construction conditions and land-use requirements
+be selected.
+should be selected.
+      Step
+      Step 3:   The main
+             3: The       locationsofoflarge
+                    main locations             trafficvolume
+                                        largetraffic   volume     connected
+                                                             areare         along
+                                                                    connected     thethe
+                                                                               along  selected roads,
+                                                                                         selected     andand
+                                                                                                  roads,  the
+topology network formed is the basic network.
+the topology network formed is the basic network.
+      The locations with close distance and large traffic volume are merged. In this way, not only the
+      The locations with close distance and large traffic volume are merged. In this way, not only the
+complexity of solving the model, but also the detour distance of the generated transit lines can be
+complexity of solving the model, but also the detour distance of the generated transit lines can be
+reduced. Figure 3 shows the urban rail transit lines laid along the main routes in the basic network.
+reduced. Figure 3 shows the urban rail transit lines laid along the main routes in the basic network.
+
+
+
+
+                  Figure 3. Urban rail transit lines laid along the main routes in the basic network.
+
+2.2.2. Trip Intensity
+Sustainability 2019, 11, x FOR PEER REVIEW                                                                          7 of 23
+
+
+      There is a certain difference for trip volumes in different traffic zones, and the volume in each
+zone includes the production and attraction of the trips. So, the trip intensity in each zone can be
+               by the
+calculated 2019,
+Sustainability      11,amount
+                       6128   of the production and attraction of the zone, as shown in Equation (9):7 of 23
+                                                     Si  Pi  Ai                                                     (9)
+
+         S i Intensity
+2.2.2. Trip
+where        is the trip intensity in traffic zone i , Pi and Ai are the production and attraction of trip
+volume   in traffic
+     There                 i , respectively.
+                    zone difference
+             is a certain              for trip volumes in different traffic zones, and the volume in each
+      includesthe
+zoneUsually,         production
+                 thetrip  intensityand   attraction
+                                      of each  zone of   betrips.
+                                                    canthe                   be intensity
+                                                                  So, thetotrip
+                                                            considered                    in each
+                                                                                 concentrated     zone
+                                                                                               in the   can be
+                                                                                                      centroid
+calculated
+position  ofby
+             thethe     So, ifof
+                    amount
+                 zone.            the
+                                the   production
+                                    centroid      and attraction
+                                             positions            of the
+                                                       are assigned      zone, as showntrip-intensity
+                                                                                          in Equation (9):
+                                                                      to corresponding                 values,
+the distribution of the trip volume can be expressed in the form of scatter in the city. Similarly, if the
+trip intensity of each zone is regarded as the          Pi + Ai of the zone, the equilibrium point of the
+                                                  Si =‘gravity’                                             (9)
+‘gravity’ is the gravity center of trip intensity, as shown in Figure 4. In Figure 4, each area represents
+where   Si iszone,
+              the tripo intensity  in traffic zone i, Pi and Ai are the production and attraction of trip volume
+the traffic            1 ~o 9 are the centroid positions of traffic zones, G1 ~ G9 are the ‘gravity’ values,
+in traffic zone i, respectively.
+and O P is the gravity center of trip intensity. The coordinates of the gravity center can be calculated
+      Usually, the trip intensity of each zone can be considered to be concentrated in the centroid
+           of the(10)–(11):
+by Equations
+position          zone. So, if the centroid positions are assigned to corresponding trip-intensity values,
+the distribution of the trip volume can be expressed        m             in the form of scatter in the city. Similarly, if
+the trip intensity of each zone is regarded as the               x  S
+                                                                  ‘gravity’ of the zone, the equilibrium point of the
+                                                                   i   i
+
+‘gravity’ is the gravity center of trip intensity,  x 2 asi shown
+                                                               1
+                                                               m                                                     (10)
+                                                                            in Figure 4. In Figure 4, each area represents
+the traffic zone, o1 ∼ o9 are the centroid positions         of
+                                                              i 1
+                                                                   S
+                                                                   traffic
+                                                                     i       zones, G1 ∼ G9 are the ‘gravity’ values, and
+OP is the gravity center of trip intensity. The coordinates of the gravity center can be calculated by
+                                                             m
+Equations (10)–(11):
+                                                                  yS
+                                                                  mi i
+                                                    y 2  m xi Si
+                                                           i 1
+                                                                  P
+                                                                                                                     (11)
+                                                      x2 = mi
+                                                                 i=1
+                                                                   S                                                  (10)
+                                                              i 1 P
+                                                                         Si
+                                                             i=1
+where ( x2 , y 2 ) is the coordinate pair of the gravity center of urban trip intensity, m is the number
+                                                         m
+                                                         P
+of traffic zones divided in the city, ( xi , yi ) is the coordinate
+                                                           yi S     pair of centroid position of traffic zone
+                                                            i=1
+i.                                                   y2 = m                                                  (11)
+                                                            P
+      The gravity center of urban trip intensity reflects      Si the bias in the distribution of urban trip
+                                                           i=1
+volume. If the trip intensity in an area increases, the gravity center will develop toward the area. On
+where   (x2 , y2 )ifisthe
+the contrary,              coordinate
+                       thetrip intensitypair of the gravity
+                                         decreases,         center of urban
+                                                     the development        trip intensity,
+                                                                       direction            m is the
+                                                                                  of the gravity     number
+                                                                                                  center       of
+                                                                                                         will be
+traffic zones divided in the city, (xi , yi ) is the coordinate pair of centroid position of traffic zone i.
+reversed.
+
+
+
+
+                                           The gravity
+                                 Figure 4. The         center of
+                                               gravity center    urban trip
+                                                              of urban trip intensity.
+
+      The gravity
+      Urban    rail transit
+                     center of  a maintrip
+                             is urban       intensity reflects
+                                         transportation   mode thefor
+                                                                   bias     the distribution
+                                                                                      in the of
+                                                                      theinresidents            urban
+                                                                                             city. Thetrip
+                                                                                                        railvolume.
+                                                                                                             transit
+            intensitynot
+If the trip should
+network                in an
+                          onlyarea increases,
+                                 satisfy      the gravity
+                                         the capacity      center will
+                                                        demand         develop toward
+                                                                   of passenger          the area.
+                                                                                   transport, but On
+                                                                                                   alsothe contrary,
+                                                                                                         match  the
+if the trip intensity decreases, the development direction of the gravity center will be reversed.
+      Urban rail transit is a main transportation mode for the residents in the city. The rail transit
+network should not only satisfy the capacity demand of passenger transport, but also match the
+center O P of urban trip intensity and the gravity center O S of stations’ importance distribution is
+used to characterize the matching degree between the network and urban trips, as shown in Figure
+5. The deviation value is expressed as the ratio of Euclidean distance between O P and O S to urban
+radius, as shown in Equation (12).
+Sustainability 2019, 11, 6128                                                                                          8 of 23
+
+                                                        ( x1  x 2 )  ( y1  y 2 )
+                                                                  2             2
+
+                                       d (OP , OS )                                                                     (12)
+distribution of trip volume in the city. So the importance             r ' distribution of rail transit stations should
+where the
+match     d different            valueinoftraffic
+                        trip volume
+               is the deviation            gravityzones.    In this
+                                                      centers    betweenpaper,the      deviation
+                                                                                  thestations’    value between
+                                                                                               importance         the gravity
+                                                                                                            distribution  and
+center
+the trip OPintensity,    r ' intensity
+              of urban trip            and the
+                              is the radius                    from Othe
+                                                  gravity center
+                                               calculated                        stations’
+                                                                            S oftotal   areaimportance
+                                                                                               A(r ') of distribution   used
+                                                                                                         the city, satisfying
+to characterize     the matching degree between the network and urban trips, as shown in Figure 5. The
+ A(r ')   r '2 .
+deviation value is expressed as the ratio of Euclidean distance between OP and OS to urban radius, as
+       Furthermore, the matching degree mC between urban rail transit network and urban trips can
+shown in Equation (12).
+be calculated by Equation (13). The value of qmC is between                        0 and 1, and the closer the index value
+                                                           (x1 − x2 )2 + ( y1 − y2 )2
+is to 1, the higher the matching ddegree(OP , OSbetween
+                                                  )=         the network and urban trips.                                 (12)
+                                                                           r0
+                                                                 1                                                      (131
+                                                    C 
+where d is the deviation value of gravity m       centers   between the stations’ importance distribution and              the
+                                                        1   d (O  P , O
+trip intensity, r0 is the radius calculated from the total area A(r0) of the city, satisfying A(r0) = πr0 . )
+                                                                          S )                                              2
+
+
+
+
+                                           5. Deviation of the two gravity centers.
+                                    Figure 5.
+                                    Figure
+
+2.2.3.Furthermore,     the matching degree mC between urban rail transit network and urban trips can be
+       Land-Use Intensity
+calculated by Equation (13). The value of mC is between 0 and 1, and the closer the index value is to 1,
+      There is a feedback relationship between urban rail transit and land use. Land-use intensity is
+the higher the matching degree between the network and urban trips.
+the root cause of passenger volume for urban rail transit while the rail transit could have a positive
+guiding role in the development of surrounding land1 use. Therefore, in the stage of network design,
+it is necessary to ensure the matchingmbetween   C =                                                    (13)
+                                                             (OPurban
+                                                      1 + dthe  , OS ) rail transit network and the land-use
+intensity [23].
+       Land-Useintensity
+2.2.3.Land-use       Intensitydirectly affects the accumulation of urban population, so it can be calculated
+by the population size within the area. Similarly, according to fractal theory, the relationship between
+      There is a feedback relationship between urban rail transit and land use. Land-use intensity is the
+the radius r of the urban area and the land-use intensity satisfies Equation (14):
+root cause of passenger volume for urban rail transit while the rail transit could have a positive guiding
+role in the development of surrounding land use. DTherefore, in the stage of network design,(142        it is
+                                                   P(r )  r     P
+
+necessary to ensure the matching between the urban rail transit network and the land-use intensity [23].   )
+      Land-use intensity directly affects the accumulation of urban population, so it can be calculated
+where P() is the land-use intensity calculated by the sum of resident and employed population,
+by the population size within the area. Similarly, according to fractal theory, the relationship between
+ D P radius
+the             of thedimension
+      is the rfractal  urban areaof       land-use
+                                     thethe
+                                   and              intensity.
+                                             land-use  intensity satisfies Equation (14):
+
+                                                        P(r) ∝ rDP                                                       (14)
+
+where P(·) is the land-use intensity calculated by the sum of resident and employed population, DP is
+the fractal dimension of the land-use intensity.
+Sustainability 2019, 11, x FOR PEER REVIEW                                                                                            9 of 23
+
+
+      Deriving
+Sustainability           on both sides of Equation Error! Reference source not found., we can obtain
+                     r 6128
+               2019, 11,                                                                       9 of 23
+Equation (15):
+                                                      dP(r )           DP 1
+       Deriving r on both sides of Equation (14), we           Dcanpr
+                                                                         obtain Equation (15):                                          (15)
+                                                        dr
+                                                        dP(r)
+        The area of the circle with radius r is A(∝             r) D prD    , satisfying dA(r ) dr  2 r , so the land-use
+                                                                         r 2P −1                                                          (15)
+                                                          dr
+intensity per unit area  (r ) can be obtained from Equation (16):
+       The area of the circle with radius r is A(r) = πr2 , satisfying dA(r)/dr = 2πr, so the land-use
+                                                           dP(r )
+intensity per unit area ρ(r) can be obtained      (r )  from Equation
+                                                                   Dp r DP  2(16):                                                    (16)
+                                                           dA(r )
+                                                             dP(r)
+        As can be seen from Equation              ρ(r)Error!
+                                                         =            ∝ Dp rDP −2source not found., when D p (16)
+                                                                  Reference                                                                2 ,
+                                                             dA(r)
+  (r )  Dp (1 r ) DP  2 , and as the statistical area expands with the increased radius r ,  (r ) gradually
+                                                                                               |DP −2|
+       As can
+decreases       be seen
+              from                 Equation
+                             fromcenter
+                      the city           to the(16), when Dof
+                                                 periphery      p <      ρ(r) ∝
+                                                                     2, city.
+                                                                   the             Dp (1/r
+                                                                                 When      D p) =2 ,  , and
+                                                                                                         (r ) as     the statistical
+                                                                                                                remains        unchanged.area
+expands with the increased radius r, ρ(r) gradually decreases from the city center to the periphery of
+When D p  2 ,  (r ) gradually increases from the city center to the periphery of the city. Therefore,
+the city. When       Dp = 2, ρ(r) remains unchanged. When Dp > 2, ρ(r) gradually increases from the city
+the   fractal  dimension
+center to the periphery of         r ) reflects
+                                 P(the           the changing
+                                        city. Therefore,             trend
+                                                            the fractal         of urbanPland-use
+                                                                            dimension        (r) reflectsintensity
+                                                                                                              the changing  from trend
+                                                                                                                                     the city
+                                                                                                                                            of
+         to the periphery
+center land-use
+urban                              the city.
+                     intensityoffrom     the city center to the periphery of the city.
+       However, the city does          not develop
+                                 does not               evenlyininall
+                                             developevenly             alldirections.
+                                                                            directions.Therefore,
+                                                                                            Therefore,        this
+                                                                                                           inin    thispaper,
+                                                                                                                           paper,      city
+                                                                                                                                  thethe    is
+                                                                                                                                          city
+divided     into   several     fan-shaped     areas  in  the   radial     direction.
+is divided into several fan-shaped areas in the radial direction. The fractal dimension The     fractal     dimension          of  land-use
+intensity in each fan-shaped area            should be
+                                       area should         calculated.IfIfthe
+                                                       be calculated.           thecity
+                                                                                    cityisisdivided
+                                                                                             dividedinto  into m         areas (as seen in
+                                                                                                                  m0' areas
+Figure 6,    the city
+          6, the             dividedinto
+                 city isisdivided           fourfan-shaped
+                                      intofour   fan-shapedareas  areasusing
+                                                                           usingfourfour   quadrants.),       the     fractal
+                                                                                        quadrants.), the fractal dimension       dimension  of
+of  land-use    intensity     in different   areas can   be  expressed
+land-use intensity in different areas can be expressed by the vector [D1 , D  by  the vector      [ D1 2 , 2D3 ,3. . . , Dm0
+                                                                                                       , D  , D   ,     , D   ] , where the
+                                                                                                                           m ' , where
+
+subscript number of the vector element represents the area number.                      number. So, the fractal dimension vector
+D         stations’importance
+ DSS ofofstations’  importancedistribution
+                                      distributionand       andthethefractal
+                                                                       fractal  dimension
+                                                                                   dimension       vector
+                                                                                                      vector DP DofP land-use intensity
+                                                                                                                      of land-use        can
+                                                                                                                                   intensity
+be  expressed    as [ D   , D
+                        S1 [ D   , D
+                              S2S1 , DS3 , . . . , D      ] and   [ D   , D     , D    , . . . , D     ] , respectively,
+                                                       , DSm ' ] andP1[ DP1 , DP 2 , DP3 , , DPm ' ] , respectively, whereSi DSithe
+                                                                                                                           where  D   is
+can be expressed as                   S 2 , DS 3 ,                                                                                         is
+                                                      Sm0                    P2     P3             Pm0
+fractal   dimension   of stations’     importance           distribution     in   area   i,  D  Pi is the
+the fractal dimension of stations’ importance distribution in area i , D Pi is the fractal dimension of     fractal  dimension  of land-use
+intensity in area i, i = 1, 2, . . . m0. The deviation value between DS and DP is used to describe the
+land-use intensity in area i , i  1, 2, m ' . The deviation value between D and DP is used to
+matching between the network and urban land use, as shown in Equation (17):S
+describe the matching between the network and urban land use, as shown in Equation (17):
+                                                                      s
+                                                                      m' P
+                                                                          m0
+                                                                                                 2
+                                                                         ( D (D
+                                                                         i=1 Si
+                                                                                 SiD−
+                                                                                     Pi )
+                                                                                         D2 Pi )
+                                                                                                                                       (17)
+                                                      DSS , DPP) = i 1
+                                                   d((D                                                                                  (17)
+                                                                             m 'm0
+where dd(D( DSS, ,DDPP)) isisthe   deviation value
+                               thedeviation   value of
+                                                     of fractal
+                                                         fractal dimensions  between the
+                                                                  dimensions between     stations’ importance
+                                                                                     the stations’
+distribution   and     the   land-use intensity.
+distribution and the land-use intensity.
+
+
+
+
+                     Figure 6. The city is divided into four fan-shaped areas using four quadrants.
+Sustainability 2019, 11, 6128                                                                                                  10 of 23
+
+
+
+    Therefore, the matching degree mF between the network and land use can be expressed by
+Equation (18). The value of mF is between 0 and 1, and the closer the index value is to 1, the higher the
+matching degree between the network and the land use.
+
+                                                                         1
+                                                         mF =                                                                     (18)
+                                                                 1 + d ( DS , DP )
+
+3. Model Formulation
+
+3.1. Notations
+                                                                                         
+    The station and section of urban rail transit are abstracted as node i in N and edge i, j in E,
+respectively. The topological network for urban rail transit is established, which is expressed as
+G = G(N, E). The notations in the model are shown in Tables 1–3.
+                                                       Table 1. Sets in the model.
+
+            Sets                                                       Meaning
+             L                The set of lines of the candidate network, satisfying l ∈ L.
+                                                                                   
+             E                The set of sections of the basic network, satisfying i, j ∈ E.
+             N                The set of stations of the basic network, satisfying i, j ∈ N.
+            N (i)             The set of adjacent points of station i.
+             W                The set of OD pairs between the locations of large traffic volume, satisfying w ∈ W.
+            Np                The set of effective paths between OD pairs, satisfying p ∈ Np .
+
+
+                                               Table 2. Known quantities in the model.
+
+              Notations                                                  Meaning
+                                                            
+                       di j           The length of section i, j .
+                       gw             The passenger demand between OD pair w.
+                l
+               Nnodesmin              The minimum number of stations of line l in the candidate network.
+                l
+               Nnodesmax              The maximum number of stations of line l in the candidate network.
+                  dlmin               The minimum length of line l in the candidate network.
+                  dlmax               The maximum length of line l in the candidate network.
+                Nlmin                 The minimum number of lines in the candidate network.
+                Nl max                The maximum number of lines in the candidate network.
+                                                               
+                   Ci j               The capacity of section i, j .
+                    xi                The abscissa of station i.
+                    yi                The ordinate of station i.
+                    a                 The station repeatability, satisfying a > 0 and a is an integer.
+                    b                 The section repeatability, satisfying b > 0 and b is an integer.
+                    c                 The minimum angle between adjacent sections in a line.
+                mCmin                 The minimum matching degree between the network and urban trips.
+                mFmin                 The minimum matching degree between the network and land-use intensity.
+
+
+                                                    Table 3. Variables in the model.
+
+           Variables                                                    Meaning
+                                                                          
+               ei j             If the candidate network has the section i, j , eij = 1, 0 otherwise.
+               elij             If the line l in the candidate network has the section i, j , elij = 1, 0 otherwise.
+                                                                                        
+
+               vi               If the candidate network has the station i, vi = 1, 0 otherwise.
+               vli              If the line l in the candidate network has the station i, vli = 1, 0 otherwise.
+                wpl                                                                                     wpl
+              fij               If the OD pair w passes the section i, j of line l along the path p, fi j = 1, 0 otherwise.
+                       0                                                                                0
+              f wpll            If the OD pair w transfers from line l to line l0 along the path p, f wpll = 1, 0 otherwise.
+                                                                                     
+                qij             The cross-sectional passenger volume of section i, j .
+               Pwp              The selection probability of path p between OD pair w.
+Sustainability 2019, 11, 6128                                                                            11 of 23
+
+
+
+3.2. Objective Functions
+      In this paper, we focus on how to consider the characteristics of urban road network, trips and land
+use in the quantitative network design. So other factors involved in the model have to be simplified.
+The model is formulated based on the assumption that passenger demand for the urban rail transit is
+already known.
+      In this paper, the logit-based multi-path passenger flow assignment method is adopted. The
+utility function for path selection is expressed by passenger’s travel time which is the main influencing
+factor, as shown in Equation (19):
+                                       p     p        p        p
+                                     Tw = Tr + Td + Tt , w ∈ W, p ∈ Np                                      (19)
+
+           p                                                                   p                        p
+where Tw is the travel time for OD pair w along the path p, Tr is the travel time in sections, Td is the
+                                         p
+dwell time at intermediate stations, Tt is the transfer time.
+    During the trip, too many transfers will seriously affect the convenience for passengers, and thus
+reduce the attraction of the urban rail transit. In order to describe the influence of transfers, the transfer
+penalty is used for transfer time calculation, as shown in Equation (20):
+
+                                                          Ttk (λk + 1)γ
+                                                      X
+                                              p            p
+                                            Tt =                                                            (20)
+                                                      k
+
+           p
+where Ttk is the transfer time in the kth transfer station along the path p, λ is the passenger’s transfer
+sensitivity, γ is the adjustment coefficient which is usually larger than 1. The larger the γ, the greater
+the difference for sensitivity levels between different transfer times in the path.
+     The effective paths, which are defined by Equation (21), are searched for between each OD pair in
+the network. So the path selection probability Pwp is calculated by Equation (22):
+                                                  p                  p
+                                              Tw ≤ (1 + H )Twmin                                            (21)
+                                                                               p
+where H is the detour coefficient and is set to 1.5 in this paper, Twmin is the travel time in the shortest path.
+                                                          p
+                                          exp(−θTw )
+                                   Pwp = P          p , w ∈ W, p ∈ Np                                       (22)
+                                            exp(−θTw )
+                                           p∈Np
+
+
+where θ is the calibration parameter.
+     As a kind of public transport, urban rail transit should not only achieve the purpose of profitability
+for the managers, but also take into account the service function to meet passengers’ demand. In this
+paper, the objective functions are formulated from the perspective of both managers and passengers to
+improve the transport efficiency of the network and the convenience for passengers.
+
+Objective 1: Maximize the transport efficiency of the network
+     From the managers’ point of view, the network should transport as much passengers as possible
+to improve the operating income. Passenger turnover quantity refers to the product of the passenger
+volume and the distance transported in a certain period of time, and the unit is p·km. The larger the
+passenger turnover quantity, the higher the transport capacity of the network. Therefore, the passenger
+turnover quantity per unit length of the network is used to characterize the transport efficiency, which
+is expressed by Equation (23):                      P
+                                                        qij dij eij
+                                                          {i,j}∈E
+                                           maxZ1 =             P                                            (23)
+                                                                     dij eij
+                                                           {i,j}∈E
+      Sustainability 2019, 11, x FOR PEER REVIEW                                                                            12 of 23
+
+
+      passenger turnover quantity, the higher the transport capacity of the network. Therefore, the
+      passenger turnover quantity per unit length of the network is used to characterize the transport
+      efficiency, which is expressed by Equation (23):
+Sustainability 2019, 11, 6128                                                                                                     12 of 23
+                                                qde             {i , j }E
+                                                                                ij    ij ij
+
+                                      max Z                                                                                 (23)
+                                                de
+                                                            1
+                                                                                     ij ij
+Objective 2: Maximize the travel convenience for passengers        {i , j }E
+
+
+           Objective
+     In order         2: Maximize
+                to explore         the travel convenience
+                            the relationship   between the    passengers
+                                                          fortransfer times and the travel time in paths, the
+           In orderbetween
+effective paths     to explore     OD pair inbetween
+                               the relationship
+                             each                       the transfer
+                                                 the metro  networktimes   and the(as
+                                                                       of Beijing   travel        inpaths,
+                                                                                            time in
+                                                                                         shown       Figurethe7) are
+      effective paths between   each  OD  pair in the metro network  of Beijing (as  shown
+calculated, and the results are shown in Figure 8. As can be seen, a path with more transfer  in Figure 7) aretimes
+      calculated, and the results are shown in Figure 8. As can be seen, a path with more transfer times
+tends to have more average travel time, and the greater the transfer sensitivity, the more obvious the
+      tends to have more average travel time, and the greater the transfer sensitivity, the more obvious the
+phenomenon. Therefore, the average travel time of all passengers can be reduced while the average
+      phenomenon. Therefore, the average travel time of all passengers can be reduced while the average
+transfer times in paths are reduced.
+      transfer times in paths are reduced.
+
+
+
+
+                            Figure
+                         Figure    7. The
+                                7. The    metrotopological
+                                        metro               network in
+                                                topological network     Beijing2017
+                                                                     inBeijing      (288
+                                                                                 2017    stations).
+                                                                                      (288  stations).
+
+
+
+
+      Sustainability 2019, 11, x FOR PEER REVIEW                                                                            13 of 23
+                                   (a)                                                                 (b)
+
+
+
+
+                                    (c)                                                                (d)
+
+      FigureFigure  8. relationship
+               8. The   The relationship
+                                     between between              timestimes
+                                                        the transfer
+                                                  the transfer            and the      the travel
+                                                                                 andtravel  time intime     (a) λ =(a)0 (insensitive
+                                                                                                        in paths:
+                                                                                                     paths:               0
+      to transfer); (b) λ
+            (insensitive to=           (b)(c) λ 1
+                               1, γ = 2;
+                            transfer);               γ
+                                                  =, 2,  2=; 2;             γ 2=; (d)
+                                                                    λ 2=, 3,
+                                                              (c)(d)                 2.   3 ,   2 .
+
+           In order to improve the travel convenience for passengers, it is necessary to improve the
+      directness of traveling for passengers. Reducing the transfer times for passengers is a very effective
+      method to achieve this. Therefore, the average number of transfer passengers between lines is used
+      as the second objective, which is expressed by Equation (24):
+
+                                                           gP f                     w wp
+                                                                                              wpll '
+Sustainability 2019, 11, 6128                                                                       13 of 23
+
+
+
+      In order to improve the travel convenience for passengers, it is necessary to improve the directness
+of traveling for passengers. Reducing the transfer times for passengers is a very effective method to
+achieve this. Therefore, the average number of transfer passengers between lines is used as the second
+objective, which is expressed by Equation (24):
+                                                                                            0
+                                                                            gw Pwp f wpll
+                                                      P        P       P
+                                                     w∈W l,l0∈L,l,l0 p∈Np
+                                       minZ2 =                                                         (24)
+                                                                |L|(|L| − 1)/2
+
+     Both the two objectives have the same unit, so the problem can be easily converted into a single
+objective problem with weighted sum approach for the convenience of solving. The transformed
+objective function is shown in Equation (25):
+
+                                                 maxZ =β1 Z1 − β2 Z2                                   (25)
+
+where β1 + β2 = 1, satisfying 0 ≤ β1 ≤ 1, 0 ≤ β2 ≤ 1.
+
+3.3. Constraints
+      Constraint 1: Network topological relationship.
+
+                                             elij ≤ vli , l ∈ L, i ∈ N, i, j ∈ E
+                                                                       
+                                                                                                       (26)
+
+                                             elij ≤ vlj , l ∈ L, j ∈ N, i, j ∈ E
+                                                                       
+                                                                                                       (27)
+
+                                                elij = elji , l ∈ L, i, j ∈ E
+                                                                     
+                                                                                                       (28)
+                                                     X
+                                              eij ≤       elij , l ∈ L, {i, j} ∈ E                     (29)
+                                                        l∈L
+
+                                               elij ≤ eij , l ∈ L, i, j ∈ E
+                                                                  
+                                                                                                       (30)
+                                               X
+                                                    elij ≤ 2, l ∈ L, {i, j} ∈ E                        (31)
+                                              j∈N (i)
+
+                                              1 X l        X
+                                                  eij +1 =   vli , l ∈ L                               (32)
+                                              2
+                                                {i,j}∈E              i∈N
+                                               X
+                                                     vli ≤ a, i ∈ N, {i, j} ∈ E                        (33)
+                                               l∈L
+                                                   X
+                                                           elij ≤ b, {i, j} ∈ E                        (34)
+                                                     l∈L
+
+      Equations (26) and (27) indicate that if the station i or station j is not on the line l, the section
+
+ i, j will not on the line l. Equation (28) indicates that the network is regarded as undirected graph.
+                                                                          
+Equations (29) and (30) indicate that if the network has the section i, j ∈ E, multiple lines in the
+                                                    
+network are allowed to pass through the section i, j . Equations (31) and (32) indicate that the line l
+has neither branches nor loops. Equation (33) indicates that there are up to a lines have the station i in
+                                                                                                 
+the network. Similarly, Equation (34) indicates that there are up to b lines have the section i, j .
+      Constraint 2: Passenger flow balance.
+
+                                                                     −1, k ∈ Ow
+                                                                   
+                          X X              X X                     
+                                                                   
+                                           wpl                wpl  
+                                         fik −               fk j = 1, k ∈ Dw , w ∈ W, p ∈ Np         (35)
+                                                                   
+                                                                   
+                                                                   
+                           l∈L i:{i,k}∈E       l∈L j:{k,j}∈E        0, else
+                                    fijwpl  f jiwpl  eijl , l  L, {i, j}  E, w W , p  N p                (36)
+
+     Equation (35) indicates that for OD pair w , if station k is the departure station O w , there is only
+the inflow at the station; if station k is the intermediate station, the inflow is equal to the outflow at
+Sustainability 2019, 11, 6128                                                                                 14 of 23
+the station; if station k is the terminal station D w , there is only outflow at the station. Equation (36)
+indicates that there is no backflow in the line l .
+                                 wpl     wpl
+                                             ≤ elij , l ∈
+                                                            
+     Constraint 3: Matching fdegrees
+                                 ij
+                                     + f jibetween        L, i, j ∈and
+                                                        network          ∈ W, characteristics.
+                                                                    E, wurban p ∈ Np                   (36)
+
+     Equation (35) indicates that for OD pair              C 1
+                                               mC minw,ifmstation k is the departure station Ow , there is (37)
+                                                                                                            only
+the inflow at the station; if station k is the intermediate station, the inflow is equal to the outflow at
+                                               mF min w mF  1                                             (38)
+the station; if station k is the terminal station     D , there is only outflow at the station. Equation (36)
+indicates that there
+     Equations    (37) is no(38)
+                        and  backflow  in the
+                                 indicate       the l.matching degrees mC and mF should meet the upper
+                                          thatline
+     Constraint    3: Matching
+and lower limits, respectively.  degrees  between     network and urban characteristics.
+      Constraint 4: Line alignments.
+                                         mCmin ≤ mC ≤ 1                                         (37)
+      In Figure 9, i , j and k represent three adjacent stations in line l .  is the angle between
+the vectors ji and jk . In order to ensuremthe                     line alignment goes smoothly, the angle  between
+                                                                Fmin ≤ mF ≤ 1                                    (38)
+the adjacent sections should not be too small, as seen in Equation (39).
+     Equations (37) and (38) indicate that the matching degrees mC and mF should meet the upper and
+lower limits, respectively.                                    c                                            (39)
+     Constraint 4: Line alignments.
+     The cosine of the angle between the vectors ji and jk can be easily calculated by Equation                    →
+     In Figure 9, i, j and k represent three adjacent stations in line l. α is the angle between the vectors ji
+     So Equation (39) can be expressed by Equation (41).
+(40).→
+and jk. In order to ensure the line alignment goes smoothly, the angle α between the adjacent sections
+                                                 ( xi  x j )( xk  x j )  ( yi  y j )( yk  y j )
+should not be too small,cos       asseen
+                                        in Equation (39).                                                      (40)
+                                            ( xi  x j )2  ( yi  y j )2 ( xk  x j )2  ( yk  y j )2
+                                                                 c≤α≤π                                           (39)
+where ( xi , yi ) , ( x j , y j ) and ( xk , yk ) are the coordinate pairs of station i , j and k , respectively.
+
+
+
+
+                                  Figure 9.
+                                  Figure 9. The angle between
+                                            The angle between adjacent sections in
+                                                              adjacent sections       line.
+                                                                                in aa line.
+                                                                  →        →
+    The cosine of the angle between the vectors  ji and
+                                         c  arccos   jk can be easily calculated by Equation (40). So
+                                                                                                    (41)
+Equation (39) can be expressed by Equation (41).
+
+                                                (xi − x j )(xk − x j ) + ( yi − y j )( yk − y j )
+                                cos α = q                               q                                        (40)
+                                            (xi − x j )2 + ( yi − y j )2 (xk − x j )2 + ( yk − y j )2
+
+where (xi , yi ), (x j , y j ) and (xk , yk ) are the coordinate pairs of station i, j and k, respectively.
+
+                                                        c ≤ arccosα ≤ π                                          (41)
+
+      Constraint 5: Network size.
+
+                                            l
+                                           Nnodesmin ≤ Nlnodes ≤ Nnodesmax
+                                                                  l
+                                                                           ,l ∈ L                                (42)
+                                                          X
+                                              dlmin ≤             dij elij ≤ dlmax , l ∈ L                       (43)
+                                                        {i,j}∈E
+
+                                                      Nlmin ≤ |L| ≤ Nlmax                                        (44)
+
+     Equations (42)–(44) indicate that the number of stations in line l, the length of line l and the
+number of lines in the network should meet the upper and lower limits, respectively, where Nlnodes is
+the number of stations in the line l.
+                                             min       
+                                                     {i , j }E
+                                                                  ij ij        max                                  (43)
+
+                                                    Nl min  L  Nl max                                               (3)
+
+      Equations (42)–(44) indicate that the number of stations in line l , the length of line l and the
+Sustainability                                                                                        l 23
+number of2019, lines11,in6128
+                           the network should meet the upper and lower limits, respectively, where 15Nof              nodes
+
+is the number of stations in the line l .
+                 6: Capacity
+      Constraint 6:
+     Constraint     Capacity of sections.
+                             of sections.
+                                     X
+                                      Xg P f  C , l  L, {i, j}  E
+                                          g P f
+                                     wW pN p
+                                                wplw wp
+                                                            wpl
+                                                           ij             ij
+                                                    ≤ C , l ∈ L, {i, j} ∈ E                                         (45)
+                                                                                                                     (45)
+                                                    w wp ij                    ij
+                                     w∈W p∈Np
+        Equation (45) indicates that cross-sectional passenger volume of sections in each line is less than
+ C ij . Equation (45) indicates that cross-sectional passenger volume of sections in each line is less
+than Cij .
+4. Neighborhood Search Algorithm
+4. Neighborhood Search Algorithm
+        The problem dealt with in this paper is NP-hard. It has high structural complexity, multiple
+        The
+constraints  problem    dealt
+                and large        withspace,
+                              search   in thisetc. So aisneighborhood
+                                                paper      NP-hard. It has     highalgorithm
+                                                                            search    structural[7]complexity,
+                                                                                                     is developedmultiple
+                                                                                                                     based
+constraints    and  large  search    space, etc. So a neighborhood      search  algorithm
+on a simulated annealing algorithm. A simulated annealing algorithm is a random optimization[7] is developed   based  on a
+algorithm annealing
+simulated      based on algorithm.
+                            a Monte Carlo A simulated   annealing
+                                                iterative              strategy, is
+                                                           solutionalgorithm        a random
+                                                                                  and           optimization
+                                                                                        has strong              algorithm
+                                                                                                       robustness,  global
+based     on a Monte   Carlo    iterative  solution strategy,   and   has strong
+convergence and wide adaptability, which is suitable for solving the problem.     robustness,   global   convergence   and
+wideIn   adaptability,  which     is suitable for solving   the   problem.
+           order to obtain a variety of perturbation solutions in the iteration process, four neighborhood
+        In order
+transform         to obtainare
+               operators       a variety  of perturbation
+                                   designed.  The functions  solutions   in operators
+                                                                  of these  the iteration
+                                                                                        areprocess,   four neighborhood
+                                                                                             as follows:    adding a line
+transform      operators    are   designed.    The  functions     of these  operators   are  as
+randomly, deleting a line randomly, adding a section in a line randomly and deleting a section  follows:    adding  a line
+                                                                                                                       in a
+randomly,      deleting   a  line  randomly,   adding    a section   in a line randomly     and
+line randomly, as shown in Figures 10–13. Different eighborhood transform operators are executed  deleting  a section  in a
+line   randomly,
+according      to aas  shownprobability.
+                     certain      in Figures 10–13.   Different
+                                               Different   types neighborhood
+                                                                    of perturbationstransform    operators
+                                                                                        are randomly         are executed
+                                                                                                           applied  to the
+current solution Gcurr to obtain new solution Gnew . Each operator can be executed independentlythe
+according      to a  certain    probability.   Different   types    of perturbations    are  randomly      applied  to   or
+current    solution   G curr  to obtain   new  solution  G  new . Each  operator   can  be executed
+simultaneously, for example, one line can be added while another line can be deleted at the same        independently    or
+simultaneously, for example, one line can be added while another line can be deleted at the same time.
+time.
+
+
+
+
+Sustainability 2019, 11, x FOR PEER REVIEWFigure 10. Add a line randomly.
+                                                                randomly.                                          16 of 23
+
+
+
+
+                                                 11. Delete
+                                          Figure 11.
+                                          Figure               line randomly.
+                                                     Delete aa line randomly.
+Sustainability 2019, 11, 6128                                                                                               16 of 23
+                                              Figure 11. Delete a line randomly.
+
+
+
+
+                                               12. Add a section in aa line
+                                        Figure 12.
+                                        Figure                         line randomly.
+                                                                            randomly.
+
+
+
+
+                                              13. Delete
+                                       Figure 13.
+                                       Figure               section in
+                                                  Delete aa section       line randomly.
+                                                                    in aa line randomly.
+
+                (G
+       Let f (f G  curr), f (Gnewnew
+                  curr  ) , f (G ) and) and       (G)best
+                                           f (Gfbest   be) thebe objective
+                                                                   the objective      function
+                                                                                 function       values
+                                                                                                   of theofcurrent
+                                                                                           values            the current   solution
+                                                                                                                    solution  Gcurr ,
+ Gcurrnew
+the    , thesolution
+              new solutionGnew (perturbation        solution)
+                                    Gnew (perturbation             and theand
+                                                               solution)       optimal             Gbest in the
+                                                                                         solutionsolution
+                                                                                    the optimal                 existing
+                                                                                                              Gbest in theiteration
+                                                                                                                           existing
+process,
+iterationrespectively.                       > ff ((G
+                                If f (Gnew ) If
+             process, respectively.                 Gcurr) ), G   Gcurris) accepted
+                                                               f (new       , Gnew isasaccepted
+                                                                                         the newas current  solution.
+                                                                                                      the new    currentOtherwise,
+                                                                                                                          solution.
+                                                     new
+Gnew is accepted according to the Metropolis criterion. Metropolis criterion is that the algorithm allows
+Otherwise, Gnew is accepted according to the Metropolis criterion. Metropolis criterion is that the
+the inferior solution        to be accepted with a certain probability, so that the algorithm can jump out of the
+algorithm      allows
+trap of the local optimum.the  inferior  solution
+                                       The  acceptanceto beprobability
+                                                               accepted with        a certain
+                                                                                in the        probability,
+                                                                                       criterion            so that
+                                                                                                 is calculated       the algorithm
+                                                                                                                 by Equation   (46).
+can jump out of the trap of the local optimum. The acceptance probability in the criterion is calculated
+As the temperature decreases, the probability of accepting an inferior solution decreases gradually.
+by Equation (46). As the temperature decreases, the probability of accepting an inferior solution
+decreases gradually.                                   pr = e[ f (Gnew )− f (Gcurr )]/τ                                        (46)
+                                                                   curr )]/
+                                                [ f ( Gnew )  f (Gcurr
+                                          pr  e new                                                     (46)
+where τ is the current temperature.
+      The algorithm is designed with the memory function of the optimal solution Gbest in the existing
+iteration process, that is, to remember the ‘best so far’ state. As the iteration proceeds, the solution Gbest
+in the memory base is continuously updated until the algorithm converges. Therefore, the objective
+value will approach the global optimum gradually in the iterative process. A solution has many kinds
+of changes after perturbation, so even if the current solution is perturbed into the solution that has
+appeared in previous iterations, it will change in other directions when perturbed again, which will
+not have a negative impact on the results. The overall flow of the algorithm is shown in Figure 14.
+solution Gbest in the memory base is continuously updated until the algorithm converges. Therefore,
+the objective value will approach the global optimum gradually in the iterative process. A solution
+has many kinds of changes after perturbation, so even if the current solution is perturbed into the
+solution that has appeared in previous iterations, it will change in other directions when perturbed
+again, which
+Sustainability       11, not
+                  will
+               2019,     6128have a negative impact on the results. The overall flow of the algorithm is shown
+                                                                                                         17 of 23
+in Figure 14.
+
+
+
+
+                                 Figure 14. Overall flow chart of the algorithm.
+
+5.            Case Application
+   Real-World Case
+5. Real-World      Application
+
+5.1.       Network
+     Basic Network
+5.1. Basic
+     Baotou, which is a prefecture-level city in Inner Mongolia, has the total area of over 2000 square
+kilometers. The urban area was divided into 433 traffic zones, and 64 locations of large traffic volume
+were selected in the urban central area, as shown in Figure 15. The urban passenger corridors
+determined using the ‘cobweb assignment method’ are shown in Figure 16. As can be seen, the urban
+passenger corridors are mainly located in the east–west axis. According to the passenger corridors
+and the main axis of urban development, the basic network is formed using the method presented in
+Section 2.2.1, as shown in Figure 17.
+kilometers. The
+kilometers.     The urban    area was
+                      urban area       divided into
+                                  was divided         433 traffic
+                                                into 433   traffic zones,   and 64
+                                                                    zones, and       locations of
+                                                                                  64 locations      large traffic
+                                                                                                 of large         volume
+                                                                                                          traffic volume
+were selected        in the urban   central area,  as shown       in Figure     15. The   urban passenger       corridors
+were
+were    selected
+        selected     in the
+                     in the  urban  central
+                             urban central   area,  as  shown
+                                             area, method’
+                                                   as shown       in  Figure     15. The  urban    passenger     corridors
+determined       using  the ‘cobweb  assignment                areinshown
+                                                                      Figurein15.    The16.
+                                                                                 Figure  urban
+                                                                                             As canpassenger    corridors
+                                                                                                      be seen, the  urban
+determined
+determined       using  the ‘cobweb
+                 using theare
+                            ‘cobweb   assignment   method’     are  shown     in Figure 16.  As  can  be seen,  the urban
+passenger corridors                    located in method’
+                               mainlyassignment                       axis. in
+                                                               are shown
+                                                    the east–west                Figure 16.toAs
+                                                                              According          can
+                                                                                               the    be seen, the
+                                                                                                   passenger        urban
+                                                                                                                corridors
+passenger
+passenger      corridors
+               corridors   are mainly   located in  the  east–west     axis.  According    to  the  passenger    corridors
+and the main      axis of are  mainly
+                           urban                   thebasic
+                                       located inthe
+                                  development,           east–west
+                                                              network         According
+                                                                      axis. formed        to the
+                                                                                      using    themethod
+                                                                                                   passenger    corridors
+                                                                                                            presented     in
+and the
+and   the main    axis of
+           main axis       urban development,
+                        of urban  development, the     basic network
+                                                  the basic   network is is formed    using the
+                                                                             formed using          method presented
+                                                                                              the method    presented in  in
+Section 2.2.1,
+Sustainability        shown
+                  as11,
+               2019,    6128 in Figure 17.                                                                          18 of 23
+          2.2.1, as
+Section 2.2.1,
+Section               shown in
+                  as shown       Figure 17.
+                              in Figure  17.
+
+
+
+
+                   Figure 15. Selected locations of large traffic volume in the urban central area.
+                   Figure 15. Selected
+                   Figure 15.          locations  of
+                                        locations of
+                                                  of large
+                              Selected locations     large traffic
+                                                           traffic volume
+                                                     large traffic volume in the urban central area.
+                   Figure     Selected                                    in the urban central area.
+
+
+
+
+                          Figure 16. Urban passenger corridors in the urban central area.
+                          Figure 16.
+                          Figure     Urban passenger
+                                 16. Urban           corridors in
+                                           passenger corridors in the urban central
+                                                                  the urban central area.
+                                                                                    area.
+                          Figure 16. Urban passenger corridors in the urban central area.
+
+
+
+
+                                 Figure 17. Basic network in the urban central area.
+                                 Figure 17. Basic network in the urban central area.
+                                 Figure 17. Basic network in the urban central area.
+5.2. Parameters
+5.2. Parameters
+5.2. Parameters
+5.2. Parameters
+      In the algorithm, the annealing rate φ is set to 0.9, and the maximum number of iterations is set to
+500. In this case, the passenger’s transfer sensitivity λ is set to 0. The values of other parameters in the
+model are shown in Table 4.
+     In the algorithm, the annealing rate  is set to 0.9, and the maximum number of iterations is
+     In the algorithm, the annealing rate    is set to 0.9, and the maximum number of iterations is
+set to 500. In this case, the passenger’s transfer sensitivity  is set to 0. The values of other
+set to 500. In this case, the passenger’s transfer sensitivity  is set to 0. The values of other
+parameters in the model are shown in Table 4.
+parameters in the model are shown in Table 4.
+
+Sustainability 2019, 11, 6128               Table 4. Parameter values in the model.                               19 of 23
+                                            Table 4. Parameter values in the model.
+                                           Parameter Value Parameter Value
+                                           Parameter Value Parameter Value
+                                               1 4. Parameter
+                                            Table
+                                                 1
+                                                          0.65     N maxthe model.
+                                                                   N lin
+                                                          0.65 values l max
+                                                                               6
+                                                                               6
+                                               22          0.35    C        45000
+                                Parameter               Value0.35    Cii jj
+                                                                    Parameter 45000 Value
+                                              l
+                                           N nodes
+                                             l                15       a          3
+                                      β1   N nodes  min
+                                                    min 0.65 15       aNlmax      3           6
+                                             l
+                                      β2   N nodes  max 0.35 8         b          2
+                                  l
+                                             l
+                                           N nodes  max        8      b Ci j      2
+                                                                                           45000
+                                 Nnodesmin                15              a      5            3
+                                                 l
+                                             d min          15 km      c         5 
+                                                                                12 
+                                  l
+                                Nnodesmax       l
+                                             d min         815 km     c b                     2
+                                      l                                         12
+                                                                                            12 π
+                                                                                             5
+                                    dmin        l
+                                             d max
+                                                l
+                                                        15 km
+                                                            35 km   m minc        0.7
+                                    dlmax    d max          35 km
+                                                        35 km       mCCmmin
+                                                                         Cmin     0.7       0.7
+                                  Nlmin      N min         3 33     mFmmin       0.65       0.65
+                                             N ll min               m Fmin
+                                                                      F min      0.65
+
+     Urban Characteristic
+5.3. Urban
+5.3.                        Indexes
+             Characteristic Indexes
+5.3. Urban  Characteristic Indexes
+      The trip intensity
+      The        intensity in   the long-term planning
+                            in the                             year   in  the  traffic  zones  is shown    in  Figure  18.
+      The trip
+           trip intensity in    the long-term      planning year
+                                    long-term planning                in the
+                                                                year in        traffic zones
+                                                                          the traffic          is shown
+                                                                                        zones is  shown in in Figure   18.
+                                                                                                               Figure 18.
+According to
+According    to the  centroidcoordinates
+                 thecentroid    coordinatesofofeach       trafficzone,
+                                                   eachtraffic    zone,thethegravity
+                                                                               gravity   center
+                                                                                      center  ofof urban
+                                                                                                 urban     trip
+                                                                                                        trip     intensity
+                                                                                                              intensity is
+According to the centroid coordinates of each traffic zone, the gravity center of urban trip intensity
+is calculated.
+calculated.   TheThe  land-use
+                   land-use      intensity
+                              intensity      of
+                                         of of
+                                             thethe
+                                                the  traffic
+                                                  traffic    zones
+                                                          zones      in
+                                                                     thethe
+                                                                  in in  the  long-term
+                                                                           long-term       planning
+                                                                                        planning     year
+                                                                                                   year     is predicted,
+                                                                                                        is predicted,   as
+is calculated.  The   land-use   intensity           traffic zones            long-term    planning  year   is predicted,
+as shown
+shown   in  in Figure
+           Figure   19. 19.
+                         As As
+                            we   we
+                                 can can
+                                      see see
+                                           fromfrom    Figures
+                                                  Figures   18   18 and
+                                                                and  19,  19, there
+                                                                          there  is a is a strong
+                                                                                      strong       correlation
+                                                                                              correlation        between
+                                                                                                            between   the
+as shown in Figure 19. As we can see from Figures 18 and 19, there is a strong correlation between
+the trip
+trip     intensity
+     intensity       and  the land-use
+                     the land-use
+                andand                   intensity
+                                     intensity        in the traffic
+                                                 in the               zones.
+the trip intensity        the land-use   intensity    in traffic zones.
+                                                         the traffic  zones.
+
+
+
+
+                                                    The trip
+                                         Figure 18. The      intensity in traffic
+                                                        trip intensity    traffic zones.
+                                         Figure 18.
+                                         Figure 18. The trip           in traffic zones.
+                                                             intensity in         zones.
+
+
+
+
+                                              19. The land-use intensity in traffic
+                                       Figure 19.
+                                       Figure                                       zones.
+                                                                            traffic zones.
+                                       Figure 19. The land-use intensity in traffic zones.
+
+     The city is divided into multiple circles centered at the gravity center OP by the radii with different
+lengths, and the difference in length between adjacent circles is 500 m. From Figure 19, we can see
+that the city does not develop evenly in all directions. Therefore, it is necessary to divide the city into
+different areas and calculate the fractal dimension of land-use intensity in each area separately. In this
+paper, the city is divided into four areas using four quadrants, as shown in Figure 20.
+                The city is divided into multiple circles centered at the gravity center O P by the radii with
+          different lengths, and the difference in length between adjacent circles is 500 m . From Figure 19, we
+            Sustainability 2019, 11, x FOR PEER REVIEW                                                          20 of 23
+          can see that the city does not develop evenly in all directions. Therefore, it is necessary to divide the
+          city into
+                  The11,different
+                         city         areas into
+                               is divided    and multiple    the fractal
+                                                  calculatecircles       dimension
+                                                                   centered          of land-use
+                                                                            at the gravity        intensity
+                                                                                           center O         in each area
+Sustainability 2019,       6128                                                                     P by the radii with  20 of 23
+          separately. In this paper, the city is divided into four areas using four quadrants, as shown in Figure
+            different lengths, and the difference in length between adjacent circles is 500 m . From Figure 19, we
+          20.
+            can see that the city does not develop evenly in all directions. Therefore, it is necessary to divide the
+            city into different areas and calculate the fractal dimension of land-use intensity in each area
+            separately. In this paper, the city is divided into four areas using four quadrants, as shown in Figure
+            20.
+
+
+
+
+                                         Figure
+                                     Figure 20. 20.          ofurban
+                                                    Divisionof
+                                                 Division             circlelayers
+                                                               urban circle        and
+                                                                              layers   areas.
+                                                                                     and  areas.
+
+     Taking Taking   logarithms
+              logarithms        on both
+                            on both           of of
+                                          sides
+                                      sides          Equation(14),
+                                                  Equation      (14), Equation
+                                                                      Equation    (47) cancan
+                                                                                    (47)   be obtained. We can
+                                                                                               be obtained.  Weseecan
+                                                                                                                   thatsee that
+                                       be got20.by
+        the fractal dimension D p canFigure        linear of
+                                                 Division    urban circle layers and areas.
+                                                          regression.
+the fractal dimension Dp can be got by linear regression.
+                                                      P(r )  Dp(14),
+                Taking logarithms on both sides oflnEquation           a0
+                                                                 ln r Equation (47) can be obtained. We can see that
+                                                                                                                 (47)
+           the fractal dimension D p can be got byln         = Dp ln r + a0
+                                                     P( )regression.
+                                                   linear                                                                            (47)
+          where a0 is a constant.
+              The double logarithmic relationships                  r + a0
+                                                        r ) = Dp ln land-use
+                                                   ln P(between                                                (47)
+                                                                             intensity and radii in the areas of  four
+where a0 is a constant.
+         quadrants     is arecorded,
+                     are     constant.and     the fractal dimension of land-use intensity in each quadrant is obtained
+            doublea0 logarithmic
+     The where                            relationships between land-use intensity and radii in the areas of four
+         by regression fitting, as shown in Figure 21. As we can see from the fitting coefficients, the calculated
+quadrants    areThe
+         fractal
+                     double logarithmic
+                   dimension and
+                  recorded,                    relationships
+                                        the fractal
+                                   vector    of land-use
+                                                              between
+                                                       dimension        land-use intensity
+                                                                     of land-use
+                                                             intensity               intensity andinradii
+                                                                                                      each
+                                                                         is DP  (1.506,1.509,1.549,1.131)
+                                                                                                           in quadrant
+                                                                                                              the areas ofisfour
+                                                                                                                             obtained by
+                                                                                                                   . The fractal
+           quadrants are recorded, and the fractal dimension of land-use            intensity in each quadrant is obtained
+regression   fitting, as
+         dimensions    areshown
+                             less than in2.Figure   21. Astowe
+                                            So according          can see fromReference
+                                                              Equation            the fittingsource
+                                                                                                 coefficients,    the we
+                                                                                                                       calculated
+                                                                                                                          can see fractal
+           by regression    fitting, as shown    in Figure 21. As we canError!
+                                                                           see from the fitting         not found.,
+                                                                                                   coefficients, the calculated
+dimensionthat vector
+               urban  of  land-use
+                       land-use          intensity
+                                     intensity       is D
+                                                 graduallyP =   (1.506,
+                                                             decreases   1.509,
+                                                                          from   1.549,
+                                                                                 the      1.131
+                                                                                       city      ).
+                                                                                             center The
+                                                                                                     to
+           fractal dimension vector of land-use intensity is DP = (1.506,1.509,1.549,1.131) . The fractal
+                                                                                                          fractal
+                                                                                                         the        dimensions
+                                                                                                               outside,  and   the are less
+than 2. So   according
+         decreasing   trendto   Equation
+                               of the  area  (16),
+                                             in the we   can
+                                                     fourth   see  that
+                                                            quadrant    urban
+                                                                       is the    land-use
+                                                                              fastest.        intensity     gradually
+           dimensions are less than 2. So according to Equation Error! Reference source not found., we can see           decreases    from
+the city center   to theland-use
+           that urban      outside,intensity        decreasing
+                                         and thegradually          trend from
+                                                              decreases           area
+                                                                          of thethe   cityincenter
+                                                                                             the fourth
+                                                                                                    to the quadrant      is the
+                                                                                                              outside, and   the fastest.
+            decreasing trend of the area in the fourth quadrant is the fastest.
+
+
+
+
+                                        (a)                                                      (b)
+            Sustainability 2019, 11, x FOR PEER REVIEW                                                                21 of 23
+                                        (a)                                                    (b)
+
+
+
+
+                                         (c)                                                    (d)
+              Figure
+      Figure 21.      21. Fractal
+                  Fractal   fittingfitting of land-use
+                                      of land-use       intensity in
+                                                      intensity   in the   areaswithin
+                                                                     theareas           different
+                                                                                   within         quadrants:
+                                                                                            different        (a) within
+                                                                                                       quadrants:     (a) within
+              quadrant  1; (b) within   quadrant 2; (c) within quadrant  3; (d) within
+      quadrant 1; (b) within quadrant 2; (c) within quadrant 3; (d) within quadrant 4. quadrant  4.
+
+            5.4. Results
+                 Based on the model and algorithm, the real-world case is calculated and the optimal solution in
+            the existing iteration process (called optimal solution for short) is obtained. The optimal objective
+            value Z is about 8664.2. The first objective value Z1 is about 32,287 while the second objective value
+             Z 2 is about 35,207. The iterative process of the algorithm is shown in Figure 22. As can be seen, the
+            algorithm can converge quickly and has strong stability.
+                                (c)                                                            (d)
+
+      Figure 21. Fractal fitting of land-use intensity in the areas within different quadrants: (a) within
+Sustainability 2019, 11, 6128                                                                           21 of 23
+      quadrant 1; (b) within quadrant 2; (c) within quadrant 3; (d) within quadrant 4.
+
+5.4. Results
+5.4. Results
+     Based on
+     Based   on the model and
+                the model        algorithm, the
+                             and algorithm,       real-world case
+                                              the real-world        is calculated
+                                                                       calculated and
+                                                              case is                   the optimal
+                                                                                    and the         solution in
+                                                                                            optimal solution in
+the existing
+the existing iteration  process (called
+              iteration process            optimal solution
+                                  (called optimal   solution for  short) isis obtained.
+                                                                               obtained. The
+                                                              for short)                     optimal objective
+                                                                                         The optimal  objective
+value  Z   is about  8664.2. The first objective value  Z  is about   32,287   while the second objective
+value Z is about 8664.2. The first objective value Z1 1is about 32,287 while the second objective value   value
+ZZ22 isisabout  35,207.The
+          about35,207.      iterativeprocess
+                        Theiterative          ofthe
+                                      processof  thealgorithm
+                                                     algorithm isisshown
+                                                                    shown in  Figure 22.
+                                                                           in Figure     As can
+                                                                                     22. As     be seen,
+                                                                                            can be seen, the
+algorithm can converge     quickly  and  has strong stability.
+                  converge quickly and has strong stability.
+
+
+
+
+                                                Figure     Process of
+                                                       22. Process
+                                                Figure 22.         of iteration.
+                                                                      iteration.
+
+      The optimal
+      The                networkisisshown
+            optimal network             shownininFigure
+                                                      Figure23.
+                                                              23.The
+                                                                   Theoptimal
+                                                                        optimalnetwork
+                                                                                  networkhas
+                                                                                          has5 lines
+                                                                                               5 lineswith
+                                                                                                         witha total length
+                                                                                                                a total   lengthof
+110.6  km,km
+of 110.6    and          details
+                    thethe
+                , and             of the
+                             details      lines
+                                      of the      is shown
+                                               lines         in Table
+                                                      is shown         5. The
+                                                                 in Table      network
+                                                                           5. The       presents
+                                                                                   network         the radial
+                                                                                            presents            structure
+                                                                                                        the radial   structureas a
+whole,   and    the   central  area  is supplemented        by a  grid-like structure. The  distance
+as a whole, and the central area is supplemented by a grid-like structure. The distance between the    between     the   gravity
+gravityOScenter
+center       of stations’
+                       O S of importance      distribution and
+                                stations’ importance               the gravity
+                                                             distribution   and center OP of urban
+                                                                                  the gravity  centertripOintensity    is about
+                                                                                                            P of urban trip
+973.9 m, as shown in Figure 23. The matching degree mC between the optimal network and the urban
+intensity is about 973.9 m , as shown in Figure 23. The matching degree mC between the optimal
+trips is about 0.947, and the matching degree mF between the optimal network                           and the urban land
+use is about 0.893. In general, the network takes the east–west direction as the main axis, the
+network     and      the  urban    trips   is  about    0.947, and    the matching    degree   m F   between     and optimal
+                                                                                                                        the line
+network     and    the  urban    land   use   is about   0.893. In  general,  the network  takes
+alignments basically follow the routes covered by the main passenger flow corridors, which conformsthe  east–west    direction
+as the
+to the banded
+        main axis,       and the line
+                    development                            the city. follow
+                                         alignmentsofbasically
+                                      requirement                            the routes
+                                                                     The results  showed  that thebylayout
+                                                                                        covered        the main
+                                                                                                              of thepassenger
+                                                                                                                      network
+flow   corridors,
+     a good match
+hasSustainability      which
+                         with
+                  2019, 11,     conforms
+                                the
+                            x FOR    structure
+                                  PEER         to  the  banded
+                                         REVIEWof the city.        development     requirement    of  the  city.  The 22 results
+                                                                                                                          of 23
+showed that the layout of the network has a good match with the structure of the city.
+
+
+
+
+                                                       23. The optimal
+                                                Figure23.
+                                               Figure          optimal network.
+                                                                       network.
+
+                                       Table 5. Details of the lines in the optimal network.
+
+                                Line           Sequence of stations in the line          Length
+                                 1       8–7–6–11–15–23–31–41–46–53–58–61–62–63          31.1 km
+                                 2             13–18–19–25–32–43–41–40–39                18.8 km
+                                 3           23–24–42–47–48–52–54–55–56–60               23.1 km
+Sustainability 2019, 11, 6128                                                                              22 of 23
+
+
+
+                                       Table 5. Details of the lines in the optimal network.
+
+                                Line           Sequence of stations in the line           Length
+                                 1          8–7–6–11–15–23–31–41–46–53–58–61–62–63        31.1 km
+                                 2               13–18–19–25–32–43–41–40–39               18.8 km
+                                 3             23–24–42–47–48–52–54–55–56–60              23.1 km
+                                 4                 4–9–14–15–23–22–27–29                  16.8 km
+                                 5                  2–3–5–10–21–30–29–40                  20.8 km
+
+
+6. Conclusions
+     In this paper, a quantitative model is developed to ensure that the generated urban rail transit
+network has a good match with urban road network, trips and land-use characteristics. The main
+contributions of the model are as follows:
+
+•     The basic network, which is determined according to the main locations of large traffic volume
+      and main passenger flow corridors, is constructed to ensure matching between the network and
+      the urban road network. With the basic network, the search range and the search direction of the
+      line alignments can be bounded while generating the transit network.
+•     The matching index, which is calculated by the deviation value between two gravity centers of the
+      stations’ importance distribution in the network and the traffic zones’ trip intensity, is proposed to
+      constrain the matching degree between the network and the urban trip demand.
+•     Similarly, the matching index, which is calculated by the deviation value between the fractal
+      dimensions of stations’ importance distribution and the traffic zones’ land-use intensity, is
+      proposed to constrain the matching degree between the network and the land use.
+
+    To solve the model, a neighborhood search algorithm is developed based on the simulated
+annealing method. A real-size network is calculated with the model and algorithm. The generated
+network conforms to the development requirement of the city, which shows a good match between the
+network and the urban characteristics.
+
+Author Contributions: S.C.: Conceptualization, methodology and study design, writing – original draft. Q.L.:
+Literature review, critical revision and editing. S.Z.: Calculation and formal analysis.
+Funding: This research received no external funding.
+Conflicts of Interest: The authors declare no conflict of interest.
+
+References
+1.    Fielbaum, A.; Jara-Diaz, S.; Gschwender, A. A Parametric Description of Cities for the Normative Analysis of
+      Transport Systems. Netw. Spat. Econ. 2017, 17, 343–365. [CrossRef]
+2.    Fielbaum, A.; Jara-Diaz, S.; Gschwender, A. Optimal public transport networks for a general urban structure.
+      Transp. Res. Part B Methodol. 2016, 94, 298–313. [CrossRef]
+3.    Xiang, Z.; Waller, S.T.; Rey, D.; Duell, M. Integrating uncertainty considerations into multi-objective
+      transportation network design projects accounting for environment disruption. Transp. Lett. Int. J. Transp.
+      Res. 2019, 11, 351–361.
+4.    Cadarso, L.; Codina, E.; Escudero, L.F.; Marín, A. Rapid transit network design: Considering recovery
+      robustness and risk aversion measures. Transp. Res. Procedia 2017, 22, 255–264. [CrossRef]
+5.    Canca, D.; De-Los-Santos, A.; Laporte, G.; Mesa, J.A. A general rapid network design, line planning and fleet
+      investment integrated model. Ann. Oper. Res. 2014, 246, 127–144. [CrossRef]
+6.    Gutiérrez-Jarpa, G.; Obreque, C.; Laporte, G.; Marianov, V. Rapid transit network design for optimal cost and
+      origin–destination demand capture. Comput. Oper. Res. 2013, 40, 3000–3009. [CrossRef]
+7.    Canca, D.; De-Los-Santos, A.; Laporte, G.; Mesa, J.A. An adaptive neighborhood search metaheuristic for the
+      integrated railway rapid transit network design and line planning problem. Comput. Oper. Res. 2017, 78,
+      1–14. [CrossRef]
+Sustainability 2019, 11, 6128                                                                                 23 of 23
+
+
+
+8.    Canca, D.; De-Los-Santos, A.; Laporte, G.; Mesa, J.A. Integrated Railway Rapid Transit Network Design
+      and Line Planning problem with maximum profit. Transp. Res. Part E Logist. Transp. Rev. 2019, 127, 1–30.
+      [CrossRef]
+9.    Laporte, G.; Marin, A.; Mesa, J.A.; Perea, F. Designing robust rapid transit networks with alternative routes.
+      J. Adv. Transp. 2011, 45, 54–65. [CrossRef]
+10.   Cadarso, L.; Marín, Á. Improved rapid transit network design model: Considering transfer effects. Ann.
+      Oper. Res. 2017, 258, 547–567. [CrossRef]
+11.   Marín, Á.; García-Ródenas, R. Location of infrastructure in urban railway networks. Comput. Oper. Res. 2009,
+      36, 1461–1477. [CrossRef]
+12.   Gallo, M.; Montella, B.; D’Acierno, L. The transit network design problem with elastic demand and
+      internalisation of external costs: An application to rail frequency optimisation. Transp. Res. Part C Emerg.
+      Technol. 2011, 19, 1276–1305. [CrossRef]
+13.   López-Ramos, F.; Codina, E.; Marín, Á.; Guarnaschelli, A. Integrated approach to network design and
+      frequency setting problem in railway rapid transit systems. Comput. Oper. Res. 2017, 80, 128–146. [CrossRef]
+14.   Laporte, G.; Mesa, J.A. The design of rapid transit networks. In Location Science; Springer: Basel, Switzerland,
+      2015; pp. 581–594.
+15.   Baum-Snow, N.; Kahn, M.E.; Voith, R. Effects of Urban Rail Transit Expansions: Evidence from Sixteen Cities,
+      1970–2000. Brook.-Whart. Pap. Urban Aff. 2005, 2005, 147–206. [CrossRef]
+16.   Baum-Snow, N.; Kahn, M.E. The effects of new public projects to expand urban rail transit. J. Public Econ.
+      2000, 77, 241–263. [CrossRef]
+17.   Dröes, M.I.; Rietveld, P. Rail-based public transport and urban spatial structure: The interplay between
+      network design, congestion and urban form. Transp. Res. Part B 2015, 81, 421–439. [CrossRef]
+18.   Laporte, G.; Mesa, J.A.; Perea, F. A game theoretic framework for the robust railway transit network design
+      problem. Transp. Res. Part B Methodol. 2010, 44, 447–459. [CrossRef]
+19.   Freeman, L.C. Centrality in social networks conceptual clarification. Soc. Netw. 1978, 1, 215–239. [CrossRef]
+20.   Kourtellis, N.; Alahakoon, T.; Simha, R.; Iamnitchi, A.; Tripathi, R. Identifying high betweenness centrality
+      nodes in large social networks. Soc. Netw. Anal. Min. 2013, 3, 899–914. [CrossRef]
+21.   Mandelbrot, B. How long is the coast of britain? Statistical self-similarity and fractional dimension. Science
+      1967, 156, 636–638. [CrossRef]
+22.   Benguigui, L.; Daoud, M. Is the suburban railway system a fractal? Geogr. Anal. 1991, 23, 362–368. [CrossRef]
+23.   Levinson, D. Network structure and city size. PLoS ONE 2012, 7, e29721. [CrossRef] [PubMed]
+
+                           © 2019 by the authors. Licensee MDPI, Basel, Switzerland. This article is an open access
+                           article distributed under the terms and conditions of the Creative Commons Attribution
+                           (CC BY) license (http://creativecommons.org/licenses/by/4.0/).
+
