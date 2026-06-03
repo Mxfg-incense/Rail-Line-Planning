@@ -15,7 +15,7 @@ uv sync
 运行脚本时请使用：
 
 ```powershell
-uv run python .\line_network_model\run_all.py
+uv run python -m line_network_model.run_all
 ```
 
 不要直接用 `pip install` 或裸 `python`，除非是在调试 Python 运行环境本身。
@@ -32,7 +32,7 @@ uv run python .\line_network_model\run_all.py
 │   ├── run_genetic_baseline.py
 │   ├── run_all.py
 │   ├── line_model_config.py     # 研究区域、候选点数量、固定中心价值等配置
-│   ├── objective_config.py      # 建设成本、转角惩罚、端点惩罚等目标函数参数
+│   ├── objective_config.py      # pair reward cutoff、建设成本、转角惩罚等目标函数参数
 │   ├── model_spec.md            # 形式化模型说明
 │   └── output/                  # 生成结果
 ├── doc/                         # 课程文档、proposal、论文材料副本
@@ -47,7 +47,7 @@ uv run python .\line_network_model\run_all.py
 完整本地流程：
 
 ```powershell
-uv run python .\line_network_model\run_all.py
+uv run python -m line_network_model.run_all
 ```
 
 `run_all.py` 当前依次执行：
@@ -60,19 +60,35 @@ uv run python .\line_network_model\run_all.py
 遗传算法基线单独运行：
 
 ```powershell
-uv run python .\line_network_model\run_genetic_baseline.py
+uv run python -m line_network_model.run_genetic_baseline
 ```
+
+人工直觉线路绘制与目标函数校准：
+
+```powershell
+uv run python -m line_network_model.manual_route_editor_server
+uv run python -m line_network_model.render_manual_route
+uv run python -m line_network_model.calibrate_objective_weights
+```
+
+人工线路编辑文件是 `line_network_model/manual_intuition_route.csv`，
+按 `line_id,order,station_id,note` 填写有序站点；同一个 `line_id`
+内按 `order` 连线，不同 `line_id` 表示不同线路。也可以打开
+`http://localhost:8765/line_network_model/manual_route_editor.html` 手工点选线路并写回 CSV。
+校准脚本会比较当前人工线路和贪心基线，搜索 `PAIR_REWARD_CUTOFF_M`、
+建设成本权重和转角惩罚权重，让人工方案相对贪心基线的分数尽可能高。
+端点数量暂时只作为诊断指标输出，后续通过剪枝或硬规则处理分叉。
 
 ## 分步运行
 
 如果只想重跑某一段，可以按下面顺序执行：
 
 ```powershell
-uv run python .\line_network_model\00_prepare_demand_data.py
-uv run python .\line_network_model\01_select_stations.py
-uv run python .\line_network_model\02_fetch_existing_metro_reference.py
-uv run python .\line_network_model\run_baseline.py
-uv run python .\line_network_model\run_genetic_baseline.py
+uv run python -m line_network_model.00_prepare_demand_data
+uv run python -m line_network_model.01_select_stations
+uv run python -m line_network_model.02_fetch_existing_metro_reference
+uv run python -m line_network_model.run_baseline
+uv run python -m line_network_model.run_genetic_baseline
 ```
 
 通常在修改 `line_model_config.py` 后，需要至少从
@@ -84,7 +100,7 @@ uv run python .\line_network_model\run_genetic_baseline.py
 当前实验把线路规划拆成两层：
 
 1. 候选站点生成：从人口中心、就业中心、交通枢纽和商业中心生成候选站点，并为每个站点计算 `total_value`。
-2. 线路/网络选择：在候选站点之间选择连边，使高价值站点对在网络内连接得更短，同时惩罚建设长度、过急转角和开放端点。
+2. 线路/网络选择：在候选站点之间选择连边，使高价值站点对在网络内连接得更短，同时惩罚建设长度和过急转角。
 
 核心目标函数的实现参数在：
 
@@ -119,6 +135,12 @@ uv run python .\line_network_model\run_genetic_baseline.py
 
 - `04_baseline_genetic_value_tree.svg`
 - `06_genetic_baseline_summary.csv`
+
+人工线路校准：
+
+- `04_manual_intuition_route.svg`
+- `07_objective_calibration_candidates.csv`
+- `08_objective_calibration_recommendation.csv`
 
 既有地铁参考：
 

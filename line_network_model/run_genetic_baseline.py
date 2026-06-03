@@ -7,10 +7,12 @@ the best value pair. It then attaches stations in chromosome order when doing so
 improves the penalized objective. Fitness is the same formal objective used by
 the other baselines:
 
-    sum_{i<j selected} total_value_i * total_value_j / distance(i, j)
+    sum_{i<j selected} total_value_i * total_value_j
+        * max(0, 1 - distance(i, j) / cutoff_m)
     - lambda_1 * construction length
     - lambda_2 * turn-angle penalty
-    - lambda_3 * endpoint penalty
+
+Endpoint count is reported as a diagnostic but is not part of fitness.
 """
 
 from __future__ import annotations
@@ -343,7 +345,7 @@ def main() -> None:
     print(f"  construction_cost: {metrics['construction_cost']:.3f}")
     print(f"  turn_penalty: {metrics['turn_penalty']:.3f}")
     print(f"  endpoint_count: {metrics['endpoint_count']}")
-    print(f"  endpoint_penalty: {metrics['endpoint_penalty']:.3f}")
+    print(f"  endpoint_penalty: {metrics['endpoint_penalty']:.3f} (diagnostic only)")
     print(f"  objective_score: {metrics['objective_score']:.3f}")
     print(f"  outputs: {svg_path}, {SUMMARY_FILE}")
 
