@@ -1,0 +1,2 @@
+﻿selected_stations,selected_edges,covered_value,total_length_km,max_edge_km,branch_nodes,leaf_nodes,components,max_turn_deg,mean_conductance,horizontal_edges,vertical_edges,diagonal_edges,vertical_edge_share,horizontal_edge_share,base_selected_stations,base_selected_edges,base_vertical_edges,base_branch_nodes,added_edges,max_augmented_edges,target_vertical_edges,max_augmented_branch_nodes,max_augmented_edge_km
+30,30,6923202.92,63.110199823721956,4.19699479601825,3,3,1,159.43732344726422,1.8419126399069266,9,7,14,0.23333333333333334,0.3,26,25,2,3,5,30,7,3,4.25
