@@ -23,11 +23,8 @@ import pandas as pd
 
 from line_network_model.ahmed2020 import (
     AhmedInstance,
-    DEFAULT_CONSTRAINTS,
     DEFAULT_GA_PARAMS,
     _select_terminal_pairs,
-    _build_track_graph,
-    run_multi_line_experiment,
     select_lines_ahmed_ga,
 )
 from line_network_model.corridor import build_corridor_mst_plus
@@ -37,16 +34,10 @@ from line_network_model.od import generate_od_matrix
 OUTPUT_DIR = Path(__file__).resolve().parent / "output" / "ahmed2020_reproduction"
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-# Relaxed constraints for our study area (stations are 2-3 km apart)
-RELAXED_CONSTRAINTS = {
-    **DEFAULT_CONSTRAINTS,
-    "max_station_spacing_m": 5000.0,
-}
-
 # Scaled-down GA for faster experimentation
 FAST_GA = {
     **DEFAULT_GA_PARAMS,
-    "population_size": 100,
+    "population_size": 80,
     "generations": 30,
 }
 
@@ -63,7 +54,6 @@ def _make_instance(
         od_matrix=od_matrix,
         corridor_graph=corridor_graph,
         terminal_pairs=terminals,
-        constraints=RELAXED_CONSTRAINTS,
     )
 
 

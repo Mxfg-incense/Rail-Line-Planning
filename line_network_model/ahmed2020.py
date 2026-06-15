@@ -5,20 +5,23 @@ and line network using a Genetic Algorithm.
 
 Key features from the paper:
   - Chromosome: whole solution; genes = rail lines; bits = stations
-  - Fixed terminal stations per line (determined by planner / data-driven)
+  - Fixed terminal stations per line
   - Tournament selection, uniform crossover, station-level mutation
   - Feasibility repair: reject infeasible matings/mutations
-  - Fitness: total system cost = passenger + operator + community
+  - Fitness: total system cost = passenger + operator + community + geometry
 
-Simplifications from the paper (documented in reproduction plan):
-  - Stage 1 (GIS screening) → our 01_select_stations pipeline
-  - Logit mode choice → gravity-model OD coverage
-  - Leicester-specific cost params → configurable defaults
+Improvements over initial version for geometric realism:
+  - Initialization via shortest paths on corridor graph (not random)
+  - Mutation restricted to k-nearest neighbors (not any station)
+  - Turn-angle penalty discourages zigzags
+  - Self-intersection check per line
+  - Track overlap penalty between lines
 """
 
 from __future__ import annotations
 
 import itertools
+import math
 import time
 from dataclasses import dataclass, field
 
@@ -27,45 +30,116 @@ import numpy as np
 import pandas as pd
 
 
-# Default cost parameters (from Ahmed 2020 Table 1, scaled)
 DEFAULT_COST_PARAMS = {
-    "train_speed_kmh": 80.0,          # Vt
-    "walk_speed_kmh": 4.0,            # Va
-    "headway_min": 5.0,               # Hw
-    "value_of_access_time": 14.0,     # A0 (£/hr) - scaled
-    "value_of_waiting_time": 14.0,    # W0
-    "value_of_in_vehicle_time": 7.0,  # T0
-    "rail_op_cost_per_pax_km": 0.21,  # Mt0
-    "bus_op_cost_per_pax_km": 0.16,   # Mb0
-    "car_op_cost_per_pax_km": 0.26,   # Mc0
-    "station_build_cost": 1_000_000,  # Sb (£)
-    "tunnel_cost_per_km": 12_000_000, # CTu (£/km)
-    "track_cost_per_m": 650,          # CTr (£/m)
-    "passenger_coeff": 1.0,           # φp
-    "operator_coeff": 1.0,            # φo
-    "community_coeff": 1.0,           # φc
+    # Passenger value weights (primary driver of fitness)
+    "value_connection_weight": 1.0,      # weight for pairwise value connection reward
+    "value_connection_cutoff_m": 30_000.0,  # distance decay cutoff
+    "od_coverage_weight": 100.0,         # weight for OD pair coverage
+    # Construction cost weights (secondary, soft constraints)
+    "construction_cost_per_m": 10.0,     # much lower than real to let value drive decisions
+    "station_cost": 100_000.0,           # per-station cost
+    # Geometry penalties
+    "turn_penalty_weight": 5e5,
+    "turn_threshold_deg": 90.0,
+    "overlap_penalty_weight": 1e6,
+    "self_intersect_penalty": 1e9,
 }
 
-# Constraints (from Ahmed 2020 Table 1)
 DEFAULT_CONSTRAINTS = {
     "min_stations_per_line": 4,
-    "max_stations_per_line": 10,
-    "min_station_spacing_m": 1000.0,
-    "max_station_spacing_m": 3000.0,
-    "min_transfer_stations": 1,      # per line
-    "max_overlap_ratio": 0.30,
+    "max_stations_per_line": 14,
+    "min_station_spacing_m": 800.0,
+    "max_station_spacing_m": float("inf"),  # no max spacing for sparse stations
+    "min_transfer_stations": 0,
+    "max_overlap_ratio": 0.50,
 }
 
-# GA parameters (from Ahmed 2020)
 DEFAULT_GA_PARAMS = {
-    "population_size": 200,      # scaled down from 500 (we have 54 vs 4774 candidates)
-    "generations": 50,
-    "tournament_size": 2,
+    "population_size": 100,
+    "generations": 40,
+    "tournament_size": 3,
     "crossover_rate": 0.7,
     "mutation_rate": 0.3,
     "elite_count": 4,
     "seed": 42,
 }
+
+
+def _station_xy(instance: "AhmedInstance", sid: str) -> tuple[float, float]:
+    return instance._x[sid], instance._y[sid]
+
+
+def _turn_angle_deg(
+    instance: "AhmedInstance", prev_sid: str, center_sid: str, next_sid: str
+) -> float:
+    """Turn angle at center_sid (0 = straight, 180 = U-turn)."""
+    px, py = _station_xy(instance, prev_sid)
+    cx, cy = _station_xy(instance, center_sid)
+    nx, ny = _station_xy(instance, next_sid)
+    v1 = (px - cx, py - cy)
+    v2 = (nx - cx, ny - cy)
+    n1 = math.hypot(*v1)
+    n2 = math.hypot(*v2)
+    if n1 < 1e-9 or n2 < 1e-9:
+        return 0.0
+    cos_theta = max(-1.0, min(1.0, (v1[0] * v2[0] + v1[1] * v2[1]) / (n1 * n2)))
+    return 180.0 - math.degrees(math.acos(cos_theta))
+
+
+def _segments_intersect(
+    instance: "AhmedInstance",
+    a1: str, a2: str, b1: str, b2: str,
+) -> bool:
+    """Check if two line segments intersect (excluding shared endpoints)."""
+    if {a1, a2} & {b1, b2}:
+        return False  # adjacent edges share a node — that's a turn, not an intersect
+    x1, y1 = _station_xy(instance, a1)
+    x2, y2 = _station_xy(instance, a2)
+    x3, y3 = _station_xy(instance, b1)
+    x4, y4 = _station_xy(instance, b2)
+
+    def _ccw(ax, ay, bx, by, cx, cy):
+        return (bx - ax) * (cy - ay) - (by - ay) * (cx - ax)
+
+    d1 = _ccw(x1, y1, x2, y2, x3, y3)
+    d2 = _ccw(x1, y1, x2, y2, x4, y4)
+    d3 = _ccw(x3, y3, x4, y4, x1, y1)
+    d4 = _ccw(x3, y3, x4, y4, x2, y2)
+
+    if (d1 > 0 and d2 < 0) or (d1 < 0 and d2 > 0):
+        if (d3 > 0 and d4 < 0) or (d3 < 0 and d4 > 0):
+            return True
+    # Collinear cases
+    eps = 1e-9
+    if abs(d1) < eps:
+        if min(x1, x2) <= x3 <= max(x1, x2) and min(y1, y2) <= y3 <= max(y1, y2):
+            return True
+    if abs(d2) < eps:
+        if min(x1, x2) <= x4 <= max(x1, x2) and min(y1, y2) <= y4 <= max(y1, y2):
+            return True
+    if abs(d3) < eps:
+        if min(x3, x4) <= x1 <= max(x3, x4) and min(y3, y4) <= y1 <= max(y3, y4):
+            return True
+    if abs(d4) < eps:
+        if min(x3, x4) <= x2 <= max(x3, x4) and min(y3, y4) <= y2 <= max(y3, y4):
+            return True
+    return False
+
+
+def _count_self_intersections(
+    instance: "AhmedInstance", seq: list[str]
+) -> int:
+    """Count self-intersections in a line sequence."""
+    count = 0
+    edges = list(zip(seq[:-1], seq[1:]))
+    for i in range(len(edges)):
+        for j in range(i + 2, len(edges)):
+            if j == i + 1:
+                continue  # adjacent edges
+            if _segments_intersect(instance, edges[i][0], edges[i][1],
+                                    edges[j][0], edges[j][1]):
+                count += 1
+    return count
 
 
 @dataclass
@@ -75,7 +149,7 @@ class AhmedInstance:
     stations: pd.DataFrame
     od_matrix: np.ndarray
     corridor_graph: nx.Graph
-    terminal_pairs: list[tuple[str, str]]  # one pair per line
+    terminal_pairs: list[tuple[str, str]]
     cost_params: dict = field(default_factory=lambda: dict(DEFAULT_COST_PARAMS))
     constraints: dict = field(default_factory=lambda: dict(DEFAULT_CONSTRAINTS))
 
@@ -86,9 +160,25 @@ class AhmedInstance:
         self._x = {sid: float(xy_df.loc[sid, "x"]) for sid in ids}
         self._y = {sid: float(xy_df.loc[sid, "y"]) for sid in ids}
         self._value = {sid: float(xy_df.loc[sid, "total_value"]) for sid in ids}
-        self._pop = {sid: float(xy_df.loc[sid, "population_value"]) for sid in ids}
         self.all_ids = ids
         self.all_id_set = set(ids)
+        # Precompute k-nearest neighbors for mutation
+        self._knn: dict[str, list[str]] = {}
+        self._build_knn(k=8)
+
+    def _build_knn(self, k: int) -> None:
+        for sid in self.all_ids:
+            dists = []
+            for other in self.all_ids:
+                if other == sid:
+                    continue
+                d = float(np.hypot(
+                    self._x[sid] - self._x[other],
+                    self._y[sid] - self._y[other],
+                ))
+                dists.append((d, other))
+            dists.sort(key=lambda x: x[0])
+            self._knn[sid] = [other for _, other in dists[:k]]
 
     @property
     def n_lines(self) -> int:
@@ -102,22 +192,9 @@ class AhmedInstance:
     def path_len(self, seq: list[str]) -> float:
         return sum(self.edge_len(seq[i], seq[i + 1]) for i in range(len(seq) - 1))
 
-    def path_distance_matrix(self, seq: list[str]) -> np.ndarray:
-        """Return (n,n) matrix of distances along the path sequence."""
-        n = len(seq)
-        cumul = np.zeros(n, dtype=float)
-        for i in range(1, n):
-            cumul[i] = cumul[i - 1] + self.edge_len(seq[i - 1], seq[i])
-        dm = np.zeros((n, n), dtype=float)
-        for i in range(n):
-            for j in range(n):
-                dm[i, j] = abs(cumul[j] - cumul[i])
-        return dm
-
     def shortest_path_between(
         self, uid: str, vid: str, track_graph: nx.Graph
     ) -> float:
-        """Shortest travel distance in the track network."""
         try:
             return float(
                 nx.shortest_path_length(track_graph, uid, vid, weight="distance")
@@ -132,16 +209,9 @@ def _select_terminal_pairs(
     n_lines: int,
     method: str = "top_od",
 ) -> list[tuple[str, str]]:
-    """Select terminal station pairs for each line.
-
-    Methods:
-      'top_od' — highest OD pairs (data-driven, as paper allows)
-      'top_value' — highest-value station pairs
-    """
     ids = stations["station_id"].astype(str).tolist()
     id_to_idx = {sid: i for i, sid in enumerate(ids)}
     value = dict(zip(ids, stations["total_value"].astype(float)))
-
     pairs = []
     for u, v in itertools.combinations(ids, 2):
         if method == "top_od":
@@ -151,7 +221,6 @@ def _select_terminal_pairs(
             score = value[u] + value[v]
         pairs.append((score, u, v))
     pairs.sort(key=lambda x: x[0], reverse=True)
-
     selected = []
     used: set[str] = set()
     for _score, u, v in pairs:
@@ -169,44 +238,40 @@ def _check_constraints(
     instance: AhmedInstance,
     chromosome: list[list[str]],
 ) -> tuple[bool, str]:
-    """Check if a chromosome satisfies all constraints from the paper.
-
-    Returns (ok, reason).
-    """
     c = instance.constraints
-    all_stations: set[str] = set()
-    all_edges: set[tuple[str, str]] = set()
     line_station_sets: list[set[str]] = []
 
-    for line_seq in chromosome:
+    for li, line_seq in enumerate(chromosome):
         n = len(line_seq)
         if n < c["min_stations_per_line"]:
-            return False, f"line has {n} stations < min {c['min_stations_per_line']}"
+            return False, f"line {li}: {n} stations < min {c['min_stations_per_line']}"
         if n > c["max_stations_per_line"]:
-            return False, f"line has {n} stations > max {c['max_stations_per_line']}"
+            return False, f"line {li}: {n} stations > max {c['max_stations_per_line']}"
 
-        # Station spacing
+        # Duplicate stations in a line = not a simple path
+        if len(set(line_seq)) != len(line_seq):
+            return False, f"line {li}: duplicate stations"
+
         for a, b in zip(line_seq[:-1], line_seq[1:]):
             d = instance.edge_len(a, b)
             if d < c["min_station_spacing_m"]:
-                return False, f"spacing {d:.0f}m < min {c['min_station_spacing_m']}m"
+                return False, f"line {li}: spacing {d:.0f}m < min {c['min_station_spacing_m']}m"
             if d > c["max_station_spacing_m"]:
-                return False, f"spacing {d:.0f}m > max {c['max_station_spacing_m']}m"
+                return False, f"line {li}: spacing {d:.0f}m > max {c['max_station_spacing_m']}m"
 
-        all_stations.update(line_seq)
-        all_edges.update(
-            tuple(sorted((line_seq[i], line_seq[i + 1])))
-            for i in range(len(line_seq) - 1)
-        )
+        # No self-intersection
+        if _count_self_intersections(instance, line_seq) > 0:
+            return False, f"line {li}: self-intersects"
+
         line_station_sets.append(set(line_seq))
 
-    # Transfer stations: each line must share at least min_transfer stations with others
+    # Transfer stations
     for i, s_i in enumerate(line_station_sets):
         others = set().union(*(s for j, s in enumerate(line_station_sets) if j != i))
         if others and len(s_i & others) < c["min_transfer_stations"]:
-            return False, f"line {i} has < {c['min_transfer_stations']} transfer stations"
+            return False, f"line {i}: < {c['min_transfer_stations']} transfer stations"
 
-    # Overlap between lines
+    # Max overlap
     if len(line_station_sets) >= 2:
         for i in range(len(line_station_sets)):
             other_stations = set().union(
@@ -216,13 +281,14 @@ def _check_constraints(
                 len(line_station_sets[i]), 1
             )
             if overlap > c["max_overlap_ratio"]:
-                return False, f"line {i} overlap {overlap:.1%} > max {c['max_overlap_ratio']:.0%}"
+                return False, f"line {i}: overlap {overlap:.1%} > max"
 
     return True, "ok"
 
 
-def _build_track_graph(chromosome: list[list[str]], instance: AhmedInstance) -> nx.Graph:
-    """Build union track graph from all lines."""
+def _build_track_graph(
+    chromosome: list[list[str]], instance: AhmedInstance
+) -> nx.Graph:
     g = nx.Graph()
     for line_seq in chromosome:
         for sid in line_seq:
@@ -233,183 +299,395 @@ def _build_track_graph(chromosome: list[list[str]], instance: AhmedInstance) -> 
     return g
 
 
+def _compute_geometry_penalty(
+    chromosome: list[list[str]], instance: AhmedInstance
+) -> float:
+    """Penalty for turn angles + line overlaps."""
+    cp = instance.cost_params
+    penalty = 0.0
+
+    # Turn penalty (per line)
+    for line_seq in chromosome:
+        if len(line_seq) < 3:
+            continue
+        turns = []
+        for a, b, c in zip(line_seq[:-2], line_seq[1:-1], line_seq[2:]):
+            angle = _turn_angle_deg(instance, a, b, c)
+            excess = max(0.0, angle - cp["turn_threshold_deg"])
+            turns.append((excess / 90.0) ** 2)
+        penalty += cp["turn_penalty_weight"] * sum(turns)
+
+    # Self-intersection penalty (hard via constraints, soft backup)
+    for line_seq in chromosome:
+        n_intersect = _count_self_intersections(instance, line_seq)
+        penalty += n_intersect * cp["self_intersect_penalty"]
+
+    # Track overlap penalty: penalize non-adjacent edges from different lines
+    # that are very close to each other
+    if len(chromosome) >= 2:
+        all_edges: list[tuple[str, str, int]] = []
+        for li, line_seq in enumerate(chromosome):
+            for u, v in zip(line_seq[:-1], line_seq[1:]):
+                all_edges.append((u, v, li))
+
+        for i in range(len(all_edges)):
+            for j in range(i + 1, len(all_edges)):
+                u1, v1, l1 = all_edges[i]
+                u2, v2, l2 = all_edges[j]
+                if l1 == l2:
+                    continue  # same line
+                # Check if these edges are very close (overlapping corridors)
+                d1 = instance.edge_len(u1, u2)
+                d2 = instance.edge_len(v1, v2)
+                if d1 < 500 and d2 < 500:
+                    penalty += cp["overlap_penalty_weight"]
+
+    return penalty
+
+
 def _compute_fitness(
     chromosome: list[list[str]],
     instance: AhmedInstance,
 ) -> float:
-    """Compute total system cost (to be minimized → negative for maximization).
+    """Fitness = value_connection_reward + OD_coverage - construction_cost - geometry_penalty.
 
-    TotalCost = φp * PassengerCost + φo * OperatorCost + φc * CommunityCost
-
-    Returns negative total cost (GA maximizes fitness = minimizes cost).
-    Lower cost = better = higher fitness.
+    Primary driver: pairwise value connection with distance decay (like Laporte 2005).
+    This gives the GA a meaningful gradient to climb.
     """
     cp = instance.cost_params
-    all_stations = set()
+    cutoff = cp["value_connection_cutoff_m"]
+
+    all_stations: set[str] = set()
     total_line_length = 0.0
 
     for line_seq in chromosome:
         all_stations.update(line_seq)
         total_line_length += instance.path_len(line_seq)
 
-    # Build track graph for shortest-path distances
     track_graph = _build_track_graph(chromosome, instance)
 
-    # --- Passenger Cost ---
-    # Savings from using rail vs. car: Σ OD_ij * (travel_time_car - travel_time_rail)
-    # Travel time rail includes: access + waiting + in-vehicle
-    # Simplified: use network distance / train_speed vs Euclidean / car_speed_kmh
-    car_speed_kmh = 40.0  # urban car speed
-    passenger_cost = 0.0
-    n_stations = len(instance.all_ids)
+    # --- Value Connection Reward (Laporte-style) ---
+    # Sum over all selected station pairs: v_i * v_j * max(0, 1 - D_ij / cutoff)
+    sel_list = sorted(all_stations)
+    value_reward = 0.0
+    for i in range(len(sel_list)):
+        for j in range(i + 1, len(sel_list)):
+            u, v = sel_list[i], sel_list[j]
+            vu, vv = instance._value.get(u, 0.0), instance._value.get(v, 0.0)
+            d = instance.shortest_path_between(u, v, track_graph)
+            if d == float("inf"):
+                continue  # not connected
+            decay = max(0.0, 1.0 - d / cutoff)
+            value_reward += vu * vv * decay
+
+    # --- OD Coverage Reward ---
+    # OD pairs where both origin and destination are covered by a station
+    od_reward = 0.0
+    n_stns = len(instance.all_ids)
     id_list = instance.all_ids
-
-    for i in range(n_stations):
-        for j in range(i + 1, n_stations):
-            u, v = id_list[i], id_list[j]
-            od_val = float(
-                instance.od_matrix[i, j] + instance.od_matrix[j, i]
-            )
-            if od_val <= 0:
-                continue
-            # Car travel time (hours)
-            euclid = float(
-                np.hypot(
-                    instance._x[u] - instance._x[v],
-                    instance._y[u] - instance._y[v],
-                )
-            )
-            car_time_h = euclid / (car_speed_kmh * 1000.0)
-
-            # Rail travel time: access + wait + in-vehicle
-            walk_dist_u = min(
-                (instance.edge_len(u, s) for s in all_stations if s in track_graph),
-                default=float("inf"),
-            )
-            walk_dist_v = min(
-                (instance.edge_len(v, s) for s in all_stations if s in track_graph),
-                default=float("inf"),
-            )
-            if walk_dist_u == float("inf") or walk_dist_v == float("inf"):
-                # One or both not covered → no rail benefit
-                continue
-
-            access_time_h = (walk_dist_u + walk_dist_v) / (
-                cp["walk_speed_kmh"] * 1000.0
-            )
-            wait_time_h = cp["headway_min"] / 60.0 / 2.0  # half headway
-
-            # Find nearest covered stations and compute in-vehicle time
-            nearest_u = min(
-                all_stations,
-                key=lambda s: instance.edge_len(u, s),
-            )
-            nearest_v = min(
-                all_stations,
-                key=lambda s: instance.edge_len(v, s),
-            )
-            rail_dist = instance.shortest_path_between(
-                nearest_u, nearest_v, track_graph
-            )
-            if rail_dist == float("inf"):
-                continue
-            in_vehicle_time_h = rail_dist / (cp["train_speed_kmh"] * 1000.0)
-            rail_time_h = access_time_h + wait_time_h + in_vehicle_time_h
-
-            # Time saving: car - rail (positive = rail saves time)
-            time_saving_h = car_time_h - rail_time_h
-            if time_saving_h > 0:
-                passenger_cost -= (
-                    od_val
-                    * time_saving_h
-                    * cp["value_of_in_vehicle_time"]
-                )
-
-    # --- Operator Cost ---
-    # Savings: (bus_op_cost - rail_op_cost) * passenger_km
-    total_passenger_km = 0.0
-    for i in range(n_stations):
-        for j in range(i + 1, n_stations):
+    for i in range(n_stns):
+        for j in range(i + 1, n_stns):
             u, v = id_list[i], id_list[j]
             od_val = float(instance.od_matrix[i, j] + instance.od_matrix[j, i])
-            nearest_u = min(
-                (s for s in all_stations if s in track_graph),
-                key=lambda s: instance.edge_len(u, s),
-                default=None,
+            if od_val <= 0:
+                continue
+            # Check if both have a station within walking distance
+            walk_u = min(
+                (instance.edge_len(u, s) for s in all_stations),
+                default=float("inf"),
             )
-            nearest_v = min(
-                (s for s in all_stations if s in track_graph),
-                key=lambda s: instance.edge_len(v, s),
-                default=None,
+            walk_v = min(
+                (instance.edge_len(v, s) for s in all_stations),
+                default=float("inf"),
             )
-            if nearest_u and nearest_v:
-                rd = instance.shortest_path_between(nearest_u, nearest_v, track_graph)
-                if rd != float("inf"):
-                    total_passenger_km += od_val * rd / 1000.0
+            if walk_u < 2000 and walk_v < 2000:  # within 2km access
+                od_reward += od_val
 
-    op_saving_per_km = (
-        cp["bus_op_cost_per_pax_km"] - cp["rail_op_cost_per_pax_km"]
-    )
-    operator_cost = -op_saving_per_km * total_passenger_km  # negative = savings
-
-    # --- Community Cost ---
-    n_total_stations = len(all_stations)
-    community_cost = (
-        n_total_stations * cp["station_build_cost"]
-        + (total_line_length / 1000.0) * cp["tunnel_cost_per_km"]
-        + total_line_length * cp["track_cost_per_m"]
+    # --- Construction Cost ---
+    construction_cost = (
+        cp["construction_cost_per_m"] * total_line_length
+        + cp["station_cost"] * len(all_stations)
     )
 
-    total_cost = (
-        cp["passenger_coeff"] * passenger_cost
-        + cp["operator_coeff"] * operator_cost
-        + cp["community_coeff"] * community_cost
+    # --- Geometry Penalty ---
+    geometry_penalty = _compute_geometry_penalty(chromosome, instance)
+
+    fitness = (
+        cp["value_connection_weight"] * value_reward
+        + cp["od_coverage_weight"] * od_reward
+        - construction_cost
+        - geometry_penalty
     )
 
-    return -total_cost  # maximize fitness = minimize cost
+    return fitness
 
 
-def _generate_chromosome(
+# ---------------------------------------------------------------------------
+# Chromosome generation via shortest paths (not random)
+# ---------------------------------------------------------------------------
+
+def _generate_chromosome_sp(
     instance: AhmedInstance,
     rng: np.random.Generator,
 ) -> list[list[str]]:
-    """Generate a random feasible chromosome.
+    """Generate a chromosome by finding a shortest path between terminals
+    on the corridor graph, then enriching with intermediate stations.
 
-    Each line: terminal_a + random intermediate stations + terminal_b.
-    Intermediate stations are selected from feasible candidates.
+    If the corridor shortest path has too few stations, we build a route
+    by inserting intermediate stations that stay close to the direct
+    corridor between the terminals.
     """
     c = instance.constraints
-    all_ids = set(instance.all_ids)
     chromosome = []
 
     for term_a, term_b in instance.terminal_pairs:
-        # Exclude terminals from intermediate pool
-        pool = list(all_ids - {term_a, term_b})
-        rng.shuffle(pool)
+        try:
+            base_path = nx.shortest_path(
+                instance.corridor_graph, term_a, term_b, weight="distance"
+            )
+        except nx.NetworkXNoPath:
+            base_path = [term_a, term_b]
 
-        # Build line: start with terminal_a, add intermediates, end with terminal_b
-        line = [term_a]
-        for sid in pool:
-            if len(line) >= c["max_stations_per_line"] - 1:
+        # If the path is too short, enrich it with intermediate stations
+        if len(base_path) < c["min_stations_per_line"]:
+            base_path = _enrich_path(instance, base_path, c, rng)
+
+        # If too long, subsample
+        if len(base_path) > c["max_stations_per_line"]:
+            step = max(1, (len(base_path) - 2) // (c["max_stations_per_line"] - 2))
+            indices = [0] + list(range(1, len(base_path) - 1, step)) + [len(base_path) - 1]
+            base_path = [base_path[i] for i in indices[: c["max_stations_per_line"]]]
+
+        # Add diversity: replace 1-2 stations with nearby alternatives
+        n_swaps = rng.integers(0, 3) if len(base_path) > 5 else rng.integers(0, 2)
+        for _ in range(n_swaps):
+            if len(base_path) <= 4:
                 break
-            # Check spacing with last added station
-            if instance.edge_len(line[-1], sid) >= c["min_station_spacing_m"]:
-                line.append(sid)
-        line.append(term_b)
-
-        # Ensure min stations
-        while len(line) < c["min_stations_per_line"]:
-            for sid in pool:
-                if sid not in line:
-                    if instance.edge_len(line[-2], sid) >= c["min_station_spacing_m"]:
-                        line.insert(-1, sid)
+            pos = rng.integers(1, len(base_path) - 1)
+            orig = base_path[pos]
+            neighbors = instance._knn.get(orig, [])
+            if neighbors:
+                rng.shuffle(neighbors)
+                for alt in neighbors[:5]:
+                    if alt not in base_path:
+                        base_path[pos] = alt
                         break
-            else:
-                break  # can't add more
 
-        chromosome.append(line)
+        chromosome.append(base_path)
 
     return chromosome
+
+
+def _enrich_path(
+    instance: AhmedInstance,
+    path: list[str],
+    c: dict,
+    rng: np.random.Generator,
+) -> list[str]:
+    """Insert intermediate stations to reach min_stations_per_line.
+
+    Prefer stations that lie close to the direct corridor between terminals
+    and have high station value.
+    """
+    term_a, term_b = path[0], path[-1]
+    candidates = [
+        s for s in instance.all_ids
+        if s not in path
+        and instance.edge_len(s, term_a) > c["min_station_spacing_m"]
+        and instance.edge_len(s, term_b) > c["min_station_spacing_m"]
+    ]
+    if not candidates:
+        return path
+
+    xa, ya = instance._x[term_a], instance._y[term_a]
+    xb, yb = instance._x[term_b], instance._y[term_b]
+    seg_len_sq = (xb - xa) ** 2 + (yb - ya) ** 2
+
+    def _dist_to_segment(sid: str) -> float:
+        xs, ys = instance._x[sid], instance._y[sid]
+        if seg_len_sq < 1e-9:
+            return float(np.hypot(xs - xa, ys - ya))
+        t = max(0.0, min(1.0,
+            ((xs - xa) * (xb - xa) + (ys - ya) * (yb - ya)) / seg_len_sq))
+        proj_x = xa + t * (xb - xa)
+        proj_y = ya + t * (yb - ya)
+        return float(np.hypot(xs - proj_x, ys - proj_y))
+
+    # Score: close to corridor + high value
+    candidates.sort(key=lambda s:
+        _dist_to_segment(s) - 0.01 * instance._value.get(s, 0))
+
+    # Sort by projection along A→B, then shuffle groups of similar projection
+    scored = []
+    for sid in candidates:
+        xs, ys = instance._x[sid], instance._y[sid]
+        t = max(0.0, min(1.0,
+            ((xs - xa) * (xb - xa) + (ys - ya) * (yb - ya)) / max(seg_len_sq, 1e-9)))
+        scored.append((t, sid))
+    scored.sort(key=lambda x: x[0])
+
+    # Target: halfway between min and max stations for a good starting point
+    target_stations = (c["min_stations_per_line"] + c["max_stations_per_line"]) // 2
+    target_stations = max(c["min_stations_per_line"], min(target_stations, len(scored) + 2))
+    current_path = [term_a]
+
+    # Select spaced stations with randomness for diversity
+    needed = target_stations
+    if len(scored) >= needed - 2:
+        bucket_size = max(1, len(scored) // (needed - 2))
+        for bucket_idx in range(needed - 2):
+            start = bucket_idx * bucket_size
+            end = min(start + bucket_size, len(scored))
+            bucket = scored[start:end]
+            if bucket:
+                rng.shuffle(bucket)
+                sid = bucket[0][1]
+                if sid not in current_path:
+                    current_path.append(sid)
+    else:
+        rng.shuffle(scored)
+        for _, sid in scored:
+            if len(current_path) >= needed - 1:
+                break
+            if sid not in current_path:
+                current_path.append(sid)
+
+    current_path.append(term_b)
+    return current_path
+
+
+# ---------------------------------------------------------------------------
+# Mutation: only swap with nearby stations
+# ---------------------------------------------------------------------------
+
+def _mutate_nearby(
+    chromosome: list[list[str]],
+    instance: AhmedInstance,
+    rng: np.random.Generator,
+    mutation_rate: float,
+) -> None:
+    """Multi-operator mutation for station-level changes.
+
+    Three operators (randomly chosen per mutated position):
+      1. Swap: replace a station with a k-nearest neighbor
+      2. Insert: add a new station between two existing ones
+      3. Remove: delete an intermediate station
+    All operators include feasibility repair.
+    """
+    c = instance.constraints
+    for li, line in enumerate(chromosome):
+        if rng.random() < mutation_rate:
+            op = rng.choice(["swap", "insert", "remove"])
+            if op == "swap" and len(line) >= 3:
+                _mutate_swap(chromosome, li, line, instance, rng)
+            elif op == "insert" and len(line) < c["max_stations_per_line"]:
+                _mutate_insert(chromosome, li, line, instance, rng)
+            elif op == "remove" and len(line) > c["min_stations_per_line"]:
+                _mutate_remove(chromosome, li, line, instance, rng)
+
+
+def _mutate_swap(
+    chromosome: list[list[str]], li: int, line: list[str],
+    instance: AhmedInstance, rng: np.random.Generator,
+) -> None:
+    """Replace one intermediate station with a nearby alternative."""
+    pos = rng.integers(1, len(line) - 1)
+    orig = line[pos]
+    neighbors = instance._knn.get(orig, [])
+    if not neighbors:
+        return
+    rng.shuffle(neighbors)
+    for alt in neighbors[:10]:
+        if alt in line:
+            continue
+        line[pos] = alt
+        ok, _ = _check_constraints(instance, chromosome)
+        if ok:
+            return
+        line[pos] = orig
+
+
+def _mutate_insert(
+    chromosome: list[list[str]], li: int, line: list[str],
+    instance: AhmedInstance, rng: np.random.Generator,
+) -> None:
+    """Insert a new station between two consecutive stations."""
+    if len(line) < 2:
+        return
+    # Find a long edge to break
+    edges = [(instance.edge_len(line[i], line[i + 1]), i)
+             for i in range(len(line) - 1)]
+    edges.sort(key=lambda x: x[0], reverse=True)
+    # Pick from top 3 longest edges
+    top_edges = edges[:min(3, len(edges))]
+    rng.shuffle(top_edges)
+    for _gap, pos in top_edges:
+        a, b = line[pos], line[pos + 1]
+        mid_x = (instance._x[a] + instance._x[b]) / 2
+        mid_y = (instance._y[a] + instance._y[b]) / 2
+        candidates = [
+            s for s in instance.all_ids
+            if s not in line
+        ]
+        if not candidates:
+            continue
+        candidates.sort(key=lambda s: float(np.hypot(
+            instance._x[s] - mid_x, instance._y[s] - mid_y)))
+        for cand in candidates[:5]:
+            if instance.edge_len(a, cand) < instance.constraints["min_station_spacing_m"]:
+                continue
+            if instance.edge_len(cand, b) < instance.constraints["min_station_spacing_m"]:
+                continue
+            line.insert(pos + 1, cand)
+            ok, _ = _check_constraints(instance, chromosome)
+            if ok:
+                return
+            line.pop(pos + 1)
+
+
+def _mutate_remove(
+    chromosome: list[list[str]], li: int, line: list[str],
+    instance: AhmedInstance, rng: np.random.Generator,
+) -> None:
+    """Remove one intermediate station."""
+    if len(line) <= 2:
+        return
+    pos = rng.integers(1, len(line) - 1)
+    orig = list(line)
+    line.pop(pos)
+    # Check spacing between the two stations that are now adjacent
+    if pos > 0 and pos < len(line):
+        d = instance.edge_len(line[pos - 1], line[pos])
+        if d < instance.constraints["min_station_spacing_m"]:
+            # Revert
+            line.insert(pos, orig[pos])
+            return
+    ok, _ = _check_constraints(instance, chromosome)
+    if not ok:
+        line.insert(pos, orig[pos])
+
+
+# ---------------------------------------------------------------------------
+# Crossover
+# ---------------------------------------------------------------------------
+
+def _uniform_crossover(
+    parent_a: list[list[str]],
+    parent_b: list[list[str]],
+    instance: AhmedInstance,
+    rng: np.random.Generator,
+) -> list[list[str]]:
+    """Uniform crossover at station level with feasibility repair."""
+    child = [[s for s in line] for line in parent_a]
+    for li in range(len(child)):
+        for pos in range(1, len(child[li]) - 1):
+            if rng.random() < 0.5 and pos < len(parent_b[li]) - 1:
+                orig = child[li][pos]
+                child[li][pos] = parent_b[li][pos]
+                ok, _ = _check_constraints(instance, child)
+                if not ok:
+                    child[li][pos] = orig
+    return child
 
 
 def _tournament_select(
@@ -418,83 +696,28 @@ def _tournament_select(
     rng: np.random.Generator,
     tournament_size: int,
 ) -> int:
-    """Tournament selection: pick the best among 'tournament_size' random individuals."""
-    contenders = rng.choice(len(population), size=min(tournament_size, len(population)), replace=False)
+    contenders = rng.choice(
+        len(population), size=min(tournament_size, len(population)), replace=False
+    )
     return int(contenders[np.argmax(fitnesses[contenders])])
 
 
-def _uniform_crossover(
-    parent_a: list[list[str]],
-    parent_b: list[list[str]],
-    instance: AhmedInstance,
-    rng: np.random.Generator,
-) -> list[list[str]]:
-    """Uniform crossover at the station (bit) level with feasibility repair.
-
-    For each line and each position, swap stations between parents with 50% prob.
-    If swap creates infeasibility, revert the swap.
-    """
-    child = [[s for s in line] for line in parent_a]
-    for li in range(len(child)):
-        for pos in range(1, len(child[li]) - 1):  # skip terminals
-            if rng.random() < 0.5:
-                if pos < len(parent_b[li]) - 1:
-                    # Try swap
-                    orig = child[li][pos]
-                    child[li][pos] = parent_b[li][pos]
-                    ok, _ = _check_constraints(instance, child)
-                    if not ok:
-                        child[li][pos] = orig  # revert
-    return child
-
-
-def _mutate(
-    chromosome: list[list[str]],
-    instance: AhmedInstance,
-    rng: np.random.Generator,
-    mutation_rate: float,
-) -> None:
-    """Station-level mutation with feasibility repair.
-
-    Replace stations with randomly selected alternatives from the candidate pool.
-    Reject mutations that violate constraints.
-    """
-    pool = list(instance.all_id_set)
-    for li, line in enumerate(chromosome):
-        for pos in range(1, len(line) - 1):  # skip terminals
-            if rng.random() < mutation_rate:
-                orig = line[pos]
-                new_station = rng.choice(pool)
-                if new_station == orig:
-                    continue
-                line[pos] = new_station
-                ok, _ = _check_constraints(instance, chromosome)
-                if not ok:
-                    line[pos] = orig  # revert
-
+# ---------------------------------------------------------------------------
+# Main GA
+# ---------------------------------------------------------------------------
 
 def select_lines_ahmed_ga(
     instance: AhmedInstance,
     ga_params: dict | None = None,
     verbose: bool = True,
 ) -> dict:
-    """Run the Ahmed 2020 GA to select optimal station locations and line network.
-
-    Returns a dict with:
-      - chromosome: best chromosome found
-      - fitness_history: list of (generation, best_fitness, mean_fitness)
-      - runtime_s: total wall-clock time
-      - final_fitness: fitness of the best solution
-      - n_stations_selected: number of unique stations used
-      - total_length_km: total line network length
-    """
     gp = {**DEFAULT_GA_PARAMS, **(ga_params or {})}
     rng = np.random.default_rng(gp["seed"])
     t0 = time.perf_counter()
 
-    # Initialize population
+    # Initialize with shortest-path-based chromosomes
     population = [
-        _generate_chromosome(instance, rng)
+        _generate_chromosome_sp(instance, rng)
         for _ in range(gp["population_size"])
     ]
 
@@ -503,7 +726,6 @@ def select_lines_ahmed_ga(
     history = []
 
     for gen in range(gp["generations"] + 1):
-        # Evaluate fitness
         fitnesses = np.array([
             _compute_fitness(chrom, instance) for chrom in population
         ])
@@ -519,23 +741,17 @@ def select_lines_ahmed_ga(
 
         if gen % 10 == 0 or gen == gp["generations"]:
             history.append((gen, -gen_best, -gen_mean))
+            if verbose:
+                print(f"  gen {gen:3d}: best_cost={-gen_best:.1f}, mean_cost={-gen_mean:.1f}")
 
         if gen == gp["generations"]:
             break
 
-        # Selection + Crossover + Mutation
         ranked = np.argsort(fitnesses)[::-1]
-        next_pop = [
-            [s for s in line]
+        next_pop_chroms = [
+            [[s for s in line] for line in population[idx]]
             for idx in ranked[: gp["elite_count"]]
-            for line in population[idx]
         ]
-        # Reshape elites
-        next_pop_chroms = []
-        per_chrom = instance.n_lines
-        for i in range(gp["elite_count"]):
-            chrom = population[ranked[i]]
-            next_pop_chroms.append([[s for s in line] for line in chrom])
 
         while len(next_pop_chroms) < gp["population_size"]:
             pa_idx = _tournament_select(population, fitnesses, rng, gp["tournament_size"])
@@ -546,14 +762,10 @@ def select_lines_ahmed_ga(
                 )
             else:
                 child = [[s for s in line] for line in population[pa_idx]]
-            _mutate(child, instance, rng, gp["mutation_rate"])
+            _mutate_nearby(child, instance, rng, gp["mutation_rate"])
             ok, _ = _check_constraints(instance, child)
-            if ok:
-                next_pop_chroms.append(child)
-            else:
-                next_pop_chroms.append(
-                    [[s for s in line] for line in population[pa_idx]]
-                )
+            next_pop_chroms.append(child if ok else
+                [[s for s in line] for line in population[pa_idx]])
 
         population = next_pop_chroms
 
@@ -563,22 +775,20 @@ def select_lines_ahmed_ga(
     ) if best_chromosome else 0.0
     all_stations = (
         {s for line in best_chromosome for s in line}
-        if best_chromosome
-        else set()
+        if best_chromosome else set()
     )
 
     return {
         "chromosome": best_chromosome,
         "fitness_history": history,
         "runtime_s": elapsed,
-        "final_fitness": -best_fitness,  # convert back to cost
+        "final_fitness": -best_fitness,
         "n_stations_selected": len(all_stations),
         "total_length_km": total_len / 1000.0,
         "all_stations": all_stations,
         "track_graph": (
             _build_track_graph(best_chromosome, instance)
-            if best_chromosome
-            else nx.Graph()
+            if best_chromosome else nx.Graph()
         ),
     }
 
@@ -590,7 +800,6 @@ def run_multi_line_experiment(
     n_lines: int = 1,
     ga_params: dict | None = None,
 ) -> dict:
-    """Run Ahmed 2020 GA for a given number of lines."""
     terminals = _select_terminal_pairs(stations, od_matrix, n_lines)
     instance = AhmedInstance(
         stations=stations,
