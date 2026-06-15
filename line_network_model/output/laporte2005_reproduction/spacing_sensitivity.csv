@@ -1,0 +1,16 @@
+﻿MinSpacing (m),Heuristic,Effectiveness,Length (km),Stations
+500,H1_greedy_extension,6224778774921.5,59.8,18
+500,H2A_greedy_insertion,13701613060094.5,59.9,31
+500,H2A_greedy_insertion+postopt,13701613060094.5,59.9,31
+750,H1_greedy_extension,6224778774921.5,59.8,18
+750,H2A_greedy_insertion,13701613060094.5,59.9,31
+750,H2A_greedy_insertion+postopt,13701613060094.5,59.9,31
+1000,H1_greedy_extension,6224778774921.5,59.8,18
+1000,H2A_greedy_insertion,13701613060094.5,59.9,31
+1000,H2A_greedy_insertion+postopt,13701613060094.5,59.9,31
+1250,H1_greedy_extension,6224778774921.5,59.8,18
+1250,H2A_greedy_insertion,13701613060094.5,59.9,31
+1250,H2A_greedy_insertion+postopt,13701613060094.5,59.9,31
+1500,H1_greedy_extension,6224778774921.5,59.8,18
+1500,H2A_greedy_insertion,13701613060094.5,59.9,31
+1500,H2A_greedy_insertion+postopt,13701613060094.5,59.9,31
