@@ -221,16 +221,35 @@ def _select_terminal_pairs(
             score = value[u] + value[v]
         pairs.append((score, u, v))
     pairs.sort(key=lambda x: x[0], reverse=True)
+
     selected = []
-    used: set[str] = set()
-    for _score, u, v in pairs:
-        if u in used or v in used:
-            continue
-        selected.append((u, v))
-        used.add(u)
-        used.add(v)
-        if len(selected) >= n_lines:
+    used_terminals: set[str] = set()
+
+    # First line: highest-OD pair
+    selected.append((pairs[0][1], pairs[0][2]))
+    used_terminals.update(selected[0])
+
+    # Subsequent lines: prefer sharing a terminal (hub-based network)
+    for _ in range(n_lines - 1):
+        hub_pair = None
+        for score, u, v in pairs:
+            if any({u, v} == set(p) for p in selected):
+                continue
+            # Share exactly one terminal → creates a hub
+            if (u in used_terminals) != (v in used_terminals):
+                hub_pair = (score, u, v)
+                break
+        # Fallback: any unselected pair
+        if hub_pair is None:
+            for score, u, v in pairs:
+                if not any({u, v} == set(p) for p in selected):
+                    hub_pair = (score, u, v)
+                    break
+        if hub_pair is None:
             break
+        selected.append((hub_pair[1], hub_pair[2]))
+        used_terminals.update(selected[-1])
+
     return selected
 
 
