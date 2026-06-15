@@ -187,7 +187,6 @@ def experiment_simultaneous_vs_individual(stations: pd.DataFrame) -> None:
         instance_ind = AhmedInstance(
             stations=stations, od_matrix=od, corridor_graph=corridor,
             terminal_pairs=[(term_a, term_b)],
-            constraints=RELAXED_CONSTRAINTS,
         )
         t0 = time.perf_counter()
         r = select_lines_ahmed_ga(instance_ind, ga_params=FAST_GA, verbose=False)
