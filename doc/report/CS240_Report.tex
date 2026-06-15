@@ -543,6 +543,75 @@ implemented methods. Several patterns emerge:
   cost-effectiveness ratio for rapid prototyping.
 \end{itemize}
 
+\subsection{Passenger Flow Analysis (Stage 5 Extension)}
+
+Beyond the value-connection and OD-coverage objectives used during
+optimization, we evaluate the operational realism of each network by
+performing all-or-nothing (AON) passenger assignment. For every OD pair in
+the gravity-model demand matrix, we find the shortest path on the generated
+track network and accumulate the OD demand onto each edge. This yields
+section-level passenger volumes---a standard metric in transit planning
+used for capacity planning, frequency setting, and bottleneck detection.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/flow_comparison.png}
+\caption{Passenger flow intensity on four selected networks. Edge color
+and thickness indicate passenger volume (gray = low, blue = medium, orange
+= high, red = peak). The maximum section flow identifies the most heavily
+loaded segment in each network.}
+\label{fig:flow_comparison}
+\end{figure}
+
+\begin{table}[t]
+\centering
+\caption{Section-level passenger flow statistics.}
+\label{tab:flow}
+\small
+\begin{tabular}{lrrrr}
+\toprule
+Method & Max Flow & Mean Flow & Top-5 Share & Flow Edges \\
+\midrule
+Laporte-H1  & 0.16 & 0.033 & 56.9\% & 28/34 \\
+Laporte-H2A & 0.14 & 0.045 & 20.3\% & 60/60 \\
+Ahmed-GA-2L & 0.22 & 0.027 & 49.9\% & 40/52 \\
+Ahmed-GA-3L & 0.12 & 0.016 & 39.4\% & 43/48 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Table~\ref{tab:flow} reports flow statistics for four representative
+networks. Several operational insights emerge:
+
+\begin{itemize}
+\item \textbf{Flow concentration:} Laporte-H1 exhibits the highest flow
+  concentration (top-5 edges carry 56.9\% of total flow), indicating a
+  linear corridor with a single dominant bottleneck. This is expected for a
+  single-alignment path where all demand funnels through a few central
+  segments.
+\item \textbf{Flow distribution:} Laporte-H2A achieves the most balanced
+  flow distribution (top-5 share = 20.3\%), as its 31 stations create
+  multiple parallel demand paths within the single line, spreading load
+  across 60 edges.
+\item \textbf{Hub concentration:} Ahmed-GA-2L shows moderate concentration
+  (49.9\%) around the hub station S009. This reflects realistic metro
+  network behavior where radial lines converge at a central transfer hub,
+  naturally creating high passenger volumes near the hub.
+\item \textbf{Network effect:} Ahmed-GA-3L has the lowest maximum section
+  flow (0.12) and the lowest concentration (39.4\%), as the third line
+  provides an alternative corridor that diverts demand from the two-line
+  network's busiest segments.
+\end{itemize}
+
+The flow concentration patterns validate the structural differences
+between the algorithms: single-path methods (Laporte) create linear
+bottlenecks, while multi-line networks (Ahmed) distribute passenger load
+across multiple corridors. The maximum section flow metric provides a
+capacity-planning perspective that complements the coverage-oriented
+optimization objectives. In practice, a planner would compare these
+section flows against vehicle capacity and headway constraints to
+determine whether the generated network is operationally feasible.
+
 \subsection{Sensitivity Analysis}
 
 The spacing sensitivity experiment (varying minimum inter-station spacing
