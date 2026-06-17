@@ -79,37 +79,17 @@ deviations from the original papers.
 \section{Background and Related Work}
 %--------------------------------------------------------------------------
 
-\subsection{The Transit Network Design Problem}
-
-The TNDP has been studied extensively since the 1970s. Early work by
-Vuchic and Newell (1968) modeled optimal inter-station spacing assuming
-uniform population distribution along a single transit line. Later
-approaches relaxed these assumptions by incorporating GIS data, OD demand
-matrices, and metaheuristic optimization.
-
-Four main classes of objective functions appear in the literature:
-(1) maximizing population or traffic coverage within station catchment
-areas; (2) minimizing passenger travel time and transfer costs;
-(3) minimizing construction and operational costs; and (4) multi-objective
-combinations of the above. Our reproduced papers span classes (1) and (4).
-
-\subsection{Related Algorithms}
-
-Dufourd et al.\ (1996) applied Tabu search to locate a single rapid
-transit line maximizing population coverage on a grid network. Bruno et
-al.\ (2002) extended this with a more sophisticated neighborhood structure.
-Laporte et al.\ (2005) shifted the objective from population coverage to
-OD trip coverage and proposed simple greedy heuristics---this is our first
-reproduction target.
-
-On the multi-line front, Chai et al.\ (2019) used simulated annealing to
-design urban rail networks under road-network, travel-demand, and land-use
-constraints. Ahmed et al.\ (2020) proposed an integrated two-stage
-framework combining GIS feasibility screening with a GA that simultaneously
-optimizes station locations and line networks---our second reproduction
-target. The line-pool approach of Sch\"{o}bel and Scholl (2005), where
-candidate lines are pre-generated and then selected via integer
-programming, provides a useful baseline that we include for comparison.
+The Transit Network Design Problem (TNDP) has been studied since the 1970s
+\cite{vuchic1968}, with four main objective classes: (1) maximizing coverage,
+(2) minimizing travel time, (3) minimizing cost, and (4) multi-objective
+combinations. Early work by Dufourd et al.\ (1996) and Bruno et al.\
+(2002) applied Tabu search to single-line population coverage. Laporte et
+al.\ (2005) shifted to OD trip coverage with polynomial greedy
+heuristics---our first reproduction target. On the multi-line front, Chai
+et al.\ (2019) used simulated annealing, while Ahmed et al.\ (2020)
+combined GIS feasibility screening with a GA for simultaneous multi-line
+optimization---our second target. The line-pool approach of Sch\"{o}bel and
+Scholl (2005) provides a baseline we include for comparison.
 
 %--------------------------------------------------------------------------
 \section{Representative Paper Analysis}
@@ -117,114 +97,42 @@ programming, provides a useful baseline that we include for comparison.
 
 \subsection{Laporte et al.\ (2005): Single Alignment Maximization}
 
-\subsubsection{Problem Formulation}
-
-Given a set of candidate stations $S = \{s_1, \ldots, s_n\}$ with
-coordinates, and a trip coverage value $f_{ij}$ for each station pair
-$(i,j)$, the Maximal Trip Coverage Problem (MTCP) seeks an ordered subset
-$E \subseteq S$ defining a non-intersecting alignment $\text{Align}(E)$
-that maximizes total ridership:
+Given candidate stations $S$ with trip coverage values $f_{ij}$ and a
+logit mode-choice function $g_{ij}(E)$, the MTCP seeks an ordered subset
+$E \subseteq S$ maximizing ridership subject to length budget $L_{\max}$:
 \begin{equation}
-\max_{E \subseteq S} \sum_{i,j \in E, i \neq j} n_{ij}(E)
-\quad \text{s.t.} \quad \text{Length}[\text{Align}(E)] \leq L_{\max}
+\max_{E \subseteq S} \sum_{i,j \in E} n_{ij}(E), \quad
+n_{ij}(E) = f_{ij} \cdot g_{ij}(E), \quad
+\text{Length}[\text{Align}(E)] \leq L_{\max}
 \label{eq:mtcp}
 \end{equation}
-where $n_{ij}(E) = f_{ij} \cdot g_{ij}(E)$, and $g_{ij}(E)$ is a logit
-mode-choice function comparing metro travel time against car travel time.
-MTCP generalizes the bounded-length Hamiltonian path problem and is
-therefore NP-hard.
+This generalizes the bounded-length Hamiltonian path problem (NP-hard).
 
-\subsubsection{Algorithms}
+The paper proposes two constructive heuristics: \textbf{H1 (Greedy
+Extension)} starts from the best station pair and repeatedly extends at
+either endpoint; \textbf{H2 (Greedy Insertion)} inserts the best
+unselected station at its optimal position, with variants A/B/C differing
+in selection criterion (max ridership, min length, max ratio). A
+\textbf{post-optimization} step reinserts each station at its best
+position until convergence.
 
-The paper proposes two constructive heuristics and a post-optimization
-procedure:
-
-\textbf{H1---Greedy Extension:} Start from the pair $(s_i, s_j)$ with
-maximum $n_{ij}$. Repeatedly extend the alignment at either endpoint by
-adding the unselected station that yields the largest increase in total
-effectiveness, subject to $L_{\max}$.
-
-\textbf{H2---Greedy Insertion:} Start from the same initial edge.
-Repeatedly insert the best unselected station at its optimal position in
-the current alignment. Three variants differ in the selection criterion:
-(A) maximum added ridership, (B) minimum added length, (C) maximum ratio
-of added ridership to added length.
-
-\textbf{Post-optimization:} For each station in the alignment, remove it
-and reinsert it at the best position found by the same variant. Repeat
-until no improvement occurs.
-
-\subsubsection{Complexity Analysis}
-
-Let $n = |S|$ be the number of candidate stations and $k = |E|$ be the
-number of selected stations in the alignment. For H1, each iteration
-evaluates $O(n)$ unselected stations at two endpoints, with each
-evaluation computing $O(k^2)$ pairwise effectiveness values. Across all
-iterations, the total worst-case time is $O(n^2 k^2) \subseteq O(n^4)$.
-
-For H2, each iteration evaluates $O(n)$ unselected stations at $O(k)$
-insertion positions, yielding $O(n^2 k^3) \subseteq O(n^5)$ worst-case.
-However, with incremental computation (noting that adding a station adds
-exactly $\sum_{v \in \text{path}} \text{OD}(\text{new}, v)$ to the
-effectiveness), H1 reduces to $O(n^2 k) \subseteq O(n^3)$ and H2 reduces
-to $O(n^2 k^2) \subseteq O(n^4)$. Our implementation uses this
-optimization.
-
-The post-optimization procedure performs one removal and reinsertion pass
-per station, with each pass costing $O(k^2)$, for a total of $O(k^3)$ per
-outer iteration until convergence.
+With incremental effectiveness computation, H1 runs in $O(n^3)$ and H2 in
+$O(n^4)$, where $n = |S|$. Post-optimization costs $O(k^3)$ per pass.
 
 \subsection{Ahmed et al.\ (2020): Integrated Multi-Line Optimization}
 
-\subsubsection{Problem Formulation}
-
-Ahmed et al.\ formulate the rail transit planning problem as minimizing
-total system cost over the lifespan of the system:
+Ahmed et al.\ minimize total system cost:
 \begin{equation}
 \min \; T_c = \phi_p P_c + \phi_o O_c + \phi_c C_c
 \label{eq:ahmed_obj}
 \end{equation}
-where $P_c$ is passenger cost (travel time savings vs.\ car and bus),
-$O_c$ is operator cost (operation and maintenance savings), and $C_c$ is
-community cost (station construction, tunnel, and track costs).
-
-The problem is solved in two stages. Stage 1 uses GIS to screen the study
-area into feasible station grid cells based on eight criteria: airport
-terminals, existing rail stations, car parks, bus stops, population
-density, commercial land use, deprived areas, and land values.
-Stage 2 applies a GA to simultaneously select stations from the feasible
-pool and generate a line network linking them.
-
-\subsubsection{GA Design}
-
-\textbf{Chromosome encoding:} A chromosome represents the entire solution.
-Genes correspond to rail lines, and bits correspond to stations. Terminal
-stations for each line are pre-specified by planners based on traffic flow
-patterns. Intermediate stations are selected from the feasible pool.
-
-\textbf{Fitness:} Total system cost $T_c$ as defined in Eq.~\eqref{eq:ahmed_obj}, negated since the GA maximizes fitness.
-
-\textbf{Genetic operators:} Tournament selection (size 2), uniform
-crossover at the station (bit) level with feasibility repair, and
-station-level mutation. Infeasible offspring are rejected and replaced
-with a parent copy.
-
-\textbf{Constraints:} Minimum and maximum stations per line (4--7),
-minimum and maximum inter-station spacing (800--1500 m), minimum transfer
-stations per line (1), maximum overlap between lines (30\%).
-
-\subsubsection{Complexity Analysis}
-
-Stage 1 (GIS screening) processes $O(N_{\text{cells}} \cdot
-K_{\text{criteria}})$ in a single pass. Stage 2 (GA) runs for $G$
-generations with population size $P$. Each fitness evaluation computes
-shortest paths on a graph of $O(L \cdot N_s)$ nodes, costing
-$O(L \cdot N_s^2 \log N_s)$ via Dijkstra. The total complexity is:
-\begin{equation}
-O(N_{\text{cells}} K + G \cdot P \cdot L \cdot N_s^2 \log N_s)
-\end{equation}
-where $L$ is the number of lines and $N_s$ is stations per line. This is
-polynomial but potentially expensive for large $P$ and $G$.
+where $P_c$, $O_c$, $C_c$ are passenger, operator, and community costs.
+Stage~1 uses GIS to screen feasible station cells; Stage~2 applies a GA
+with tournament selection, uniform crossover, and station-level mutation.
+Chromosomes encode entire solutions (lines as genes, stations as bits);
+terminals are pre-specified. Constraints include 4--7 stations per line,
+800--1500 m spacing, and $\leq$30\% line overlap. Total complexity is
+$O(N_{\text{cells}} K + G \cdot P \cdot L \cdot N_s^2 \log N_s)$.
 
 %--------------------------------------------------------------------------
 \section{Reproduction and Implementation}
@@ -232,139 +140,51 @@ polynomial but potentially expensive for large $P$ and $G$.
 
 \subsection{Data Pipeline}
 
-Our candidate station set is generated from OSM data for a central
-Shanghai study area (bounding box: 121.40--121.56$^\circ$E,
-31.14--31.26$^\circ$N, approximately 15 $\times$ 13 km). The pipeline
-proceeds in four steps:
-
-\begin{enumerate}
-\item \textbf{Demand preparation:} Raw OSM data is fetched via the
-  Overpass API. Building footprints are processed to estimate residential
-  population (300,000 total) via flat-count heuristics. Functional OSM
-  features are classified into nine categories (residential, commercial,
-  education, healthcare, etc.) and used to estimate job destinations and
-  activity attractions.
-\item \textbf{Station selection:} Four layers of urban centers are
-  generated: 29 population centers (weighted $k$-means), 18 job centers
-  (weighted $k$-means), 3 fixed transport hubs (Shanghai Railway Station,
-  Shanghai South Station, Longyang Road), and 30 large commercial centers.
-  Centers within 1,000 m are merged via value-weighted centroid averaging,
-  producing 54 candidate stations with total values ranging from
-  30,000 to 634,732.
-\item \textbf{Corridor graph:} An MST-plus-short-edges graph connects all
-  stations with $O(n)$ edges, guaranteeing connectivity while allowing
-  plausible rail corridors.
-\item \textbf{OD matrix:} A gravity-model OD matrix is generated:
-  $\text{OD}_{ij} \propto \text{pop}_i^\alpha \cdot \text{jobs}_j^\beta /
-  d_{ij}^\gamma$, with $\alpha = 1.5$ and normalization.
-\end{enumerate}
+We generate a 54-station candidate set from OSM data for central Shanghai
+(121.40--121.56$^\circ$E, 31.14--31.26$^\circ$N). The pipeline: (1)
+estimate residential population (300k) and job destinations from building
+footprints and functional OSM features; (2) generate population/job/commercial
+centers via weighted $k$-means plus 3 fixed hubs, merge centers within 1,000 m
+into 54 stations (values 30k--635k); (3) build an MST-plus-short-edges
+corridor graph; (4) generate a gravity-model OD matrix
+$\text{OD}_{ij} \propto \text{pop}_i^{1.5} \cdot \text{jobs}_j / d_{ij}^\gamma$.
 
 \subsection{Laporte 2005 Implementation}
 
-We implement all four heuristics (H1, H2-A, H2-B, H2-C) and the
-post-optimization procedure in \texttt{laporte2005.py} (334 lines). The
-\texttt{MTCPInstance} class encapsulates stations, OD matrix, corridor
-graph, and length budget. The key optimization is incremental effectiveness
-computation: when adding station $x$ to a path $P$, the gain is
-$\sum_{v \in P} \text{OD}(x, v)$, computed in $O(|P|)$ instead of
-$O(|P|^2)$.
-
-\subsubsection{Simplifications from the Original Paper}
-
-\begin{enumerate}
-\item \textbf{OD matrix:} The paper uses census-tract-based trip coverage
-  $f_{ij}$ computed from catchment-ring geometry. We substitute a
-  gravity-model OD matrix. This is justified by the paper's explicit
-  statement that ``the heuristics can work independently of the model used
-  to estimate O/D demand'' (p.\ 7).
-\item \textbf{Mode choice:} The paper applies a logit model $g_{ij}(E)$
-  comparing metro and car travel times. We set $g_{ij}(E) = 1$ (pure OD
-  coverage without mode competition), corresponding to the simpler
-  ridership measure used in the paper's Table~1.
-\item \textbf{Effectiveness with distance decay:} To make path ordering
-  meaningful (since $g_{ij}=1$ would otherwise make all orderings
-  equivalent), we introduce a linear distance-decay model:
-  $E(P) = \sum_{i<j} v_i v_j \max(0, 1 - D^P_{ij} / C)$,
-  where $D^P_{ij}$ is the path distance between stations in the alignment
-  and $C$ = 30,000 m is the cutoff. This preserves the spirit of the
-  paper's travel-time-sensitive effectiveness while being simpler to
-  compute.
-\end{enumerate}
+We implement H1, H2-A/B/C, and post-optimization in 334 lines of Python,
+using incremental effectiveness computation ($O(|P|)$ gain per station
+addition). Three simplifications from the original: (1) gravity-model OD
+replaces census-tract trip coverage (justified by the paper's statement
+that heuristics are model-independent); (2) $g_{ij}(E)=1$ (no logit mode
+choice); (3) linear distance-decay $E(P)=\sum_{i<j} v_i v_j
+\max(0,1-D^P_{ij}/C)$ to make path ordering meaningful.
 
 \subsection{Ahmed 2020 Implementation}
 
-We implement the Stage~2 GA in \texttt{ahmed2020.py} (829 lines). Several
-adaptations are necessary for our dataset and to achieve geometrically
-realistic results:
+We implement the Stage~2 GA in 829 lines of Python with these adaptations:
+(1) our station pipeline replaces GIS grid screening (54 vs.\ 4,774
+candidates); (2) data-driven hub-based terminal selection (first line uses
+highest-OD pair, subsequent lines share a terminal) replaces planner-specified
+terminals; (3) shortest-path initialization on the corridor graph replaces
+random sequences; (4) three mutation operators (swap, insert, remove) with
+feasibility checks; (5) value-connection fitness replaces the paper's
+life-cycle cost model; (6) spacing constraints relaxed for our sparse layout.
 
-\subsubsection{Adaptations}
+\subsection{Baselines}
 
-\begin{enumerate}
-\item \textbf{Stage~1 replacement:} The paper's GIS grid-based feasibility
-  screening (7,027 cells reduced to 4,774 feasible) is replaced by our
-  station selection pipeline, which serves the same conceptual purpose of
-  identifying candidate locations from spatial criteria. Our 54 candidates
-  are far fewer, reducing the search space substantially.
-\item \textbf{Terminal selection:} The paper assumes planners specify
-  terminal stations based on traffic flow patterns. We use data-driven
-  selection: the first line uses the highest-OD pair; subsequent lines
-  preferentially share one terminal with existing lines to form a
-  hub-based network topology, reflecting realistic metro network structure.
-\item \textbf{Chromosome initialization:} Instead of random station
-  sequences (which produced tangled, self-intersecting lines in early
-  experiments), we initialize each line as the shortest path between its
-  terminals on the corridor graph, enriched with intermediate stations
-  selected for proximity to the terminal corridor.
-\item \textbf{Mutation operators:} Three operators are used---(a) swap a
-  station with a $k$-nearest geographic neighbor, (b) insert a station at
-  the midpoint of the longest edge, (c) remove a random intermediate
-  station. All operators check constraint feasibility before accepting.
-\item \textbf{Fitness function:} We replace the paper's detailed life-cycle
-  cost model (which requires Leicester-specific multi-modal OD data, land
-  values, and economic parameters) with a value-connection objective:
-  $\text{fitness} = \sum_{i<j} v_i v_j \max(0, 1 - D_{ij}/C)
-  + w_{\text{OD}} \cdot \text{OD\_coverage}
-  - w_c \cdot \text{length}
-  - \text{geometry\_penalty}$.
-  The geometry penalty includes turn-angle excess, self-intersection, and
-  track overlap terms.
-\item \textbf{Constraint relaxation:} For our sparsely distributed
-  stations (2--5 km typical spacing), the paper's inter-station spacing
-  constraints (800--1500 m) are too tight. We relax the maximum spacing to
-  $\infty$ and set the minimum transfer requirement to 0 for single-line
-  scenarios.
-\end{enumerate}
-
-\subsection{Baseline Methods}
-
-We compare against four baseline methods from the dev-OD pipeline:
-
-\begin{itemize}
-\item \textbf{Greedy-OD:} Greedily selects lines from a candidate line pool
-  to maximize new direct OD coverage.
-\item \textbf{Greedy-BCR:} Same as above but selects by benefit-cost ratio
-  (new OD coverage divided by construction cost).
-\item \textbf{GA (line-pool):} Binary GA over the line pool, maximizing a
-  composite fitness of OD coverage, population coverage, and connectivity.
-\item \textbf{ILP:} Integer linear programming baseline using PuLP's CBC
-  solver (when available), selecting lines from the pool to maximize OD
-  coverage subject to a budget constraint.
-\end{itemize}
+Four baselines from the line-pool pipeline: \textbf{Greedy-OD} (max new OD
+coverage), \textbf{Greedy-BCR} (max coverage/cost ratio), \textbf{GA-pool}
+(binary GA over line pool), and \textbf{ILP} (integer programming via CBC
+solver).
 
 %--------------------------------------------------------------------------
 \section{Experimental Evaluation}
 %--------------------------------------------------------------------------
 
-All experiments were run on a Linux server (Python 3.13, Intel Xeon) using
-a project-specific virtual environment managed by \texttt{uv}. The complete
-source code, experiment scripts, and output files are available in the
-project repository.
+\subsection{Laporte 2005 Reproduction}
 
-\subsection{Laporte 2005: Table 1 Reproduction}
-
-Table~\ref{tab:laporte_table1} reproduces the structure of Table~1 from
-Laporte et al.\ (2005), using our Shanghai dataset with three length
-budgets ($L_{\max} \in \{40, 60, 80\}$ km).
+Table~\ref{tab:laporte_table1} reproduces the paper's Table~1 structure on
+our Shanghai dataset with three length budgets.
 
 \begin{table}[t]
 \centering
@@ -373,109 +193,75 @@ budgets ($L_{\max} \in \{40, 60, 80\}$ km).
 \small
 \begin{tabular}{lrrrrr}
 \toprule
-$L_{\max}$ & Method & Length (km) & Ridership & Ratio & Time (s) \\
+$L_{\max}$ & Method & Len.\ (km) & Ridership & Ratio & T (s) \\
 \midrule
-40 & H1       & 39.9 & $4.10\times10^{12}$ & $1.03\times10^{8}$ & 0.03 \\
-40 & H2-A     & 39.6 & $1.04\times10^{13}$ & $2.61\times10^{8}$ & 0.31 \\
-40 & H2-A+PO  & 39.6 & $1.04\times10^{13}$ & $2.61\times10^{8}$ & 0.01 \\
-40 & H2-B     & 38.2 & $7.52\times10^{12}$ & $1.97\times10^{8}$ & 0.48 \\
-40 & H2-C     & 39.2 & $1.08\times10^{13}$ & $2.75\times10^{8}$ & 0.38 \\
-\midrule
-60 & H1       & 59.8 & $6.22\times10^{12}$ & $1.04\times10^{8}$ & 0.05 \\
-60 & H2-A     & 59.9 & $1.37\times10^{13}$ & $2.29\times10^{8}$ & 0.79 \\
-60 & H2-A+PO  & 59.9 & $1.37\times10^{13}$ & $2.29\times10^{8}$ & 0.02 \\
-60 & H2-B     & 59.9 & $9.57\times10^{12}$ & $1.60\times10^{8}$ & 1.04 \\
-60 & H2-C     & 59.6 & $1.36\times10^{13}$ & $2.28\times10^{8}$ & 0.93 \\
-\midrule
-80 & H1       & 79.3 & $7.60\times10^{12}$ & $9.59\times10^{7}$ & 0.08 \\
-80 & H2-A     & 80.0 & $1.52\times10^{13}$ & $1.90\times10^{8}$ & 1.45 \\
-80 & H2-A+PO  & 80.0 & $1.52\times10^{13}$ & $1.90\times10^{8}$ & 0.05 \\
-80 & H2-B     & 79.0 & $1.09\times10^{13}$ & $1.39\times10^{8}$ & 1.56 \\
-80 & H2-C     & 79.0 & $1.47\times10^{13}$ & $1.86\times10^{8}$ & 1.56 \\
+40 & H1       & 39.9 & $4.10\!\times\!10^{12}$ & $1.03\!\times\!10^{8}$ & 0.03 \\
+40 & H2-A     & 39.6 & $1.04\!\times\!10^{13}$ & $2.61\!\times\!10^{8}$ & 0.31 \\
+40 & H2-C     & 39.2 & $1.08\!\times\!10^{13}$ & $2.75\!\times\!10^{8}$ & 0.38 \\
+60 & H1       & 59.8 & $6.22\!\times\!10^{12}$ & $1.04\!\times\!10^{8}$ & 0.05 \\
+60 & H2-A     & 59.9 & $1.37\!\times\!10^{13}$ & $2.29\!\times\!10^{8}$ & 0.79 \\
+60 & H2-C     & 59.6 & $1.36\!\times\!10^{13}$ & $2.28\!\times\!10^{8}$ & 0.93 \\
+80 & H1       & 79.3 & $7.60\!\times\!10^{12}$ & $9.59\!\times\!10^{7}$ & 0.08 \\
+80 & H2-A     & 80.0 & $1.52\!\times\!10^{13}$ & $1.90\!\times\!10^{8}$ & 1.45 \\
+80 & H2-C     & 79.0 & $1.47\!\times\!10^{13}$ & $1.86\!\times\!10^{8}$ & 1.56 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\textbf{Deviation from the paper:} The original paper reports that H1
-dominates all H2 variants on simulated data (H1 achieves ridership of
-388.7 vs.\ H2-A's 69.1 at $L_{\max}=20$). Our results show the opposite:
-H2-A consistently outperforms H1 by a factor of 2--2.5$\times$ in total
-ridership. This is because our simplified model (no logit mode choice)
-makes the path ordering less critical---the total captured OD depends more
-on the \emph{set} of selected stations than on their \emph{ordering}.
-Since H2 inserts stations anywhere in the alignment (not just at
-endpoints), it packs more stations into the same length budget (31 vs.\ 18
-stations at $L_{\max}=60$ km), achieving higher total ridership. The
-paper's logit model penalizes long path distances between station pairs,
-making H1's more direct (but sparser) alignment preferable.
-
-The post-optimization procedure yields negligible improvement (consistent
-with the paper's finding that it ``never produced any improvement'' in the
-simulated experiments).
+\textbf{Deviation from the paper:} The original paper reports H1 dominates
+H2 on simulated data. Our results show the opposite: H2-A outperforms H1
+by 2--2.5$\times$. This is because without logit mode choice, OD capture
+depends on the \emph{set} of stations rather than \emph{ordering}; H2
+packs more stations (31 vs.\ 18 at $L_{\max}\!=\!60$ km) by inserting
+anywhere in the alignment. Post-optimization yields negligible improvement,
+consistent with the paper.
 
 \subsection{Runtime Scalability}
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=\columnwidth]{figures/runtime_scalability.png}
-\caption{Runtime scaling of Laporte 2005 heuristics as candidate station
-count $n$ increases from 20 to 100. H1 scales as $O(n^3)$, H2 as $O(n^4)$,
-matching the complexity analysis.}
+\caption{Runtime scaling: H1 as $O(n^3)$, H2 as $O(n^4)$, matching
+complexity analysis.}
 \label{fig:scalability}
 \end{figure}
 
-Figure~\ref{fig:scalability} shows the empirical runtime scaling. H1
-completes in 0.02 s at $n=20$ and 0.81 s at $n=100$, matching the
-predicted $O(n^3)$ behavior. H2-A completes in 0.07 s at $n=20$ and
-21.2 s at $n=100$, confirming the $O(n^4)$ prediction. All runtimes are
-consistent with the paper's conclusion that ``computational times are
-always insignificant.''
+Figure~\ref{fig:scalability} confirms the predicted scaling: H1 runs in
+0.02 s at $n\!=\!20$ and 0.81 s at $n\!=\!100$; H2-A in 0.07 s and 21.2 s
+respectively. All runtimes are consistent with the paper's conclusion that
+``computational times are always insignificant.''
 
 \subsection{Ahmed 2020: Multi-Line Results}
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=\columnwidth]{figures/ahmed_3line.png}
-\caption{Ahmed 2020 GA result for a 3-line network on Shanghai data.
-Lines radiate from hub station S009 to terminals in the west (S012),
-southeast (S006), and northeast (S035), forming a realistic hub-based
-metro topology.}
+\caption{3-line GA result: hub-based radial topology centered on S009.}
 \label{fig:ahmed_3line}
 \end{figure}
 
-Figure~\ref{fig:ahmed_3line} shows the optimized 3-line network. The
-hub-based terminal selection produces a realistic radial topology centered
-on S009 (a high-value commercial center). The GA results for 1, 2, and 3
-lines are summarized in Table~\ref{tab:ahmed_results}.
+Figure~\ref{fig:ahmed_3line} shows the optimized 3-line network with
+hub-based radial topology. Table~\ref{tab:ahmed_results} summarizes GA
+results. Simultaneous optimization achieves 18\% better cost than
+individual optimization (Table~\ref{tab:sim_vs_ind}), consistent with the
+paper's qualitative finding, though smaller than its 70\% margin due to
+our smaller candidate set (54 vs.\ 4,774).
 
 \begin{table}[t]
 \centering
-\caption{Ahmed 2020 GA results on Shanghai data.}
+\caption{Ahmed 2020 GA results.}
 \label{tab:ahmed_results}
 \small
 \begin{tabular}{lrrrr}
 \toprule
 Lines & Stations & Length (km) & Cost & Time (s) \\
 \midrule
-1 & 14 & 37.0 & $-5.63\times10^{12}$ & 33.9 \\
-2 & 23 & 85.7 & $-1.33\times10^{13}$ & 57.1 \\
-3 & 20 & 130.8 & $-5.81\times10^{12}$ & 59.6 \\
+1 & 14 & 37.0 & $-5.63\!\times\!10^{12}$ & 33.9 \\
+2 & 23 & 85.7 & $-1.33\!\times\!10^{13}$ & 57.1 \\
+3 & 20 & 130.8 & $-5.81\!\times\!10^{12}$ & 59.6 \\
 \bottomrule
 \end{tabular}
 \end{table}
-
-\textbf{Deviation from the paper:} The original paper reports total system
-costs in millions of pounds (e.g., $-$135.069 M\pounds\ for a 2-line
-system). Our costs are several orders of magnitude larger because they use
-a value-connection objective (product of station values) rather than actual
-monetary costs. The qualitative behavior (simultaneous optimization
-outperforms individual) is preserved.
-
-\subsection{Simultaneous vs.\ Individual Optimization}
-
-Table~\ref{tab:sim_vs_ind} reproduces the paper's comparison between
-simultaneously optimizing all lines versus individually optimizing each
-line.
 
 \begin{table}[t]
 \centering
@@ -484,20 +270,13 @@ line.
 \small
 \begin{tabular}{lrrrr}
 \toprule
-Method & Cost & Stations & Length (km) & Time (s) \\
+Method & Cost & Stations & Len.\ (km) & T (s) \\
 \midrule
-Simultaneous & $-1.33\times10^{13}$ & 23 & 85.7 & 58.3 \\
-Individual   & $-1.13\times10^{13}$ & 28 & 80.1 & 68.9 \\
+Simultaneous & $-1.33\!\times\!10^{13}$ & 23 & 85.7 & 58.3 \\
+Individual   & $-1.13\!\times\!10^{13}$ & 28 & 80.1 & 68.9 \\
 \bottomrule
 \end{tabular}
 \end{table}
-
-Simultaneous optimization achieves 18\% better total cost with 5 fewer
-stations. The paper reports a 70\% improvement for its Leicester case
-study; our smaller margin reflects the smaller candidate set (54 vs.\ 4,774
-feasible cells) and simplified cost model. The key qualitative finding
-holds: optimizing lines together allows the system to avoid redundant
-station coverage and create a more efficient transfer-enabled network.
 
 \subsection{Cross-Method Comparison}
 
@@ -508,7 +287,7 @@ station coverage and create a more efficient transfer-enabled network.
 \small
 \begin{tabular}{lrrrrrrr}
 \toprule
-Method & Stations & Length (km) & Pop.\ Cov.\ & OD Cov.\ & Detour & Transfers & Time (s) \\
+Method & Stations & Len.\ (km) & Pop.\ Cov.\ & OD Cov.\ & Detour & Trans.\ & T (s) \\
 \midrule
 Laporte-H1  & 18 & 59.8  & 48.9\% & 27.9\% & 1.68 & 0.00 & 0.05 \\
 Laporte-H2A & 31 & 59.9  & 69.5\% & 54.0\% & 1.58 & 0.00 & 0.77 \\
@@ -522,44 +301,30 @@ GA (pool)   & 32 & --    & 66.0\% & 34.0\% & 3.61 & 0.16 & 0.90 \\
 \end{tabular}
 \end{table*}
 
-Table~\ref{tab:comparison} presents a comprehensive comparison across all
-implemented methods. Several patterns emerge:
-
-\begin{itemize}
-\item \textbf{Coverage:} Laporte H2-C achieves the highest population
-  coverage (69.6\%) and OD coverage (56.8\%) by packing 33 stations into a
-  single 59.6 km alignment. This comes at the cost of a higher detour ratio
-  (2.19), meaning path distances are more than double the straight-line
-  distances.
-\item \textbf{Path directness:} Ahmed-GA-3L achieves the best detour ratio
-  (0.14), indicating that the three-line network provides near-straight-line
-  paths. However, its OD coverage (26.0\%) is lower because the hub-based
-  topology constrains which corridors are served.
-\item \textbf{Transfer capability:} Only multi-line methods (Ahmed GA
-  2L/3L, Greedy-OD, GA pool) support transfers between lines. Ahmed-GA-2L
-  averages 0.13 transfers per OD pair.
-\item \textbf{Efficiency:} Greedy-OD runs in 0.01 s (essentially
-  instantaneous) while achieving 51.9\% OD coverage---an excellent
-  cost-effectiveness ratio for rapid prototyping.
-\end{itemize}
+Table~\ref{tab:comparison} shows: (1) \textbf{Coverage:} Laporte H2-C
+achieves the highest OD coverage (56.8\%) with 33 stations, but at higher
+detour ratio (2.19). (2) \textbf{Directness:} Ahmed-GA-3L achieves the
+best detour ratio (0.14) but lower OD coverage (26.0\%). (3)
+\textbf{Transfers:} Only multi-line methods support transfers. (4)
+\textbf{Efficiency:} Greedy-OD runs in 0.01 s with 51.9\% OD
+coverage---excellent for rapid prototyping.
 
 \subsection{Passenger Flow Analysis (Stage 5 Extension)}
 
-Beyond the value-connection and OD-coverage objectives used during
-optimization, we evaluate the operational realism of each network by
-performing all-or-nothing (AON) passenger assignment. For every OD pair in
-the gravity-model demand matrix, we find the shortest path on the generated
-track network and accumulate the OD demand onto each edge. This yields
-section-level passenger volumes---a standard metric in transit planning
-used for capacity planning, frequency setting, and bottleneck detection.
+We perform all-or-nothing passenger assignment to evaluate operational
+realism. Table~\ref{tab:flow} reports section-level flow statistics.
+Laporte-H1 shows highest concentration (top-5 edges carry 56.9\% of flow),
+indicating a linear bottleneck. Laporte-H2A achieves the most balanced
+distribution (20.3\%). Ahmed-GA-2L concentrates flow (49.9\%) around hub
+S009, while Ahmed-GA-3L achieves the lowest peak flow (0.12) as the third
+line diverts demand. These patterns validate that single-path methods create
+bottlenecks while multi-line networks distribute load across corridors.
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=\columnwidth]{figures/flow_comparison.png}
-\caption{Passenger flow intensity on four selected networks. Edge color
-and thickness indicate passenger volume (gray = low, blue = medium, orange
-= high, red = peak). The maximum section flow identifies the most heavily
-loaded segment in each network.}
+\caption{Passenger flow intensity on four networks (gray=low, blue=medium,
+orange=high, red=peak).}
 \label{fig:flow_comparison}
 \end{figure}
 
@@ -570,7 +335,7 @@ loaded segment in each network.}
 \small
 \begin{tabular}{lrrrr}
 \toprule
-Method & Max Flow & Mean Flow & Top-5 Share & Flow Edges \\
+Method & Max Flow & Mean Flow & Top-5 Share & Edges \\
 \midrule
 Laporte-H1  & 0.16 & 0.033 & 56.9\% & 28/34 \\
 Laporte-H2A & 0.14 & 0.045 & 20.3\% & 60/60 \\
@@ -580,59 +345,17 @@ Ahmed-GA-3L & 0.12 & 0.016 & 39.4\% & 43/48 \\
 \end{tabular}
 \end{table}
 
-Table~\ref{tab:flow} reports flow statistics for four representative
-networks. Several operational insights emerge:
-
-\begin{itemize}
-\item \textbf{Flow concentration:} Laporte-H1 exhibits the highest flow
-  concentration (top-5 edges carry 56.9\% of total flow), indicating a
-  linear corridor with a single dominant bottleneck. This is expected for a
-  single-alignment path where all demand funnels through a few central
-  segments.
-\item \textbf{Flow distribution:} Laporte-H2A achieves the most balanced
-  flow distribution (top-5 share = 20.3\%), as its 31 stations create
-  multiple parallel demand paths within the single line, spreading load
-  across 60 edges.
-\item \textbf{Hub concentration:} Ahmed-GA-2L shows moderate concentration
-  (49.9\%) around the hub station S009. This reflects realistic metro
-  network behavior where radial lines converge at a central transfer hub,
-  naturally creating high passenger volumes near the hub.
-\item \textbf{Network effect:} Ahmed-GA-3L has the lowest maximum section
-  flow (0.12) and the lowest concentration (39.4\%), as the third line
-  provides an alternative corridor that diverts demand from the two-line
-  network's busiest segments.
-\end{itemize}
-
-The flow concentration patterns validate the structural differences
-between the algorithms: single-path methods (Laporte) create linear
-bottlenecks, while multi-line networks (Ahmed) distribute passenger load
-across multiple corridors. The maximum section flow metric provides a
-capacity-planning perspective that complements the coverage-oriented
-optimization objectives. In practice, a planner would compare these
-section flows against vehicle capacity and headway constraints to
-determine whether the generated network is operationally feasible.
-
 \subsection{Sensitivity Analysis}
 
-The spacing sensitivity experiment (varying minimum inter-station spacing
-from 500 m to 1,500 m) showed no change in the heuristic results for our
-Shanghai dataset. This is because all corridor graph edges already exceed
-1,000 m (our station merge radius), making the spacing filter ineffective.
-This is a limitation of our sparse station layout and does not contradict
-the paper's finding that spacing constraints significantly affect algorithm
-performance for denser station sets.
-
-The GA sensitivity analysis (Fig.~\ref{fig:ahmed_convergence}) shows rapid
-convergence within the first 10 generations, with the population mean
-tracking the best fitness closely. The crossover rate sensitivity confirms
-the paper's recommendation of $P_c = 0.7$ as optimal.
+Spacing sensitivity (500--1,500 m) showed no effect because all corridor
+edges exceed 1,000 m---a limitation of our sparse layout. GA convergence
+(Fig.~\ref{fig:ahmed_convergence}) stabilizes within 10--15 generations,
+confirming the paper's $P_c=0.7$ recommendation.
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=\columnwidth]{figures/ahmed_convergence.png}
-\caption{GA convergence for the 3-line Ahmed 2020 scenario. Best and mean
-fitness stabilize within 10--15 generations, indicating efficient
-convergence.}
+\caption{GA convergence for the 3-line scenario.}
 \label{fig:ahmed_convergence}
 \end{figure}
 
@@ -640,32 +363,16 @@ convergence.}
 \section{Conclusion}
 %--------------------------------------------------------------------------
 
-We have reproduced two classical algorithms for urban rail transit line
-planning and evaluated them on a realistic Shanghai dataset. Our main
-findings are:
-
-\begin{enumerate}
-\item The Laporte 2005 greedy insertion heuristic (H2-A) achieves the
-  highest OD coverage (56.8\%) among all methods, but our simplified
-  model (no logit mode choice) reverses the paper's finding that H1
-  dominates H2. This deviation is fully explained by the absence of
-  travel-time-sensitive mode competition in our effectiveness function.
-\item The Ahmed 2020 GA produces geometrically realistic multi-line
-  networks through hub-based terminal selection and shortest-path
-  initialization. Simultaneous optimization outperforms individual line
-  optimization by 18\%, consistent with the paper's qualitative finding.
-\item Runtime scaling matches the predicted polynomial bounds ($O(n^3)$
-  for H1, $O(n^4)$ for H2), with all Laporte heuristics completing in
-  under 2 seconds even at $n=100$ stations.
-\item The line-pool greedy OD method provides a remarkably efficient
-  baseline (0.01 s, 51.9\% OD coverage), suggesting that for rapid
-  prototyping, simple corridor-based heuristics are highly competitive.
-\end{enumerate}
-
-Future work could incorporate real Shanghai OD demand data (e.g., from
-smart-card records), extend the logit mode choice model for more realistic
-effectiveness evaluation, and scale the Ahmed GA to larger candidate sets
-with parallel fitness evaluation.
+We reproduced two classical TNDP algorithms on a 54-station Shanghai
+dataset. Key findings: (1) Laporte H2-A achieves the highest OD coverage
+(56.8\%), but our simplified model (no logit mode choice) reverses the
+paper's H1-vs-H2 ranking---H2 packs more stations by inserting anywhere in
+the alignment. (2) Ahmed 2020 GA produces realistic hub-based multi-line
+networks; simultaneous optimization outperforms individual by 18\%. (3)
+Runtime scaling matches predicted bounds ($O(n^3)$ for H1, $O(n^4)$ for
+H2). (4) Greedy-OD is a remarkably efficient baseline (0.01 s, 51.9\% OD
+coverage). Future work: real OD data, logit mode choice, and parallel GA
+evaluation for larger candidate sets.
 
 %--------------------------------------------------------------------------
 \bibliographystyle{IEEEtran}
