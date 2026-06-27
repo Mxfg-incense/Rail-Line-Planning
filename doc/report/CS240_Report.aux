@@ -1,0 +1,68 @@
+\relax 
+\providecommand \babel@aux [2]{\global \let \babel@toc \@gobbletwo }
+\@nameuse{bbl@beforestart}
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\citation{vuchic1968}
+\babel@aux{english}{}
+\@writefile{toc}{\contentsline {section}{\numberline {I}Introduction}{1}{section.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {II}Related Work}{1}{section.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-A}}Overview of TNDP Methods}{1}{subsection.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-B}}Laporte et al.\ (2005): Single Alignment Maximization}{1}{subsection.2.2}\protected@file@percent }
+\newlabel{eq:mtcp}{{1}{1}{Laporte et al.\ (2005): Single Alignment Maximization}{equation.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-C}}Ahmed et al.\ (2020): Integrated Multi-Line Optimization}{2}{subsection.2.3}\protected@file@percent }
+\newlabel{eq:ahmed_obj}{{2}{2}{Ahmed et al.\ (2020): Integrated Multi-Line Optimization}{equation.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {III}Data, Reproduction, and CLPS Implementation}{2}{section.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-A}}Data Pipeline}{2}{subsection.3.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Final 54 candidate stations generated from the Shanghai OSM preprocessing pipeline. Marker size reflects the station value used by the optimization algorithms.}}{2}{figure.1}\protected@file@percent }
+\newlabel{fig:station_selection}{{1}{2}{Final 54 candidate stations generated from the Shanghai OSM preprocessing pipeline. Marker size reflects the station value used by the optimization algorithms}{figure.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-B}}Laporte 2005 Implementation}{2}{subsection.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-C}}Ahmed 2020 Implementation}{2}{subsection.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-D}}Candidate Line-Pool Selection}{2}{subsection.3.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Intermediate CLPS corridor graph used for candidate line-pool generation. Gray edges show the MST-plus-short-edges planning graph from which shortest-path and random-walk candidate lines are sampled.}}{3}{figure.2}\protected@file@percent }
+\newlabel{fig:clps_corridors}{{2}{3}{Intermediate CLPS corridor graph used for candidate line-pool generation. Gray edges show the MST-plus-short-edges planning graph from which shortest-path and random-walk candidate lines are sampled}{figure.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Greedy CLPS selected networks from the same candidate line pool. Greedy-OD maximizes marginal direct OD coverage, while Greedy-BCR favors shorter high-benefit-per-cost lines.}}{3}{figure.3}\protected@file@percent }
+\newlabel{fig:clps_greedy_networks}{{3}{3}{Greedy CLPS selected networks from the same candidate line pool. Greedy-OD maximizes marginal direct OD coverage, while Greedy-BCR favors shorter high-benefit-per-cost lines}{figure.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {IV}Evaluation and Cross-Method Comparison}{3}{section.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-A}}Laporte 2005 Reproduction}{3}{subsection.4.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Optimization-based CLPS selected networks. GA-pool explores broader population and connectivity trade-offs, while ILP selects the same line set as Greedy-OD in this run.}}{4}{figure.4}\protected@file@percent }
+\newlabel{fig:clps_selected_networks}{{4}{4}{Optimization-based CLPS selected networks. GA-pool explores broader population and connectivity trade-offs, while ILP selects the same line set as Greedy-OD in this run}{figure.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-B}}Runtime Scalability}{4}{subsection.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-C}}Ahmed 2020: Multi-Line Results}{4}{subsection.4.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {I}{\ignorespaces Laporte 2005 Table~1 reproduction on Shanghai data.}}{4}{table.1}\protected@file@percent }
+\newlabel{tab:laporte_table1}{{I}{4}{Laporte 2005 Table~1 reproduction on Shanghai data}{table.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Runtime scaling: H1 as $O(n^3)$, H2 as $O(n^4)$, matching complexity analysis.}}{4}{figure.5}\protected@file@percent }
+\newlabel{fig:scalability}{{5}{4}{Runtime scaling: H1 as $O(n^3)$, H2 as $O(n^4)$, matching complexity analysis}{figure.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-D}}CLPS Line-Pool Evaluation}{4}{subsection.4.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-E}}Cross-Method Comparison}{4}{subsection.4.5}\protected@file@percent }
+\bibstyle{IEEEtran}
+\bibcite{laporte2005}{1}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces 3-line GA result: hub-based radial topology centered on S009.}}{5}{figure.6}\protected@file@percent }
+\newlabel{fig:ahmed_3line}{{6}{5}{3-line GA result: hub-based radial topology centered on S009}{figure.6}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {II}{\ignorespaces Ahmed 2020 GA results.}}{5}{table.2}\protected@file@percent }
+\newlabel{tab:ahmed_results}{{II}{5}{Ahmed 2020 GA results}{table.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-F}}Passenger Flow Analysis (Stage 5 Extension)}{5}{subsection.4.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-G}}Sensitivity Analysis}{5}{subsection.4.7}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {III}{\ignorespaces Simultaneous vs.\ individual optimization (2 lines).}}{5}{table.3}\protected@file@percent }
+\newlabel{tab:sim_vs_ind}{{III}{5}{Simultaneous vs.\ individual optimization (2 lines)}{table.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {IV}{\ignorespaces CLPS selector results on the 400-line candidate pool ($K_{\max }=8$).}}{5}{table.4}\protected@file@percent }
+\newlabel{tab:clps_results}{{IV}{5}{CLPS selector results on the 400-line candidate pool ($K_{\max }=8$)}{table.4}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {V}{\ignorespaces Comprehensive comparison of all methods on Shanghai data.}}{5}{table.5}\protected@file@percent }
+\newlabel{tab:comparison}{{V}{5}{Comprehensive comparison of all methods on Shanghai data}{table.5}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {VI}{\ignorespaces Section-level passenger flow statistics.}}{5}{table.6}\protected@file@percent }
+\newlabel{tab:flow}{{VI}{5}{Section-level passenger flow statistics}{table.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {V}Conclusion}{5}{section.5}\protected@file@percent }
+\bibcite{ahmed2020}{2}
+\bibcite{chai2019}{3}
+\bibcite{dufourd1996}{4}
+\bibcite{bruno2002}{5}
+\bibcite{schoebel2005}{6}
+\bibcite{vuchic1968}{7}
+\bibcite{gutierrez2013}{8}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Passenger flow intensity on four networks (gray=low, blue=medium, orange=high, red=peak).}}{6}{figure.7}\protected@file@percent }
+\newlabel{fig:flow_comparison}{{7}{6}{Passenger flow intensity on four networks (gray=low, blue=medium, orange=high, red=peak)}{figure.7}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces GA convergence for the 3-line scenario.}}{6}{figure.8}\protected@file@percent }
+\newlabel{fig:ahmed_convergence}{{8}{6}{GA convergence for the 3-line scenario}{figure.8}{}}
+\@writefile{toc}{\contentsline {section}{References}{6}{section*.1}\protected@file@percent }
+\gdef \@abspage@last{6}

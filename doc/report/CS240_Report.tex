@@ -12,37 +12,41 @@
 
 \begin{document}
 
-\title{Reproducing Classical Heuristics for Urban Rail Transit Line Planning:\\
-Laporte 2005 and Ahmed 2020}
+\title{Shanghai Metro Line Planning:\\
+Reproduction and Line-Pool Selection}
 
 \author{
 \IEEEauthorblockN{Yuzhou Lu, Zaizhou Yang, Jingrong Guan}
 \IEEEauthorblockA{ShanghaiTech University\\
 CS240 -- Algorithm Design and Analysis\\
-\{luyzh, yangzhzh2, guanjch\}@shanghaitech.edu.cn}
+\{luyzh, yangzzh2025, guanjr2022\}@shanghaitech.edu.cn}
 }
 
 \maketitle
 
 \begin{abstract}
-This paper presents a reproduction study of two representative algorithms
-for the urban rail transit network design problem: the greedy extension and
+This paper studies urban rail line planning through both algorithm
+reproduction and a compact line-selection framework of our own. We first
+reproduce two representative TNDP methods: the greedy extension and
 insertion heuristics of Laporte et al.\ (2005) for single-alignment trip
 coverage maximization, and the GIS-integrated genetic algorithm of Ahmed
 et al.\ (2020) for simultaneous multi-line station and alignment
-optimization. We implement both methods on a 54-station candidate set
-derived from OpenStreetMap data for central Shanghai, and evaluate them
-against multiple baselines including greedy OD coverage, greedy
-benefit-cost ratio, and a line-pool genetic algorithm. Our results confirm
-the polynomial runtime scaling predicted by complexity analysis, and show
+optimization. We then propose Candidate Line-Pool Selection (CLPS), which
+reduces computation by generating plausible lines in advance and selecting
+from this finite pool using Greedy-OD, Greedy-BCR, GA-pool, and ILP
+selectors. All methods are evaluated on a 54-station Shanghai candidate
+graph derived from OpenStreetMap data. The reproduction results confirm
+the polynomial runtime scaling predicted by complexity analysis and show
 that simultaneous multi-line optimization outperforms individual line
-optimization by 18\%. The greedy insertion heuristic achieves the highest
-OD coverage (56.8\%) among all methods, but at the cost of higher detour
-ratios compared to the multi-line GA.
+optimization by 18\%. CLPS-Greedy-OD reaches 51.9\% OD coverage in only
+0.01 s, demonstrating the value of reducing route design to line-pool
+selection. The best OD coverage overall is achieved by Laporte H2-C
+(56.8\%), while multi-line methods provide better transfer structure and
+operational flexibility.
 \end{abstract}
 
 \begin{IEEEkeywords}
-transit network design, greedy heuristics, genetic algorithm, OD demand capture, Shanghai metro
+transit network design, line-pool selection, greedy heuristics, genetic algorithm, OD demand capture, Shanghai metro
 \end{IEEEkeywords}
 
 %--------------------------------------------------------------------------
@@ -56,28 +60,37 @@ budgets, population coverage, travel demand, and geometric feasibility.
 Formally known as the Transit Network Design Problem (TNDP), it is NP-hard
 in the general case, motivating the development of practical heuristics.
 
-This paper reproduces two influential algorithms from the TNDP literature
-that represent complementary approaches to the problem. Laporte et
-al.\ (2005) formulate the single-alignment problem as maximizing
-origin-destination (OD) trip coverage under a length budget, and propose
-simple greedy heuristics that run in polynomial time. Ahmed et al.\ (2020)
-extend the scope to multi-line networks by integrating GIS-based
-feasibility screening with a genetic algorithm (GA) that simultaneously
-optimizes station locations and line alignments.
+This paper has two goals. The first is reproduction: we implement two
+influential algorithms from the TNDP literature that represent
+complementary approaches to the problem. Laporte et al.\ (2005) formulate
+the single-alignment problem as maximizing origin-destination (OD) trip
+coverage under a length budget, and propose simple greedy heuristics that
+run in polynomial time. Ahmed et al.\ (2020) extend the scope to multi-line
+networks by integrating GIS-based feasibility screening with a genetic
+algorithm (GA) that simultaneously optimizes station locations and line
+alignments.
 
-Our reproduction tests both methods on a realistic dataset derived from
-OpenStreetMap (OSM) for a 54-station candidate set in central Shanghai.
+The second goal is our own reduced-search planning framework. Directly
+searching over all ordered station sequences and multi-line combinations is
+expensive even for a moderate 54-station candidate set. We therefore build
+Candidate Line-Pool Selection (CLPS): a two-stage framework that first
+generates plausible lines on a corridor graph and then selects a small
+network from this pool. All methods are tested on a realistic dataset
+derived from OpenStreetMap (OSM) for central Shanghai.
+
 We contribute: (1) a faithful implementation of the Laporte 2005 greedy
 extension and insertion heuristics with incremental effectiveness
 computation; (2) an adapted implementation of the Ahmed 2020 GA with
-hub-based terminal selection and geometric quality constraints; (3) a
-systematic comparison across eight algorithms including dev-OD baselines;
-and (4) a detailed analysis of runtime scaling, sensitivity, and
-deviations from the original papers.
+hub-based terminal selection and geometric quality constraints; (3) a CLPS
+framework with Greedy-OD, Greedy-BCR, GA-pool, and ILP selectors; and (4) a
+unified comparison of reproduction methods and CLPS methods on coverage,
+runtime, transfer, detour, and passenger-flow metrics.
 
 %--------------------------------------------------------------------------
-\section{Background and Related Work}
+\section{Related Work}
 %--------------------------------------------------------------------------
+
+\subsection{Overview of TNDP Methods}
 
 The Transit Network Design Problem (TNDP) has been studied since the 1970s
 \cite{vuchic1968}, with four main objective classes: (1) maximizing coverage,
@@ -89,11 +102,9 @@ heuristics---our first reproduction target. On the multi-line front, Chai
 et al.\ (2019) used simulated annealing, while Ahmed et al.\ (2020)
 combined GIS feasibility screening with a GA for simultaneous multi-line
 optimization---our second target. The line-pool approach of Sch\"{o}bel and
-Scholl (2005) provides a baseline we include for comparison.
-
-%--------------------------------------------------------------------------
-\section{Representative Paper Analysis}
-%--------------------------------------------------------------------------
+Scholl (2005) motivates our CLPS framework: instead of searching directly
+over all possible station sequences, we generate a manageable pool of
+plausible candidate lines and solve a smaller line-selection problem.
 
 \subsection{Laporte et al.\ (2005): Single Alignment Maximization}
 
@@ -101,9 +112,12 @@ Given candidate stations $S$ with trip coverage values $f_{ij}$ and a
 logit mode-choice function $g_{ij}(E)$, the MTCP seeks an ordered subset
 $E \subseteq S$ maximizing ridership subject to length budget $L_{\max}$:
 \begin{equation}
-\max_{E \subseteq S} \sum_{i,j \in E} n_{ij}(E), \quad
-n_{ij}(E) = f_{ij} \cdot g_{ij}(E), \quad
-\text{Length}[\text{Align}(E)] \leq L_{\max}
+\begin{aligned}
+\max_{E \subseteq S} \quad & \sum_{i,j \in E} n_{ij}(E) \\
+\text{s.t.} \quad
+& n_{ij}(E) = f_{ij} \cdot g_{ij}(E), \\
+& \text{Length}[\text{Align}(E)] \leq L_{\max}.
+\end{aligned}
 \label{eq:mtcp}
 \end{equation}
 This generalizes the bounded-length Hamiltonian path problem (NP-hard).
@@ -135,19 +149,55 @@ terminals are pre-specified. Constraints include 4--7 stations per line,
 $O(N_{\text{cells}} K + G \cdot P \cdot L \cdot N_s^2 \log N_s)$.
 
 %--------------------------------------------------------------------------
-\section{Reproduction and Implementation}
+\section{Data, Reproduction, and CLPS Implementation}
 %--------------------------------------------------------------------------
 
 \subsection{Data Pipeline}
 
-We generate a 54-station candidate set from OSM data for central Shanghai
-(121.40--121.56$^\circ$E, 31.14--31.26$^\circ$N). The pipeline: (1)
-estimate residential population (300k) and job destinations from building
-footprints and functional OSM features; (2) generate population/job/commercial
-centers via weighted $k$-means plus 3 fixed hubs, merge centers within 1,000 m
-into 54 stations (values 30k--635k); (3) build an MST-plus-short-edges
-corridor graph; (4) generate a gravity-model OD matrix
+Following the project proposal, we separate spatial data preparation from
+the route-optimization stage. The optimization algorithms do not operate
+directly on raw GIS layers. Instead, their common input is a prepared
+candidate-station set
+$V=\{1,\ldots,n\}$, where each station $i$ has a coordinate
+$p_i=(\lambda_i,\phi_i)$ and a nonnegative value $v_i$. Candidate edges are
+then assigned geographic construction lengths $\ell_{ij}$, and the
+optimization stage searches for ordered station sequences or multi-line
+subgraphs over this reduced spatial graph.
+
+We instantiate this proposal pipeline using public OpenStreetMap (OSM) data
+for central Shanghai (121.40--121.56$^\circ$E, 31.14--31.26$^\circ$N).
+First, we extract building footprints and functional OSM features such as
+commercial, office, retail, university, hospital, transport, and amenity
+points. Residential population is estimated from building footprint area
+under a fixed study-area total of 300k residents, while job and activity
+weights are assigned from the functional features. Second, we form candidate
+urban centers by running weighted $k$-means on population, job, and
+commercial/activity weights, and add three fixed high-importance hubs to
+ensure that major urban anchors are retained. Nearby centers within
+1,000 m are merged, producing a final 54-station candidate set with station
+values ranging from 30k to 635k.
+
+Third, we convert the station set into a feasible planning graph. Rather
+than using the complete graph for every algorithm, we build an
+MST-plus-short-edges corridor graph: the minimum spanning tree preserves
+global connectivity, while additional short station pairs provide local
+alignment alternatives. This graph supplies edge lengths, shortest-path
+distances, and geometric constraints for the CLPS and GA methods.
+Finally, because real census OD data are unavailable, we generate a
+gravity-model demand proxy
 $\text{OD}_{ij} \propto \text{pop}_i^{1.5} \cdot \text{jobs}_j / d_{ij}^\gamma$.
+Thus the final prepared dataset consists of station coordinates, station
+values, corridor edges, edge lengths, and an OD matrix shared by all
+reproduced algorithms and CLPS methods.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{figures/station_selection.pdf}
+\caption{Final 54 candidate stations generated from the Shanghai OSM
+preprocessing pipeline. Marker size reflects the station value used by the
+optimization algorithms.}
+\label{fig:station_selection}
+\end{figure}
 
 \subsection{Laporte 2005 Implementation}
 
@@ -170,15 +220,76 @@ random sequences; (4) three mutation operators (swap, insert, remove) with
 feasibility checks; (5) value-connection fitness replaces the paper's
 life-cycle cost model; (6) spacing constraints relaxed for our sparse layout.
 
-\subsection{Baselines}
+\subsection{Candidate Line-Pool Selection}
 
-Four baselines from the line-pool pipeline: \textbf{Greedy-OD} (max new OD
-coverage), \textbf{Greedy-BCR} (max coverage/cost ratio), \textbf{GA-pool}
-(binary GA over line pool), and \textbf{ILP} (integer programming via CBC
-solver).
+In addition to the two reproduced algorithms, we implement a third family
+of methods called \textbf{Candidate Line-Pool Selection (CLPS)}. Its purpose
+is to reduce computation. Directly optimizing metro lines over 54 stations
+requires searching over a very large space of ordered station sequences and
+multi-line combinations. CLPS decomposes this into two smaller stages:
+first generate a finite pool of plausible lines, then select a subset of
+lines under optional line-count and budget constraints.
+
+The line pool is generated on the MST-plus-short-edges corridor graph. We
+combine three sources of candidate sequences: (1) shortest paths between
+the top 120 OD-demand station pairs; (2) shortest paths between pairs among
+the top 20 high-value terminal candidates; and (3) 200 biased random walks
+that start from value-weighted stations and prefer short corridor edges.
+All sequences are filtered to 4--18 stations (random-walk lines use at most
+12 stations), reversed duplicates are removed, and each remaining line is
+annotated with length, construction cost, covered population, and direct OD
+coverage.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/clps_candidate_corridors.png}
+\caption{Intermediate CLPS corridor graph used for candidate line-pool
+generation. Gray edges show the MST-plus-short-edges planning graph from
+which shortest-path and random-walk candidate lines are sampled.}
+\label{fig:clps_corridors}
+\end{figure}
+
+We then solve the reduced line-selection problem with four selectors:
+\textbf{Greedy-OD} repeatedly chooses the line with the largest marginal
+new direct OD coverage; \textbf{Greedy-BCR} chooses the largest marginal
+coverage per construction cost; \textbf{GA-pool} uses a binary chromosome
+over candidate lines with crossover, mutation, and a fitness combining OD
+coverage, population, station coverage, connectivity, and cost; and
+\textbf{ILP} uses binary line variables to maximize direct OD coverage with
+optional maximum-line and budget constraints via CBC. CLPS is used only as
+our own reduced-search planning framework; the Laporte and Ahmed
+reproductions do not depend on the line pool.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=0.98\columnwidth]{figures/clps_network_greedy_od.png}\\[-2pt]
+\small (a) CLPS-Greedy-OD
+
+\vspace{3pt}
+\includegraphics[width=0.98\columnwidth]{figures/clps_network_greedy_bcr.png}\\[-2pt]
+\small (b) CLPS-Greedy-BCR
+\caption{Greedy CLPS selected networks from the same candidate line pool.
+Greedy-OD maximizes marginal direct OD coverage, while Greedy-BCR favors
+shorter high-benefit-per-cost lines.}
+\label{fig:clps_greedy_networks}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=0.98\columnwidth]{figures/clps_network_ga.png}\\[-2pt]
+\small (a) CLPS-GA-pool
+
+\vspace{3pt}
+\includegraphics[width=0.98\columnwidth]{figures/clps_network_ilp.png}\\[-2pt]
+\small (b) CLPS-ILP
+\caption{Optimization-based CLPS selected networks. GA-pool explores broader
+population and connectivity trade-offs, while ILP selects the same line set
+as Greedy-OD in this run.}
+\label{fig:clps_selected_networks}
+\end{figure}
 
 %--------------------------------------------------------------------------
-\section{Experimental Evaluation}
+\section{Evaluation and Cross-Method Comparison}
 %--------------------------------------------------------------------------
 
 \subsection{Laporte 2005 Reproduction}
@@ -190,7 +301,8 @@ our Shanghai dataset with three length budgets.
 \centering
 \caption{Laporte 2005 Table~1 reproduction on Shanghai data.}
 \label{tab:laporte_table1}
-\small
+\scriptsize
+\setlength{\tabcolsep}{3pt}
 \begin{tabular}{lrrrrr}
 \toprule
 $L_{\max}$ & Method & Len.\ (km) & Ridership & Ratio & T (s) \\
@@ -278,13 +390,56 @@ Individual   & $-1.13\!\times\!10^{13}$ & 28 & 80.1 & 68.9 \\
 \end{tabular}
 \end{table}
 
+\subsection{CLPS Line-Pool Evaluation}
+
+We separately evaluate CLPS on the generated candidate line pool. After
+deduplication and length filtering, the pool contains 400 candidate lines.
+Their lengths range from 3.9 km to 26.3 km, with an average of 10.8 km;
+each line contains 4--12 stations, averaging 6.7 stations. This confirms
+the intended reduction: instead of searching over all possible station
+sequences, the selectors operate on a compact but diverse set of plausible
+lines.
+
+\begin{table}[t]
+\centering
+\caption{CLPS selector results on the 400-line candidate pool
+($K_{\max}=8$).}
+\label{tab:clps_results}
+\scriptsize
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{lrrrrrr}
+\toprule
+Selector & Lines & Sta. & Len. & Pop. & OD & Net. \\
+ & & & (km) & Cov. & Cov. & Cov. \\
+\midrule
+Greedy-OD  & 8 & 42 & 101.2 & 90.0\% & \textbf{68.5\%} & 87.9\% \\
+Greedy-BCR & 8 & 21 & 35.4  & 67.9\% & 52.1\% & 69.0\% \\
+GA-pool    & 8 & 50 & 120.6 & \textbf{97.9\%} & 67.7\% & \textbf{96.3\%} \\
+ILP        & 8 & 42 & 101.2 & 90.0\% & \textbf{68.5\%} & 87.9\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Table~\ref{tab:clps_results} shows three clear behaviors. Greedy-OD and
+ILP select the same line set in this run, indicating that the greedy
+marginal OD rule reaches the direct-OD optimum for this pool and constraint
+setting. Greedy-BCR produces the most compact network, using only 35.4 km
+of unique track, but sacrifices coverage. GA-pool selects a broader network
+that covers 50 stations and achieves the highest network OD coverage
+(96.3\%), at the cost of longer track length and slightly larger weighted
+detour. These results support the motivation for CLPS: once the route
+space is reduced to a candidate line pool, different selectors can explore
+coverage-cost trade-offs at very low computational cost.
+
 \subsection{Cross-Method Comparison}
 
-\begin{table*}[t]
+\begin{table}[!t]
 \centering
 \caption{Comprehensive comparison of all methods on Shanghai data.}
 \label{tab:comparison}
-\small
+\scriptsize
+\setlength{\tabcolsep}{2pt}
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{lrrrrrrr}
 \toprule
 Method & Stations & Len.\ (km) & Pop.\ Cov.\ & OD Cov.\ & Detour & Trans.\ & T (s) \\
@@ -295,19 +450,24 @@ Laporte-H2C & 33 & 59.6  & \textbf{69.6\%} & \textbf{56.8\%} & 2.19 & 0.00 & 0.8
 Ahmed-GA-1L & 14 & 37.0  & 44.0\% & 29.8\% & 4.43 & 0.00 & 33.5 \\
 Ahmed-GA-2L & 23 & 85.7  & 61.9\% & 42.5\% & 1.23 & 0.13 & 56.3 \\
 Ahmed-GA-3L & 20 & 130.8 & 47.8\% & 26.0\% & \textbf{0.14} & 0.18 & 58.1 \\
-Greedy-OD   & 23 & --    & 62.2\% & 51.9\% & 1.21 & 0.08 & 0.01 \\
-GA (pool)   & 32 & --    & 66.0\% & 34.0\% & 3.61 & 0.16 & 0.90 \\
+CLPS-Greedy-OD  & 23 & --    & 62.2\% & 51.9\% & 1.21 & 0.08 & 0.01 \\
+CLPS-Greedy-BCR & 10 & --    & 35.2\% & 24.5\% & 1.19 & 0.10 & 0.01 \\
+CLPS-GA-pool    & 32 & --    & 66.0\% & 34.0\% & 3.61 & 0.16 & 0.90 \\
 \bottomrule
 \end{tabular}
-\end{table*}
+}
+\end{table}
 
 Table~\ref{tab:comparison} shows: (1) \textbf{Coverage:} Laporte H2-C
 achieves the highest OD coverage (56.8\%) with 33 stations, but at higher
 detour ratio (2.19). (2) \textbf{Directness:} Ahmed-GA-3L achieves the
 best detour ratio (0.14) but lower OD coverage (26.0\%). (3)
 \textbf{Transfers:} Only multi-line methods support transfers. (4)
-\textbf{Efficiency:} Greedy-OD runs in 0.01 s with 51.9\% OD
-coverage---excellent for rapid prototyping.
+\textbf{Efficiency:} CLPS-Greedy-OD runs in 0.01 s with 51.9\% OD
+coverage, showing the computational advantage of reducing route design to
+line-pool selection. The ILP selector is implemented in the same CLPS
+framework; in the current run it selected the same line set as
+CLPS-Greedy-OD, so we omit a duplicate table row.
 
 \subsection{Passenger Flow Analysis (Stage 5 Extension)}
 
@@ -328,11 +488,12 @@ orange=high, red=peak).}
 \label{fig:flow_comparison}
 \end{figure}
 
-\begin{table}[t]
+\begin{table}[!htbp]
 \centering
 \caption{Section-level passenger flow statistics.}
 \label{tab:flow}
-\small
+\scriptsize
+\setlength{\tabcolsep}{3pt}
 \begin{tabular}{lrrrr}
 \toprule
 Method & Max Flow & Mean Flow & Top-5 Share & Edges \\
@@ -363,18 +524,21 @@ confirming the paper's $P_c=0.7$ recommendation.
 \section{Conclusion}
 %--------------------------------------------------------------------------
 
-We reproduced two classical TNDP algorithms on a 54-station Shanghai
-dataset. Key findings: (1) Laporte H2-A achieves the highest OD coverage
-(56.8\%), but our simplified model (no logit mode choice) reverses the
-paper's H1-vs-H2 ranking---H2 packs more stations by inserting anywhere in
-the alignment. (2) Ahmed 2020 GA produces realistic hub-based multi-line
-networks; simultaneous optimization outperforms individual by 18\%. (3)
-Runtime scaling matches predicted bounds ($O(n^3)$ for H1, $O(n^4)$ for
-H2). (4) Greedy-OD is a remarkably efficient baseline (0.01 s, 51.9\% OD
-coverage). Future work: real OD data, logit mode choice, and parallel GA
-evaluation for larger candidate sets.
+This project combines reproduction with a new reduced-search line-planning
+framework on a common Shanghai candidate graph. Key findings: (1) the
+Laporte reproduction verifies the expected runtime scaling, but our
+simplified model (no logit mode choice) reverses the paper's H1-vs-H2
+ranking; H2-C achieves the highest OD coverage (56.8\%) by packing more
+stations into one alignment. (2) The Ahmed reproduction produces realistic
+hub-based multi-line networks; simultaneous optimization outperforms
+individual optimization by 18\%. (3) CLPS provides a computationally light
+third family of methods: CLPS-Greedy-OD reaches 51.9\% OD coverage in
+0.01 s by selecting from a precomputed pool of plausible lines. Together,
+the results show that classical constructive heuristics, direct multi-line
+GA search, and line-pool selection expose different trade-offs between
+coverage, directness, transfers, and runtime. Future work: real OD data,
+logit mode choice, and parallel GA evaluation for larger candidate sets.
 
-%--------------------------------------------------------------------------
 \bibliographystyle{IEEEtran}
 \begin{thebibliography}{99}
 
